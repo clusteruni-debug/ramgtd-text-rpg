@@ -1,0 +1,17 @@
+{
+  "title": "이상한 앱이 뜬 날",
+  "version": "0.1.0",
+  "startScene": "intro_01",
+  "typingSpeed": 30,
+  "initialStats": {
+    "name": "김직장",
+    "level": 1,
+    "hp": 100,
+    "maxHp": 100,
+    "mp": 50,
+    "maxMp": 50,
+    "attack": 10,
+    "defense": 5,
+    "speed": 5
+  }
+}

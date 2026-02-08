@@ -1,0 +1,21 @@
+[
+  {
+    "id": "angry_boss",
+    "name": "분노한 박부장",
+    "sprite": "boss",
+    "hp": 80,
+    "attack": 12,
+    "defense": 4,
+    "speed": 3,
+    "expReward": 50,
+    "goldReward": 100,
+    "dropItem": {
+      "id": "coffee",
+      "name": "커피",
+      "description": "따뜻한 아메리카노. HP를 30 회복한다.",
+      "type": "consumable",
+      "effect": { "type": "heal", "value": 30 }
+    },
+    "skills": []
+  }
+]

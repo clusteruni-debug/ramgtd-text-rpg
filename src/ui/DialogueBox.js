@@ -1,0 +1,82 @@
+/**
+ * DialogueBox - 대화창 UI
+ * 화자 이름 + 타이핑 텍스트 + 다음 버튼(▼ 깜빡임)
+ */
+import { createElement } from '../utils/helpers.js';
+
+export default class DialogueBox {
+  constructor(container, dialogueRenderer) {
+    this.container = container;
+    this.renderer = dialogueRenderer;
+    this._onNext = null;
+
+    this._build();
+    this._bindEvents();
+  }
+
+  _build() {
+    this.el = createElement('div', 'dialogue-box');
+    this.el.innerHTML = `
+      <div class="dialogue-speaker"></div>
+      <div class="dialogue-text"></div>
+      <div class="dialogue-next">▼</div>
+    `;
+    this.speakerEl = this.el.querySelector('.dialogue-speaker');
+    this.textEl = this.el.querySelector('.dialogue-text');
+    this.nextEl = this.el.querySelector('.dialogue-next');
+    this.container.appendChild(this.el);
+    this.hide();
+  }
+
+  _bindEvents() {
+    // 클릭 또는 Space/Enter로 스킵/다음
+    const handleAdvance = () => {
+      if (this.renderer.isTyping) {
+        this.renderer.skip();
+      } else if (this._onNext) {
+        this._onNext();
+      }
+    };
+
+    this.el.addEventListener('click', handleAdvance);
+    document.addEventListener('keydown', (e) => {
+      if (!this.el.classList.contains('hidden') && (e.key === ' ' || e.key === 'Enter')) {
+        e.preventDefault();
+        handleAdvance();
+      }
+    });
+  }
+
+  /**
+   * 대사 표시
+   * @param {string} speaker - 화자 이름 (없으면 나레이션)
+   * @param {string} text - 대사 텍스트
+   * @returns {Promise<void>} 타이핑 완료 시
+   */
+  async showDialogue(speaker, text) {
+    this.show();
+    if (speaker) {
+      this.speakerEl.textContent = speaker;
+      this.speakerEl.classList.remove('hidden');
+    } else {
+      this.speakerEl.textContent = '';
+      this.speakerEl.classList.add('hidden');
+    }
+    this.nextEl.classList.add('hidden');
+    await this.renderer.type(this.textEl, text);
+    this.nextEl.classList.remove('hidden');
+  }
+
+  // 다음 버튼 콜백
+  onNext(callback) {
+    this._onNext = callback;
+  }
+
+  show() {
+    this.el.classList.remove('hidden');
+  }
+
+  hide() {
+    this.el.classList.add('hidden');
+  }
+}

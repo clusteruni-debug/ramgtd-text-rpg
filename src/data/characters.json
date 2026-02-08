@@ -1,0 +1,27 @@
+[
+  {
+    "id": "player",
+    "name": "김직장",
+    "description": "평범한 회사원. 오늘도 출근 중."
+  },
+  {
+    "id": "narrator",
+    "name": null,
+    "description": "나레이터"
+  },
+  {
+    "id": "boss",
+    "name": "박부장",
+    "description": "항상 화가 난 부장님"
+  },
+  {
+    "id": "colleague",
+    "name": "이대리",
+    "description": "같은 팀 동료. 의외로 도움이 된다."
+  },
+  {
+    "id": "mysterious_app",
+    "name": "???",
+    "description": "정체불명의 앱 알림"
+  }
+]

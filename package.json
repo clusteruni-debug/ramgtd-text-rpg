@@ -1,0 +1,15 @@
+{
+  "name": "text-rpg",
+  "private": true,
+  "version": "0.1.0",
+  "description": "웹 텍스트 RPG 엔진 - JSON 기반 스토리 구동",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^7.2.4"
+  }
+}
