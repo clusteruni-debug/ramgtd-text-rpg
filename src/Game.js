@@ -22,7 +22,8 @@ import DeathScreen from './ui/DeathScreen.js';
 import { createElement, deepClone, delay } from './utils/helpers.js';
 
 // 데이터 import
-import demoScenes from './data/scenes/demo.json';
+import prologueScenes from './data/scenes/prologue.json';
+import b1PainScenes from './data/scenes/b1_pain.json';
 import characters from './data/characters.json';
 import items from './data/items.json';
 import enemies from './data/enemies.json';
@@ -44,7 +45,8 @@ export default class Game {
     this.saveLoadSystem = new SaveLoadSystem(this.stateManager, this.metaProgression);
 
     // 데이터 로드
-    this.sceneManager.loadScenes(demoScenes);
+    this.sceneManager.loadScenes(prologueScenes);
+    this.sceneManager.loadScenes(b1PainScenes);
     this.sceneManager.loadCharacters(characters);
     this.sceneManager.loadItems(items);
     this.sceneManager.loadEnemies(enemies);

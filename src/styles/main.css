@@ -89,34 +89,66 @@ body {
   transition: background-color 0.5s ease;
 }
 
-.bg-street {
-  background: linear-gradient(180deg, #2c3e50 0%, #34495e 40%, #555 70%, #666 100%);
+/* 심연 공허 — 검정 + 미세한 맥동 */
+.bg-void {
+  background: radial-gradient(ellipse at center, #0a0a12 0%, #050508 60%, #000000 100%);
+  animation: void-pulse 4s ease-in-out infinite;
 }
 
-.bg-subway {
-  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+@keyframes void-pulse {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.05); }
 }
 
-.bg-office {
-  background: linear-gradient(180deg, #2c2c54 0%, #474787 50%, #2c2c54 100%);
+/* 폐쇄된 지하철역 — 어두운 콘크리트, 녹슨 조명 */
+.bg-station {
+  background: linear-gradient(180deg, #0d0d0d 0%, #1a1510 30%, #0f0e0a 60%, #080808 100%);
 }
 
-.bg-office_battle {
-  background: linear-gradient(180deg, #4a0000 0%, #2c2c54 50%, #1a1a2e 100%);
+/* 기억의 복도 — 안개 낀 보라 */
+.bg-corridor {
+  background: linear-gradient(180deg, #1a0a2e 0%, #2d1654 40%, #1a0a2e 70%, #0d0518 100%);
+  animation: corridor-fog 6s ease-in-out infinite;
 }
 
-.bg-office_sunset {
-  background: linear-gradient(180deg, #ff6348 0%, #ffa502 30%, #2c2c54 70%, #1a1a2e 100%);
+@keyframes corridor-fog {
+  0%, 100% { filter: blur(0px) brightness(1); }
+  50% { filter: blur(0.5px) brightness(0.9); }
 }
 
-.bg-office_dark {
-  background: linear-gradient(180deg, #0a0a15 0%, #1a1a2e 50%, #0a0a15 100%);
+/* 울음의 방 — 어두운 청색, 물방울 느낌 */
+.bg-crying {
+  background: linear-gradient(180deg, #050a1a 0%, #0a1a3a 40%, #081530 70%, #030810 100%);
 }
 
-.bg-office_night {
-  background: linear-gradient(180deg, #0a0a20 0%, #1a1a3e 50%, #0a0a20 100%);
+/* 침묵의 길 — 순백에서 점점 어두워짐 */
+.bg-silence {
+  background: linear-gradient(180deg, #e8e8e8 0%, #b0b0b0 30%, #606060 60%, #1a1a1a 100%);
+  animation: silence-darken 8s ease-in forwards;
 }
 
+@keyframes silence-darken {
+  0% { filter: brightness(1); }
+  100% { filter: brightness(0.4); }
+}
+
+/* B1 중앙홀 — 거대한 어두운 공간, 천장에서 희미한 빛 */
+.bg-hall {
+  background: radial-gradient(ellipse at top center, #1a1025 0%, #0d0815 40%, #050308 100%);
+}
+
+/* 보스 전투 — 붉은 맥동 */
+.bg-boss {
+  background: radial-gradient(ellipse at center, #2a0a0a 0%, #1a0505 50%, #0a0000 100%);
+  animation: boss-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes boss-pulse {
+  0%, 100% { box-shadow: inset 0 0 80px rgba(180, 0, 0, 0.15); }
+  50% { box-shadow: inset 0 0 120px rgba(220, 0, 0, 0.3); }
+}
+
+/* 글리치 (사망 등) */
 .bg-glitch {
   background: linear-gradient(180deg, #e94560 0%, #0f0e17 20%, #e94560 40%, #0f0e17 60%, #e94560 100%);
   animation: glitch-bg 0.3s infinite;

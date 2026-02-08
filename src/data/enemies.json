@@ -1,21 +1,34 @@
 [
   {
-    "id": "angry_boss",
-    "name": "분노한 박부장",
-    "sprite": "boss",
-    "hp": 80,
-    "attack": 12,
-    "defense": 4,
-    "speed": 3,
-    "expReward": 50,
-    "goldReward": 100,
+    "id": "shadow_self",
+    "name": "그림자 자아",
+    "sprite": "shadow",
+    "hp": 50,
+    "attack": 10,
+    "defense": 3,
+    "speed": 6,
+    "expReward": 30,
+    "goldReward": 0,
     "dropItem": {
-      "id": "coffee",
-      "name": "커피",
-      "description": "따뜻한 아메리카노. HP를 30 회복한다.",
-      "type": "consumable",
-      "effect": { "type": "heal", "value": 30 }
+      "id": "shard_of_memory",
+      "name": "기억의 파편",
+      "description": "유리 조각처럼 생겼지만 만지면 기억이 스친다.",
+      "type": "key",
+      "effect": null
     },
+    "skills": []
+  },
+  {
+    "id": "pain_collector",
+    "name": "고통의 수집가",
+    "sprite": "collector",
+    "hp": 150,
+    "attack": 18,
+    "defense": 8,
+    "speed": 4,
+    "expReward": 100,
+    "goldReward": 0,
+    "dropItem": null,
     "skills": []
   }
 ]
