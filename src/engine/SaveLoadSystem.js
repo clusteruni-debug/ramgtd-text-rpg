@@ -7,8 +7,14 @@ const AUTO_SAVE_KEY = 'text_rpg_autosave';
 const MAX_SLOTS = 3;
 
 export default class SaveLoadSystem {
-  constructor(stateManager) {
+  constructor(stateManager, metaProgression = null) {
     this.state = stateManager;
+    this.meta = metaProgression;
+  }
+
+  // 메타 프로그레션 참조 설정 (지연 주입용)
+  setMetaProgression(meta) {
+    this.meta = meta;
   }
 
   // --- 세이브 ---
@@ -17,6 +23,7 @@ export default class SaveLoadSystem {
 
     const data = {
       state: this.state.serialize(),
+      runNumber: this.meta ? this.meta.data.totalRuns : 1,
       timestamp: Date.now(),
       version: 1,
     };
@@ -51,6 +58,7 @@ export default class SaveLoadSystem {
   autoSave() {
     const data = {
       state: this.state.serialize(),
+      runNumber: this.meta ? this.meta.data.totalRuns : 1,
       timestamp: Date.now(),
       version: 1,
     };
@@ -135,6 +143,17 @@ export default class SaveLoadSystem {
 
   deleteAutoSave() {
     localStorage.removeItem(AUTO_SAVE_KEY);
+  }
+
+  // --- 메타 데이터 세이브/로드 ---
+  saveMeta() {
+    if (this.meta) return this.meta.save();
+    return false;
+  }
+
+  loadMeta() {
+    if (this.meta) return this.meta.load();
+    return false;
   }
 
   static get MAX_SLOTS() {

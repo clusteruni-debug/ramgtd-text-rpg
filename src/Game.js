@@ -1,12 +1,14 @@
 /**
  * Game - 메인 게임 클래스
  * 모든 모듈을 조율하고 게임 흐름을 제어
+ * 로그라이크 메타 프로그레션 포함
  */
 import StateManager from './engine/StateManager.js';
 import SceneManager from './engine/SceneManager.js';
 import DialogueRenderer from './engine/DialogueRenderer.js';
 import CombatSystem from './engine/CombatSystem.js';
 import SaveLoadSystem from './engine/SaveLoadSystem.js';
+import MetaProgression from './engine/MetaProgression.js';
 
 import DialogueBox from './ui/DialogueBox.js';
 import ChoiceButtons from './ui/ChoiceButtons.js';
@@ -15,6 +17,7 @@ import CombatUI from './ui/CombatUI.js';
 import InventoryPanel from './ui/InventoryPanel.js';
 import TitleScreen from './ui/TitleScreen.js';
 import MenuBar from './ui/MenuBar.js';
+import DeathScreen from './ui/DeathScreen.js';
 
 import { createElement, deepClone, delay } from './utils/helpers.js';
 
@@ -29,12 +32,16 @@ export default class Game {
   constructor(appElement) {
     this.app = appElement;
 
+    // 메타 프로그레션 (영구 데이터)
+    this.metaProgression = new MetaProgression();
+    this.metaProgression.load();
+
     // 엔진 모듈
     this.stateManager = new StateManager();
-    this.sceneManager = new SceneManager(this.stateManager);
+    this.sceneManager = new SceneManager(this.stateManager, this.metaProgression);
     this.dialogueRenderer = new DialogueRenderer();
     this.combatSystem = new CombatSystem(this.stateManager);
-    this.saveLoadSystem = new SaveLoadSystem(this.stateManager);
+    this.saveLoadSystem = new SaveLoadSystem(this.stateManager, this.metaProgression);
 
     // 데이터 로드
     this.sceneManager.loadScenes(demoScenes);
@@ -64,19 +71,23 @@ export default class Game {
     this.app.appendChild(this.gameContainer);
 
     // UI 모듈 초기화
-    this.titleScreen = new TitleScreen(this.app, this.saveLoadSystem);
+    this.titleScreen = new TitleScreen(this.app, this.saveLoadSystem, this.metaProgression);
     this.statsPanel = new StatsPanel(this.app, this.stateManager);
     this.menuBar = new MenuBar(this.app, this.saveLoadSystem);
     this.dialogueBox = new DialogueBox(this.app, this.dialogueRenderer);
     this.choiceButtons = new ChoiceButtons(this.app);
     this.combatUI = new CombatUI(this.app);
     this.inventoryPanel = new InventoryPanel(this.app, this.stateManager);
+    this.deathScreen = new DeathScreen(this.app);
   }
 
   _bindEvents() {
     // 타이틀 → 새 게임
     this.titleScreen.onNewGame(() => this.startNewGame());
     this.titleScreen.onLoadGame(() => this.resumeGame());
+
+    // 사망 화면 → 다시 시작
+    this.deathScreen.onRestart(() => this._startNewRun());
 
     // 메뉴바 이벤트
     this.menuBar.on('inventory', () => this.inventoryPanel.toggle());
@@ -124,6 +135,7 @@ export default class Game {
     this.combatUI.hide();
     this.dialogueBox.hide();
     this.choiceButtons.hide();
+    this.deathScreen.hide();
     this.statsPanel.el.classList.add('hidden');
     this.menuBar.hide();
     this.inventoryPanel.hide();
@@ -132,16 +144,34 @@ export default class Game {
   }
 
   startNewGame() {
-    this.stateManager.reset();
+    // 메타: 새 회차 시작
+    this.metaProgression.startNewRun();
+    this.metaProgression.save();
+
+    // 영구 보너스 적용하면서 리셋
+    const bonuses = this.metaProgression.getRunBonuses();
+    this.stateManager.reset(bonuses);
 
     // 초기 스탯 적용
     const config = gameConfig;
     if (config.initialStats) {
       const player = this.stateManager.state.player;
-      Object.assign(player, config.initialStats);
+      // 영구 보너스가 이미 적용된 스탯 위에 initialStats 적용
+      // attack, defense 등은 보너스를 유지하기 위해 합산
+      player.name = config.initialStats.name || player.name;
+      player.level = config.initialStats.level || player.level;
+      // maxHp/maxMp는 초기값 + 영구보너스
+      player.maxHp = (config.initialStats.maxHp || 100) + bonuses.maxHp;
+      player.hp = player.maxHp;
+      player.maxMp = (config.initialStats.maxMp || 50) + bonuses.maxMp;
+      player.mp = player.maxMp;
+      player.attack = (config.initialStats.attack || 10) + bonuses.attack;
+      player.defense = (config.initialStats.defense || 5) + bonuses.defense;
+      player.speed = (config.initialStats.speed || 5) + bonuses.speed;
     }
 
     this.titleScreen.hide();
+    this.deathScreen.hide();
     this.statsPanel.el.classList.remove('hidden');
     this.statsPanel.update();
     this.menuBar.show();
@@ -152,6 +182,7 @@ export default class Game {
 
   resumeGame() {
     this.titleScreen.hide();
+    this.deathScreen.hide();
     this.statsPanel.el.classList.remove('hidden');
     this.statsPanel.update();
     this.menuBar.show();
@@ -165,11 +196,85 @@ export default class Game {
     }
   }
 
+  // --- 사망 처리 ---
+  _handleDeath() {
+    const player = this.stateManager.state.player;
+    const runData = {
+      level: player.level,
+      gold: this.stateManager.state.gold,
+    };
+
+    // 메타 데이터 업데이트
+    this.metaProgression.recordDeath(runData);
+
+    // 사망 횟수 기반 자동 영구 보상
+    const rewards = [];
+    const deaths = this.metaProgression.data.totalDeaths;
+
+    // 3회 사망 시 공격력 보너스 특전
+    if (deaths === 3 && !this.metaProgression.hasPerk('resilient')) {
+      this.metaProgression.addPerk('resilient', {
+        name: '불굴의 의지',
+        description: '여러 번의 패배로 단련됨',
+      });
+      this.metaProgression.addPermanentBonus('attack', 2);
+      rewards.push({ icon: '💪', text: '불굴의 의지 — 공격력 +2 (영구)' });
+    }
+
+    // 5회 사망 시 방어력 보너스 특전
+    if (deaths === 5 && !this.metaProgression.hasPerk('thick_skin')) {
+      this.metaProgression.addPerk('thick_skin', {
+        name: '두꺼운 피부',
+        description: '수많은 패배가 방어력을 높였다',
+      });
+      this.metaProgression.addPermanentBonus('defense', 2);
+      rewards.push({ icon: '🛡️', text: '두꺼운 피부 — 방어력 +2 (영구)' });
+    }
+
+    // 매 회차 사망 시 체력 +5 (최대 50까지)
+    if (this.metaProgression.data.permanentBonuses.maxHp < 50) {
+      this.metaProgression.addPermanentBonus('maxHp', 5);
+      rewards.push({ icon: '❤️', text: '생존 본능 — 최대 HP +5 (영구)' });
+    }
+
+    this.metaProgression.save();
+
+    // UI 전환
+    this.combatUI.hide();
+    this.dialogueBox.hide();
+    this.choiceButtons.hide();
+    this.statsPanel.el.classList.add('hidden');
+    this.menuBar.hide();
+    this._setBackground('glitch');
+
+    // 사망 화면 표시
+    this.deathScreen.show(runData, rewards, this.metaProgression.serialize());
+  }
+
+  // 사망 후 새 회차 시작
+  _startNewRun() {
+    this.deathScreen.hide();
+    this.startNewGame();
+  }
+
+  // --- 승리 처리 ---
+  _handleVictoryEnding() {
+    const player = this.stateManager.state.player;
+    this.metaProgression.recordVictory({ level: player.level });
+    this.metaProgression.save();
+  }
+
   // --- 씬 재생 ---
   async playScene(sceneId) {
-    // 타이틀로 돌아가기 특수 씬
+    // 특수 씬: 타이틀로 돌아가기
     if (sceneId === '__title__') {
       this.showTitle();
+      return;
+    }
+
+    // 특수 씬: 사망 처리
+    if (sceneId === '__death__') {
+      this._handleDeath();
       return;
     }
 
@@ -191,6 +296,11 @@ export default class Game {
     // 씬 진입 시 효과 적용
     if (scene.effects) {
       this.sceneManager.applyEffects(scene.effects);
+    }
+
+    // 엔딩 타입이 victory면 메타에 기록
+    if (scene.type === 'ending' && scene.endingType === 'victory') {
+      this._handleVictoryEnding();
     }
 
     // 씬 타입별 처리
@@ -296,13 +406,14 @@ export default class Game {
             this.stateManager.addItem({ ...enemyData.dropItem, quantity: 1 });
           }
 
-          // 다음 씬
+          // 다음 씬 (패배 시 사망 처리 우선)
           if (result.victory && scene.victoryScene) {
             this.playScene(scene.victoryScene);
           } else if (result.fled && scene.fleeScene) {
             this.playScene(scene.fleeScene);
-          } else if (!result.victory && scene.defeatScene) {
-            this.playScene(scene.defeatScene);
+          } else if (!result.victory && !result.fled) {
+            // 전투 패배 → 사망 처리
+            this._handleDeath();
           }
 
           resolve();

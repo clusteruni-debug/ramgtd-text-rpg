@@ -33,6 +33,36 @@
           { "type": "setFlag", "flag": "ignored_app" }
         ],
         "nextScene": "ignore_app"
+      },
+      {
+        "text": "...이 앱, 전에도 본 적 있다 (숨겨진 루트)",
+        "conditions": [
+          { "type": "runGreaterThan", "value": 1 }
+        ],
+        "effects": [
+          { "type": "setFlag", "flag": "opened_app" },
+          { "type": "setFlag", "flag": "deja_vu" },
+          { "type": "addItem", "item": "mystery_phone" },
+          { "type": "unlock", "unlock": "secret_path" }
+        ],
+        "nextScene": "deja_vu_route"
+      }
+    ]
+  },
+  {
+    "id": "deja_vu_route",
+    "type": "dialogue",
+    "background": "glitch",
+    "speaker": "???",
+    "text": "...당신, 기억하고 있군요. 이전의 기억이... 이건 처음이에요. 좋아요, 특별한 걸 보여드리죠.",
+    "effects": [
+      { "type": "addPermanentBonus", "stat": "speed", "value": 1 },
+      { "type": "addExp", "value": 30 }
+    ],
+    "choices": [
+      {
+        "text": "뭘 보여줄 건데?",
+        "nextScene": "app_open_02"
       }
     ]
   },
@@ -134,6 +164,66 @@
           { "type": "hasFlag", "flag": "ignored_app", "value": true }
         ],
         "nextScene": "boss_battle"
+      },
+      {
+        "text": "부장님, 사실 드릴 말씀이... (3회차 이상 해금)",
+        "conditions": [
+          { "type": "runGreaterThan", "value": 2 }
+        ],
+        "effects": [
+          { "type": "setFlag", "flag": "negotiated_boss" }
+        ],
+        "nextScene": "negotiate_boss"
+      },
+      {
+        "text": "[이미 5번이나 졌잖아...] 이번엔 다르다!",
+        "conditions": [
+          { "type": "deathCountGreaterThan", "value": 4 }
+        ],
+        "effects": [
+          { "type": "setFlag", "flag": "confronted_boss" },
+          { "type": "modifyStat", "stat": "attack", "value": 5 }
+        ],
+        "nextScene": "boss_battle"
+      }
+    ]
+  },
+  {
+    "id": "negotiate_boss",
+    "type": "dialogue",
+    "background": "office",
+    "speaker": "박부장",
+    "text": "...뭐? 협상이라고? 흥, 네가 무슨 협상을...",
+    "choices": [
+      {
+        "text": "보고서 대신 프레젠테이션을 하겠습니다",
+        "effects": [
+          { "type": "addExp", "value": 50 },
+          { "type": "unlock", "unlock": "negotiator" },
+          { "type": "addPerk", "perk": "silver_tongue", "name": "은빛 혀", "description": "협상으로 위기를 넘긴 경험" }
+        ],
+        "nextScene": "negotiate_ending"
+      },
+      {
+        "text": "역시 안 되겠군... 싸우자!",
+        "nextScene": "boss_battle"
+      }
+    ]
+  },
+  {
+    "id": "negotiate_ending",
+    "type": "ending",
+    "background": "office_sunset",
+    "speaker": null,
+    "text": "놀랍게도, 박부장이 고개를 끄덕였다. 프레젠테이션으로 보고서를 대체하기로 했다. 회사 생활에도 다양한 길이 있다는 걸 깨달았다.",
+    "endingType": "victory",
+    "effects": [
+      { "type": "addPermanentBonus", "stat": "defense", "value": 1 }
+    ],
+    "choices": [
+      {
+        "text": "🎮 타이틀로 돌아가기",
+        "nextScene": "__title__"
       }
     ]
   },
@@ -169,6 +259,10 @@
     "text": "박부장의 잔소리에 결국 무릎을 꿇었다... 오늘도 야근이다.",
     "endingType": "defeat",
     "choices": [
+      {
+        "text": "...다시 한번 (사망 처리)",
+        "nextScene": "__death__"
+      },
       {
         "text": "🎮 타이틀로 돌아가기",
         "nextScene": "__title__"

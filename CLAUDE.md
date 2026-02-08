@@ -17,17 +17,19 @@ text-rpg/
 │   ├── Game.js              # 메인 게임 클래스 (모듈 조율)
 │   ├── engine/
 │   │   ├── StateManager.js  # 플레이어 스탯/인벤토리/플래그 + 이벤트
-│   │   ├── SceneManager.js  # 씬 로드, 조건 평가, 효과 적용
+│   │   ├── SceneManager.js  # 씬 로드, 조건 평가, 효과 적용 (메타 조건 포함)
 │   │   ├── DialogueRenderer.js  # 타이핑 효과
 │   │   ├── CombatSystem.js  # 턴제 전투
-│   │   └── SaveLoadSystem.js    # localStorage 세이브/로드
+│   │   ├── SaveLoadSystem.js    # localStorage 세이브/로드
+│   │   └── MetaProgression.js   # 영구 진행도 (로그라이크 메타)
 │   ├── ui/
 │   │   ├── DialogueBox.js   # 대화창
 │   │   ├── ChoiceButtons.js # 선택지
 │   │   ├── StatsPanel.js    # HP/MP/레벨
 │   │   ├── CombatUI.js      # 전투 화면
 │   │   ├── InventoryPanel.js # 인벤토리
-│   │   ├── TitleScreen.js   # 타이틀
+│   │   ├── TitleScreen.js   # 타이틀 (회차 정보/특전 포함)
+│   │   ├── DeathScreen.js   # 사망 화면 (로그라이크)
 │   │   └── MenuBar.js       # 메뉴
 │   ├── data/                # JSON 게임 데이터
 │   ├── utils/helpers.js     # 공통 유틸
@@ -55,9 +57,11 @@ text-rpg/
 
 ### 조건 타입
 - `hasFlag`, `hasItem`, `statGreaterThan`, `statLessThan`, `goldGreaterThan`
+- (메타) `runGreaterThan`, `hasUnlock`, `hasPerk`, `deathCountGreaterThan`
 
 ### 효과 타입
 - `setFlag`, `addItem`, `removeItem`, `modifyStat`, `setStat`, `addExp`, `addGold`, `heal`
+- (메타) `unlock`, `addPerk`, `addPermanentBonus`
 
 ## 🔧 개발
 
@@ -74,5 +78,10 @@ npm run build  # 빌드
 ---
 
 ## 🔄 현재 세션 상태
-- **마지막 작업**: v0.1.0 엔진 골격 + 데모 씬 5개 완성
-- **다음 작업**: 없음 (기본 엔진 완성)
+- **마지막 작업**: v0.2.0 로그라이크 메타 프로그레션 추가
+  - MetaProgression 클래스, DeathScreen UI
+  - SceneManager에 메타 조건/효과 타입 추가
+  - StateManager.reset() 영구 보너스 지원
+  - 타이틀에 회차 정보/특전 UI
+  - 데모 씬에 회차별 분기 3종 추가
+- **다음 작업**: 없음

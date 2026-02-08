@@ -1,5 +1,34 @@
 # Changelog
 
+## [0.2.0] - 2026-02-08
+
+### 추가
+- **로그라이크 메타 프로그레션**
+  - `MetaProgression`: 영구 진행도 관리 (회차 수, 사망 수, 해금, 특전, 영구 스탯 보너스)
+  - 사망 시 영구 보상 자동 부여 (HP +5, 3회 사망 시 공격+2, 5회 사망 시 방어+2)
+  - `DeathScreen`: 사망 화면 UI (성과 표시 + 영구 보상 + 다시 시작)
+  - 전투 패배 → DeathScreen → 새 회차 자동 흐름
+
+- **메타 조건/효과 (SceneManager)**
+  - 조건: `runGreaterThan`, `hasUnlock`, `hasPerk`, `deathCountGreaterThan`
+  - 효과: `unlock`, `addPerk`, `addPermanentBonus`
+
+- **타이틀 화면 확장**
+  - 회차 정보 표시 (Run #N, 사망 수, 승리 수)
+  - 특전 목록 확인 버튼 + 영구 보너스 요약
+
+- **데모 씬 확장**
+  - 2회차부터 열리는 "데자뷰 루트" (숨겨진 선택지)
+  - 3회차부터 열리는 "협상 루트" (전투 없이 해결)
+  - 5회 사망 시 특별 선택지 (공격력 부스트)
+  - `__death__` 특수 씬 지원
+
+### 변경
+- `StateManager.reset()` → `reset(metaBonuses)` 확장 (영구 보너스 적용)
+- `SceneManager` 생성자에 metaProgression 참조 추가
+- `SaveLoadSystem` 세이브 데이터에 회차 번호 포함
+- 전투 패배 시 defeatScene 대신 DeathScreen 경유
+
 ## [0.1.0] - 2026-02-08
 
 ### 추가

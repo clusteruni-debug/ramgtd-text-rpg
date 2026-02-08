@@ -1,13 +1,14 @@
 /**
  * TitleScreen - 타이틀 화면
- * 새 게임 / 이어하기 / 세이브 슬롯 선택
+ * 새 게임 / 이어하기 / 세이브 슬롯 선택 / 회차 정보 / 특전 확인
  */
 import { createElement } from '../utils/helpers.js';
 
 export default class TitleScreen {
-  constructor(container, saveLoadSystem) {
+  constructor(container, saveLoadSystem, metaProgression = null) {
     this.container = container;
     this.saveSystem = saveLoadSystem;
+    this.meta = metaProgression;
     this._onNewGame = null;
     this._onLoadGame = null;
 
@@ -22,11 +23,14 @@ export default class TitleScreen {
           <div class="title-text">TEXT RPG</div>
           <div class="title-subtitle">이상한 앱이 뜬 날</div>
         </div>
+        <div class="title-run-info hidden"></div>
         <div class="title-menu">
-          <button class="title-btn new-game-btn">▶ 새 게임</button>
-          <button class="title-btn continue-btn">▶ 이어하기</button>
+          <button class="title-btn new-game-btn">&#9654; 새 게임</button>
+          <button class="title-btn continue-btn">&#9654; 이어하기</button>
+          <button class="title-btn perks-btn hidden">&#9733; 특전 목록</button>
         </div>
         <div class="save-slots hidden"></div>
+        <div class="perks-panel hidden"></div>
         <div class="title-footer">
           <span>Space / Enter로 선택</span>
         </div>
@@ -36,6 +40,9 @@ export default class TitleScreen {
     this.menuEl = this.el.querySelector('.title-menu');
     this.slotsEl = this.el.querySelector('.save-slots');
     this.continueBtn = this.el.querySelector('.continue-btn');
+    this.runInfoEl = this.el.querySelector('.title-run-info');
+    this.perksBtn = this.el.querySelector('.perks-btn');
+    this.perksPanel = this.el.querySelector('.perks-panel');
 
     // 새 게임
     this.el.querySelector('.new-game-btn').addEventListener('click', () => {
@@ -47,12 +54,18 @@ export default class TitleScreen {
       this._showSaveSlots();
     });
 
+    // 특전 목록
+    this.perksBtn.addEventListener('click', () => {
+      this._togglePerksPanel();
+    });
+
     this.container.appendChild(this.el);
   }
 
   _showSaveSlots() {
     this.slotsEl.innerHTML = '';
     this.slotsEl.classList.remove('hidden');
+    this.perksPanel.classList.add('hidden');
 
     // 오토세이브
     const autoInfo = this.saveSystem.getAutoSaveInfo();
@@ -101,6 +114,76 @@ export default class TitleScreen {
     this.slotsEl.appendChild(backBtn);
   }
 
+  _togglePerksPanel() {
+    if (!this.perksPanel.classList.contains('hidden')) {
+      this.perksPanel.classList.add('hidden');
+      return;
+    }
+
+    this.slotsEl.classList.add('hidden');
+    this.perksPanel.innerHTML = '';
+    this.perksPanel.classList.remove('hidden');
+
+    if (!this.meta) return;
+
+    const perks = this.meta.getAllPerks();
+    const bonuses = this.meta.data.permanentBonuses;
+
+    if (perks.length === 0 && Object.values(bonuses).every(v => v === 0)) {
+      this.perksPanel.innerHTML = `
+        <div class="perks-title">획득한 특전</div>
+        <div class="perks-empty">아직 없음 — 플레이하면서 해금하세요!</div>
+      `;
+    } else {
+      let html = '<div class="perks-title">획득한 특전</div>';
+
+      // 특전 목록
+      perks.forEach(p => {
+        html += `<div class="perk-item"><span class="perk-name">${p.name}</span><span class="perk-desc">${p.description}</span></div>`;
+      });
+
+      // 영구 보너스 요약
+      const bonusEntries = Object.entries(bonuses).filter(([, v]) => v > 0);
+      if (bonusEntries.length > 0) {
+        html += '<div class="perks-bonus-title">영구 보너스</div>';
+        const statNames = { attack: '공격', defense: '방어', maxHp: 'HP', maxMp: 'MP', speed: '속도' };
+        bonusEntries.forEach(([stat, val]) => {
+          html += `<div class="perk-bonus">+${val} ${statNames[stat] || stat}</div>`;
+        });
+      }
+
+      this.perksPanel.innerHTML = html;
+    }
+
+    // 닫기 버튼
+    const closeBtn = createElement('button', 'slot-btn slot-back', '← 닫기');
+    closeBtn.addEventListener('click', () => {
+      this.perksPanel.classList.add('hidden');
+    });
+    this.perksPanel.appendChild(closeBtn);
+  }
+
+  _updateRunInfo() {
+    if (!this.meta || this.meta.data.totalRuns === 0) {
+      this.runInfoEl.classList.add('hidden');
+      this.perksBtn.classList.add('hidden');
+      return;
+    }
+
+    const d = this.meta.data;
+    this.runInfoEl.innerHTML = `Run #${d.totalRuns + 1} | 사망: ${d.totalDeaths} | 승리: ${d.totalVictories}`;
+    this.runInfoEl.classList.remove('hidden');
+
+    // 특전이 있으면 버튼 표시
+    const hasPerks = Object.keys(d.perks).length > 0 ||
+                     Object.values(d.permanentBonuses).some(v => v > 0);
+    if (hasPerks) {
+      this.perksBtn.classList.remove('hidden');
+    } else {
+      this.perksBtn.classList.add('hidden');
+    }
+  }
+
   updateContinueButton() {
     // 세이브 데이터 없으면 이어하기 비활성화
     const hasAuto = this.saveSystem.hasAutoSave();
@@ -116,7 +199,9 @@ export default class TitleScreen {
 
   show() {
     this.slotsEl.classList.add('hidden');
+    this.perksPanel.classList.add('hidden');
     this.updateContinueButton();
+    this._updateRunInfo();
     this.el.classList.remove('hidden');
   }
 

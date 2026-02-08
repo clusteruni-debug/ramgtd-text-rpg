@@ -3,13 +3,19 @@
  * JSON 데이터에서 씬을 읽고 게임 흐름을 제어
  */
 export default class SceneManager {
-  constructor(stateManager) {
+  constructor(stateManager, metaProgression = null) {
     this.state = stateManager;
+    this.meta = metaProgression;  // 메타 프로그레션 참조
     this.scenes = {};         // id → scene 데이터
     this.characters = {};     // id → 캐릭터 데이터
     this.items = {};          // id → 아이템 데이터
     this.enemies = {};        // id → 적 데이터
     this.config = {};         // 게임 설정
+  }
+
+  // 메타 프로그레션 참조 설정 (지연 주입용)
+  setMetaProgression(meta) {
+    this.meta = meta;
   }
 
   // --- 데이터 로드 ---
@@ -85,6 +91,19 @@ export default class SceneManager {
       case 'goldGreaterThan':
         return this.state.state.gold > condition.value;
 
+      // --- 로그라이크 메타 조건 ---
+      case 'runGreaterThan':
+        return this.meta && this.meta.data.totalRuns > condition.value;
+
+      case 'hasUnlock':
+        return this.meta && this.meta.hasUnlock(condition.unlock);
+
+      case 'hasPerk':
+        return this.meta && this.meta.hasPerk(condition.perk);
+
+      case 'deathCountGreaterThan':
+        return this.meta && this.meta.data.totalDeaths > condition.value;
+
       default:
         console.warn(`알 수 없는 조건 타입: ${condition.type}`);
         return true;
@@ -134,6 +153,32 @@ export default class SceneManager {
 
       case 'heal':
         this.state.modifyStat('hp', effect.value);
+        break;
+
+      // --- 로그라이크 메타 효과 ---
+      case 'unlock':
+        if (this.meta) {
+          this.meta.addUnlock(effect.unlock);
+          this.meta.save();
+        }
+        break;
+
+      case 'addPerk':
+        if (this.meta) {
+          this.meta.addPerk(effect.perk, {
+            name: effect.name || effect.perk,
+            description: effect.description || '',
+            effect: effect.effect || null,
+          });
+          this.meta.save();
+        }
+        break;
+
+      case 'addPermanentBonus':
+        if (this.meta) {
+          this.meta.addPermanentBonus(effect.stat, effect.value);
+          this.meta.save();
+        }
         break;
 
       default:

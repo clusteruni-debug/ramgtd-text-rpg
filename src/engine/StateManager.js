@@ -172,8 +172,26 @@ export default class StateManager {
     this.emit('stateLoaded', null);
   }
 
-  reset() {
+  // metaBonuses: { attack, defense, maxHp, maxMp, speed } (영구 보너스)
+  reset(metaBonuses = null) {
     this.state = this._createInitialState();
+
+    // 영구 보너스 적용
+    if (metaBonuses) {
+      const player = this.state.player;
+      if (metaBonuses.attack) player.attack += metaBonuses.attack;
+      if (metaBonuses.defense) player.defense += metaBonuses.defense;
+      if (metaBonuses.maxHp) {
+        player.maxHp += metaBonuses.maxHp;
+        player.hp = player.maxHp;
+      }
+      if (metaBonuses.maxMp) {
+        player.maxMp += metaBonuses.maxMp;
+        player.mp = player.maxMp;
+      }
+      if (metaBonuses.speed) player.speed += metaBonuses.speed;
+    }
+
     this.emit('stateReset', null);
   }
 }
