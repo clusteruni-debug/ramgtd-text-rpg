@@ -187,8 +187,8 @@
     "speaker": "guide",
     "text": "\"또 왔군.\" 그가 놀라지 않는다. \"몇 번째인지 세는 건 포기했어. 하지만 이번에는 뭔가 다른 것 같기도 하고.\" 그의 눈에 잠깐 빛이 스친다.",
     "effects": [
-      { "type": "addExp", "value": 20 },
-      { "type": "addPermanentBonus", "stat": "speed", "value": 1 }
+      { "type": "addEngrams", "value": 5 },
+      { "type": "addPermanentBonus", "stat": "sense", "value": 1 }
     ],
     "choices": [
       {

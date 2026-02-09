@@ -1,36 +1,34 @@
 /**
  * StateManager - 플레이어 상태 관리 + 이벤트 시스템
- * 스탯, 인벤토리, 플래그를 관리하고 변경 시 구독자에게 알림
+ * GDD v2: Body/Sense/Reason/Bond + Karma + 기억 시스템
  */
 import { clamp, deepClone } from '../utils/helpers.js';
 
 export default class StateManager {
   constructor() {
-    // 이벤트 리스너 맵
     this._listeners = {};
-    // 초기 상태
     this.state = this._createInitialState();
   }
 
   _createInitialState() {
     return {
       player: {
-        name: '플레이어',
-        level: 1,
-        exp: 0,
-        expToNext: 100,
-        hp: 100,
-        maxHp: 100,
-        mp: 50,
-        maxMp: 50,
-        attack: 10,
-        defense: 5,
-        speed: 5,
+        name: '???',
+        hp: 20,
+        maxHp: 20,
+        body: 2,      // 체력 — 물리적 돌파/지구력
+        sense: 2,     // 감각 — 회피/탐색/위험감지
+        reason: 2,    // 이성 — 분석/퍼즐/약점간파
+        bond: 1,      // 교감 — 설득/감정연결/동료연계
+        karma: 0,     // -100(암) ~ +100(명)
+        engrams: 0,   // 기억 데이터 (성장 자원)
       },
-      inventory: [],    // { id, name, description, type, effect, quantity }
-      flags: {},         // 스토리 플래그 (string → boolean/number)
+      inventory: [],
+      flags: {},
       currentScene: null,
-      gold: 0,
+      realMemories: [],    // 현실 기억 목록 (사망 시 소멸)
+      abyssMemories: [],   // 심연의 기억 (동료 유대)
+      companions: [],      // 동료 목록
     };
   }
 
@@ -61,9 +59,12 @@ export default class StateManager {
 
     player[stat] += value;
 
-    // HP/MP 범위 제한
+    // HP 범위 제한
     if (stat === 'hp') player.hp = clamp(player.hp, 0, player.maxHp);
-    if (stat === 'mp') player.mp = clamp(player.mp, 0, player.maxMp);
+    // 4대 능력치 범위 제한 (1~5)
+    if (['body', 'sense', 'reason', 'bond'].includes(stat)) {
+      player[stat] = clamp(player[stat], 1, 5);
+    }
 
     this.emit('statChanged', { stat, value: player[stat], delta: value });
 
@@ -81,33 +82,68 @@ export default class StateManager {
     this.emit('statChanged', { stat, value, delta: value - old });
   }
 
-  // --- 경험치/레벨업 ---
-  addExp(amount) {
+  // --- 카르마 ---
+  modifyKarma(value) {
     const player = this.state.player;
-    player.exp += amount;
-    this.emit('expGained', { amount, total: player.exp });
-
-    // 레벨업 체크
-    while (player.exp >= player.expToNext) {
-      player.exp -= player.expToNext;
-      player.level += 1;
-      player.expToNext = Math.floor(player.expToNext * 1.5);
-      // 레벨업 보너스
-      player.maxHp += 10;
-      player.maxMp += 5;
-      player.hp = player.maxHp;
-      player.mp = player.maxMp;
-      player.attack += 2;
-      player.defense += 1;
-      player.speed += 1;
-      this.emit('levelUp', { level: player.level });
-    }
+    const old = player.karma;
+    player.karma = clamp(player.karma + value, -100, 100);
+    this.emit('karmaChanged', { karma: player.karma, delta: player.karma - old });
   }
 
-  // --- 골드 ---
-  addGold(amount) {
-    this.state.gold += amount;
-    this.emit('goldChanged', { gold: this.state.gold, delta: amount });
+  getKarmaAlignment() {
+    const karma = this.state.player.karma;
+    if (karma >= 30) return 'light';
+    if (karma <= -30) return 'dark';
+    return 'neutral';
+  }
+
+  // --- 엔그램 (성장 자원) ---
+  addEngrams(value) {
+    this.state.player.engrams += value;
+    if (this.state.player.engrams < 0) this.state.player.engrams = 0;
+    this.emit('engramsChanged', { engrams: this.state.player.engrams, delta: value });
+  }
+
+  // --- 현실 기억 ---
+  loseRealMemory() {
+    const memories = this.state.realMemories;
+    if (memories.length === 0) {
+      this.emit('gameOver', { reason: 'noMemories' });
+      return null;
+    }
+    // 가장 가벼운(먼저 등록된) 기억부터 소멸
+    const lost = memories.shift();
+    this.emit('memoryLost', { memory: lost, remaining: memories.length });
+
+    if (memories.length === 0) {
+      this.emit('gameOver', { reason: 'noMemories' });
+    }
+    return lost;
+  }
+
+  getRealMemoryCount() {
+    return this.state.realMemories.length;
+  }
+
+  // --- 심연의 기억 ---
+  addAbyssMemory(memory) {
+    this.state.abyssMemories.push(memory);
+    this.emit('abyssMemoryGained', { memory });
+  }
+
+  // --- 동료 ---
+  addCompanion(companion) {
+    this.state.companions.push(companion);
+    this.emit('companionJoined', { companion });
+  }
+
+  getCompanion(id) {
+    return this.state.companions.find(c => c.id === id) || null;
+  }
+
+  isCompanionAlive(id) {
+    const c = this.getCompanion(id);
+    return c ? c.alive !== false : false;
   }
 
   // --- 인벤토리 ---
@@ -172,24 +208,31 @@ export default class StateManager {
     this.emit('stateLoaded', null);
   }
 
-  // metaBonuses: { attack, defense, maxHp, maxMp, speed } (영구 보너스)
-  reset(metaBonuses = null) {
+  // 초기화 (새 게임 시작)
+  reset(config = {}, metaBonuses = null) {
     this.state = this._createInitialState();
+
+    // config에서 초기 스탯 적용
+    if (config.initialStats) {
+      Object.assign(this.state.player, config.initialStats);
+    }
+
+    // 현실 기억 목록 초기화
+    if (config.realMemories) {
+      this.state.realMemories = deepClone(config.realMemories);
+    }
 
     // 영구 보너스 적용
     if (metaBonuses) {
       const player = this.state.player;
-      if (metaBonuses.attack) player.attack += metaBonuses.attack;
-      if (metaBonuses.defense) player.defense += metaBonuses.defense;
+      if (metaBonuses.body) player.body = clamp(player.body + metaBonuses.body, 1, 5);
+      if (metaBonuses.sense) player.sense = clamp(player.sense + metaBonuses.sense, 1, 5);
+      if (metaBonuses.reason) player.reason = clamp(player.reason + metaBonuses.reason, 1, 5);
+      if (metaBonuses.bond) player.bond = clamp(player.bond + metaBonuses.bond, 1, 5);
       if (metaBonuses.maxHp) {
         player.maxHp += metaBonuses.maxHp;
         player.hp = player.maxHp;
       }
-      if (metaBonuses.maxMp) {
-        player.maxMp += metaBonuses.maxMp;
-        player.mp = player.maxMp;
-      }
-      if (metaBonuses.speed) player.speed += metaBonuses.speed;
     }
 
     this.emit('stateReset', null);

@@ -19,17 +19,17 @@ text-rpg/
 │   │   ├── StateManager.js  # 플레이어 스탯/인벤토리/플래그 + 이벤트
 │   │   ├── SceneManager.js  # 씬 로드, 조건 평가, 효과 적용 (메타 조건 포함)
 │   │   ├── DialogueRenderer.js  # 타이핑 효과
-│   │   ├── CombatSystem.js  # 턴제 전투
+│   │   ├── CombatSystem.js  # d6+스탯≥DC 전투
 │   │   ├── SaveLoadSystem.js    # localStorage 세이브/로드
 │   │   └── MetaProgression.js   # 영구 진행도 (로그라이크 메타)
 │   ├── ui/
 │   │   ├── DialogueBox.js   # 대화창
 │   │   ├── ChoiceButtons.js # 선택지
-│   │   ├── StatsPanel.js    # HP/MP/레벨
+│   │   ├── StatsPanel.js    # HP/능력치/카르마/기억/엔그램
 │   │   ├── CombatUI.js      # 전투 화면
 │   │   ├── InventoryPanel.js # 인벤토리
 │   │   ├── TitleScreen.js   # 타이틀 (회차 정보/특전 포함)
-│   │   ├── DeathScreen.js   # 사망 화면 (로그라이크)
+│   │   ├── DeathScreen.js   # 사망 → 기억 소멸 → 부활/벽돌화
 │   │   └── MenuBar.js       # 메뉴
 │   ├── data/                # JSON 게임 데이터
 │   ├── utils/helpers.js     # 공통 유틸
@@ -55,12 +55,36 @@ text-rpg/
 }
 ```
 
+### 전투 씬 JSON (GDD v2)
+```json
+{
+  "type": "combat",
+  "enemy": "enemy_id",
+  "introText": "전투 시작 텍스트",
+  "victoryScene": "next_scene",
+  "rewards": { "engrams": 10 },
+  "rounds": [{
+    "text": "라운드 상황 묘사",
+    "choices": [{
+      "text": "선택지",
+      "check": { "stat": "body|sense|reason|bond", "dc": 5 },
+      "alignment": "neutral|light|dark",
+      "karmaShift": 0,
+      "success": { "text": "성공 서술", "effects": [], "endCombat": false },
+      "failure": { "text": "실패 서술", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -5 }] }
+    }]
+  }]
+}
+```
+
 ### 조건 타입
-- `hasFlag`, `hasItem`, `statGreaterThan`, `statLessThan`, `goldGreaterThan`
+- `hasFlag`, `hasItem`, `statGreaterThan`, `statLessThan`
+- `karmaGreaterThan`, `karmaLessThan`, `realMemoryGreaterThan`, `engramGreaterThan`, `hasCompanion`
 - (메타) `runGreaterThan`, `hasUnlock`, `hasPerk`, `deathCountGreaterThan`
 
 ### 효과 타입
-- `setFlag`, `addItem`, `removeItem`, `modifyStat`, `setStat`, `addExp`, `addGold`, `heal`
+- `setFlag`, `addItem`, `removeItem`, `modifyStat`, `setStat`, `heal`
+- `modifyKarma`, `addEngrams`, `loseMemory`, `addAbyssMemory`, `addCompanion`
 - (메타) `unlock`, `addPerk`, `addPermanentBonus`
 
 ## 🔧 개발
@@ -71,6 +95,7 @@ npm run build  # 빌드
 ```
 
 ## 📌 규칙
+- 게임 기획 문서는 `docs/DESIGN.md`를 참조할 것. 전투/스탯/카르마 등 모든 시스템 수치는 이 문서가 기준.
 - 새 스토리는 `src/data/scenes/` 폴더에 JSON 추가
 - 엔진 코드와 데이터(JSON) 분리 유지
 - CSS 변수 활용 (커스텀 테마 가능)
@@ -87,11 +112,13 @@ npm run build  # 빌드
 ---
 
 ## 🔄 현재 세션 상태
-- **마지막 작업**: v0.3.0 세계관 교체 — "심연 (The Abyss)"
-  - 기존 데모 스토리(회사원) 전체 교체
-  - 프롤로그 15씬 + B1 고통의 층 42씬 구현
-  - 캐릭터 6종, 적 2종, 아이템 5종, 배경 CSS 7종
-  - STORY.md (전체 스토리 텍스트), IMAGE_LIST.md (이미지 목록) 추가
+- **마지막 작업**: v0.4.0 전투 시스템 전면 교체 (GDD v2 기준)
+  - 전투: 턴제 ATK/DEF → d6+스탯≥DC 판정 시스템
+  - 스탯: HP/MP/ATK/DEF/SPD → HP 20 + Body/Sense/Reason/Bond (1~5)
+  - 카르마 게이지 (-100~+100), 엔그램 (성장 자원), 현실 기억 10개 (사망 시 소멸)
+  - 사망 → 그 자리 부활 + 기억 1개 소멸, 기억 0 = 벽돌화 (게임 오버)
+  - 전투 씬 rounds 추가: 그림자 자아 1라운드, 고통의 수집가 3라운드
+  - 변경 파일 17개 (엔진 6 + UI 5 + CSS 2 + JSON 3 + CLAUDE.md)
 - **다음 작업**:
   1. **이미지 연결** — 사용자가 이미지 만들면 CSS/JS에 연결 (IMAGE_LIST.md 참고)
   2. **B2 변화의 층** 스토리 설계 + 구현

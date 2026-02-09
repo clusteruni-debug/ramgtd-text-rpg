@@ -1,212 +1,208 @@
 /**
- * CombatSystem - 턴제 전투
- * 공격/스킬/아이템/도망, 데미지 계산, 적 AI
+ * CombatSystem - 스탯 체크 기반 전투
+ * GDD v2: d6 + 스탯 ≥ DC 판정, 선택지 기반, 별도 적 턴 없음
+ *
+ * 전투 흐름:
+ *   start() → presentRound → [플레이어 선택] → resolveChoice()
+ *   → 결과 표시 → proceedToNextRound() → 다음 라운드 or 승리/패배
  */
-import { randomInt, clamp } from '../utils/helpers.js';
+import { rollD6 } from '../utils/helpers.js';
+
+const STAT_NAMES = {
+  body: '체력',
+  sense: '감각',
+  reason: '이성',
+  bond: '교감',
+};
 
 export default class CombatSystem {
-  constructor(stateManager) {
+  constructor(stateManager, effectApplier) {
     this.state = stateManager;
+    this.applyEffects = effectApplier; // (effects) => void
     this.enemy = null;
+    this.rounds = [];
+    this.rewards = {};
+    this.currentRound = 0;
     this.isActive = false;
-    this.turnCount = 0;
     this.log = [];
-    this._onUpdate = null;    // UI 업데이트 콜백
-    this._onEnd = null;       // 전투 종료 콜백
+    this._onUpdate = null;
+    this._onEnd = null;
+    this._lastResult = null;
   }
 
   /**
    * 전투 시작
-   * @param {object} enemyData - 적 데이터 (deepClone 필요)
-   * @param {function} onUpdate - 턴마다 호출
-   * @param {function} onEnd - 전투 종료 시 호출 ({ victory: boolean })
+   * @param {object} enemyData - { name, sprite }
+   * @param {Array} rounds - [{ text, choices }]
+   * @param {object} rewards - { engrams, effects }
+   * @param {function} onUpdate - UI 업데이트 콜백
+   * @param {function} onEnd - 전투 종료 콜백
    */
-  start(enemyData, onUpdate, onEnd) {
-    this.enemy = {
-      ...enemyData,
-      hp: enemyData.hp,
-      maxHp: enemyData.hp,
-    };
+  start(enemyData, rounds, rewards, onUpdate, onEnd) {
+    this.enemy = { ...enemyData };
+    this.rounds = rounds;
+    this.rewards = rewards || {};
+    this.currentRound = 0;
     this.isActive = true;
-    this.turnCount = 0;
     this.log = [];
     this._onUpdate = onUpdate;
     this._onEnd = onEnd;
+    this._lastResult = null;
 
     this._addLog(`${this.enemy.name}이(가) 나타났다!`);
-    this._update();
+    this._presentRound();
   }
 
-  // --- 플레이어 액션 ---
-  playerAttack() {
-    if (!this.isActive) return;
-
-    const player = this.state.state.player;
-    const damage = this._calculateDamage(player.attack, this.enemy.defense);
-    this.enemy.hp = clamp(this.enemy.hp - damage, 0, this.enemy.maxHp);
-
-    this._addLog(`${player.name}의 공격! ${this.enemy.name}에게 ${damage} 데미지!`);
-
-    if (this.enemy.hp <= 0) {
+  // 현재 라운드의 선택지 표시
+  _presentRound() {
+    if (this.currentRound >= this.rounds.length) {
       this._victory();
       return;
     }
 
-    this._enemyTurn();
+    const round = this.rounds[this.currentRound];
+    this._update({
+      phase: 'choose',
+      enemy: this.enemy,
+      roundText: round.text,
+      choices: round.choices.map(c => ({
+        text: c.text,
+        stat: c.check.stat,
+        statName: STAT_NAMES[c.check.stat] || c.check.stat,
+        dc: c.check.dc,
+        alignment: c.alignment || 'neutral',
+      })),
+      log: [...this.log],
+      isActive: true,
+      roundIndex: this.currentRound,
+      totalRounds: this.rounds.length,
+    });
   }
 
-  playerSkill() {
+  /**
+   * 플레이어가 선택지를 선택했을 때
+   * @param {number} choiceIndex
+   */
+  resolveChoice(choiceIndex) {
     if (!this.isActive) return;
 
-    const player = this.state.state.player;
-    const mpCost = 10;
+    const round = this.rounds[this.currentRound];
+    const choice = round.choices[choiceIndex];
+    if (!choice) return;
 
-    if (player.mp < mpCost) {
-      this._addLog('MP가 부족하다!');
-      this._update();
-      return;
+    // d6 판정
+    const roll = rollD6();
+    const statValue = this.state.getStat(choice.check.stat);
+    const total = roll + statValue;
+    const dc = choice.check.dc;
+    const success = total >= dc;
+    const statName = STAT_NAMES[choice.check.stat] || choice.check.stat;
+
+    // 판정 로그
+    this._addLog(`🎲 ${statName} 판정: d6(${roll}) + ${statValue} = ${total} vs DC ${dc}`);
+    this._addLog(success ? '✅ 성공!' : '❌ 실패...');
+
+    // 카르마 변동
+    if (choice.karmaShift && choice.karmaShift !== 0) {
+      this.state.modifyKarma(choice.karmaShift);
+      const direction = choice.karmaShift > 0 ? '명(Light)' : '암(Dark)';
+      this._addLog(`카르마 ${direction} ${choice.karmaShift > 0 ? '+' : ''}${choice.karmaShift}`);
     }
 
-    this.state.modifyStat('mp', -mpCost);
-    // 스킬: 공격력 1.5배
-    const damage = this._calculateDamage(Math.floor(player.attack * 1.5), this.enemy.defense);
-    this.enemy.hp = clamp(this.enemy.hp - damage, 0, this.enemy.maxHp);
+    // 결과
+    const result = success ? choice.success : choice.failure;
+    this._addLog(result.text);
 
-    this._addLog(`${player.name}의 강타! ${this.enemy.name}에게 ${damage} 데미지! (MP -${mpCost})`);
+    // 효과 적용 (SceneManager.applyEffects 위임)
+    if (result.effects && result.effects.length > 0) {
+      this.applyEffects(result.effects);
+    }
 
-    if (this.enemy.hp <= 0) {
+    this._lastResult = {
+      roll, statValue, statName, total, dc, success,
+      resultText: result.text,
+      effects: result.effects || [],
+      endCombat: result.endCombat || false,
+      alignment: choice.alignment || 'neutral',
+      choiceText: choice.text,
+    };
+
+    // UI 업데이트
+    this._update({
+      phase: 'result',
+      enemy: this.enemy,
+      ...this._lastResult,
+      log: [...this.log],
+      isActive: true,
+      roundIndex: this.currentRound,
+      totalRounds: this.rounds.length,
+    });
+  }
+
+  /**
+   * 결과 확인 후 다음으로 진행
+   * "계속" 버튼 클릭 시 호출
+   */
+  proceedToNextRound() {
+    if (!this._lastResult) return;
+
+    // endCombat 플래그 → 승리 처리
+    if (this._lastResult.endCombat) {
       this._victory();
       return;
     }
 
-    this._enemyTurn();
-  }
-
-  playerUseItem(itemId) {
-    if (!this.isActive) return;
-
-    const item = this.state.getItem(itemId);
-    if (!item) {
-      this._addLog('아이템이 없다!');
-      this._update();
-      return;
-    }
-
-    // 아이템 효과 적용
-    if (item.effect) {
-      if (item.effect.type === 'heal') {
-        this.state.modifyStat('hp', item.effect.value);
-        this._addLog(`${item.name} 사용! HP가 ${item.effect.value} 회복!`);
-      } else if (item.effect.type === 'mpRestore') {
-        this.state.modifyStat('mp', item.effect.value);
-        this._addLog(`${item.name} 사용! MP가 ${item.effect.value} 회복!`);
-      } else if (item.effect.type === 'damage') {
-        const damage = item.effect.value;
-        this.enemy.hp = clamp(this.enemy.hp - damage, 0, this.enemy.maxHp);
-        this._addLog(`${item.name} 사용! ${this.enemy.name}에게 ${damage} 데미지!`);
-      }
-    }
-
-    this.state.removeItem(itemId, 1);
-
-    if (this.enemy.hp <= 0) {
-      this._victory();
-      return;
-    }
-
-    this._enemyTurn();
-  }
-
-  playerFlee() {
-    if (!this.isActive) return;
-
-    const player = this.state.state.player;
-    // 도망 확률: 플레이어 속도 기반 (40~80%)
-    const chance = clamp(40 + (player.speed - this.enemy.speed) * 5, 20, 90);
-    const roll = randomInt(1, 100);
-
-    if (roll <= chance) {
-      this._addLog('도망에 성공했다!');
-      this.isActive = false;
-      this._update();
-      if (this._onEnd) this._onEnd({ victory: false, fled: true });
-    } else {
-      this._addLog('도망에 실패했다!');
-      this._enemyTurn();
-    }
-  }
-
-  // --- 적 턴 ---
-  _enemyTurn() {
-    this.turnCount++;
-    const damage = this._calculateDamage(this.enemy.attack, this.state.state.player.defense);
-    this.state.modifyStat('hp', -damage);
-
-    this._addLog(`${this.enemy.name}의 공격! ${damage} 데미지를 받았다!`);
-
-    if (this.state.state.player.hp <= 0) {
+    // HP 체크 (효과 적용 후)
+    if (this.state.getStat('hp') <= 0) {
       this._defeat();
       return;
     }
 
-    this._update();
+    this.currentRound++;
+    this._lastResult = null;
+    this._presentRound();
   }
 
-  // --- 데미지 계산 ---
-  _calculateDamage(attack, defense) {
-    // 기본 공식: 공격력 - 방어력/2 + 랜덤(-2~2)
-    const base = Math.max(1, attack - Math.floor(defense / 2));
-    const variation = randomInt(-2, 2);
-    return Math.max(1, base + variation);
-  }
-
-  // --- 전투 결과 ---
   _victory() {
-    this._addLog(`${this.enemy.name}을(를) 쓰러뜨렸다!`);
+    this._addLog(`전투에서 승리했다!`);
 
     // 보상 지급
-    if (this.enemy.expReward) {
-      this.state.addExp(this.enemy.expReward);
-      this._addLog(`경험치 ${this.enemy.expReward} 획득!`);
+    if (this.rewards.engrams) {
+      this.state.addEngrams(this.rewards.engrams);
+      this._addLog(`엔그램 +${this.rewards.engrams}`);
     }
-    if (this.enemy.goldReward) {
-      this.state.addGold(this.enemy.goldReward);
-      this._addLog(`골드 ${this.enemy.goldReward} 획득!`);
-    }
-    if (this.enemy.dropItem) {
-      this._addLog(`${this.enemy.dropItem.name}을(를) 얻었다!`);
+    if (this.rewards.effects) {
+      this.applyEffects(this.rewards.effects);
     }
 
     this.isActive = false;
-    this._update();
+    this._update({
+      phase: 'victory',
+      enemy: this.enemy,
+      rewards: this.rewards,
+      log: [...this.log],
+      isActive: false,
+    });
     if (this._onEnd) this._onEnd({ victory: true, enemy: this.enemy });
   }
 
   _defeat() {
     this._addLog('쓰러졌다...');
     this.isActive = false;
-    this._update();
-    if (this._onEnd) this._onEnd({ victory: false, fled: false });
+    this._update({
+      phase: 'defeat',
+      enemy: this.enemy,
+      log: [...this.log],
+      isActive: false,
+    });
+    if (this._onEnd) this._onEnd({ victory: false });
   }
 
-  // --- 유틸 ---
   _addLog(message) {
     this.log.push(message);
   }
 
-  _update() {
-    if (this._onUpdate) {
-      this._onUpdate({
-        enemy: this.enemy,
-        log: [...this.log],
-        isActive: this.isActive,
-        turnCount: this.turnCount,
-      });
-    }
-  }
-
-  // 전투용 아이템 목록 (type: 'consumable')
-  getUsableItems() {
-    return this.state.state.inventory.filter(i => i.type === 'consumable');
+  _update(data) {
+    if (this._onUpdate) this._onUpdate(data);
   }
 }

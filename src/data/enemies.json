@@ -3,32 +3,12 @@
     "id": "shadow_self",
     "name": "그림자 자아",
     "sprite": "shadow",
-    "hp": 50,
-    "attack": 10,
-    "defense": 3,
-    "speed": 6,
-    "expReward": 30,
-    "goldReward": 0,
-    "dropItem": {
-      "id": "shard_of_memory",
-      "name": "기억의 파편",
-      "description": "유리 조각처럼 생겼지만 만지면 기억이 스친다.",
-      "type": "key",
-      "effect": null
-    },
-    "skills": []
+    "description": "당신과 같은 모습이지만 텅 비어 있는 그림자"
   },
   {
     "id": "pain_collector",
     "name": "고통의 수집가",
     "sprite": "collector",
-    "hp": 150,
-    "attack": 18,
-    "defense": 8,
-    "speed": 4,
-    "expReward": 100,
-    "goldReward": 0,
-    "dropItem": null,
-    "skills": []
+    "description": "수천 개의 눈동자를 가진, 고통을 모으는 존재"
   }
 ]

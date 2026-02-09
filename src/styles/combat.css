@@ -1,4 +1,4 @@
-/* ===== 전투 화면 ===== */
+/* ===== 전투 화면 (GDD v2: 스탯 체크 기반) ===== */
 .combat-ui {
   position: absolute;
   top: 0;
@@ -12,13 +12,13 @@
 
 /* 적 영역 */
 .combat-enemy {
-  flex: 1;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px 20px;
-  gap: 12px;
+  padding: 40px 20px 16px;
+  gap: 8px;
 }
 
 .enemy-sprite {
@@ -27,7 +27,6 @@
   image-rendering: pixelated;
 }
 
-/* CSS 기반 픽셀 적 스프라이트 */
 .enemy-default {
   background: var(--text-accent);
   clip-path: polygon(
@@ -37,20 +36,28 @@
   );
 }
 
-.enemy-boss {
-  position: relative;
-  background: var(--bg-panel);
-  border: 3px solid var(--text-accent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 48px;
-  line-height: 1;
+.enemy-shadow {
+  background: linear-gradient(135deg, #333 0%, #666 50%, #333 100%);
+  clip-path: polygon(
+    30% 0%, 70% 0%, 90% 15%, 100% 40%,
+    95% 70%, 75% 100%, 25% 100%, 5% 70%,
+    0% 40%, 10% 15%
+  );
+  animation: shadow-pulse 2s ease-in-out infinite;
 }
 
-.enemy-boss::after {
-  content: '😡';
-  font-size: 48px;
+@keyframes shadow-pulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+.enemy-collector {
+  background: linear-gradient(135deg, #8b0000 0%, #4a0000 50%, #8b0000 100%);
+  clip-path: polygon(
+    50% 0%, 85% 10%, 100% 40%, 90% 80%,
+    60% 100%, 40% 100%, 10% 80%, 0% 40%,
+    15% 10%
+  );
 }
 
 .enemy-name {
@@ -59,37 +66,229 @@
   text-shadow: 0 0 8px var(--text-accent);
 }
 
-.enemy-hp-bar {
-  width: 200px;
-  background: var(--hp-bg);
+/* 전투 본문 */
+.combat-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px;
+  overflow-y: auto;
+  gap: 12px;
 }
 
-.enemy-hp-fill {
-  background: var(--hp-color);
+/* 라운드 상황 텍스트 */
+.combat-round-text {
+  font-size: 14px;
+  color: var(--text-primary);
+  line-height: 1.6;
+  padding: 12px 16px;
+  background: var(--bg-dialogue);
+  border-left: 3px solid var(--text-accent);
+}
+
+/* 선택지 */
+.combat-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.combat-choice-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+  font-size: 13px;
+  text-align: left;
+  transition: all 0.15s;
+}
+
+.combat-choice-btn:hover {
+  background: var(--btn-primary);
+  border-color: var(--btn-hover);
+  color: white;
+}
+
+.choice-key {
+  font-size: 11px;
+  color: var(--text-secondary);
+  background: var(--bg-panel);
+  padding: 2px 7px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.choice-label {
+  font-size: 11px;
+  color: var(--text-accent);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.choice-text {
+  flex: 1;
+}
+
+/* 카르마 정렬 표시 */
+.choice-light {
+  border-left: 3px solid #f59e0b;
+}
+.choice-light .choice-label {
+  color: #f59e0b;
+}
+
+.choice-dark {
+  border-left: 3px solid #a855f7;
+}
+.choice-dark .choice-label {
+  color: #a855f7;
+}
+
+/* 판정 결과 */
+.combat-result {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px 0;
+  animation: fade-in 0.3s ease;
+}
+
+.result-dice {
+  background: var(--bg-panel);
+  border: 2px solid var(--border-color);
+  padding: 12px 16px;
+  border-radius: 4px;
+}
+
+.result-dice.result-success {
+  border-color: var(--exp-color);
+}
+
+.result-dice.result-failure {
+  border-color: var(--hp-color);
+}
+
+.dice-roll {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  flex-wrap: wrap;
+}
+
+.dice-icon {
+  font-size: 20px;
+}
+
+.dice-formula strong {
+  color: var(--text-primary);
+}
+
+.dice-vs {
+  color: var(--text-accent);
+}
+
+.dice-vs strong {
+  color: var(--text-accent);
+}
+
+.dice-verdict {
+  font-size: 18px;
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+.result-success .dice-verdict {
+  color: var(--exp-color);
+}
+
+.result-failure .dice-verdict {
+  color: var(--hp-color);
+}
+
+/* 결과 서술 */
+.result-narrative {
+  font-size: 14px;
+  color: var(--text-primary);
+  line-height: 1.6;
+  padding: 8px 0;
+}
+
+/* HP 변동 표시 */
+.result-hp-change {
+  font-size: 15px;
+  font-weight: bold;
+  padding: 4px 0;
+}
+.hp-loss { color: var(--hp-color); }
+.hp-gain { color: var(--exp-color); }
+
+/* 계속 버튼 */
+.result-continue-btn {
+  padding: 12px 24px;
+  background: var(--btn-primary);
+  color: var(--btn-text);
+  border: 2px solid var(--btn-hover);
+  font-size: 14px;
+  align-self: center;
+  margin-top: 4px;
+  transition: all 0.15s;
+}
+.result-continue-btn:hover {
+  background: var(--btn-hover);
+}
+
+/* 승리/패배 배너 */
+.combat-end-banner {
+  text-align: center;
+  padding: 32px 24px;
+}
+
+.end-text {
+  font-size: 28px;
+  letter-spacing: 4px;
+}
+.combat-end-banner.victory .end-text {
+  color: var(--exp-color);
+  text-shadow: 0 0 20px var(--exp-color);
+}
+.combat-end-banner.defeat .end-text {
+  color: var(--hp-color);
+  text-shadow: 0 0 20px var(--hp-color);
+}
+
+.result-reward {
+  font-size: 14px;
+  color: var(--exp-color);
+  margin-top: 12px;
 }
 
 /* 전투 로그 */
 .combat-log {
   background: var(--bg-dialogue);
   border-top: 2px solid var(--border-color);
-  border-bottom: 2px solid var(--border-color);
-  padding: 12px 20px;
-  min-height: 100px;
-  max-height: 140px;
+  padding: 10px 20px;
+  min-height: 80px;
+  max-height: 100px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
+  flex-shrink: 0;
 }
 
 .combat-log-line {
-  font-size: 13px;
-  color: var(--text-primary);
+  font-size: 12px;
+  color: var(--text-secondary);
   animation: log-appear 0.2s ease;
 }
 
 .combat-log-line:last-child {
-  color: var(--text-accent);
+  color: var(--text-primary);
 }
 
 @keyframes log-appear {
@@ -97,82 +296,13 @@
   to { opacity: 1; transform: translateX(0); }
 }
 
-/* 전투 액션 버튼 */
-.combat-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  padding: 12px 20px;
-  background: var(--bg-panel);
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-.combat-btn {
-  padding: 14px;
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  border: 2px solid var(--border-color);
-  font-size: 14px;
-  transition: all 0.15s;
-}
-
-.combat-btn:hover:not(:disabled) {
-  background: var(--btn-primary);
-  border-color: var(--btn-hover);
-  color: white;
-}
-
-.combat-btn:disabled {
-  background: var(--bg-primary);
-  color: var(--text-secondary);
-  border-color: var(--btn-disabled);
-}
-
-/* 전투 중 아이템 목록 */
-.combat-items {
-  position: absolute;
-  bottom: 120px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--bg-panel);
-  border: 2px solid var(--border-color);
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  min-width: 220px;
-  z-index: 25;
-}
-
-.combat-items .item-btn {
-  padding: 10px 16px;
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-  font-size: 13px;
-  text-align: left;
-  transition: all 0.15s;
-}
-
-.combat-items .item-btn:hover {
-  background: var(--btn-primary);
-  color: white;
-}
-
-.combat-items .item-close {
-  text-align: center;
-  color: var(--text-secondary);
-  border-color: var(--btn-disabled);
-}
-
-.no-items {
-  font-size: 12px;
-  color: var(--text-secondary);
-  text-align: center;
-  padding: 8px;
-}
-
-/* 전투 승리/패배 오버레이 */
-.combat-result {
+/* ===== 사망 화면 ===== */
+.death-screen {
   position: absolute;
   top: 0;
   left: 0;
@@ -181,15 +311,94 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 30;
+  z-index: 50;
+  background: rgba(0, 0, 0, 0.9);
   animation: fade-in 0.5s ease;
 }
 
-.combat-result-text {
-  font-size: 36px;
-  text-shadow: 0 0 20px currentColor, 4px 4px 0 #000;
-  letter-spacing: 8px;
+.death-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px;
 }
 
-.combat-result.victory { color: var(--exp-color); }
-.combat-result.defeat { color: var(--hp-color); }
+.death-title {
+  font-size: 28px;
+  color: var(--hp-color);
+  text-shadow: 0 0 20px var(--hp-color);
+  letter-spacing: 4px;
+}
+
+.death-subtitle {
+  font-size: 12px;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+}
+
+.death-memory-loss {
+  margin: 16px 0;
+}
+
+.memory-lost-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.memory-lost-name {
+  font-size: 20px;
+  color: var(--text-accent);
+  text-shadow: 0 0 10px var(--text-accent);
+}
+
+.memory-lost-gone {
+  font-size: 11px;
+  color: var(--hp-color);
+  margin-top: 8px;
+}
+
+.memory-remaining {
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.memory-warning {
+  font-size: 12px;
+  color: var(--hp-color);
+  margin-top: 4px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.game-over-text {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.death-restart-btn {
+  padding: 14px 32px;
+  background: var(--btn-primary);
+  color: var(--btn-text);
+  border: 2px solid var(--btn-hover);
+  font-size: 16px;
+  transition: all 0.15s;
+  margin-top: 8px;
+}
+
+.death-restart-btn:hover {
+  background: var(--btn-hover);
+}
+
+.death-run-info {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 8px;
+}

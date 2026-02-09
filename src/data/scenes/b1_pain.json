@@ -53,7 +53,7 @@
       {
         "text": "기억을 직면한다 (HP -15)",
         "effects": [
-          { "type": "modifyStat", "stat": "hp", "value": -15 },
+          { "type": "modifyStat", "stat": "hp", "value": -5 },
           { "type": "setFlag", "flag": "faced_memory_1" },
           { "type": "addItem", "item": "shard_of_memory" }
         ],
@@ -104,7 +104,7 @@
       {
         "text": "기억을 직면한다 (HP -15)",
         "effects": [
-          { "type": "modifyStat", "stat": "hp", "value": -15 },
+          { "type": "modifyStat", "stat": "hp", "value": -5 },
           { "type": "setFlag", "flag": "faced_memory_2" },
           { "type": "addItem", "item": "shard_of_memory" }
         ],
@@ -175,8 +175,59 @@
     "enemy": "shadow_self",
     "introText": "거울에서 그림자가 빠져나온다. 당신과 같은 모습이지만 — 텅 비어 있다. 그림자 자아가 공격해온다!",
     "victoryScene": "corridor_victory",
-    "defeatScene": "__death__",
-    "fleeScene": "corridor_end"
+    "rewards": { "engrams": 10 },
+    "rounds": [
+      {
+        "text": "그림자가 당신의 동작을 그대로 따라하며 공격해온다. 마치 거울 속에서 싸우는 것 같다.",
+        "choices": [
+          {
+            "text": "정면으로 맞선다",
+            "check": { "stat": "body", "dc": 5 },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": {
+              "text": "그림자의 공격을 정면으로 받아치며 밀어낸다. 자신을 직면하는 것 — 그것이 힘이 된다.",
+              "effects": [],
+              "endCombat": true
+            },
+            "failure": {
+              "text": "그림자의 공격이 더 빠르다. 자신의 약점을 누구보다 잘 아는 건 자기 자신이니까.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -5 }]
+            }
+          },
+          {
+            "text": "움직임의 패턴을 읽는다",
+            "check": { "stat": "sense", "dc": 5 },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": {
+              "text": "그림자의 움직임에서 빈틈을 발견한다. 결국 그것은 당신의 빈틈이기도 하다. 그것을 인정하자 그림자가 흩어진다.",
+              "effects": [],
+              "endCombat": true
+            },
+            "failure": {
+              "text": "그림자가 너무 빠르다. 자신의 움직임을 예측하는 것은 생각보다 어렵다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -4 }]
+            }
+          },
+          {
+            "text": "\"넌 나잖아. 멈춰.\"",
+            "check": { "stat": "reason", "dc": 6 },
+            "alignment": "light",
+            "karmaShift": 5,
+            "success": {
+              "text": "그림자가 멈칫한다. 당신의 말이 맞다. 싸울 필요가 없다. 그림자가 천천히 녹아 사라진다.",
+              "effects": [{ "type": "modifyKarma", "value": 5 }],
+              "endCombat": true
+            },
+            "failure": {
+              "text": "그림자가 비웃는다. 아니, 당신이 당신을 비웃는 것이다. 말만으로는 부족하다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -3 }]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "corridor_victory",
@@ -187,7 +238,7 @@
     "effects": [
       { "type": "setFlag", "flag": "defeated_shadow" },
       { "type": "unlock", "unlock": "shadow_defeated" },
-      { "type": "addPermanentBonus", "stat": "attack", "value": 1 }
+      { "type": "addPermanentBonus", "stat": "body", "value": 1 }
     ],
     "choices": [
       {
@@ -346,7 +397,7 @@
     "text": "\"나갈 수... 있을까?\" 조심스럽게 일어선다. \"오래 일어서지 않아서...\" 비틀거리지만, 당신 옆에서 걸음을 뗀다.",
     "effects": [
       { "type": "setFlag", "flag": "companion_lost_one" },
-      { "type": "modifyStat", "stat": "defense", "value": 3 }
+      { "type": "modifyStat", "stat": "bond", "value": 1 }
     ],
     "choices": [
       {
@@ -363,7 +414,7 @@
     "text": "진통제를 받아든다. 삼킨 후 — 떨림이 멈춘다. \"...고마워. 정말 고마워.\" 얼굴이 없는데도, 미소 짓는 것 같다. \"너와 함께 갈게.\"",
     "effects": [
       { "type": "setFlag", "flag": "companion_lost_one" },
-      { "type": "modifyStat", "stat": "defense", "value": 5 }
+      { "type": "modifyStat", "stat": "bond", "value": 1 }
     ],
     "choices": [
       {
@@ -497,7 +548,7 @@
     "text": "\"알아차렸구나.\" 어디선가 목소리가 들린다. 벽에서? 바닥에서? 아니면 머릿속에서? \"고통은 변화의 증거야. 고통 없이는 아무것도 바뀌지 않아.\"",
     "effects": [
       { "type": "setFlag", "flag": "heard_mirror" },
-      { "type": "addExp", "value": 20 }
+      { "type": "addEngrams", "value": 5 }
     ],
     "choices": [
       {
@@ -548,7 +599,7 @@
     "text": "\"다시 왔군. 기억하고 있어?\" 침묵의 길 한가운데, 이전에는 없던 거울이 서 있다. \"네가 몇 번을 반복해도 결국 여기로 오더라. 이번에는 뭘 바꿀 거지?\"",
     "conditions_note": "이 씬은 2회차+ 전용 숨겨진 분기. silence_02에서 runGreaterThan 조건으로 접근",
     "effects": [
-      { "type": "addPermanentBonus", "stat": "maxMp", "value": 5 },
+      { "type": "addPermanentBonus", "stat": "reason", "value": 1 },
       { "type": "unlock", "unlock": "silence_secret" }
     ],
     "choices": [
@@ -681,8 +732,8 @@
       { "type": "setFlag", "flag": "collector_passed_dialogue" },
       { "type": "unlock", "unlock": "collector_convinced" },
       { "type": "addPerk", "perk": "empathy", "name": "공감의 힘", "description": "대화로 고통의 수집가를 설득한 경험" },
-      { "type": "addPermanentBonus", "stat": "defense", "value": 2 },
-      { "type": "addExp", "value": 80 }
+      { "type": "addPermanentBonus", "stat": "bond", "value": 1 },
+      { "type": "addEngrams", "value": 15 }
     ],
     "choices": [
       {
@@ -698,8 +749,153 @@
     "enemy": "pain_collector",
     "introText": "수집가가 외투를 벗는다. 그 안에는 — 수천 개의 고통의 파편이 소용돌이치고 있다. \"네 고통도 내 컬렉션에 추가해주마.\"",
     "victoryScene": "collector_battle_victory",
-    "defeatScene": "__death__",
-    "fleeScene": "collector_submit"
+    "rewards": { "engrams": 20 },
+    "rounds": [
+      {
+        "text": "고통의 파편들이 날카롭게 회전하며 당신을 향해 쏟아진다!",
+        "choices": [
+          {
+            "text": "몸을 낮추고 돌진한다",
+            "check": { "stat": "body", "dc": 6 },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": {
+              "text": "파편 사이를 뚫고 수집가에게 다가간다. 그의 표정에 놀라움이 스친다.",
+              "effects": []
+            },
+            "failure": {
+              "text": "파편이 몸을 스친다. 각각의 파편에서 누군가의 고통이 느껴진다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -5 }]
+            }
+          },
+          {
+            "text": "파편의 궤적을 읽고 피한다",
+            "check": { "stat": "sense", "dc": 7 },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": {
+              "text": "파편의 움직임에 패턴이 있다. 마치 슬픔의 파도처럼. 물결 사이를 빠져나간다.",
+              "effects": []
+            },
+            "failure": {
+              "text": "너무 많다. 피하려다 더 깊이 베인다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -6 }]
+            }
+          },
+          {
+            "text": "\"이 고통들은 네 것이 아니다!\"",
+            "check": { "stat": "bond", "dc": 7 },
+            "alignment": "light",
+            "karmaShift": 5,
+            "success": {
+              "text": "목소리에 진심이 담긴다. 파편 몇 개가 멈칫하더니 방향을 바꾼다. 수집가의 눈이 흔들린다.",
+              "effects": [{ "type": "modifyKarma", "value": 5 }]
+            },
+            "failure": {
+              "text": "수집가가 코웃음 친다. \"감상적이군.\" 파편이 더 거세게 날아온다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -4 }]
+            }
+          }
+        ]
+      },
+      {
+        "text": "수집가가 손을 뻗는다. 당신의 머릿속에서 고통스러운 기억이 강제로 끌려나온다.",
+        "choices": [
+          {
+            "text": "기억에 저항한다",
+            "check": { "stat": "reason", "dc": 7 },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": {
+              "text": "이성으로 기억을 붙잡는다. \"내 기억은 내 것이다.\" 수집가의 힘이 약해진다.",
+              "effects": []
+            },
+            "failure": {
+              "text": "기억이 빼앗긴다. 잠깐이지만, 머릿속이 텅 비는 공포를 느낀다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -5 }]
+            }
+          },
+          {
+            "text": "고통을 받아들이며 전진한다",
+            "check": { "stat": "body", "dc": 7 },
+            "alignment": "dark",
+            "karmaShift": -5,
+            "success": {
+              "text": "고통을 연료 삼아 돌진한다. 수집가가 물러선다. \"이 고통으로 더 강해지겠다는 건가?\"",
+              "effects": [{ "type": "modifyKarma", "value": -5 }]
+            },
+            "failure": {
+              "text": "고통이 너무 크다. 무릎이 꺾인다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -6 }]
+            }
+          },
+          {
+            "text": "수집가에게 공감을 시도한다",
+            "check": { "stat": "bond", "dc": 8 },
+            "alignment": "light",
+            "karmaShift": 8,
+            "success": {
+              "text": "\"너도... 고통을 느끼고 있지?\" 수집가의 움직임이 멈춘다. 수천 개의 눈에 동요가 일어난다.",
+              "effects": [{ "type": "modifyKarma", "value": 8 }]
+            },
+            "failure": {
+              "text": "\"날 동정하지 마!\" 분노한 수집가의 공격이 더 격렬해진다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -7 }]
+            }
+          }
+        ]
+      },
+      {
+        "text": "수집가가 흔들린다. 하지만 아직 끝나지 않았다. \"마지막이다... 네 가장 깊은 고통을 내놔!\"",
+        "choices": [
+          {
+            "text": "전력으로 맞서 싸운다",
+            "check": { "stat": "body", "dc": 7 },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": {
+              "text": "마지막 힘을 쥐어짠다. 수집가를 밀어낸다. 그의 외투가 찢어지고 파편들이 흩어진다.",
+              "effects": [],
+              "endCombat": true
+            },
+            "failure": {
+              "text": "힘이 부족하다. 수집가의 공격이 관통한다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -6 }]
+            }
+          },
+          {
+            "text": "약점을 노린다",
+            "check": { "stat": "sense", "dc": 8 },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": {
+              "text": "수집가의 핵심 — 수천 개의 눈 중 하나가 다르다. 그것을 노려 정확히 타격한다. 수집가가 무너진다.",
+              "effects": [],
+              "endCombat": true
+            },
+            "failure": {
+              "text": "순간 집중이 흐트러진다. 파편이 날아와 시야를 가린다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -5 }]
+            }
+          },
+          {
+            "text": "\"고통은 나누면 줄어든다\"",
+            "check": { "stat": "bond", "dc": 8 },
+            "alignment": "light",
+            "karmaShift": 10,
+            "success": {
+              "text": "수집가의 수천 개의 눈에서 눈물이 흐른다. 모은 고통이, 혼자 감당하기엔 너무 컸던 거다. 그가 무릎을 꿇는다.",
+              "effects": [{ "type": "modifyKarma", "value": 10 }],
+              "endCombat": true
+            },
+            "failure": {
+              "text": "수집가가 비웃지만 — 잠깐, 그의 손이 떨린다. 맞는 말이었지만, 이번엔 힘이 모자랐다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -5 }]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "collector_battle_victory",
@@ -710,8 +906,8 @@
     "effects": [
       { "type": "setFlag", "flag": "collector_defeated_combat" },
       { "type": "unlock", "unlock": "collector_defeated" },
-      { "type": "addPermanentBonus", "stat": "attack", "value": 2 },
-      { "type": "addExp", "value": 100 }
+      { "type": "addPermanentBonus", "stat": "body", "value": 1 },
+      { "type": "addEngrams", "value": 20 }
     ],
     "choices": [
       {
@@ -728,9 +924,9 @@
     "text": "\"현명한 선택이야.\" 수집가가 손을 뻗는다. 가슴에서 뭔가가 빠져나간다. 따뜻했던 것, 아팠던 것, 아련했던 것. 텅 빈 느낌. \"...가라. 길은 열렸다.\"",
     "effects": [
       { "type": "setFlag", "flag": "collector_submitted" },
-      { "type": "modifyStat", "stat": "hp", "value": -20 },
-      { "type": "setStat", "stat": "maxHp", "value": 60 },
-      { "type": "modifyStat", "stat": "attack", "value": -3 }
+      { "type": "modifyStat", "stat": "hp", "value": -8 },
+      { "type": "setStat", "stat": "maxHp", "value": 15 },
+      { "type": "modifyStat", "stat": "body", "value": -1 }
     ],
     "choices": [
       {

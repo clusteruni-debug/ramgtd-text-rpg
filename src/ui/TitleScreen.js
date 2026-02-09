@@ -73,7 +73,7 @@ export default class TitleScreen {
       const btn = createElement('button', 'slot-btn');
       btn.innerHTML = `
         <span class="slot-label">오토세이브</span>
-        <span class="slot-info">${autoInfo.playerName} Lv.${autoInfo.level} - ${autoInfo.date}</span>
+        <span class="slot-info">${autoInfo.playerName} 🧠${autoInfo.memories} - ${autoInfo.date}</span>
       `;
       btn.addEventListener('click', () => {
         this.saveSystem.loadAutoSave();
@@ -89,7 +89,7 @@ export default class TitleScreen {
       if (info) {
         btn.innerHTML = `
           <span class="slot-label">슬롯 ${i + 1}</span>
-          <span class="slot-info">${info.playerName} Lv.${info.level} - ${info.date}</span>
+          <span class="slot-info">${info.playerName} 🧠${info.memories} - ${info.date}</span>
         `;
         btn.addEventListener('click', () => {
           this.saveSystem.load(i);
@@ -146,7 +146,7 @@ export default class TitleScreen {
       const bonusEntries = Object.entries(bonuses).filter(([, v]) => v > 0);
       if (bonusEntries.length > 0) {
         html += '<div class="perks-bonus-title">영구 보너스</div>';
-        const statNames = { attack: '공격', defense: '방어', maxHp: 'HP', maxMp: 'MP', speed: '속도' };
+        const statNames = { body: '체력', sense: '감각', reason: '이성', bond: '교감', maxHp: 'HP' };
         bonusEntries.forEach(([stat, val]) => {
           html += `<div class="perk-bonus">+${val} ${statNames[stat] || stat}</div>`;
         });

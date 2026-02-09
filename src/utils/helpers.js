@@ -15,6 +15,11 @@ export function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+// d6 주사위 (1~6)
+export function rollD6() {
+  return randomInt(1, 6);
+}
+
 // 딜레이 유틸
 export function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));

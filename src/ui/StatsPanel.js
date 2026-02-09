@@ -1,6 +1,6 @@
 /**
- * StatsPanel - HP/MP 바 + 레벨/골드 표시
- * StateManager 이벤트 구독으로 실시간 업데이트
+ * StatsPanel - HP + 능력치 + 카르마 + 기억/엔그램 표시
+ * GDD v2: Body/Sense/Reason/Bond + Karma 게이지 + 현실 기억 수
  */
 import { createElement } from '../utils/helpers.js';
 
@@ -17,26 +17,42 @@ export default class StatsPanel {
   _build() {
     this.el = createElement('div', 'stats-panel');
     this.el.innerHTML = `
-      <div class="stat-row">
-        <span class="stat-label">Lv.</span>
-        <span class="stat-value level-value">1</span>
-        <span class="stat-label gold-label">💰</span>
-        <span class="stat-value gold-value">0</span>
-      </div>
       <div class="stat-bar-container">
         <div class="stat-bar hp-bar">
           <div class="stat-bar-fill hp-fill"></div>
-          <span class="stat-bar-text hp-text">100/100</span>
-        </div>
-        <div class="stat-bar mp-bar">
-          <div class="stat-bar-fill mp-fill"></div>
-          <span class="stat-bar-text mp-text">50/50</span>
+          <span class="stat-bar-text hp-text">20/20</span>
         </div>
       </div>
-      <div class="stat-row exp-row">
-        <div class="stat-bar exp-bar">
-          <div class="stat-bar-fill exp-fill"></div>
-          <span class="stat-bar-text exp-text">EXP 0/100</span>
+      <div class="stats-abilities">
+        <div class="ability" data-stat="body">
+          <span class="ability-label">체력</span>
+          <span class="ability-value">2</span>
+        </div>
+        <div class="ability" data-stat="sense">
+          <span class="ability-label">감각</span>
+          <span class="ability-value">2</span>
+        </div>
+        <div class="ability" data-stat="reason">
+          <span class="ability-label">이성</span>
+          <span class="ability-value">2</span>
+        </div>
+        <div class="ability" data-stat="bond">
+          <span class="ability-label">교감</span>
+          <span class="ability-value">1</span>
+        </div>
+      </div>
+      <div class="stats-bottom">
+        <div class="karma-container">
+          <span class="karma-end karma-dark">암</span>
+          <div class="karma-bar">
+            <div class="karma-fill"></div>
+            <div class="karma-center"></div>
+          </div>
+          <span class="karma-end karma-light">명</span>
+        </div>
+        <div class="stats-resources">
+          <span class="memory-display" title="현실 기억 (남은 부활 횟수)">🧠 <span class="memory-count">10</span></span>
+          <span class="engram-display" title="엔그램 (성장 자원)">💎 <span class="engram-count">0</span></span>
         </div>
       </div>
     `;
@@ -45,9 +61,9 @@ export default class StatsPanel {
 
   _subscribe() {
     this.state.on('statChanged', () => this.update());
-    this.state.on('levelUp', () => this.update());
-    this.state.on('goldChanged', () => this.update());
-    this.state.on('expGained', () => this.update());
+    this.state.on('karmaChanged', () => this.update());
+    this.state.on('engramsChanged', () => this.update());
+    this.state.on('memoryLost', () => this.update());
     this.state.on('stateLoaded', () => this.update());
     this.state.on('stateReset', () => this.update());
   }
@@ -55,23 +71,25 @@ export default class StatsPanel {
   update() {
     const p = this.state.state.player;
 
-    // 레벨/골드
-    this.el.querySelector('.level-value').textContent = p.level;
-    this.el.querySelector('.gold-value').textContent = this.state.state.gold;
-
     // HP 바
-    const hpPercent = (p.hp / p.maxHp) * 100;
+    const hpPercent = p.maxHp > 0 ? (p.hp / p.maxHp) * 100 : 0;
     this.el.querySelector('.hp-fill').style.width = `${hpPercent}%`;
     this.el.querySelector('.hp-text').textContent = `HP ${p.hp}/${p.maxHp}`;
 
-    // MP 바
-    const mpPercent = (p.mp / p.maxMp) * 100;
-    this.el.querySelector('.mp-fill').style.width = `${mpPercent}%`;
-    this.el.querySelector('.mp-text').textContent = `MP ${p.mp}/${p.maxMp}`;
+    // 4대 능력치
+    ['body', 'sense', 'reason', 'bond'].forEach(stat => {
+      const el = this.el.querySelector(`.ability[data-stat="${stat}"] .ability-value`);
+      if (el) el.textContent = p[stat];
+    });
 
-    // EXP 바
-    const expPercent = (p.exp / p.expToNext) * 100;
-    this.el.querySelector('.exp-fill').style.width = `${expPercent}%`;
-    this.el.querySelector('.exp-text').textContent = `EXP ${p.exp}/${p.expToNext}`;
+    // 카르마 게이지 (-100 ~ +100 → 0% ~ 100%)
+    const karmaPercent = ((p.karma + 100) / 200) * 100;
+    this.el.querySelector('.karma-fill').style.width = `${karmaPercent}%`;
+
+    // 현실 기억 수
+    this.el.querySelector('.memory-count').textContent = this.state.getRealMemoryCount();
+
+    // 엔그램
+    this.el.querySelector('.engram-count').textContent = p.engrams;
   }
 }

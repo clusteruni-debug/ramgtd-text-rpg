@@ -1,17 +1,29 @@
 {
   "title": "심연",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "startScene": "prologue_01",
   "typingSpeed": 35,
   "initialStats": {
     "name": "???",
-    "level": 1,
-    "hp": 80,
-    "maxHp": 80,
-    "mp": 40,
-    "maxMp": 40,
-    "attack": 7,
-    "defense": 4,
-    "speed": 5
-  }
+    "hp": 20,
+    "maxHp": 20,
+    "body": 2,
+    "sense": 2,
+    "reason": 2,
+    "bond": 1,
+    "karma": 0,
+    "engrams": 0
+  },
+  "realMemories": [
+    { "id": "mem_hobby", "label": "좋아하던 취미", "weight": 1 },
+    { "id": "mem_food", "label": "좋아하던 음식", "weight": 1 },
+    { "id": "mem_song", "label": "자주 듣던 노래", "weight": 1 },
+    { "id": "mem_season", "label": "좋아하던 계절", "weight": 2 },
+    { "id": "mem_pet", "label": "키우던 반려동물", "weight": 2 },
+    { "id": "mem_workplace", "label": "직장 이름", "weight": 2 },
+    { "id": "mem_friend", "label": "친구의 이름", "weight": 3 },
+    { "id": "mem_address", "label": "집 주소", "weight": 3 },
+    { "id": "mem_mother", "label": "어머니의 얼굴", "weight": 4 },
+    { "id": "mem_name", "label": "자기 이름", "weight": 5 }
+  ]
 }

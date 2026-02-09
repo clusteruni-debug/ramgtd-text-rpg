@@ -1,6 +1,6 @@
 /**
  * MetaProgression - 영구 진행도 관리 (로그라이크 메타 프로그레션)
- * 죽어도 유지되는 데이터: 회차 수, 해금, 특전, 영구 스탯 보너스
+ * GDD v2: Body/Sense/Reason/Bond 기반 영구 보너스
  */
 import { deepClone } from '../utils/helpers.js';
 
@@ -16,15 +16,14 @@ export default class MetaProgression {
       totalRuns: 0,
       totalDeaths: 0,
       totalVictories: 0,
-      maxLevelReached: 1,
       unlocks: {},       // { "unlock_id": true }
       perks: {},         // { "perk_id": { name, description, effect } }
       permanentBonuses: {
-        attack: 0,
-        defense: 0,
+        body: 0,
+        sense: 0,
+        reason: 0,
+        bond: 0,
         maxHp: 0,
-        maxMp: 0,
-        speed: 0,
       },
     };
   }
@@ -67,24 +66,16 @@ export default class MetaProgression {
   }
 
   // --- 사망/승리 기록 ---
-  recordDeath(runData = {}) {
+  recordDeath() {
     this.data.totalDeaths++;
-    this._updateMaxLevel(runData.level);
   }
 
-  recordVictory(runData = {}) {
+  recordVictory() {
     this.data.totalVictories++;
-    this._updateMaxLevel(runData.level);
   }
 
   startNewRun() {
     this.data.totalRuns++;
-  }
-
-  _updateMaxLevel(level) {
-    if (level && level > this.data.maxLevelReached) {
-      this.data.maxLevelReached = level;
-    }
   }
 
   // --- 새 회차 시작 시 적용할 보너스 계산 ---

@@ -1,6 +1,7 @@
 /**
- * DeathScreen - 사망 화면
- * 이번 회차 성과 + 영구 보상 표시 + 다시 시작 버튼
+ * DeathScreen - 사망 + 현실 기억 소멸 화면
+ * GDD v2: 사망 → 그 자리 부활 → 현실 기억 1개 영구 소멸
+ * 기억 0 → 벽돌화 (게임 오버)
  */
 import { createElement } from '../utils/helpers.js';
 
@@ -15,19 +16,23 @@ export default class DeathScreen {
     this.el = createElement('div', 'death-screen hidden');
     this.el.innerHTML = `
       <div class="death-content">
-        <div class="death-title">쓰러졌다...</div>
-        <div class="death-stats"></div>
-        <div class="death-rewards"></div>
-        <button class="death-restart-btn">&#9654; 다시 시작</button>
+        <div class="death-title">Processing Error</div>
+        <div class="death-subtitle">분해 시도 실패 — 대상 데이터 부재</div>
+        <div class="death-memory-loss"></div>
+        <div class="death-memory-remaining"></div>
+        <button class="death-restart-btn">재부팅 ▶</button>
         <div class="death-run-info"></div>
       </div>
     `;
 
-    this.statsEl = this.el.querySelector('.death-stats');
-    this.rewardsEl = this.el.querySelector('.death-rewards');
+    this.titleEl = this.el.querySelector('.death-title');
+    this.subtitleEl = this.el.querySelector('.death-subtitle');
+    this.memoryLossEl = this.el.querySelector('.death-memory-loss');
+    this.memoryRemainingEl = this.el.querySelector('.death-memory-remaining');
     this.runInfoEl = this.el.querySelector('.death-run-info');
+    this.restartBtn = this.el.querySelector('.death-restart-btn');
 
-    this.el.querySelector('.death-restart-btn').addEventListener('click', () => {
+    this.restartBtn.addEventListener('click', () => {
       if (this._onRestart) this._onRestart();
     });
 
@@ -35,39 +40,39 @@ export default class DeathScreen {
   }
 
   /**
-   * 사망 화면 표시
-   * @param {object} runData - { level, gold, turnCount }
-   * @param {Array} rewards - 이번 회차에서 얻은 영구 보상 목록
-   * @param {object} metaData - { totalRuns, totalDeaths }
+   * @param {object|null} lostMemory - 소멸된 기억 { id, label, weight }
+   * @param {number} remainingMemories - 남은 현실 기억 수
+   * @param {boolean} isGameOver - 기억 0 = 완전한 죽음
+   * @param {object} metaData - 메타 데이터
    */
-  show(runData = {}, rewards = [], metaData = {}) {
-    // 이번 회차 성과
-    this.statsEl.innerHTML = `
-      <div class="death-stat-title">이번 회차 성과</div>
-      <div class="death-stat-row">
-        <span>도달 레벨</span><span>Lv.${runData.level || 1}</span>
-      </div>
-      <div class="death-stat-row">
-        <span>획득 골드</span><span>${runData.gold || 0}G</span>
-      </div>
-    `;
-
-    // 영구 보상
-    if (rewards.length > 0) {
-      this.rewardsEl.innerHTML = `
-        <div class="death-reward-title">영구 보상 획득!</div>
-        ${rewards.map(r => `
-          <div class="death-reward-item">${r.icon || '+'} ${r.text}</div>
-        `).join('')}
+  show(lostMemory, remainingMemories, isGameOver, metaData = {}) {
+    if (isGameOver) {
+      this.titleEl.textContent = 'SYSTEM COMPLETE';
+      this.subtitleEl.textContent = '대상 완전 분해 — 벽돌화 진행';
+      this.memoryLossEl.innerHTML = `
+        <div class="memory-lost-label">마지막 기억이 사라졌다</div>
+        <div class="memory-lost-name">"${lostMemory ? lostMemory.label : '...'}"</div>
       `;
-      this.rewardsEl.classList.remove('hidden');
+      this.memoryRemainingEl.innerHTML = `
+        <div class="game-over-text">현실의 기억이 전부 사라졌다.<br>당신은 심연의 벽이 되었다.</div>
+      `;
+      this.restartBtn.textContent = '처음부터 ▶';
     } else {
-      this.rewardsEl.innerHTML = '';
+      this.titleEl.textContent = 'Processing Error';
+      this.subtitleEl.textContent = '분해 시도 실패 — 대상 데이터 부재';
+      this.memoryLossEl.innerHTML = `
+        <div class="memory-lost-label">현실의 기억이 희미해진다...</div>
+        <div class="memory-lost-name">"${lostMemory ? lostMemory.label : '...'}"</div>
+        <div class="memory-lost-gone">이 기억은 영원히 사라졌다</div>
+      `;
+      this.memoryRemainingEl.innerHTML = `
+        <div class="memory-remaining">남은 현실 기억: <strong>${remainingMemories}</strong>개</div>
+        ${remainingMemories <= 3 ? '<div class="memory-warning">기억이 얼마 남지 않았다...</div>' : ''}
+      `;
+      this.restartBtn.textContent = '재부팅 ▶';
     }
 
-    // 회차 정보
     this.runInfoEl.textContent = `Run #${metaData.totalRuns || 1} | 총 사망: ${metaData.totalDeaths || 0}`;
-
     this.el.classList.remove('hidden');
   }
 

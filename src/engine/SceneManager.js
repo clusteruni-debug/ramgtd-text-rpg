@@ -1,26 +1,24 @@
 /**
  * SceneManager - 씬 로드, 조건 평가, 효과 적용
- * JSON 데이터에서 씬을 읽고 게임 흐름을 제어
+ * GDD v2: 카르마/기억/엔그램/동료 조건+효과 추가
  */
 export default class SceneManager {
   constructor(stateManager, metaProgression = null) {
     this.state = stateManager;
-    this.meta = metaProgression;  // 메타 프로그레션 참조
-    this.scenes = {};         // id → scene 데이터
-    this.characters = {};     // id → 캐릭터 데이터
-    this.items = {};          // id → 아이템 데이터
-    this.enemies = {};        // id → 적 데이터
-    this.config = {};         // 게임 설정
+    this.meta = metaProgression;
+    this.scenes = {};
+    this.characters = {};
+    this.items = {};
+    this.enemies = {};
+    this.config = {};
   }
 
-  // 메타 프로그레션 참조 설정 (지연 주입용)
   setMetaProgression(meta) {
     this.meta = meta;
   }
 
   // --- 데이터 로드 ---
   loadScenes(sceneData) {
-    // 배열이면 id 기반 맵으로 변환
     if (Array.isArray(sceneData)) {
       sceneData.forEach(s => { this.scenes[s.id] = s; });
     } else {
@@ -76,22 +74,40 @@ export default class SceneManager {
   // --- 조건 평가 ---
   evaluateCondition(condition) {
     switch (condition.type) {
+      // 스토리
       case 'hasFlag':
         return this.state.hasFlag(condition.flag) === (condition.value !== false);
 
       case 'hasItem':
         return this.state.hasItem(condition.item);
 
+      // 스탯
       case 'statGreaterThan':
         return this.state.getStat(condition.stat) > condition.value;
 
       case 'statLessThan':
         return this.state.getStat(condition.stat) < condition.value;
 
-      case 'goldGreaterThan':
-        return this.state.state.gold > condition.value;
+      // 카르마
+      case 'karmaGreaterThan':
+        return this.state.getStat('karma') > condition.value;
 
-      // --- 로그라이크 메타 조건 ---
+      case 'karmaLessThan':
+        return this.state.getStat('karma') < condition.value;
+
+      // 기억
+      case 'realMemoryGreaterThan':
+        return this.state.getRealMemoryCount() > condition.value;
+
+      // 엔그램
+      case 'engramGreaterThan':
+        return this.state.getStat('engrams') > condition.value;
+
+      // 동료
+      case 'hasCompanion':
+        return this.state.isCompanionAlive(condition.companion);
+
+      // 로그라이크 메타 조건
       case 'runGreaterThan':
         return this.meta && this.meta.data.totalRuns > condition.value;
 
@@ -110,7 +126,6 @@ export default class SceneManager {
     }
   }
 
-  // 여러 조건을 모두 평가 (AND)
   evaluateConditions(conditions) {
     if (!conditions || conditions.length === 0) return true;
     return conditions.every(c => this.evaluateCondition(c));
@@ -119,10 +134,12 @@ export default class SceneManager {
   // --- 효과 적용 ---
   applyEffect(effect) {
     switch (effect.type) {
+      // 플래그
       case 'setFlag':
         this.state.setFlag(effect.flag, effect.value ?? true);
         break;
 
+      // 아이템
       case 'addItem': {
         const itemData = this.items[effect.item];
         if (itemData) {
@@ -135,6 +152,7 @@ export default class SceneManager {
         this.state.removeItem(effect.item, effect.quantity || 1);
         break;
 
+      // 스탯
       case 'modifyStat':
         this.state.modifyStat(effect.stat, effect.value);
         break;
@@ -143,19 +161,46 @@ export default class SceneManager {
         this.state.setStat(effect.stat, effect.value);
         break;
 
-      case 'addExp':
-        this.state.addExp(effect.value);
-        break;
-
-      case 'addGold':
-        this.state.addGold(effect.value);
-        break;
-
       case 'heal':
         this.state.modifyStat('hp', effect.value);
         break;
 
-      // --- 로그라이크 메타 효과 ---
+      // 카르마
+      case 'modifyKarma':
+        this.state.modifyKarma(effect.value);
+        break;
+
+      // 엔그램
+      case 'addEngrams':
+        this.state.addEngrams(effect.value);
+        break;
+
+      // 기억
+      case 'loseMemory':
+        this.state.loseRealMemory();
+        break;
+
+      case 'addAbyssMemory':
+        this.state.addAbyssMemory({
+          id: effect.id,
+          label: effect.label,
+          weight: effect.weight || 1,
+          source: effect.source || '',
+        });
+        break;
+
+      // 동료
+      case 'addCompanion':
+        this.state.addCompanion({
+          id: effect.companion,
+          name: effect.name,
+          alive: true,
+          trustLevel: effect.trustLevel || 0,
+          skills: effect.skills || [],
+        });
+        break;
+
+      // 로그라이크 메타 효과
       case 'unlock':
         if (this.meta) {
           this.meta.addUnlock(effect.unlock);
@@ -186,13 +231,12 @@ export default class SceneManager {
     }
   }
 
-  // 여러 효과 적용
   applyEffects(effects) {
     if (!effects || effects.length === 0) return;
     effects.forEach(e => this.applyEffect(e));
   }
 
-  // --- 선택지 필터링 (조건 충족 여부) ---
+  // --- 선택지 필터링 ---
   getAvailableChoices(scene) {
     if (!scene.choices) return [];
     return scene.choices.map(choice => ({

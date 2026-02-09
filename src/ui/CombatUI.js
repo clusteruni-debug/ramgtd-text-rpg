@@ -1,13 +1,22 @@
 /**
- * CombatUI - 전투 화면
- * 적 정보 + HP바 + 액션 버튼 + 전투 로그
+ * CombatUI - 스탯 체크 기반 전투 UI
+ * GDD v2: 상황 텍스트 + 선택지(스탯체크) + 주사위 판정 결과
  */
 import { createElement } from '../utils/helpers.js';
+
+const ALIGNMENT_LABELS = {
+  light: '명',
+  dark: '암',
+  neutral: '',
+};
 
 export default class CombatUI {
   constructor(container) {
     this.container = container;
-    this._onAction = null;
+    this._onChoice = null;
+    this._onProceed = null;
+    this._keyHandler = null;
+    this._continueKeyHandler = null;
 
     this._build();
     this.hide();
@@ -19,123 +28,202 @@ export default class CombatUI {
       <div class="combat-enemy">
         <div class="enemy-sprite"></div>
         <div class="enemy-name"></div>
-        <div class="stat-bar enemy-hp-bar">
-          <div class="stat-bar-fill enemy-hp-fill"></div>
-          <span class="stat-bar-text enemy-hp-text"></span>
-        </div>
+      </div>
+      <div class="combat-body">
+        <div class="combat-round-text"></div>
+        <div class="combat-choices"></div>
+        <div class="combat-result hidden"></div>
       </div>
       <div class="combat-log"></div>
-      <div class="combat-actions">
-        <button class="combat-btn" data-action="attack">⚔️ 공격</button>
-        <button class="combat-btn" data-action="skill">✨ 강타</button>
-        <button class="combat-btn" data-action="item">🎒 아이템</button>
-        <button class="combat-btn" data-action="flee">🏃 도망</button>
-      </div>
-      <div class="combat-items hidden"></div>
     `;
 
     this.enemySprite = this.el.querySelector('.enemy-sprite');
     this.enemyNameEl = this.el.querySelector('.enemy-name');
-    this.enemyHpFill = this.el.querySelector('.enemy-hp-fill');
-    this.enemyHpText = this.el.querySelector('.enemy-hp-text');
+    this.roundTextEl = this.el.querySelector('.combat-round-text');
+    this.choicesEl = this.el.querySelector('.combat-choices');
+    this.resultEl = this.el.querySelector('.combat-result');
     this.logEl = this.el.querySelector('.combat-log');
-    this.actionsEl = this.el.querySelector('.combat-actions');
-    this.itemsEl = this.el.querySelector('.combat-items');
-
-    // 액션 버튼 바인딩
-    this.actionsEl.querySelectorAll('.combat-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const action = btn.dataset.action;
-        if (action === 'item') {
-          this._toggleItems();
-        } else if (this._onAction) {
-          this._onAction(action);
-        }
-      });
-    });
 
     this.container.appendChild(this.el);
   }
 
-  /**
-   * 전투 상태 업데이트
-   * @param {object} data - { enemy, log, isActive, turnCount }
-   */
+  // CombatSystem onUpdate 콜백에서 호출
   updateCombat(data) {
-    const { enemy, log, isActive } = data;
-
     // 적 정보
-    if (enemy) {
-      this.enemyNameEl.textContent = enemy.name;
-      const hpPercent = (enemy.hp / enemy.maxHp) * 100;
-      this.enemyHpFill.style.width = `${hpPercent}%`;
-      this.enemyHpText.textContent = `${enemy.hp}/${enemy.maxHp}`;
-
-      // 적 스프라이트 (CSS 기반)
-      this.enemySprite.className = `enemy-sprite enemy-${enemy.sprite || 'default'}`;
+    if (data.enemy) {
+      this.enemyNameEl.textContent = data.enemy.name;
+      this.enemySprite.className = `enemy-sprite enemy-${data.enemy.sprite || 'default'}`;
     }
 
-    // 로그 업데이트
+    // 로그
+    this._updateLog(data.log || []);
+
+    switch (data.phase) {
+      case 'choose': this._showChoosePhase(data); break;
+      case 'result': this._showResultPhase(data); break;
+      case 'victory': this._showEndPhase(data, true); break;
+      case 'defeat': this._showEndPhase(data, false); break;
+    }
+  }
+
+  _showChoosePhase(data) {
+    this.roundTextEl.textContent = data.roundText;
+    this.roundTextEl.classList.remove('hidden');
+    this.resultEl.classList.add('hidden');
+
+    // 선택지 생성
+    this.choicesEl.innerHTML = '';
+    this.choicesEl.classList.remove('hidden');
+
+    data.choices.forEach((choice, index) => {
+      const alignClass = choice.alignment !== 'neutral' ? `choice-${choice.alignment}` : '';
+      const btn = createElement('button', `combat-choice-btn ${alignClass}`);
+
+      const labelParts = [];
+      if (ALIGNMENT_LABELS[choice.alignment]) {
+        labelParts.push(ALIGNMENT_LABELS[choice.alignment]);
+      }
+      labelParts.push(`${choice.statName} DC${choice.dc}`);
+
+      btn.innerHTML = `
+        <span class="choice-key">${index + 1}</span>
+        <span class="choice-label">[${labelParts.join(' ')}]</span>
+        <span class="choice-text">${choice.text}</span>
+      `;
+
+      btn.addEventListener('click', () => {
+        this._removeKeyHandler();
+        if (this._onChoice) this._onChoice(index);
+      });
+
+      this.choicesEl.appendChild(btn);
+    });
+
+    // 키보드 단축키 (1~N)
+    this._removeKeyHandler();
+    this._keyHandler = (e) => {
+      const num = parseInt(e.key);
+      if (num >= 1 && num <= data.choices.length) {
+        this._removeKeyHandler();
+        if (this._onChoice) this._onChoice(num - 1);
+      }
+    };
+    document.addEventListener('keydown', this._keyHandler);
+  }
+
+  _showResultPhase(data) {
+    this._removeKeyHandler();
+    this.choicesEl.classList.add('hidden');
+    this.roundTextEl.classList.add('hidden');
+    this.resultEl.classList.remove('hidden');
+
+    const successClass = data.success ? 'result-success' : 'result-failure';
+    const icon = data.success ? '✅' : '❌';
+
+    // HP 변동 표시
+    let hpChangeHtml = '';
+    if (data.effects) {
+      data.effects.forEach(effect => {
+        if (effect.type === 'modifyStat' && effect.stat === 'hp' && effect.value !== 0) {
+          const sign = effect.value > 0 ? '+' : '';
+          const cls = effect.value < 0 ? 'hp-loss' : 'hp-gain';
+          hpChangeHtml += `<div class="result-hp-change ${cls}">HP ${sign}${effect.value}</div>`;
+        }
+      });
+    }
+
+    this.resultEl.innerHTML = `
+      <div class="result-dice ${successClass}">
+        <div class="dice-roll">
+          <span class="dice-icon">🎲</span>
+          <span class="dice-formula">d6(<strong>${data.roll}</strong>) + ${data.statName}(<strong>${data.statValue}</strong>) = <strong>${data.total}</strong></span>
+          <span class="dice-vs">vs DC <strong>${data.dc}</strong></span>
+        </div>
+        <div class="dice-verdict">${icon} ${data.success ? '성공!' : '실패...'}</div>
+      </div>
+      <div class="result-narrative">${data.resultText}</div>
+      ${hpChangeHtml}
+      <button class="result-continue-btn">계속 ▶</button>
+    `;
+
+    // 계속 버튼
+    this.resultEl.querySelector('.result-continue-btn').addEventListener('click', () => {
+      this._removeContinueKeyHandler();
+      if (this._onProceed) this._onProceed();
+    });
+
+    // Enter/Space로 계속
+    this._removeContinueKeyHandler();
+    this._continueKeyHandler = (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        this._removeContinueKeyHandler();
+        if (this._onProceed) this._onProceed();
+      }
+    };
+    document.addEventListener('keydown', this._continueKeyHandler);
+  }
+
+  _showEndPhase(data, isVictory) {
+    this._removeKeyHandler();
+    this._removeContinueKeyHandler();
+
+    this.choicesEl.classList.add('hidden');
+    this.roundTextEl.classList.add('hidden');
+    this.resultEl.classList.remove('hidden');
+
+    if (isVictory) {
+      let rewardsHtml = '';
+      if (data.rewards && data.rewards.engrams) {
+        rewardsHtml = `<div class="result-reward">엔그램 +${data.rewards.engrams}</div>`;
+      }
+      this.resultEl.innerHTML = `
+        <div class="combat-end-banner victory">
+          <div class="end-text">승리!</div>
+          ${rewardsHtml}
+        </div>
+      `;
+    } else {
+      this.resultEl.innerHTML = `
+        <div class="combat-end-banner defeat">
+          <div class="end-text">쓰러졌다...</div>
+        </div>
+      `;
+    }
+  }
+
+  _updateLog(log) {
     this.logEl.innerHTML = '';
-    const recentLog = log.slice(-5); // 최근 5줄
+    const recentLog = log.slice(-5);
     recentLog.forEach(msg => {
       const line = createElement('div', 'combat-log-line', msg);
       this.logEl.appendChild(line);
     });
     this.logEl.scrollTop = this.logEl.scrollHeight;
-
-    // 액션 버튼 활성화/비활성화
-    this.actionsEl.querySelectorAll('.combat-btn').forEach(btn => {
-      btn.disabled = !isActive;
-    });
   }
 
-  // 아이템 사용 UI
-  showItems(items) {
-    this.itemsEl.innerHTML = '';
-    this.itemsEl.classList.remove('hidden');
-
-    if (items.length === 0) {
-      this.itemsEl.innerHTML = '<div class="no-items">사용 가능한 아이템이 없다</div>';
-      setTimeout(() => this.itemsEl.classList.add('hidden'), 1500);
-      return;
-    }
-
-    items.forEach(item => {
-      const btn = createElement('button', 'item-btn');
-      btn.textContent = `${item.name} x${item.quantity}`;
-      btn.addEventListener('click', () => {
-        this.itemsEl.classList.add('hidden');
-        if (this._onAction) this._onAction('useItem', item.id);
-      });
-      this.itemsEl.appendChild(btn);
-    });
-
-    // 닫기 버튼
-    const closeBtn = createElement('button', 'item-btn item-close', '취소');
-    closeBtn.addEventListener('click', () => this.itemsEl.classList.add('hidden'));
-    this.itemsEl.appendChild(closeBtn);
-  }
-
-  _toggleItems() {
-    if (this.itemsEl.classList.contains('hidden')) {
-      // Game에서 아이템 목록 제공 필요 → onAction에서 처리
-      if (this._onAction) this._onAction('showItems');
-    } else {
-      this.itemsEl.classList.add('hidden');
+  _removeKeyHandler() {
+    if (this._keyHandler) {
+      document.removeEventListener('keydown', this._keyHandler);
+      this._keyHandler = null;
     }
   }
 
-  onAction(callback) {
-    this._onAction = callback;
+  _removeContinueKeyHandler() {
+    if (this._continueKeyHandler) {
+      document.removeEventListener('keydown', this._continueKeyHandler);
+      this._continueKeyHandler = null;
+    }
   }
 
-  show() {
-    this.el.classList.remove('hidden');
-  }
+  onChoice(callback) { this._onChoice = callback; }
+  onProceed(callback) { this._onProceed = callback; }
+
+  show() { this.el.classList.remove('hidden'); }
 
   hide() {
+    this._removeKeyHandler();
+    this._removeContinueKeyHandler();
     this.el.classList.add('hidden');
-    this.itemsEl.classList.add('hidden');
   }
 }

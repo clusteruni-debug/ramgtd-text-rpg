@@ -99,7 +99,7 @@ export default class SaveLoadSystem {
         timestamp: data.timestamp,
         date: new Date(data.timestamp).toLocaleString('ko-KR'),
         playerName: s.name,
-        level: s.level,
+        memories: data.state.realMemories ? data.state.realMemories.length : '?',
         scene: data.state.currentScene,
       };
     } catch {
@@ -129,7 +129,7 @@ export default class SaveLoadSystem {
         timestamp: data.timestamp,
         date: new Date(data.timestamp).toLocaleString('ko-KR'),
         playerName: data.state.player.name,
-        level: data.state.player.level,
+        memories: data.state.realMemories ? data.state.realMemories.length : '?',
       };
     } catch {
       return null;

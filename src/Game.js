@@ -1,7 +1,7 @@
 /**
  * Game - 메인 게임 클래스
- * 모든 모듈을 조율하고 게임 흐름을 제어
- * 로그라이크 메타 프로그레션 포함
+ * GDD v2: d6+스탯≥DC 전투, 카르마, 기억 시스템
+ * 사망 → 그 자리 부활 → 현실 기억 소멸
  */
 import StateManager from './engine/StateManager.js';
 import SceneManager from './engine/SceneManager.js';
@@ -41,7 +41,11 @@ export default class Game {
     this.stateManager = new StateManager();
     this.sceneManager = new SceneManager(this.stateManager, this.metaProgression);
     this.dialogueRenderer = new DialogueRenderer();
-    this.combatSystem = new CombatSystem(this.stateManager);
+    // CombatSystem: effectApplier로 SceneManager.applyEffects 주입
+    this.combatSystem = new CombatSystem(
+      this.stateManager,
+      (effects) => this.sceneManager.applyEffects(effects)
+    );
     this.saveLoadSystem = new SaveLoadSystem(this.stateManager, this.metaProgression);
 
     // 데이터 로드
@@ -52,27 +56,24 @@ export default class Game {
     this.sceneManager.loadEnemies(enemies);
     this.sceneManager.loadConfig(gameConfig);
 
-    // 타이핑 속도 설정
+    // 타이핑 속도
     this.dialogueRenderer.setSpeed(gameConfig.typingSpeed || 30);
 
     // UI 빌드
     this._buildUI();
     this._bindEvents();
 
-    // 타이틀 화면 표시
+    // 타이틀 화면
     this.showTitle();
   }
 
   _buildUI() {
-    // 배경
     this.bgEl = createElement('div', 'game-background');
     this.app.appendChild(this.bgEl);
 
-    // 게임 컨테이너 (대화창/선택지/전투 등)
     this.gameContainer = createElement('div', 'game-container');
     this.app.appendChild(this.gameContainer);
 
-    // UI 모듈 초기화
     this.titleScreen = new TitleScreen(this.app, this.saveLoadSystem, this.metaProgression);
     this.statsPanel = new StatsPanel(this.app, this.stateManager);
     this.menuBar = new MenuBar(this.app, this.saveLoadSystem);
@@ -84,24 +85,22 @@ export default class Game {
   }
 
   _bindEvents() {
-    // 타이틀 → 새 게임
+    // 타이틀 → 새 게임 / 이어하기
     this.titleScreen.onNewGame(() => this.startNewGame());
     this.titleScreen.onLoadGame(() => this.resumeGame());
 
-    // 사망 화면 → 다시 시작
-    this.deathScreen.onRestart(() => this._startNewRun());
+    // 사망 화면 → 재부팅 (그 자리에서 부활)
+    this.deathScreen.onRestart(() => this._handleReboot());
 
-    // 메뉴바 이벤트
+    // 메뉴바
     this.menuBar.on('inventory', () => this.inventoryPanel.toggle());
     this.menuBar.on('title', () => this.showTitle());
     this.menuBar.on('onSave', (slot) => this.showToast(`슬롯 ${slot + 1}에 세이브 완료!`, 'success'));
 
-    // 인벤토리 아이템 사용 (전투 밖에서)
+    // 인벤토리 아이템 사용
     this.inventoryPanel.onUseItem((itemId) => {
       const item = this.stateManager.getItem(itemId);
       if (!item || item.type !== 'consumable') return;
-
-      // 효과 적용
       if (item.effect) {
         this.sceneManager.applyEffect(item.effect);
       }
@@ -109,26 +108,14 @@ export default class Game {
       this.showToast(`${item.name} 사용!`, 'success');
     });
 
-    // 전투 UI 액션
-    this.combatUI.onAction((action, data) => {
-      switch (action) {
-        case 'attack': this.combatSystem.playerAttack(); break;
-        case 'skill': this.combatSystem.playerSkill(); break;
-        case 'flee': this.combatSystem.playerFlee(); break;
-        case 'showItems':
-          this.combatUI.showItems(this.combatSystem.getUsableItems());
-          break;
-        case 'useItem':
-          this.combatSystem.playerUseItem(data);
-          break;
-      }
+    // 전투 UI: 선택지 선택
+    this.combatUI.onChoice((choiceIndex) => {
+      this.combatSystem.resolveChoice(choiceIndex);
     });
 
-    // 레벨업 이벤트 → 토스트
-    this.stateManager.on('levelUp', ({ level }) => {
-      this.showToast(`레벨 업! Lv.${level}`, 'success');
-      this.app.classList.add('level-up-flash');
-      setTimeout(() => this.app.classList.remove('level-up-flash'), 800);
+    // 전투 UI: 결과 확인 후 계속
+    this.combatUI.onProceed(() => {
+      this.combatSystem.proceedToNextRound();
     });
   }
 
@@ -146,31 +133,13 @@ export default class Game {
   }
 
   startNewGame() {
-    // 메타: 새 회차 시작
+    // 메타: 새 회차
     this.metaProgression.startNewRun();
     this.metaProgression.save();
 
     // 영구 보너스 적용하면서 리셋
     const bonuses = this.metaProgression.getRunBonuses();
-    this.stateManager.reset(bonuses);
-
-    // 초기 스탯 적용
-    const config = gameConfig;
-    if (config.initialStats) {
-      const player = this.stateManager.state.player;
-      // 영구 보너스가 이미 적용된 스탯 위에 initialStats 적용
-      // attack, defense 등은 보너스를 유지하기 위해 합산
-      player.name = config.initialStats.name || player.name;
-      player.level = config.initialStats.level || player.level;
-      // maxHp/maxMp는 초기값 + 영구보너스
-      player.maxHp = (config.initialStats.maxHp || 100) + bonuses.maxHp;
-      player.hp = player.maxHp;
-      player.maxMp = (config.initialStats.maxMp || 50) + bonuses.maxMp;
-      player.mp = player.maxMp;
-      player.attack = (config.initialStats.attack || 10) + bonuses.attack;
-      player.defense = (config.initialStats.defense || 5) + bonuses.defense;
-      player.speed = (config.initialStats.speed || 5) + bonuses.speed;
-    }
+    this.stateManager.reset(gameConfig, bonuses);
 
     this.titleScreen.hide();
     this.deathScreen.hide();
@@ -179,7 +148,7 @@ export default class Game {
     this.menuBar.show();
 
     // 첫 씬 시작
-    this.playScene(config.startScene);
+    this.playScene(gameConfig.startScene);
   }
 
   resumeGame() {
@@ -189,7 +158,6 @@ export default class Game {
     this.statsPanel.update();
     this.menuBar.show();
 
-    // 저장된 씬부터 재개
     const currentScene = this.stateManager.state.currentScene;
     if (currentScene) {
       this.playScene(currentScene);
@@ -199,47 +167,39 @@ export default class Game {
   }
 
   // --- 사망 처리 ---
+  // GDD v2: 그 자리에서 부활, 현실 기억 1개 소멸
   _handleDeath() {
-    const player = this.stateManager.state.player;
-    const runData = {
-      level: player.level,
-      gold: this.stateManager.state.gold,
-    };
+    // 현실 기억 소멸
+    const lostMemory = this.stateManager.loseRealMemory();
+    const remaining = this.stateManager.getRealMemoryCount();
+    const isGameOver = remaining === 0;
 
-    // 메타 데이터 업데이트
-    this.metaProgression.recordDeath(runData);
+    // 메타 기록
+    this.metaProgression.recordDeath();
 
-    // 사망 횟수 기반 자동 영구 보상
-    const rewards = [];
+    // 사망 횟수 기반 영구 보상
     const deaths = this.metaProgression.data.totalDeaths;
-
-    // 3회 사망 시 공격력 보너스 특전
     if (deaths === 3 && !this.metaProgression.hasPerk('resilient')) {
       this.metaProgression.addPerk('resilient', {
         name: '불굴의 의지',
         description: '여러 번의 패배로 단련됨',
       });
-      this.metaProgression.addPermanentBonus('attack', 2);
-      rewards.push({ icon: '💪', text: '불굴의 의지 — 공격력 +2 (영구)' });
+      this.metaProgression.addPermanentBonus('body', 1);
     }
-
-    // 5회 사망 시 방어력 보너스 특전
-    if (deaths === 5 && !this.metaProgression.hasPerk('thick_skin')) {
-      this.metaProgression.addPerk('thick_skin', {
-        name: '두꺼운 피부',
-        description: '수많은 패배가 방어력을 높였다',
+    if (deaths === 5 && !this.metaProgression.hasPerk('sharp_sense')) {
+      this.metaProgression.addPerk('sharp_sense', {
+        name: '날카로운 감각',
+        description: '수많은 위기가 감각을 예리하게 만들었다',
       });
-      this.metaProgression.addPermanentBonus('defense', 2);
-      rewards.push({ icon: '🛡️', text: '두꺼운 피부 — 방어력 +2 (영구)' });
-    }
-
-    // 매 회차 사망 시 체력 +5 (최대 50까지)
-    if (this.metaProgression.data.permanentBonuses.maxHp < 50) {
-      this.metaProgression.addPermanentBonus('maxHp', 5);
-      rewards.push({ icon: '❤️', text: '생존 본능 — 최대 HP +5 (영구)' });
+      this.metaProgression.addPermanentBonus('sense', 1);
     }
 
     this.metaProgression.save();
+
+    // HP 회복 (부활 준비)
+    if (!isGameOver) {
+      this.stateManager.setStat('hp', this.stateManager.getStat('maxHp'));
+    }
 
     // UI 전환
     this.combatUI.hide();
@@ -250,31 +210,44 @@ export default class Game {
     this._setBackground('glitch');
 
     // 사망 화면 표시
-    this.deathScreen.show(runData, rewards, this.metaProgression.serialize());
+    this.deathScreen.show(lostMemory, remaining, isGameOver, this.metaProgression.serialize());
   }
 
-  // 사망 후 새 회차 시작
-  _startNewRun() {
+  // 재부팅 (그 자리에서 다시 시작)
+  _handleReboot() {
     this.deathScreen.hide();
-    this.startNewGame();
+
+    const remaining = this.stateManager.getRealMemoryCount();
+    if (remaining === 0) {
+      // 게임 오버 → 타이틀 (완전 새 게임)
+      this.showTitle();
+      return;
+    }
+
+    // 같은 씬에서 재시작
+    this.statsPanel.el.classList.remove('hidden');
+    this.statsPanel.update();
+    this.menuBar.show();
+
+    const currentScene = this.stateManager.state.currentScene;
+    if (currentScene) {
+      this.playScene(currentScene);
+    }
   }
 
   // --- 승리 처리 ---
   _handleVictoryEnding() {
-    const player = this.stateManager.state.player;
-    this.metaProgression.recordVictory({ level: player.level });
+    this.metaProgression.recordVictory();
     this.metaProgression.save();
   }
 
   // --- 씬 재생 ---
   async playScene(sceneId) {
-    // 특수 씬: 타이틀로 돌아가기
     if (sceneId === '__title__') {
       this.showTitle();
       return;
     }
 
-    // 특수 씬: 사망 처리
     if (sceneId === '__death__') {
       this._handleDeath();
       return;
@@ -286,26 +259,20 @@ export default class Game {
       return;
     }
 
-    // 상태 저장
     this.stateManager.setCurrentScene(sceneId);
-
-    // 오토세이브
     this.saveLoadSystem.autoSave();
-
-    // 배경 전환
     this._setBackground(scene.background);
 
-    // 씬 진입 시 효과 적용
+    // 씬 진입 효과
     if (scene.effects) {
       this.sceneManager.applyEffects(scene.effects);
     }
 
-    // 엔딩 타입이 victory면 메타에 기록
+    // 엔딩 victory 기록
     if (scene.type === 'ending' && scene.endingType === 'victory') {
       this._handleVictoryEnding();
     }
 
-    // 씬 타입별 처리
     switch (scene.type) {
       case 'dialogue':
       case 'ending':
@@ -322,21 +289,18 @@ export default class Game {
   async _playDialogueScene(scene) {
     this.combatUI.hide();
 
-    // 화자 이름 가져오기
     let speakerName = scene.speaker;
     if (speakerName && this.sceneManager.getCharacter(speakerName)) {
       speakerName = this.sceneManager.getCharacter(speakerName).name;
     }
 
-    // 대사 타이핑
     await this.dialogueBox.showDialogue(speakerName, scene.text);
 
-    // 선택지
     const choices = this.sceneManager.getAvailableChoices(scene);
 
     if (choices.length === 0) return;
 
-    // 선택지가 1개이고 "계속..."이면 다음 버튼으로 자동 진행
+    // 단일 선택지 (자동 진행)
     if (choices.length === 1 && !choices[0].conditions) {
       return new Promise(resolve => {
         this.dialogueBox.onNext(() => {
@@ -353,16 +317,14 @@ export default class Game {
       });
     }
 
-    // 여러 선택지 표시
+    // 여러 선택지
     this.dialogueBox.onNext(null);
     const selected = await this.choiceButtons.showChoices(choices);
 
-    // 선택 효과 적용
     if (selected.effects) {
       this.sceneManager.applyEffects(selected.effects);
     }
 
-    // 다음 씬으로
     if (selected.nextScene) {
       this.playScene(selected.nextScene);
     }
@@ -372,10 +334,15 @@ export default class Game {
     this.dialogueBox.hide();
     this.choiceButtons.hide();
 
-    // 적 데이터 복제
-    const enemyData = deepClone(this.sceneManager.getEnemy(scene.enemy));
-    if (!enemyData) {
-      console.error(`적을 찾을 수 없음: ${scene.enemy}`);
+    // 적 데이터
+    const enemyData = scene.enemy
+      ? (this.sceneManager.getEnemy(scene.enemy) || { name: scene.enemy, sprite: 'default' })
+      : { name: '???', sprite: 'default' };
+
+    // rounds가 없으면 전투 불가 → 대화 씬으로 폴백
+    if (!scene.rounds || scene.rounds.length === 0) {
+      console.warn(`전투 씬에 rounds가 없음: ${scene.id}, 대화 씬으로 처리`);
+      await this._playDialogueScene(scene);
       return;
     }
 
@@ -393,28 +360,22 @@ export default class Game {
     return new Promise(resolve => {
       this.combatSystem.start(
         enemyData,
+        scene.rounds,
+        scene.rewards || {},
         // onUpdate
         (data) => {
           this.combatUI.updateCombat(data);
         },
         // onEnd
         async (result) => {
-          // 전투 종료 연출
           await delay(1000);
           this.combatUI.hide();
 
-          // 드롭 아이템
-          if (result.victory && enemyData.dropItem) {
-            this.stateManager.addItem({ ...enemyData.dropItem, quantity: 1 });
-          }
-
-          // 다음 씬 (패배 시 사망 처리 우선)
-          if (result.victory && scene.victoryScene) {
-            this.playScene(scene.victoryScene);
-          } else if (result.fled && scene.fleeScene) {
-            this.playScene(scene.fleeScene);
-          } else if (!result.victory && !result.fled) {
-            // 전투 패배 → 사망 처리
+          if (result.victory) {
+            if (scene.victoryScene) {
+              this.playScene(scene.victoryScene);
+            }
+          } else {
             this._handleDeath();
           }
 
