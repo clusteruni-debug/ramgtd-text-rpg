@@ -1,7 +1,8 @@
 {
   "title": "심연",
-  "version": "0.4.0",
+  "version": "0.6.0",
   "startScene": "prologue_01",
+  "hubScene": "hub_platform0",
   "typingSpeed": 35,
   "initialStats": {
     "name": "???",
@@ -25,5 +26,44 @@
     { "id": "mem_address", "label": "집 주소", "weight": 3 },
     { "id": "mem_mother", "label": "어머니의 얼굴", "weight": 4 },
     { "id": "mem_name", "label": "자기 이름", "weight": 5 }
-  ]
+  ],
+  "districts": [
+    {
+      "id": "district_a",
+      "name": "A지구: 침묵의 멘션",
+      "description": "거짓말과 소음을 압착하여 침묵을 만드는 곳. 입이 꿰매진 주민들의 저택.",
+      "startScene": "district_a_entrance",
+      "bossFlag": "boss_librarian_defeated",
+      "unlockFlag": "district_a_unlocked",
+      "defaultUnlocked": true
+    },
+    {
+      "id": "district_b",
+      "name": "B지구: 철의 오피스",
+      "description": "나태와 무기력을 찍어 누르는 무한 압착 프레스. 끝없는 마천루.",
+      "startScene": "district_b_entrance",
+      "bossFlag": "boss_foreman_defeated",
+      "unlockFlag": "district_b_unlocked",
+      "defaultUnlocked": true
+    },
+    {
+      "id": "district_c",
+      "name": "C지구: 동결 아파트",
+      "description": "고독과 우울을 급속 냉동하여 보관하는 잿빛 아파트 단지.",
+      "startScene": "district_c_entrance",
+      "bossFlag": "boss_curator_defeated",
+      "unlockFlag": "district_c_unlocked",
+      "defaultUnlocked": false
+    },
+    {
+      "id": "district_d",
+      "name": "D지구: 적색 번화가",
+      "description": "분노와 증오를 태워 발전기를 돌리는 무법지대. 붉은 네온사인.",
+      "startScene": "district_d_entrance",
+      "bossFlag": "boss_chef_defeated",
+      "unlockFlag": "district_d_unlocked",
+      "defaultUnlocked": false
+    }
+  ],
+  "upgradeCostMultiplier": 10
 }

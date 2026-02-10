@@ -1,0 +1,603 @@
+/* ===== 지도 UI ===== */
+.map-ui {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  z-index: 20;
+  background: var(--bg-secondary);
+  animation: fade-in 0.3s ease;
+}
+
+.map-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: var(--bg-panel);
+  border-bottom: 2px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.map-title {
+  font-size: 16px;
+  color: var(--text-speaker);
+  letter-spacing: 2px;
+}
+
+.map-location {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.map-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.map-hub {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: var(--bg-panel);
+  border: 2px solid var(--text-speaker);
+  border-radius: 4px;
+}
+
+.map-hub-icon {
+  font-size: 32px;
+  color: var(--text-speaker);
+}
+
+.map-hub-label {
+  font-size: 15px;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.map-hub-sub {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.map-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-left: 28px;
+}
+
+.map-line {
+  width: 2px;
+  height: 12px;
+  background: var(--border-color);
+  border: none;
+  margin: 0;
+}
+
+.map-districts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.map-district-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--bg-panel);
+  border: 2px solid var(--border-color);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.map-district-card:hover {
+  border-color: var(--text-accent);
+  background: var(--bg-secondary);
+}
+
+.map-district-card.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.map-district-card.locked:hover {
+  border-color: var(--border-color);
+  background: var(--bg-panel);
+}
+
+.map-district-card.cleared {
+  border-color: var(--exp-color);
+}
+
+.district-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.district-info {
+  flex: 1;
+}
+
+.district-name {
+  font-size: 14px;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.district-desc {
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.district-status {
+  font-size: 10px;
+  margin-top: 4px;
+  padding: 1px 6px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.cleared-badge {
+  color: var(--exp-color);
+  border: 1px solid var(--exp-color);
+}
+
+.locked-badge {
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+}
+
+.map-footer {
+  padding: 12px 20px;
+  border-top: 2px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.map-back-btn {
+  width: 100%;
+  padding: 10px;
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+  font-size: 13px;
+  transition: all 0.15s;
+}
+
+.map-back-btn:hover {
+  background: var(--btn-primary);
+  border-color: var(--btn-hover);
+  color: white;
+}
+
+/* ===== 업그레이드 UI ===== */
+.upgrade-ui {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  z-index: 20;
+  background: var(--bg-secondary);
+  animation: fade-in 0.3s ease;
+}
+
+.upgrade-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: var(--bg-panel);
+  border-bottom: 2px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.upgrade-title {
+  font-size: 16px;
+  color: var(--exp-color);
+  letter-spacing: 2px;
+}
+
+.upgrade-engrams {
+  font-size: 14px;
+  color: var(--exp-color);
+}
+
+.upgrade-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.upgrade-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 20px;
+  overflow-y: auto;
+}
+
+.upgrade-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+.upgrade-stat-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.upgrade-stat-name {
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.upgrade-stat-desc {
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.upgrade-stat-level {
+  flex-shrink: 0;
+}
+
+.upgrade-pips {
+  display: flex;
+  gap: 3px;
+  font-size: 14px;
+}
+
+.pip {
+  color: var(--border-color);
+}
+
+.pip.filled {
+  color: var(--text-accent);
+}
+
+.upgrade-action {
+  flex-shrink: 0;
+  min-width: 90px;
+  text-align: right;
+}
+
+.upgrade-btn {
+  padding: 6px 12px;
+  background: var(--btn-primary);
+  color: var(--btn-text);
+  border: 1px solid var(--btn-hover);
+  font-size: 11px;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.upgrade-btn:hover {
+  background: var(--btn-hover);
+}
+
+.upgrade-btn.disabled {
+  background: var(--btn-disabled);
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+.upgrade-max {
+  font-size: 12px;
+  color: var(--text-speaker);
+  font-weight: bold;
+}
+
+.upgrade-footer {
+  padding: 12px 20px;
+  border-top: 2px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.upgrade-back-btn {
+  width: 100%;
+  padding: 10px;
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+  font-size: 13px;
+  transition: all 0.15s;
+}
+
+.upgrade-back-btn:hover {
+  background: var(--btn-primary);
+  border-color: var(--btn-hover);
+  color: white;
+}
+
+/* ===== 동료 패널 ===== */
+.companion-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 280px;
+  height: 100%;
+  z-index: 25;
+  background: var(--bg-panel);
+  border-left: 2px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  animation: slide-in-right 0.2s ease;
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.companion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 2px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.companion-title {
+  font-size: 14px;
+  color: var(--text-speaker);
+  letter-spacing: 1px;
+}
+
+.companion-close-btn {
+  background: none;
+  color: var(--text-secondary);
+  font-size: 14px;
+  padding: 4px 8px;
+  transition: color 0.15s;
+}
+
+.companion-close-btn:hover {
+  color: var(--text-accent);
+}
+
+.companion-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.companion-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--text-secondary);
+  padding: 20px;
+  text-align: center;
+}
+
+.companion-card {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+.companion-card.dead {
+  opacity: 0.5;
+  border-color: var(--hp-color);
+}
+
+.comp-portrait {
+  font-size: 24px;
+  flex-shrink: 0;
+  width: 36px;
+  text-align: center;
+}
+
+.comp-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.comp-name {
+  font-size: 13px;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.comp-dead-tag {
+  font-size: 10px;
+  color: var(--hp-color);
+  margin-left: 4px;
+}
+
+.comp-trust {
+  margin-bottom: 4px;
+}
+
+.comp-trust-label {
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+.comp-trust-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--bg-primary);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.comp-trust-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--text-accent), var(--text-speaker));
+  transition: width 0.3s ease;
+}
+
+.comp-skills {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.comp-skill {
+  font-size: 10px;
+  color: var(--text-accent);
+  background: var(--bg-primary);
+  padding: 1px 5px;
+  border-radius: 2px;
+  border: 1px solid var(--border-color);
+}
+
+.comp-dead-msg {
+  font-size: 11px;
+  color: var(--hp-color);
+  font-style: italic;
+}
+
+/* ===== 허브 메뉴 (Platform 0) ===== */
+.hub-menu {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 12;
+  animation: fade-in 0.3s ease;
+}
+
+.hub-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 16px;
+  background: var(--bg-panel);
+  border: 2px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 11px;
+  transition: all 0.15s;
+  min-width: 72px;
+}
+
+.hub-btn:hover {
+  border-color: var(--text-accent);
+  background: var(--bg-secondary);
+}
+
+.hub-btn-icon {
+  font-size: 20px;
+}
+
+/* ===== 토스트 알림 ===== */
+.toast {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 12px 24px;
+  background: var(--bg-panel);
+  border: 2px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 14px;
+  z-index: 100;
+  animation: toast-pop 2s ease forwards;
+  pointer-events: none;
+}
+
+.toast.success {
+  border-color: var(--exp-color);
+  color: var(--exp-color);
+}
+
+.toast.error {
+  border-color: var(--hp-color);
+  color: var(--hp-color);
+}
+
+@keyframes toast-pop {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+  15% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  70% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -60%); }
+}
+
+/* ===== 휴식 화면 ===== */
+.rest-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  background: var(--bg-secondary);
+  gap: 16px;
+  animation: fade-in 0.5s ease;
+}
+
+.rest-icon {
+  font-size: 48px;
+  animation: rest-pulse 2s ease-in-out infinite;
+}
+
+@keyframes rest-pulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+.rest-text {
+  font-size: 16px;
+  color: var(--text-primary);
+  text-align: center;
+  line-height: 1.6;
+}
+
+.rest-hp-restored {
+  font-size: 18px;
+  color: var(--exp-color);
+  font-weight: bold;
+}
+
+.rest-continue-btn {
+  margin-top: 8px;
+  padding: 12px 32px;
+  background: var(--btn-primary);
+  color: var(--btn-text);
+  border: 2px solid var(--btn-hover);
+  font-size: 14px;
+  transition: all 0.15s;
+}
+
+.rest-continue-btn:hover {
+  background: var(--btn-hover);
+}

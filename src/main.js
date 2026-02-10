@@ -5,6 +5,7 @@ import './styles/main.css';
 import './styles/dialogue.css';
 import './styles/combat.css';
 import './styles/animations.css';
+import './styles/systems.css';
 
 import Game from './Game.js';
 

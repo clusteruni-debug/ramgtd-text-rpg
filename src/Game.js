@@ -18,12 +18,16 @@ import InventoryPanel from './ui/InventoryPanel.js';
 import TitleScreen from './ui/TitleScreen.js';
 import MenuBar from './ui/MenuBar.js';
 import DeathScreen from './ui/DeathScreen.js';
+import MapUI from './ui/MapUI.js';
+import UpgradeUI from './ui/UpgradeUI.js';
+import CompanionPanel from './ui/CompanionPanel.js';
 
 import { createElement, deepClone, delay } from './utils/helpers.js';
 
 // 데이터 import
 import prologueScenes from './data/scenes/prologue.json';
 import b1PainScenes from './data/scenes/b1_pain.json';
+import hubScenes from './data/scenes/hub.json';
 import characters from './data/characters.json';
 import items from './data/items.json';
 import enemies from './data/enemies.json';
@@ -51,6 +55,7 @@ export default class Game {
     // 데이터 로드
     this.sceneManager.loadScenes(prologueScenes);
     this.sceneManager.loadScenes(b1PainScenes);
+    this.sceneManager.loadScenes(hubScenes);
     this.sceneManager.loadCharacters(characters);
     this.sceneManager.loadItems(items);
     this.sceneManager.loadEnemies(enemies);
@@ -82,6 +87,9 @@ export default class Game {
     this.combatUI = new CombatUI(this.app);
     this.inventoryPanel = new InventoryPanel(this.app, this.stateManager);
     this.deathScreen = new DeathScreen(this.app);
+    this.mapUI = new MapUI(this.app, this.stateManager);
+    this.upgradeUI = new UpgradeUI(this.app, this.stateManager);
+    this.companionPanel = new CompanionPanel(this.app, this.stateManager);
   }
 
   _bindEvents() {
@@ -97,8 +105,34 @@ export default class Game {
 
     // 메뉴바
     this.menuBar.on('inventory', () => this.inventoryPanel.toggle());
+    this.menuBar.on('companion', () => this.companionPanel.toggle());
     this.menuBar.on('title', () => this.showTitle());
     this.menuBar.on('onSave', (slot) => this.showToast(`슬롯 ${slot + 1}에 세이브 완료!`, 'success'));
+
+    // 맵 UI
+    this.mapUI.onTravel((district) => {
+      this.mapUI.hide();
+      if (district.startScene) {
+        this.playScene(district.startScene);
+      }
+    });
+    this.mapUI.onBack(() => {
+      this.mapUI.hide();
+      // 허브 씬으로 돌아감
+      const hubScene = gameConfig.hubScene;
+      if (hubScene) {
+        this.playScene(hubScene);
+      }
+    });
+
+    // 업그레이드 UI
+    this.upgradeUI.onBack(() => {
+      this.upgradeUI.hide();
+      const hubScene = gameConfig.hubScene;
+      if (hubScene) {
+        this.playScene(hubScene);
+      }
+    });
 
     // 인벤토리 아이템 사용
     this.inventoryPanel.onUseItem((itemId) => {
@@ -128,6 +162,9 @@ export default class Game {
     this.dialogueBox.hide();
     this.choiceButtons.hide();
     this.deathScreen.hide();
+    this.mapUI.hide();
+    this.upgradeUI.hide();
+    this.companionPanel.hide();
     this.statsPanel.el.classList.add('hidden');
     this.menuBar.hide();
     this.inventoryPanel.hide();
@@ -253,6 +290,27 @@ export default class Game {
 
     if (sceneId === '__death__') {
       this._handleDeath();
+      return;
+    }
+
+    if (sceneId === '__map__') {
+      this._showMap();
+      return;
+    }
+
+    if (sceneId === '__upgrade__') {
+      this._showUpgrade();
+      return;
+    }
+
+    if (sceneId === '__rest__') {
+      this._showRest();
+      return;
+    }
+
+    if (sceneId === '__hub__') {
+      const hubScene = gameConfig.hubScene || gameConfig.startScene;
+      this.playScene(hubScene);
       return;
     }
 
@@ -501,6 +559,75 @@ export default class Game {
         setTimeout(() => this.showTitle(), 1500);
       }
     );
+  }
+
+  // --- 맵 / 업그레이드 / 휴식 ---
+  _showMap() {
+    this.dialogueBox.hide();
+    this.choiceButtons.hide();
+    this.combatUI.hide();
+    this._setBackground('station');
+    this.mapUI.render(gameConfig.districts || []);
+    this.mapUI.show();
+  }
+
+  _showUpgrade() {
+    this.dialogueBox.hide();
+    this.choiceButtons.hide();
+    this.combatUI.hide();
+    this.upgradeUI.show();
+  }
+
+  async _showRest() {
+    this.dialogueBox.hide();
+    this.choiceButtons.hide();
+    this.combatUI.hide();
+    this.mapUI.hide();
+    this.upgradeUI.hide();
+
+    // HP 전량 회복
+    const oldHp = this.stateManager.getStat('hp');
+    const maxHp = this.stateManager.getStat('maxHp');
+    this.stateManager.setStat('hp', maxHp);
+    const healed = maxHp - oldHp;
+
+    this._setBackground('station');
+
+    // 휴식 화면 표시
+    const restEl = createElement('div', 'rest-screen');
+    restEl.innerHTML = `
+      <div class="rest-icon">🛏️</div>
+      <div class="rest-text">플랫폼 0의 텐트촌에서 잠시 쉬었다.</div>
+      ${healed > 0
+        ? `<div class="rest-hp-restored">HP +${healed} 회복! (${maxHp}/${maxHp})</div>`
+        : '<div class="rest-hp-restored">HP가 이미 가득 찼다.</div>'
+      }
+      <button class="rest-continue-btn">계속하기</button>
+    `;
+
+    this.app.appendChild(restEl);
+
+    return new Promise(resolve => {
+      restEl.querySelector('.rest-continue-btn').addEventListener('click', () => {
+        restEl.remove();
+        resolve();
+        const hubScene = gameConfig.hubScene;
+        if (hubScene) {
+          this.playScene(hubScene);
+        }
+      });
+    });
+  }
+
+  // _hideAllGameUI: 모든 게임 UI 숨기기 (씬 전환 시 사용)
+  _hideAllGameUI() {
+    this.combatUI.hide();
+    this.dialogueBox.hide();
+    this.choiceButtons.hide();
+    this.mapUI.hide();
+    this.upgradeUI.hide();
+    this.companionPanel.hide();
+    this.inventoryPanel.hide();
   }
 
   // --- 유틸 ---

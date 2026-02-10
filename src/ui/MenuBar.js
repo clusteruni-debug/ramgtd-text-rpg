@@ -17,6 +17,7 @@ export default class MenuBar {
     this.el = createElement('div', 'menu-bar');
     this.el.innerHTML = `
       <button class="menu-btn" data-action="inventory" title="인벤토리">🎒</button>
+      <button class="menu-btn" data-action="companion" title="동료">👥</button>
       <button class="menu-btn" data-action="save" title="세이브">💾</button>
       <button class="menu-btn" data-action="title" title="타이틀로">🏠</button>
     `;
@@ -55,7 +56,7 @@ export default class MenuBar {
       if (info) {
         btn.innerHTML = `
           <span class="slot-label">슬롯 ${i + 1}</span>
-          <span class="slot-info">${info.playerName} Lv.${info.level} - ${info.date}</span>
+          <span class="slot-info">${info.playerName} 🧠${info.memories || '?'} - ${info.date}</span>
         `;
       } else {
         btn.innerHTML = `

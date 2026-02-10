@@ -146,6 +146,29 @@ export default class StateManager {
     return c ? c.alive !== false : false;
   }
 
+  getCompanionTrust(id) {
+    const c = this.getCompanion(id);
+    return c ? (c.trustLevel || 0) : 0;
+  }
+
+  modifyCompanionTrust(id, value) {
+    const c = this.getCompanion(id);
+    if (!c) return;
+    c.trustLevel = clamp((c.trustLevel || 0) + value, -100, 100);
+    this.emit('companionTrustChanged', { companion: c, delta: value });
+  }
+
+  killCompanion(id) {
+    const c = this.getCompanion(id);
+    if (!c) return;
+    c.alive = false;
+    this.emit('companionDied', { companion: c });
+  }
+
+  getAliveCompanions() {
+    return this.state.companions.filter(c => c.alive !== false);
+  }
+
   // --- 인벤토리 ---
   addItem(item) {
     const existing = this.state.inventory.find(i => i.id === item.id);

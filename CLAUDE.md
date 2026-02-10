@@ -30,10 +30,14 @@ text-rpg/
 │   │   ├── InventoryPanel.js # 인벤토리
 │   │   ├── TitleScreen.js   # 타이틀 (회차 정보/특전 포함)
 │   │   ├── DeathScreen.js   # 사망 → 기억 소멸 → 부활/벽돌화
-│   │   └── MenuBar.js       # 메뉴
+│   │   ├── MenuBar.js       # 메뉴
+│   │   ├── MapUI.js         # 지하철 노선도 (구역 이동)
+│   │   ├── UpgradeUI.js     # 엔그램 주입 (스탯 강화)
+│   │   └── CompanionPanel.js # 동료 패널
 │   ├── data/                # JSON 게임 데이터
+│   │   └── scenes/          # 씬 JSON (prologue, b1_pain, hub, ...)
 │   ├── utils/helpers.js     # 공통 유틸
-│   └── styles/              # CSS (main, dialogue, combat, animations)
+│   └── styles/              # CSS (main, dialogue, combat, animations, systems)
 ```
 
 ## 🎮 데이터 구조
@@ -80,12 +84,22 @@ text-rpg/
 ### 조건 타입
 - `hasFlag`, `hasItem`, `statGreaterThan`, `statLessThan`
 - `karmaGreaterThan`, `karmaLessThan`, `realMemoryGreaterThan`, `engramGreaterThan`, `hasCompanion`
+- `companionAlive`, `companionTrustGreaterThan`
 - (메타) `runGreaterThan`, `hasUnlock`, `hasPerk`, `deathCountGreaterThan`
 
 ### 효과 타입
-- `setFlag`, `addItem`, `removeItem`, `modifyStat`, `setStat`, `heal`
+- `setFlag`, `addItem`, `removeItem`, `modifyStat`, `setStat`, `heal`, `fullHeal`
 - `modifyKarma`, `addEngrams`, `loseMemory`, `addAbyssMemory`, `addCompanion`
+- `modifyCompanionTrust`, `killCompanion`
 - (메타) `unlock`, `addPerk`, `addPermanentBonus`
+
+### 특수 씬 ID (nextScene에서 사용)
+- `__title__` — 타이틀 화면으로
+- `__death__` — 사망 처리
+- `__map__` — 지하철 노선도 (구역 이동)
+- `__upgrade__` — 엔그램 주입 (스탯 강화)
+- `__rest__` — 플랫폼 0 휴식 (HP 전량 회복)
+- `__hub__` — 허브 씬으로 이동
 
 ## 🔧 개발
 
@@ -109,15 +123,20 @@ npm run build  # 빌드
 ---
 
 ## 🔄 현재 세션 상태
-- **마지막 작업**: v0.4.0 전투 시스템 전면 교체 (GDD v2 기준)
-  - 전투: 턴제 ATK/DEF → d6+스탯≥DC 판정 시스템
-  - 스탯: HP/MP/ATK/DEF/SPD → HP 20 + Body/Sense/Reason/Bond (1~5)
-  - 카르마 게이지 (-100~+100), 엔그램 (성장 자원), 현실 기억 10개 (사망 시 소멸)
-  - 사망 → 그 자리 부활 + 기억 1개 소멸, 기억 0 = 벽돌화 (게임 오버)
-  - 전투 씬 rounds 추가: 그림자 자아 1라운드, 고통의 수집가 3라운드
-  - 변경 파일 17개 (엔진 6 + UI 5 + CSS 2 + JSON 3 + CLAUDE.md)
+- **마지막 작업**: v0.6.0 게임 시스템 완성 (스토리 붙여넣기 준비)
+  - **새 UI 컴포넌트**: MapUI (지하철 노선도), UpgradeUI (엔그램 주입), CompanionPanel (동료 패널)
+  - **새 CSS**: systems.css (맵/업그레이드/동료/허브/토스트/휴식 스타일)
+  - **SceneManager 확장**: companionAlive, companionTrustGreaterThan 조건 + fullHeal, modifyCompanionTrust, killCompanion 효과
+  - **StateManager 확장**: modifyCompanionTrust, killCompanion, getAliveCompanions 메서드
+  - **특수 씬 ID**: `__map__`, `__upgrade__`, `__rest__`, `__hub__` → Game.js playScene에서 처리
+  - **허브 씬**: hub.json (Platform 0 텐트촌 — 이동/강화/휴식/둘러보기)
+  - **gameConfig**: districts 배열 (4개 행정구역), upgradeCostMultiplier, hubScene
+  - **MenuBar**: 동료 버튼 추가, 세이브 슬롯 info.level 버그 수정
+  - 변경 파일 12개 (엔진 2 + UI 6 + CSS 1 + JSON 2 + CLAUDE.md)
 - **다음 작업**:
-  1. **이미지 연결** — 사용자가 이미지 만들면 CSS/JS에 연결 (IMAGE_LIST.md 참고)
-  2. **B2 변화의 층** 스토리 설계 + 구현
-  3. **B3 선택의 층** 스토리 설계 (거울 속 목소리 본격 등장)
-  4. **사운드/효과음** 추가 검토
+  1. **구역 입구 씬 JSON** — district_a_entrance ~ district_d_entrance 스토리 작성
+  2. **구역별 NPC/이벤트/전투 씬** — 각 구역 콘텐츠 채우기
+  3. **동료 캐릭터 데이터** — characters.json에 동료 추가 + 영입 이벤트
+  4. **아이템/상점 시스템** — 자판기 인간 NPC + 소비 아이템
+  5. **이미지 연결** — 사용자가 이미지 만들면 CSS/JS에 연결
+  6. **사운드/효과음** 추가 검토

@@ -107,6 +107,12 @@ export default class SceneManager {
       case 'hasCompanion':
         return this.state.isCompanionAlive(condition.companion);
 
+      case 'companionAlive':
+        return this.state.isCompanionAlive(condition.companion);
+
+      case 'companionTrustGreaterThan':
+        return this.state.getCompanionTrust(condition.companion) > condition.value;
+
       // 로그라이크 메타 조건
       case 'runGreaterThan':
         return this.meta && this.meta.data.totalRuns > condition.value;
@@ -198,6 +204,20 @@ export default class SceneManager {
           trustLevel: effect.trustLevel || 0,
           skills: effect.skills || [],
         });
+        break;
+
+      // 동료 관계
+      case 'modifyCompanionTrust':
+        this.state.modifyCompanionTrust(effect.companion, effect.value);
+        break;
+
+      case 'killCompanion':
+        this.state.killCompanion(effect.companion);
+        break;
+
+      // HP 전량 회복
+      case 'fullHeal':
+        this.state.setStat('hp', this.state.getStat('maxHp'));
         break;
 
       // 로그라이크 메타 효과

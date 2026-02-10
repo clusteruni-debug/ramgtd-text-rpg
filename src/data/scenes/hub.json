@@ -1,0 +1,40 @@
+[
+  {
+    "id": "hub_platform0",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": null,
+    "text": "플랫폼 0 — 중앙 환승 센터.\n탈출을 포기한 영혼들이 모여 사는 텐트촌. 이곳만이 유일한 중립 구역이다.\n녹슨 형광등이 깜빡이고, 먼 곳에서 지하철의 우는 소리가 들린다.",
+    "choices": [
+      {
+        "text": "🚇 지하철을 타고 구역으로 이동한다",
+        "nextScene": "__map__"
+      },
+      {
+        "text": "💎 엔그램을 주입한다 (스탯 강화)",
+        "nextScene": "__upgrade__"
+      },
+      {
+        "text": "🛏️ 텐트촌에서 쉬어간다 (HP 회복)",
+        "nextScene": "__rest__"
+      },
+      {
+        "text": "💬 주변을 둘러본다",
+        "nextScene": "hub_look_around"
+      }
+    ]
+  },
+  {
+    "id": "hub_look_around",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": null,
+    "text": "텐트촌의 풍경이 눈에 들어온다.\n자판기처럼 생긴 상인이 뭔가를 팔고 있고, 벽에 기대 앉은 영혼들이 멍하니 천장을 바라본다.\n이따금 지하철이 도착하면 새로운 영혼들이 쏟아져 나오고, 검표원들이 그들을 인솔해 간다.\n\n...이곳에서 할 수 있는 건 한정되어 있다.",
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "hub_platform0"
+      }
+    ]
+  }
+]
