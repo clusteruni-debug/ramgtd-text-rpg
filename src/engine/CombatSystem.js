@@ -30,6 +30,25 @@ export default class CombatSystem {
     this._lastResult = null;
   }
 
+  // --- 정적 유틸 ---
+
+  /** DC → 난이도 키 */
+  static getDifficultyLabel(dc) {
+    if (dc <= 4) return 'easy';
+    if (dc <= 6) return 'normal';
+    if (dc <= 8) return 'hard';
+    if (dc <= 10) return 'extreme';
+    return 'impossible';
+  }
+
+  /** 성공 확률 (%) 계산 */
+  static getSuccessRate(statValue, dc) {
+    const needed = dc - statValue;
+    if (needed <= 1) return 100;
+    if (needed >= 7) return 0;
+    return Math.round(((7 - needed) / 6) * 100);
+  }
+
   /**
    * 전투 시작
    * @param {object} enemyData - { name, sprite }
@@ -65,13 +84,20 @@ export default class CombatSystem {
       phase: 'choose',
       enemy: this.enemy,
       roundText: round.text,
-      choices: round.choices.map(c => ({
-        text: c.text,
-        stat: c.check.stat,
-        statName: STAT_NAMES[c.check.stat] || c.check.stat,
-        dc: c.check.dc,
-        alignment: c.alignment || 'neutral',
-      })),
+      choices: round.choices.map(c => {
+        const statValue = this.state.getStat(c.check.stat);
+        const dc = c.check.dc;
+        return {
+          text: c.text,
+          stat: c.check.stat,
+          statName: STAT_NAMES[c.check.stat] || c.check.stat,
+          statValue,
+          dc,
+          difficulty: CombatSystem.getDifficultyLabel(dc),
+          successRate: CombatSystem.getSuccessRate(statValue, dc),
+          alignment: c.alignment || 'neutral',
+        };
+      }),
       log: [...this.log],
       isActive: true,
       roundIndex: this.currentRound,
@@ -203,6 +229,9 @@ export default class CombatSystem {
   }
 
   _update(data) {
+    // 플레이어 HP 정보 포함
+    data.playerHp = this.state.getStat('hp');
+    data.playerMaxHp = this.state.getStat('maxHp');
     if (this._onUpdate) this._onUpdate(data);
   }
 }

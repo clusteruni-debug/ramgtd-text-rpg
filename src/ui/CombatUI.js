@@ -1,6 +1,7 @@
 /**
  * CombatUI - 스탯 체크 기반 전투 UI
  * GDD v2: 상황 텍스트 + 선택지(스탯체크) + 주사위 판정 결과
+ * v0.5: 주사위 애니메이션, 라운드 표시, HP 표시, 난이도/확률 표시
  */
 import { createElement } from '../utils/helpers.js';
 
@@ -10,6 +11,14 @@ const ALIGNMENT_LABELS = {
   neutral: '',
 };
 
+const DIFFICULTY_LABELS = {
+  easy: '쉬움',
+  normal: '보통',
+  hard: '어려움',
+  extreme: '극한',
+  impossible: '불가능',
+};
+
 export default class CombatUI {
   constructor(container) {
     this.container = container;
@@ -17,6 +26,7 @@ export default class CombatUI {
     this._onProceed = null;
     this._keyHandler = null;
     this._continueKeyHandler = null;
+    this._diceInterval = null;
 
     this._build();
     this.hide();
@@ -25,6 +35,13 @@ export default class CombatUI {
   _build() {
     this.el = createElement('div', 'combat-ui');
     this.el.innerHTML = `
+      <div class="combat-header">
+        <div class="combat-round-indicator hidden"></div>
+        <div class="combat-hp-mini">
+          <div class="combat-hp-mini-fill"></div>
+          <span class="combat-hp-mini-text"></span>
+        </div>
+      </div>
       <div class="combat-enemy">
         <div class="enemy-sprite"></div>
         <div class="enemy-name"></div>
@@ -37,6 +54,9 @@ export default class CombatUI {
       <div class="combat-log"></div>
     `;
 
+    this.roundIndicatorEl = this.el.querySelector('.combat-round-indicator');
+    this.hpMiniFillEl = this.el.querySelector('.combat-hp-mini-fill');
+    this.hpMiniTextEl = this.el.querySelector('.combat-hp-mini-text');
     this.enemySprite = this.el.querySelector('.enemy-sprite');
     this.enemyNameEl = this.el.querySelector('.enemy-name');
     this.roundTextEl = this.el.querySelector('.combat-round-text');
@@ -49,13 +69,12 @@ export default class CombatUI {
 
   // CombatSystem onUpdate 콜백에서 호출
   updateCombat(data) {
-    // 적 정보
     if (data.enemy) {
       this.enemyNameEl.textContent = data.enemy.name;
       this.enemySprite.className = `enemy-sprite enemy-${data.enemy.sprite || 'default'}`;
     }
 
-    // 로그
+    this._updatePlayerHp(data.playerHp, data.playerMaxHp);
     this._updateLog(data.log || []);
 
     switch (data.phase) {
@@ -66,7 +85,29 @@ export default class CombatUI {
     }
   }
 
+  _updatePlayerHp(hp, maxHp) {
+    if (hp === undefined || maxHp === undefined) return;
+    const pct = maxHp > 0 ? (hp / maxHp) * 100 : 0;
+    this.hpMiniFillEl.style.width = `${pct}%`;
+    this.hpMiniTextEl.textContent = `HP ${hp}/${maxHp}`;
+
+    this.hpMiniFillEl.classList.remove('hp-critical', 'hp-low');
+    if (pct <= 25) {
+      this.hpMiniFillEl.classList.add('hp-critical');
+    } else if (pct <= 50) {
+      this.hpMiniFillEl.classList.add('hp-low');
+    }
+  }
+
   _showChoosePhase(data) {
+    // 라운드 표시 (멀티 라운드일 때만)
+    if (data.totalRounds > 1) {
+      this.roundIndicatorEl.textContent = `라운드 ${data.roundIndex + 1} / ${data.totalRounds}`;
+      this.roundIndicatorEl.classList.remove('hidden');
+    } else {
+      this.roundIndicatorEl.classList.add('hidden');
+    }
+
     this.roundTextEl.textContent = data.roundText;
     this.roundTextEl.classList.remove('hidden');
     this.resultEl.classList.add('hidden');
@@ -77,6 +118,7 @@ export default class CombatUI {
 
     data.choices.forEach((choice, index) => {
       const alignClass = choice.alignment !== 'neutral' ? `choice-${choice.alignment}` : '';
+      const diffClass = `difficulty-${choice.difficulty}`;
       const btn = createElement('button', `combat-choice-btn ${alignClass}`);
 
       const labelParts = [];
@@ -87,7 +129,11 @@ export default class CombatUI {
 
       btn.innerHTML = `
         <span class="choice-key">${index + 1}</span>
-        <span class="choice-label">[${labelParts.join(' ')}]</span>
+        <span class="choice-info">
+          <span class="choice-label">[${labelParts.join(' ')}]</span>
+          <span class="choice-difficulty ${diffClass}">${DIFFICULTY_LABELS[choice.difficulty] || ''}</span>
+          <span class="choice-rate ${diffClass}">${choice.successRate}%</span>
+        </span>
         <span class="choice-text">${choice.text}</span>
       `;
 
@@ -113,10 +159,43 @@ export default class CombatUI {
 
   _showResultPhase(data) {
     this._removeKeyHandler();
+    this._clearDiceInterval();
     this.choicesEl.classList.add('hidden');
     this.roundTextEl.classList.add('hidden');
     this.resultEl.classList.remove('hidden');
 
+    // Phase 1: 주사위 굴림 애니메이션
+    this.resultEl.innerHTML = `
+      <div class="dice-animation">
+        <div class="dice-rolling-container">
+          <span class="dice-face-large">🎲</span>
+          <span class="dice-rolling-number">?</span>
+        </div>
+        <div class="dice-check-info">
+          ${data.statName} <strong>${data.statValue}</strong>
+          <span class="dice-vs-preview">vs DC ${data.dc}</span>
+        </div>
+      </div>
+    `;
+
+    const numEl = this.resultEl.querySelector('.dice-rolling-number');
+    let count = 0;
+
+    this._diceInterval = setInterval(() => {
+      numEl.textContent = Math.floor(Math.random() * 6) + 1;
+      count++;
+      if (count >= 10) {
+        this._clearDiceInterval();
+        numEl.textContent = data.roll;
+        numEl.classList.add('dice-settled');
+
+        // Phase 2: 전체 결과 표시 (0.5초 후)
+        setTimeout(() => this._showFullResult(data), 500);
+      }
+    }, 70);
+  }
+
+  _showFullResult(data) {
     const successClass = data.success ? 'result-success' : 'result-failure';
     const icon = data.success ? '✅' : '❌';
 
@@ -130,6 +209,21 @@ export default class CombatUI {
           hpChangeHtml += `<div class="result-hp-change ${cls}">HP ${sign}${effect.value}</div>`;
         }
       });
+    }
+
+    // 피해 시 화면 흔들림
+    const tookDamage = data.effects && data.effects.some(
+      e => e.type === 'modifyStat' && e.stat === 'hp' && e.value < 0
+    );
+    if (tookDamage) {
+      this.el.classList.add('combat-shake');
+      setTimeout(() => this.el.classList.remove('combat-shake'), 400);
+    }
+
+    // 성공 시 적 피격 플래시
+    if (data.success) {
+      this.enemySprite.classList.add('enemy-hit');
+      setTimeout(() => this.enemySprite.classList.remove('enemy-hit'), 400);
     }
 
     this.resultEl.innerHTML = `
@@ -167,6 +261,7 @@ export default class CombatUI {
   _showEndPhase(data, isVictory) {
     this._removeKeyHandler();
     this._removeContinueKeyHandler();
+    this._clearDiceInterval();
 
     this.choicesEl.classList.add('hidden');
     this.roundTextEl.classList.add('hidden');
@@ -175,10 +270,11 @@ export default class CombatUI {
     if (isVictory) {
       let rewardsHtml = '';
       if (data.rewards && data.rewards.engrams) {
-        rewardsHtml = `<div class="result-reward">엔그램 +${data.rewards.engrams}</div>`;
+        rewardsHtml = `<div class="result-reward">💎 엔그램 +${data.rewards.engrams}</div>`;
       }
       this.resultEl.innerHTML = `
         <div class="combat-end-banner victory">
+          <div class="end-icon">⚔️</div>
           <div class="end-text">승리!</div>
           ${rewardsHtml}
         </div>
@@ -186,6 +282,7 @@ export default class CombatUI {
     } else {
       this.resultEl.innerHTML = `
         <div class="combat-end-banner defeat">
+          <div class="end-icon">💀</div>
           <div class="end-text">쓰러졌다...</div>
         </div>
       `;
@@ -216,6 +313,13 @@ export default class CombatUI {
     }
   }
 
+  _clearDiceInterval() {
+    if (this._diceInterval) {
+      clearInterval(this._diceInterval);
+      this._diceInterval = null;
+    }
+  }
+
   onChoice(callback) { this._onChoice = callback; }
   onProceed(callback) { this._onProceed = callback; }
 
@@ -224,6 +328,7 @@ export default class CombatUI {
   hide() {
     this._removeKeyHandler();
     this._removeContinueKeyHandler();
+    this._clearDiceInterval();
     this.el.classList.add('hidden');
   }
 }

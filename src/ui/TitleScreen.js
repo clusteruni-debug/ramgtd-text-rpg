@@ -11,6 +11,7 @@ export default class TitleScreen {
     this.meta = metaProgression;
     this._onNewGame = null;
     this._onLoadGame = null;
+    this._onTestCombat = null;
 
     this._build();
   }
@@ -28,6 +29,7 @@ export default class TitleScreen {
           <button class="title-btn new-game-btn">&#9654; 새 게임</button>
           <button class="title-btn continue-btn">&#9654; 이어하기</button>
           <button class="title-btn perks-btn hidden">&#9733; 특전 목록</button>
+          <button class="title-btn test-combat-btn">&#9876; 전투 테스트</button>
         </div>
         <div class="save-slots hidden"></div>
         <div class="perks-panel hidden"></div>
@@ -57,6 +59,11 @@ export default class TitleScreen {
     // 특전 목록
     this.perksBtn.addEventListener('click', () => {
       this._togglePerksPanel();
+    });
+
+    // 전투 테스트
+    this.el.querySelector('.test-combat-btn').addEventListener('click', () => {
+      if (this._onTestCombat) this._onTestCombat();
     });
 
     this.container.appendChild(this.el);
@@ -196,6 +203,7 @@ export default class TitleScreen {
 
   onNewGame(callback) { this._onNewGame = callback; }
   onLoadGame(callback) { this._onLoadGame = callback; }
+  onTestCombat(callback) { this._onTestCombat = callback; }
 
   show() {
     this.slotsEl.classList.add('hidden');
