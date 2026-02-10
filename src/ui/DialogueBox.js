@@ -17,10 +17,17 @@ export default class DialogueBox {
   _build() {
     this.el = createElement('div', 'dialogue-box');
     this.el.innerHTML = `
-      <div class="dialogue-speaker"></div>
-      <div class="dialogue-text"></div>
-      <div class="dialogue-next">▼</div>
+      <div class="dialogue-portrait hidden">
+        <img class="dialogue-portrait-img" src="" alt="" />
+      </div>
+      <div class="dialogue-content">
+        <div class="dialogue-speaker"></div>
+        <div class="dialogue-text"></div>
+        <div class="dialogue-next">▼</div>
+      </div>
     `;
+    this.portraitEl = this.el.querySelector('.dialogue-portrait');
+    this.portraitImg = this.el.querySelector('.dialogue-portrait-img');
     this.speakerEl = this.el.querySelector('.dialogue-speaker');
     this.textEl = this.el.querySelector('.dialogue-text');
     this.nextEl = this.el.querySelector('.dialogue-next');
@@ -51,10 +58,22 @@ export default class DialogueBox {
    * 대사 표시
    * @param {string} speaker - 화자 이름 (없으면 나레이션)
    * @param {string} text - 대사 텍스트
+   * @param {string|null} portrait - 초상화 이미지 경로
    * @returns {Promise<void>} 타이핑 완료 시
    */
-  async showDialogue(speaker, text) {
+  async showDialogue(speaker, text, portrait = null) {
     this.show();
+
+    // 초상화
+    if (portrait) {
+      this.portraitImg.src = portrait;
+      this.portraitEl.classList.remove('hidden');
+      this.el.classList.add('has-portrait');
+    } else {
+      this.portraitEl.classList.add('hidden');
+      this.el.classList.remove('has-portrait');
+    }
+
     if (speaker) {
       this.speakerEl.textContent = speaker;
       this.speakerEl.classList.remove('hidden');

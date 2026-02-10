@@ -291,20 +291,17 @@ export default class Game {
 
   // --- 씬 재생 ---
   async playScene(sceneId) {
-    // 씬 전환 락 — 중복 호출 방지
+    // 짧은 디바운스 — 중복 클릭 방지 (200ms)
     if (this._sceneTransitioning) return;
     this._sceneTransitioning = true;
+    setTimeout(() => { this._sceneTransitioning = false; }, 200);
 
     // 이전 타이핑 즉시 종료
     if (this.dialogueRenderer.isTyping) {
       this.dialogueRenderer.skip();
     }
 
-    try {
-      await this._playSceneInner(sceneId);
-    } finally {
-      this._sceneTransitioning = false;
-    }
+    await this._playSceneInner(sceneId);
   }
 
   async _playSceneInner(sceneId) {
@@ -378,11 +375,16 @@ export default class Game {
     this.combatUI.hide();
 
     let speakerName = scene.speaker;
-    if (speakerName && this.sceneManager.getCharacter(speakerName)) {
-      speakerName = this.sceneManager.getCharacter(speakerName).name;
+    let portrait = null;
+    const charData = speakerName ? this.sceneManager.getCharacter(speakerName) : null;
+    if (charData) {
+      speakerName = charData.name;
+      if (charData.portrait) {
+        portrait = import.meta.env.BASE_URL + charData.portrait;
+      }
     }
 
-    await this.dialogueBox.showDialogue(speakerName, scene.text);
+    await this.dialogueBox.showDialogue(speakerName, scene.text, portrait);
 
     const choices = this.sceneManager.getAvailableChoices(scene);
 
