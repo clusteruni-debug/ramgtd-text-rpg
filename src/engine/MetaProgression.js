@@ -18,6 +18,7 @@ export default class MetaProgression {
       totalVictories: 0,
       unlocks: {},       // { "unlock_id": true }
       perks: {},         // { "perk_id": { name, description, effect } }
+      endingsReached: {},  // { "ending_type": true }
       permanentBonuses: {
         body: 0,
         sense: 0,
@@ -72,6 +73,14 @@ export default class MetaProgression {
 
   recordVictory() {
     this.data.totalVictories++;
+  }
+
+  recordEnding(endingType) {
+    this.data.endingsReached[endingType] = true;
+  }
+
+  getEndingsReached() {
+    return Object.keys(this.data.endingsReached);
   }
 
   startNewRun() {

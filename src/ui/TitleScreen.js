@@ -21,8 +21,8 @@ export default class TitleScreen {
     this.el.innerHTML = `
       <div class="title-content">
         <div class="title-logo">
-          <div class="title-text">TEXT RPG</div>
-          <div class="title-subtitle">이상한 앱이 뜬 날</div>
+          <div class="title-text">심연</div>
+          <div class="title-subtitle">The Abyss</div>
         </div>
         <div class="title-run-info hidden"></div>
         <div class="title-menu">
@@ -178,7 +178,12 @@ export default class TitleScreen {
     }
 
     const d = this.meta.data;
-    this.runInfoEl.innerHTML = `Run #${d.totalRuns + 1} | 사망: ${d.totalDeaths} | 승리: ${d.totalVictories}`;
+    const endings = Object.keys(d.endingsReached || {}).length;
+    let info = `Run #${d.totalRuns + 1} | 사망: ${d.totalDeaths} | 클리어: ${d.totalVictories}`;
+    if (endings > 0) {
+      info += ` | 결말: ${endings}/4`;
+    }
+    this.runInfoEl.innerHTML = info;
     this.runInfoEl.classList.remove('hidden');
 
     // 특전이 있으면 버튼 표시

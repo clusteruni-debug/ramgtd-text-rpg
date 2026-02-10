@@ -289,12 +289,6 @@ export default class Game {
     }
   }
 
-  // --- 승리 처리 ---
-  _handleVictoryEnding() {
-    this.metaProgression.recordVictory();
-    this.metaProgression.save();
-  }
-
   // --- 씬 재생 ---
   async playScene(sceneId) {
     // 씬 전환 락 — 중복 호출 방지
@@ -360,9 +354,11 @@ export default class Game {
       this.sceneManager.applyEffects(scene.effects);
     }
 
-    // 엔딩 victory 기록
-    if (scene.type === 'ending' && scene.endingType === 'victory') {
-      this._handleVictoryEnding();
+    // 엔딩 도달 시 메타 기록
+    if (scene.type === 'ending' && scene.endingType) {
+      this.metaProgression.recordVictory();
+      this.metaProgression.recordEnding(scene.endingType);
+      this.metaProgression.save();
     }
 
     switch (scene.type) {

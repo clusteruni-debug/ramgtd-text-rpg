@@ -1,6 +1,6 @@
 {
   "title": "심연",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "startScene": "prologue_01",
   "hubScene": "hub_platform0",
   "typingSpeed": 35,
