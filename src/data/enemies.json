@@ -58,5 +58,17 @@
     "name": "주방장",
     "sprite": "collector",
     "description": "D지구의 지구장. 불타는 요리사 모자를 쓰고 프라이팬을 휘두른다. 분노를 태워 도시의 전기를 만든다."
+  },
+  {
+    "id": "station_master",
+    "name": "역장",
+    "sprite": "collector",
+    "description": "중앙 환승 터미널의 관리자. 얼굴이 시계판이고, 호루라기로 열차를 조종한다. 시간을 조작하며 정시 운행을 강요한다."
+  },
+  {
+    "id": "mayor",
+    "name": "시장",
+    "sprite": "collector",
+    "description": "심연 도시의 최고 관리자. 거대한 스크린 얼굴, 수천 개의 케이블이 연결된 서버실의 중심. 영혼을 데이터로 처리하여 도시를 운영한다."
   }
 ]

@@ -23,6 +23,16 @@
         "nextScene": "hub_vending"
       },
       {
+        "text": "🚪 중앙 환승 터미널로 간다",
+        "conditions": [
+          { "type": "hasItem", "item": "key_card_a" },
+          { "type": "hasItem", "item": "key_card_b" },
+          { "type": "hasItem", "item": "key_card_c" },
+          { "type": "hasItem", "item": "key_card_d" }
+        ],
+        "nextScene": "terminal_entrance"
+      },
+      {
         "text": "💬 주변을 둘러본다",
         "nextScene": "hub_look_around"
       }

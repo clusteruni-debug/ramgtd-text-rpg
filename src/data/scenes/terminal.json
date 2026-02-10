@@ -1,0 +1,203 @@
+[
+  {
+    "id": "terminal_entrance",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": null,
+    "text": "중앙 환승 터미널.\n\n플랫폼 0의 가장 깊은 곳. 다른 영혼들이 절대 가지 않는 구역.\n\n4개의 카드 리더기가 거대한 개찰구 앞에 줄지어 있다. 각각 A, B, C, D라고 적혀있다.\n\n개찰구 너머에 — 선로가 끝없이 이어진다. 그리고 하나의 열차가 서 있다.\n\n중앙행.",
+    "choices": [
+      {
+        "text": "4개의 보안 카드를 순서대로 인증한다",
+        "nextScene": "terminal_auth"
+      },
+      {
+        "text": "돌아간다",
+        "nextScene": "hub_platform0"
+      }
+    ]
+  },
+  {
+    "id": "terminal_auth",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": null,
+    "text": "카드를 하나씩 대갈 때마다 기계가 울린다.\n\n'삐—' A지구 인증. 침묵의 봉인 해제.\n'삐—' B지구 인증. 압착의 봉인 해제.\n'삐—' C지구 인증. 동결의 봉인 해제.\n'삐—' D지구 인증. 소각의 봉인 해제.\n\n개찰구가 천천히 열린다.\n\n그 순간 — 선로 위에 그림자가 나타난다.",
+    "effects": [
+      { "type": "setFlag", "flag": "terminal_unlocked" }
+    ],
+    "choices": [
+      {
+        "text": "그림자를 마주한다",
+        "nextScene": "terminal_stationmaster_intro"
+      }
+    ]
+  },
+  {
+    "id": "terminal_stationmaster_intro",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": "station_master",
+    "text": "\"정시 도착. 인증 완료.\"\n\n그가 모습을 드러낸다. 역장.\n\n검은 철도 제복에 금장 단추. 얼굴은 시계판이다. 분침과 시침이 눈 역할을 한다. 손에는 오래된 역장 호루라기.\n\n\"네 구역의 봉인을 해제한 자. 기록에 없는 승객.\"\n\n그가 호루라기를 입에 댄다.\n\n\"중앙행 열차는 허가된 승객만 탑승할 수 있다. 그리고 너는 — 허가되지 않았다.\"",
+    "choices": [
+      {
+        "text": "\"왜 막는 거야?\"",
+        "nextScene": "terminal_stationmaster_talk"
+      },
+      {
+        "text": "\"비켜. 갈 곳이 있어.\"",
+        "nextScene": "terminal_stationmaster_battle"
+      }
+    ]
+  },
+  {
+    "id": "terminal_stationmaster_talk",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": "station_master",
+    "text": "\"왜?\"\n\n역장의 시계판 얼굴에서 분침이 움직인다.\n\n\"나는 이 도시의 물류를 관리한다. 영혼을 정시에 배송하고, 정시에 처리하고, 정시에 순환시킨다.\"\n\n\"시간표가 어긋나면 도시가 멈춘다. 네가 4개 구역을 부수고 다닌 것... 이미 시간표가 엉망이야.\"\n\n호루라기에서 차가운 바람이 새어나온다.\n\n\"너를 보내면 시장이 알게 된다. 시장이 알면 — 이 도시 전체가 리셋된다. 모든 영혼이.\"\n\n\"...텐트촌의 영혼들도. 네 동료들도.\"",
+    "choices": [
+      {
+        "text": "\"그래도 가야 해. 이 도시를 끝내려면.\"",
+        "nextScene": "terminal_stationmaster_battle"
+      },
+      {
+        "text": "\"다른 방법은 없어?\"",
+        "nextScene": "terminal_stationmaster_negotiate"
+      }
+    ]
+  },
+  {
+    "id": "terminal_stationmaster_negotiate",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": "station_master",
+    "text": "역장이 잠시 멈춘다. 시계의 초침이 떨린다.\n\n\"...있긴 해. 시장에게 들키지 않고 중앙에 도달하는 방법.\"\n\n\"하지만 그러려면 네가 나를 이겨야 해. 정당한 절차로.\"\n\n\"내가 지면 — 나는 시간표에서 '사고'로 처리한다. 열차 지연. 시장은 단순 운행 장애로만 알게 된다.\"\n\n그가 호루라기를 고쳐 든다.\n\n\"자. 출발 시간이다.\"",
+    "choices": [
+      {
+        "text": "싸운다",
+        "nextScene": "terminal_stationmaster_battle"
+      }
+    ]
+  },
+  {
+    "id": "terminal_stationmaster_battle",
+    "type": "combat",
+    "background": "boss",
+    "enemy": "station_master",
+    "introText": "역장이 호루라기를 분다.\n\n선로 전체가 진동한다. 열차들이 사방에서 돌진해 온다.\n\n\"정시 운행 — 개시.\"",
+    "victoryScene": "terminal_stationmaster_victory",
+    "rewards": { "engrams": 35 },
+    "rounds": [
+      {
+        "text": "역장이 호루라기를 불자 선로에서 유령 열차가 달려온다! 플랫폼이 흔들린다.",
+        "choices": [
+          {
+            "text": "타이밍을 보고 선로 사이로 뛰어넘는다",
+            "check": { "stat": "sense", "dc": 6 },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": { "text": "열차가 코앞을 지나간다! 바람에 옷이 찢어졌지만 무사하다.", "effects": [] },
+            "failure": { "text": "열차에 스쳤다. 온몸이 뒤틀린다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -6 }] }
+          },
+          {
+            "text": "열차의 시간표를 읽고 안전 구간을 계산한다",
+            "check": { "stat": "reason", "dc": 7 },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": { "text": "3번 선로와 4번 선로 사이에 12초의 공백! 그 사이를 파고든다.", "effects": [{ "type": "setFlag", "flag": "stationmaster_schedule_read" }] },
+            "failure": { "text": "계산이 틀렸다. 열차가 예상보다 빨리 온다!", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -7 }] }
+          },
+          {
+            "text": "정면으로 달려가 역장의 호루라기를 뺏으려 한다",
+            "check": { "stat": "body", "dc": 7 },
+            "alignment": "dark",
+            "karmaShift": -3,
+            "success": { "text": "열차를 뚫고 역장에게 도달했다! 호루라기를 잡지만 역장이 밀어낸다.", "effects": [] },
+            "failure": { "text": "열차의 충격파에 튕겨나간다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -8 }] }
+          }
+        ]
+      },
+      {
+        "text": "역장이 시간을 조작한다. 주변 공간이 빨리 감기처럼 움직이다가 — 멈춘다.\n\n\"시간 정지. 다음 역까지 — 0초.\"\n\n모든 열차가 동시에 돌진한다!",
+        "choices": [
+          {
+            "text": "본능적으로 바닥에 엎드린다",
+            "check": { "stat": "sense", "dc": 7 },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": { "text": "열차들이 머리 위를 스쳐 지나간다! 바닥에 납작 엎드려서 간신히 피했다.", "effects": [] },
+            "failure": { "text": "열차 하나가 등을 스쳤다. 척추가 비명을 지른다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -7 }] }
+          },
+          {
+            "text": "시간 조작의 원리를 역이용한다",
+            "check": { "stat": "reason", "dc": 8 },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": { "text": "역장의 시간 조작에는 쿨다운이 있다! 그 틈을 포착한다.", "effects": [] },
+            "failure": { "text": "원리는 이해했지만 몸이 따라가지 못한다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -6 }] }
+          },
+          {
+            "text": "\"시간표를 어긴 건 네 쪽이야!\"",
+            "check": { "stat": "bond", "dc": 7 },
+            "alignment": "light",
+            "karmaShift": 5,
+            "success": { "text": "역장의 시계 얼굴에 균열이 간다. \"...시간 오류? 그럴 리가.\" 시간 정지가 풀린다.", "effects": [] },
+            "failure": { "text": "\"시간표는 절대적이다.\" 열차가 더 빠르게 온다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -5 }] }
+          }
+        ]
+      },
+      {
+        "text": "역장이 비틀거린다. 시계 얼굴의 분침이 미친 듯이 회전한다.\n\n\"운행 장애... 운행 장애... 시간표 복구 불가...\"\n\n그가 마지막 힘으로 모든 선로를 하나로 모은다. 거대한 열차가 정면으로 돌진한다!\n\n\"최종역 — 종착.\"",
+        "choices": [
+          {
+            "text": "열차의 비상 브레이크를 찾는다",
+            "check": { "stat": "reason", "dc": 7 },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": { "text": "선로 옆 비상 레버를 당긴다! 열차가 불꽃을 일으키며 멈춘다. 역장이 무릎을 꿇는다.", "effects": [] },
+            "failure": { "text": "레버가 녹슬어 움직이지 않는다!", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -8 }] }
+          },
+          {
+            "text": "열차를 정면으로 받아낸다",
+            "check": { "stat": "body", "dc": 8 },
+            "alignment": "dark",
+            "karmaShift": -5,
+            "success": { "text": "두 손으로 열차의 앞부분을 잡는다. 발이 선로에 파이면서 — 열차가 멈춘다. 불가능한 힘.", "effects": [] },
+            "failure": { "text": "열차의 무게에 밀려난다. 뼈가 으스러진다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -10 }] }
+          },
+          {
+            "text": "역장의 호루라기를 분다",
+            "check": { "stat": "bond", "dc": 6 },
+            "alignment": "light",
+            "karmaShift": 5,
+            "success": { "text": "떨어진 호루라기를 집어 문다. '삐—!'\n\n모든 열차가 멈춘다. 역장이 경악한다.\n\"...정차 신호? 내 호루라기가... 너를 인정한 거야?\"", "effects": [] },
+            "failure": { "text": "호루라기에서 소리가 나지 않는다. 당신은 역장이 아니니까.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -6 }] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "terminal_stationmaster_victory",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": "station_master",
+    "text": "선로가 조용해진다.\n\n역장이 바닥에 앉아있다. 시계 얼굴의 분침이 멈춰있다. 처음으로.\n\n\"...시간이 멈추면 이렇게 고요한 거였어.\"\n\n그가 중앙행 열차를 가리킨다.\n\n\"타. 시간표에 '운행 장애'로 기록한다. 시장에게는 단순 지연으로 보일 거야.\"\n\n\"하지만 중앙에 도착하면 — 돌아올 수 없을지도 모른다.\"\n\n\"...행운을 빈다, 승객.\"",
+    "effects": [
+      { "type": "setFlag", "flag": "boss_stationmaster_defeated" },
+      { "type": "addEngrams", "value": 35 },
+      { "type": "addAbyssMemory", "id": "mem_stationmaster_farewell", "label": "역장의 작별 인사", "weight": 3, "source": "terminal" }
+    ],
+    "choices": [
+      {
+        "text": "중앙행 열차에 탑승한다",
+        "nextScene": "core_train"
+      },
+      {
+        "text": "플랫폼 0으로 돌아가 준비한다",
+        "effects": [{ "type": "fullHeal" }],
+        "nextScene": "hub_platform0"
+      }
+    ]
+  }
+]

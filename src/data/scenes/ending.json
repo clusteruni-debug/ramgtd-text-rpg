@@ -1,0 +1,95 @@
+[
+  {
+    "id": "ending_gate",
+    "type": "dialogue",
+    "background": "void",
+    "speaker": null,
+    "text": "마지막 문 너머.\n\n아무것도 없는 공간. 하얀 빛도, 어둠도 아닌 — 무(無).\n\n그 한가운데에 개찰구 하나가 서 있다. 처음에 이곳으로 떨어질 때 지나왔던 바로 그 개찰구.\n\n개찰구 위에 글자가 떠오른다:\n\n『통행료를 지불하십시오.』\n『수단: 기억.』\n\n교통카드를 대는 곳에 — 두 개의 슬롯이 있다.\n\n왼쪽: 『현실의 기억』\n오른쪽: 『심연의 기억』\n\n그리고 개찰구를 피해 돌아가는 길이 하나 더 보인다.",
+    "choices": [
+      {
+        "text": "심연의 기억을 바친다 (동료와의 추억을 잊는다)",
+        "nextScene": "ending_a_return"
+      },
+      {
+        "text": "현실의 기억을 바친다 (과거의 나를 잊는다)",
+        "nextScene": "ending_b_stranger"
+      },
+      {
+        "text": "전부 바친다 (모든 것을 내놓는다)",
+        "nextScene": "ending_c_sacrifice"
+      },
+      {
+        "text": "아무것도 바치지 않는다 (개찰구를 지나가지 않는다)",
+        "nextScene": "ending_d_remain"
+      }
+    ]
+  },
+  {
+    "id": "ending_a_return",
+    "type": "ending",
+    "endingType": "bittersweet",
+    "background": "void",
+    "speaker": null,
+    "text": "심연의 기억을 개찰구에 넣는다.\n\n민준의 웃음. 소연의 쪽지. 역장의 작별 인사. 시장의 마지막 미소.\n\n하나씩, 하나씩 사라진다.\n\n개찰구가 열린다.\n\n—\n\n지하철 개찰구.\n\n'삐' 소리와 함께 통과한다. 출근 시간의 인파. 형광등. 광고판.\n\n...아무도 당신을 쳐다보지 않는다. 평범한 퇴근길.\n\n당신은 에스컬레이터를 타고 올라간다. 밖에는 — 서울의 하늘.\n\n기억나지 않는 꿈을 꾼 것 같다. 누군가를 만났던 것 같은데...\n\n지하철역을 나서며, 뒷주머니에서 낡은 메모를 발견한다.\n\n'...잊지 마. 네가 여기 온 이유를...'\n\n읽히지 않는다. 잉크가 번져서.\n\n메모를 쓰레기통에 버리고 걸어간다.\n\n— 원래의 삶으로.\n\n\n\n[ 결말 A: 원점 회귀 (Return to Zero) ]\n\"살아돌아왔지만, 나는 달라지지 않았다.\"",
+    "effects": [
+      { "type": "setFlag", "flag": "ending_a_reached" }
+    ],
+    "choices": [
+      {
+        "text": "...",
+        "nextScene": "__title__"
+      }
+    ]
+  },
+  {
+    "id": "ending_b_stranger",
+    "type": "ending",
+    "endingType": "hopeful",
+    "background": "void",
+    "speaker": null,
+    "text": "현실의 기억을 개찰구에 넣는다.\n\n어머니의 얼굴. 집 주소. 친구의 이름. 자기 이름.\n\n전부 사라진다. 하지만 — 심연에서 만난 사람들은 기억한다.\n\n개찰구가 열린다.\n\n—\n\n지하철 개찰구.\n\n통과한다. 출근 시간의 인파. 하지만 — 이 도시가 어딘지 모르겠다. 여기가 어디지?\n\n주머니에 지갑이 있다. 신분증. 사진 속 얼굴이 자신인지 모르겠다.\n\n하지만 가슴 속에 무언가가 남아있다.\n\n누군가와 함께 싸웠던 기억. 누군가의 웃음. 누군가의 쪽지.\n\n이름은 모르지만 — 그들이 가르쳐준 것은 남아있다.\n\n...당신은 걷기 시작한다. 모르는 도시의 모르는 거리를.\n\n하지만 발걸음은 — 처음으로 — 가볍다.\n\n\n\n[ 결말 B: 이방인 (The Stranger) ]\n\"모든 것을 잃었지만, 처음으로 살아있다.\"",
+    "effects": [
+      { "type": "setFlag", "flag": "ending_b_reached" }
+    ],
+    "choices": [
+      {
+        "text": "...",
+        "nextScene": "__title__"
+      }
+    ]
+  },
+  {
+    "id": "ending_c_sacrifice",
+    "type": "ending",
+    "endingType": "tragic",
+    "background": "void",
+    "speaker": null,
+    "text": "전부 넣는다.\n\n현실의 기억도. 심연의 기억도. 전부.\n\n개찰구가 — 폭발한다.\n\n기억의 에너지가 개찰구를 넘어 도시 전체로 퍼져나간다.\n\n서버가 타오른다. 선로가 녹는다. 벽이 무너진다.\n\n도시가 — 붕괴한다.\n\n—\n\n영혼들이 빛이 되어 흩어진다. 더 이상 처리되지 않는다. 자유롭게.\n\n민준이 빛이 되면서 웃는다. \"...드디어 퇴근이네.\"\n\n소연이 빛이 되면서 — 처음으로 목소리를 낸다. \"고마워.\"\n\n그리고 당신도.\n\n빛이 된다.\n\n—\n\n현실 세계 어딘가의 병원.\n\n'환자 상태: 의식 불명. 뇌파 미약. 가족에게 연락 불가 (신원 미상).'\n\n하지만 심전도 모니터에 — 미세하게 — 심장이 뛰고 있다.\n\n\n\n[ 결말 C: 헌신 (Sacrifice) ]\n\"나를 전부 바쳐서 무언가를 바꿨다.\"",
+    "effects": [
+      { "type": "setFlag", "flag": "ending_c_reached" }
+    ],
+    "choices": [
+      {
+        "text": "...",
+        "nextScene": "__title__"
+      }
+    ]
+  },
+  {
+    "id": "ending_d_remain",
+    "type": "ending",
+    "endingType": "peaceful",
+    "background": "station",
+    "speaker": null,
+    "text": "개찰구를 돌아선다.\n\n...돌아갈 수 없다. 아니, 돌아가지 않겠다.\n\n이곳에서 만난 사람들. 이곳에서 쌓은 기억. 이곳에서 찾은 감정.\n\n현실에 돌아가면 — 이것들을 전부 잃는다.\n\n—\n\n플랫폼 0.\n\n텐트촌의 영혼들이 당신을 올려다본다.\n\n\"...안 갔어?\"\n\n\"아니. 여기 있으려고.\"\n\n—\n\n시간이 흐른다. 얼마나 흘렀는지 모른다.\n\n당신은 플랫폼 0의 새로운 안내자가 된다. 이곳에 떨어지는 새로운 '오류'들을 맞이한다.\n\n\"환영해, 이방인. 나도 한때 너처럼 여기 떨어졌어.\"\n\n\"...걱정 마. 여기는 생각보다 괜찮아.\"\n\n돌아갈 수 없지만. 여기서의 나는 — 진짜다.\n\n\n\n[ 결말 D: 잔류 (Remain) ]\n\"돌아갈 수 없지만, 여기서의 나는 진짜다.\"",
+    "effects": [
+      { "type": "setFlag", "flag": "ending_d_reached" }
+    ],
+    "choices": [
+      {
+        "text": "...",
+        "nextScene": "__title__"
+      }
+    ]
+  }
+]
