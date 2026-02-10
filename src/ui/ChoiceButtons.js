@@ -19,9 +19,21 @@ export default class ChoiceButtons {
    */
   showChoices(choices) {
     this.el.innerHTML = '';
+    // 이전 키보드 핸들러 정리
+    if (this._keyHandler) {
+      document.removeEventListener('keydown', this._keyHandler);
+      this._keyHandler = null;
+    }
     this.show();
 
     return new Promise(resolve => {
+      const cleanup = () => {
+        if (this._keyHandler) {
+          document.removeEventListener('keydown', this._keyHandler);
+          this._keyHandler = null;
+        }
+      };
+
       choices.forEach((choice, index) => {
         const btn = createElement('button', 'choice-btn');
         btn.textContent = choice.text;
@@ -33,6 +45,7 @@ export default class ChoiceButtons {
           btn.title = '조건을 충족하지 못했습니다';
         } else {
           btn.addEventListener('click', () => {
+            cleanup();
             this.hide();
             resolve(choice);
           });
@@ -42,18 +55,18 @@ export default class ChoiceButtons {
       });
 
       // 키보드 단축키 (1~9)
-      const keyHandler = (e) => {
+      this._keyHandler = (e) => {
         const num = parseInt(e.key);
         if (num >= 1 && num <= choices.length) {
           const choice = choices[num - 1];
           if (choice.available) {
-            document.removeEventListener('keydown', keyHandler);
+            cleanup();
             this.hide();
             resolve(choice);
           }
         }
       };
-      document.addEventListener('keydown', keyHandler);
+      document.addEventListener('keydown', this._keyHandler);
     });
   }
 

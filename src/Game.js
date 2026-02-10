@@ -28,6 +28,10 @@ import { createElement, deepClone, delay } from './utils/helpers.js';
 import prologueScenes from './data/scenes/prologue.json';
 import b1PainScenes from './data/scenes/b1_pain.json';
 import hubScenes from './data/scenes/hub.json';
+import districtBScenes from './data/scenes/district_b.json';
+import districtAScenes from './data/scenes/district_a.json';
+import districtCScenes from './data/scenes/district_c.json';
+import districtDScenes from './data/scenes/district_d.json';
 import characters from './data/characters.json';
 import items from './data/items.json';
 import enemies from './data/enemies.json';
@@ -56,6 +60,10 @@ export default class Game {
     this.sceneManager.loadScenes(prologueScenes);
     this.sceneManager.loadScenes(b1PainScenes);
     this.sceneManager.loadScenes(hubScenes);
+    this.sceneManager.loadScenes(districtBScenes);
+    this.sceneManager.loadScenes(districtAScenes);
+    this.sceneManager.loadScenes(districtCScenes);
+    this.sceneManager.loadScenes(districtDScenes);
     this.sceneManager.loadCharacters(characters);
     this.sceneManager.loadItems(items);
     this.sceneManager.loadEnemies(enemies);
@@ -283,6 +291,23 @@ export default class Game {
 
   // --- 씬 재생 ---
   async playScene(sceneId) {
+    // 씬 전환 락 — 중복 호출 방지
+    if (this._sceneTransitioning) return;
+    this._sceneTransitioning = true;
+
+    // 이전 타이핑 즉시 종료
+    if (this.dialogueRenderer.isTyping) {
+      this.dialogueRenderer.skip();
+    }
+
+    try {
+      await this._playSceneInner(sceneId);
+    } finally {
+      this._sceneTransitioning = false;
+    }
+  }
+
+  async _playSceneInner(sceneId) {
     if (sceneId === '__title__') {
       this.showTitle();
       return;
@@ -310,7 +335,7 @@ export default class Game {
 
     if (sceneId === '__hub__') {
       const hubScene = gameConfig.hubScene || gameConfig.startScene;
-      this.playScene(hubScene);
+      await this._playSceneInner(hubScene);
       return;
     }
 

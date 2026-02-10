@@ -123,20 +123,19 @@ npm run build  # 빌드
 ---
 
 ## 🔄 현재 세션 상태
-- **마지막 작업**: v0.6.0 게임 시스템 완성 (스토리 붙여넣기 준비)
-  - **새 UI 컴포넌트**: MapUI (지하철 노선도), UpgradeUI (엔그램 주입), CompanionPanel (동료 패널)
-  - **새 CSS**: systems.css (맵/업그레이드/동료/허브/토스트/휴식 스타일)
-  - **SceneManager 확장**: companionAlive, companionTrustGreaterThan 조건 + fullHeal, modifyCompanionTrust, killCompanion 효과
-  - **StateManager 확장**: modifyCompanionTrust, killCompanion, getAliveCompanions 메서드
-  - **특수 씬 ID**: `__map__`, `__upgrade__`, `__rest__`, `__hub__` → Game.js playScene에서 처리
-  - **허브 씬**: hub.json (Platform 0 텐트촌 — 이동/강화/휴식/둘러보기)
-  - **gameConfig**: districts 배열 (4개 행정구역), upgradeCostMultiplier, hubScene
-  - **MenuBar**: 동료 버튼 추가, 세이브 슬롯 info.level 버그 수정
-  - 변경 파일 12개 (엔진 2 + UI 6 + CSS 1 + JSON 2 + CLAUDE.md)
+- **마지막 작업**: v0.7.0 4대 구역 콘텐츠 완성 + 버그픽스
+  - **버그픽스**: ChoiceButtons 키보드 핸들러 누수, 씬 전환 락, dialogueRenderer.skip 추가
+  - **스토리 흐름 연결**: b1_pain → hub_platform0 연결, hub 9개 씬 확장 (자판기 상점, NPC)
+  - **B지구 (철의 오피스)**: ~22개 씬 — 입구, 야근의 탑, 검표원 전투, 민준 영입, 소장 보스전 (3라운드)
+  - **A지구 (침묵의 멘션)**: ~20개 씬 — 속삭임의 시장, 소연 영입, 검열 드론 전투, 사서 보스전 (3라운드)
+  - **C지구 (동결 아파트)**: ~16개 씬 — 얼어붙은 거리, 203동 가족, 울음소리 소녀, 동면 관리자 보스전 (3라운드)
+  - **D지구 (적색 번화가)**: ~16개 씬 — 파이트 클럽, 용광로 클럽, 분노 투사 전투, 주방장 보스전 (3라운드)
+  - **데이터 확장**: 캐릭터 16명, 적 10종, 아이템 17개
+  - **구역 해금**: A/B 클리어 → C 해금 → C 클리어 → D 해금
+  - 변경 파일 11개 (엔진 0 + UI 1 + JSON 9 + CLAUDE.md)
 - **다음 작업**:
-  1. **구역 입구 씬 JSON** — district_a_entrance ~ district_d_entrance 스토리 작성
-  2. **구역별 NPC/이벤트/전투 씬** — 각 구역 콘텐츠 채우기
-  3. **동료 캐릭터 데이터** — characters.json에 동료 추가 + 영입 이벤트
-  4. **아이템/상점 시스템** — 자판기 인간 NPC + 소비 아이템
-  5. **이미지 연결** — 사용자가 이미지 만들면 CSS/JS에 연결
-  6. **사운드/효과음** 추가 검토
+  1. **역장 보스전** — 4개 보안 카드 모아서 순환선 터미널에서 역장 대면
+  2. **중앙 중추 + 시장 최종 보스** — 최종 보스전 + 결말 분기 4가지
+  3. **이미지 연결** — 사용자가 이미지 만들면 CSS/JS에 연결
+  4. **사운드/효과음** 추가 검토
+  5. **밸런싱** — 각 보스 DC 조정, 엔그램 획득량 조정

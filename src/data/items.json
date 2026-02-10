@@ -16,22 +16,99 @@
   {
     "id": "painkiller",
     "name": "진통제",
-    "description": "심연에서 흔히 발견되는 하얀 알약. 고통을 잠시 잊게 해준다. HP를 25 회복.",
+    "description": "심연에서 흔히 발견되는 하얀 알약. 고통을 잠시 잊게 해준다.",
     "type": "consumable",
-    "effect": { "type": "heal", "value": 25 }
+    "effect": { "type": "heal", "value": 10 }
   },
   {
     "id": "bitter_water",
     "name": "쓴 물",
-    "description": "검은 병에 담긴 쓴 액체. 마시면 정신이 또렷해진다. MP를 20 회복.",
+    "description": "검은 병에 담긴 쓴 액체. 마시면 잠시 회복된다.",
     "type": "consumable",
-    "effect": { "type": "mpRestore", "value": 20 }
+    "effect": { "type": "heal", "value": 5 }
+  },
+  {
+    "id": "memory_drink",
+    "name": "기억 맛 음료",
+    "description": "자판기 인간이 만든 음료. 마시면 누군가의 기억 맛이 난다. HP를 크게 회복한다.",
+    "type": "consumable",
+    "effect": { "type": "heal", "value": 20 }
   },
   {
     "id": "shard_of_memory",
     "name": "기억의 파편",
-    "description": "유리 조각처럼 생겼지만 만지면 기억이 스친다. 수집할수록 자신을 이해하게 된다.",
+    "description": "유리 조각처럼 생겼지만 만지면 기억이 스친다.",
     "type": "key",
     "effect": null
+  },
+  {
+    "id": "employee_badge",
+    "name": "사원증",
+    "description": "B지구에서 발견한 닳은 사원증. '주식회사 무한동력'이라 적혀있다. 피가 묻어있다.",
+    "type": "key",
+    "effect": null
+  },
+  {
+    "id": "broken_keyboard",
+    "name": "부서진 키보드",
+    "description": "ESC 키만 남은 키보드. 민준의 유품. 들고 있으면 이성이 선명해진다.",
+    "type": "consumable",
+    "effect": { "type": "modifyStat", "stat": "reason", "value": 1 }
+  },
+  {
+    "id": "key_card_b",
+    "name": "B지구 보안 카드",
+    "description": "현장 소장이 소지하던 보안 카드. 중앙 환승 터미널 인증에 필요하다.",
+    "type": "key",
+    "effect": null
+  },
+  {
+    "id": "silence_bookmark",
+    "name": "침묵의 책갈피",
+    "description": "A지구에서 발견한 검은 책갈피. 글자가 스스로 사라지고 나타난다.",
+    "type": "key",
+    "effect": null
+  },
+  {
+    "id": "key_card_a",
+    "name": "A지구 보안 카드",
+    "description": "사서가 소지하던 보안 카드. 중앙 환승 터미널 인증에 필요하다.",
+    "type": "key",
+    "effect": null
+  },
+  {
+    "id": "coffee_of_the_dead",
+    "name": "망자의 커피",
+    "description": "B지구 야근의 탑 자판기에서 나온 커피. 차갑지만 마시면 정신이 든다.",
+    "type": "consumable",
+    "effect": { "type": "heal", "value": 7 }
+  },
+  {
+    "id": "key_card_c",
+    "name": "C지구 보안 카드",
+    "description": "동면 관리자가 소지하던 보안 카드. 중앙 환승 터미널 인증에 필요하다.",
+    "type": "key",
+    "effect": null
+  },
+  {
+    "id": "key_card_d",
+    "name": "D지구 보안 카드",
+    "description": "주방장이 소지하던 보안 카드. 중앙 환승 터미널 인증에 필요하다.",
+    "type": "key",
+    "effect": null
+  },
+  {
+    "id": "frozen_soup",
+    "name": "얼어붙은 수프",
+    "description": "C지구 203동에서 가져온 수프. 녹이면 따뜻한 집밥 맛이 난다. HP를 회복한다.",
+    "type": "consumable",
+    "effect": { "type": "heal", "value": 12 }
+  },
+  {
+    "id": "rage_drink",
+    "name": "분노의 에너지 음료",
+    "description": "D지구에서 발견한 빨간 음료. 마시면 체력이 끓어오른다. 하지만 이성이 흐려진다.",
+    "type": "consumable",
+    "effect": { "type": "modifyStat", "stat": "body", "value": 1 }
   }
 ]

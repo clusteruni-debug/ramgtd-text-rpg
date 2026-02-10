@@ -938,17 +938,19 @@
   {
     "id": "b1_clear",
     "type": "dialogue",
-    "background": "void",
+    "background": "station",
     "speaker": null,
-    "text": "B1 — 고통의 층을 지났다.\n\n\"인간이 변하려면 무엇이 필요한가?\"\n\n아직 답을 찾지 못했을지도 모른다. 하지만 한 발짝 더 깊이 내려왔다.\n\n심연은 계속된다.",
+    "text": "진입 터널을 빠져나왔다.\n\n\"인간이 변하려면 무엇이 필요한가?\"\n\n아직 답을 찾지 못했을지도 모른다. 하지만 한 발짝 더 깊이 들어왔다.\n\n저 멀리, 녹슨 형광등과 텐트들이 보인다. 지하철 플랫폼이다.\n— 플랫폼 0. 이 도시의 유일한 중립 구역.",
     "effects": [
       { "type": "setFlag", "flag": "b1_cleared" },
-      { "type": "unlock", "unlock": "b1_complete" }
+      { "type": "setFlag", "flag": "reached_hub" },
+      { "type": "unlock", "unlock": "b1_complete" },
+      { "type": "fullHeal" }
     ],
     "choices": [
       {
-        "text": "타이틀로 돌아가기",
-        "nextScene": "__title__"
+        "text": "플랫폼 0으로 들어간다",
+        "nextScene": "hub_platform0"
       }
     ]
   }

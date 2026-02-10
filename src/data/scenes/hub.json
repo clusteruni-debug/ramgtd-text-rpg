@@ -19,6 +19,10 @@
         "nextScene": "__rest__"
       },
       {
+        "text": "🏪 자판기 인간에게 간다",
+        "nextScene": "hub_vending"
+      },
+      {
         "text": "💬 주변을 둘러본다",
         "nextScene": "hub_look_around"
       }
@@ -29,10 +33,142 @@
     "type": "dialogue",
     "background": "station",
     "speaker": null,
-    "text": "텐트촌의 풍경이 눈에 들어온다.\n자판기처럼 생긴 상인이 뭔가를 팔고 있고, 벽에 기대 앉은 영혼들이 멍하니 천장을 바라본다.\n이따금 지하철이 도착하면 새로운 영혼들이 쏟아져 나오고, 검표원들이 그들을 인솔해 간다.\n\n...이곳에서 할 수 있는 건 한정되어 있다.",
+    "text": "텐트촌의 풍경이 눈에 들어온다.\n\n파란 비닐 시트로 만든 텐트 사이로 영혼들이 웅크리고 있다. 누군가는 벽에 '출구 없음'이라고 쓰고 있고, 누군가는 보이지 않는 TV를 보고 있다.\n\n한쪽 구석에서 자판기처럼 생긴 존재가 형광빛을 깜빡이며 서 있다. 가끔 검표원이 지나가면 영혼들은 본능적으로 몸을 숨긴다.\n\n...여기는 편안한 곳이 아니다. 하지만 유일하게 안전한 곳이다.",
+    "choices": [
+      {
+        "text": "벽에 기대앉은 영혼에게 말을 건다",
+        "nextScene": "hub_npc_weary"
+      },
+      {
+        "text": "돌아간다",
+        "nextScene": "hub_platform0"
+      }
+    ]
+  },
+  {
+    "id": "hub_npc_weary",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": "weary_soul",
+    "text": "\"...뭐야. 산 사람이 왜 여기 있어?\"\n\n영혼이 고개를 돌린다. 눈은 있지만 초점이 없다.\n\n\"여기 와이파이 안 터져. 알지? 죽어서도 불편해.\n\n...농담이야. 이미 까먹었거든. 와이파이가 뭔지도.\"",
+    "choices": [
+      {
+        "text": "\"여기서 얼마나 있었어?\"",
+        "nextScene": "hub_npc_weary_02"
+      },
+      {
+        "text": "\"밖으로 나갈 방법은 없어?\"",
+        "nextScene": "hub_npc_weary_03"
+      },
+      {
+        "text": "조용히 떠난다",
+        "nextScene": "hub_platform0"
+      }
+    ]
+  },
+  {
+    "id": "hub_npc_weary_02",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": "weary_soul",
+    "text": "\"모르겠어. 처음엔 세었는데...\"\n\n그가 손가락을 접어본다. 여덟 번째쯤에서 멈춘다.\n\n\"...손가락이 모자라.\n\n아, 맞아. 여기 팁 하나 줄게. 검표원들 무서워하지 마. 걔네도 그냥 월급쟁이야. 진짜 무서운 건 지구장들이야. 구역 깊숙한 곳에 있는 놈들.\n\n그리고 기억... 소중하게 해. 잃으면 다시 안 돌아와.\"",
     "choices": [
       {
         "text": "돌아간다",
+        "nextScene": "hub_platform0"
+      }
+    ]
+  },
+  {
+    "id": "hub_npc_weary_03",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": "weary_soul",
+    "text": "\"밖?\"\n\n영혼이 웃는다. 소리가 안 나는 웃음이다.\n\n\"여기서 나가려면... 4개 구역의 지구장을 전부 꺾고, 역장한테 중앙행 티켓을 받아야 해. 그 다음엔 시장이 있고.\n\n아무도 성공한 적 없어. 하지만...\"\n\n그가 당신을 올려다본다.\n\n\"넌 죽어도 살아나잖아. 그러니까 가능할지도.\"",
+    "effects": [
+      { "type": "setFlag", "flag": "heard_escape_info" }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "hub_platform0"
+      }
+    ]
+  },
+  {
+    "id": "hub_vending",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": "vending_human",
+    "text": "자판기 인간이 형광빛 눈을 깜빡인다.\n\n\"이-이-이라셔. 기억 맛 음료와 진통제 있어. 엔-엔-엔그램으로만 받아.\"\n\n자판기 인간의 몸통에 가격표가 뜬다.",
+    "choices": [
+      {
+        "text": "진통제 구매 (💎10) — HP +10 회복",
+        "conditions": [{ "type": "engramGreaterThan", "value": 9 }],
+        "effects": [
+          { "type": "addEngrams", "value": -10 },
+          { "type": "addItem", "item": "painkiller" }
+        ],
+        "nextScene": "hub_vending_bought"
+      },
+      {
+        "text": "기억 음료 구매 (💎20) — HP +20 완전 회복",
+        "conditions": [{ "type": "engramGreaterThan", "value": 19 }],
+        "effects": [
+          { "type": "addEngrams", "value": -20 },
+          { "type": "addItem", "item": "memory_drink" }
+        ],
+        "nextScene": "hub_vending_bought"
+      },
+      {
+        "text": "쓴 물 구매 (💎5) — HP +5 회복",
+        "conditions": [{ "type": "engramGreaterThan", "value": 4 }],
+        "effects": [
+          { "type": "addEngrams", "value": -5 },
+          { "type": "addItem", "item": "bitter_water" }
+        ],
+        "nextScene": "hub_vending_bought"
+      },
+      {
+        "text": "\"넌 뭐야?\"",
+        "nextScene": "hub_vending_talk"
+      },
+      {
+        "text": "떠난다",
+        "nextScene": "hub_platform0"
+      }
+    ]
+  },
+  {
+    "id": "hub_vending_bought",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": "vending_human",
+    "text": "\"감-감-감사합니다. 또-또-또 오셔.\"\n\n자판기 인간의 배에서 '탕' 소리가 나며 물건이 나온다.",
+    "choices": [
+      {
+        "text": "더 구매한다",
+        "nextScene": "hub_vending"
+      },
+      {
+        "text": "떠난다",
+        "nextScene": "hub_platform0"
+      }
+    ]
+  },
+  {
+    "id": "hub_vending_talk",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": "vending_human",
+    "text": "\"나-나-나? 자판기야. 원래는 사-사-사람이었는데... 기억을 다 잃고 나니까 이-이-이렇게 됐어.\"\n\n형광등이 한 번 꺼졌다 켜진다.\n\n\"벽돌이 되는 사람도 있고, 자-자-자판기가 되는 사람도 있어. 나는 운이 좋은 편이야. 아-아-아직 말할 수 있으니까.\n\n...너는 기억 잘 지켜. 기억이 0이 되면 끝이야.\"",
+    "choices": [
+      {
+        "text": "물건을 본다",
+        "nextScene": "hub_vending"
+      },
+      {
+        "text": "떠난다",
         "nextScene": "hub_platform0"
       }
     ]
