@@ -23,5 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# 세션 잠금
+# Claude Code
+.claude/
 .claude-lock
