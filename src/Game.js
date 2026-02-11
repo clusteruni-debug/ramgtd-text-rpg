@@ -29,7 +29,7 @@ import { createElement, deepClone, delay } from './utils/helpers.js';
 
 // 데이터 import
 import prologueScenes from './data/scenes/prologue.json';
-import b1PainScenes from './data/scenes/b1_pain.json';
+import chapter1Scenes from './data/scenes/chapter1.json';
 import hubScenes from './data/scenes/hub.json';
 import districtBScenes from './data/scenes/district_b.json';
 import districtAScenes from './data/scenes/district_a.json';
@@ -65,7 +65,7 @@ export default class Game {
 
     // 데이터 로드
     this.sceneManager.loadScenes(prologueScenes);
-    this.sceneManager.loadScenes(b1PainScenes);
+    this.sceneManager.loadScenes(chapter1Scenes);
     this.sceneManager.loadScenes(hubScenes);
     this.sceneManager.loadScenes(districtBScenes);
     this.sceneManager.loadScenes(districtAScenes);

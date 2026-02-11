@@ -18,6 +18,15 @@
     "rewards": { "engrams": 15 }
   },
   {
+    "id": "classification_examiner",
+    "name": "분류 심사관",
+    "sprite": "default",
+    "description": "보안 게이트의 홀로그램 심사관. 얼굴 없는 정장 차림. 영혼을 분류하고 '불량품'을 폐기한다.",
+    "tier": "elite",
+    "threatLevel": 2,
+    "rewards": { "engrams": 15 }
+  },
+  {
     "id": "ticket_inspector_enemy",
     "name": "검표원",
     "sprite": "default",

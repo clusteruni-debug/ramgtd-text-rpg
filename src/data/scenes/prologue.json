@@ -487,7 +487,7 @@
     "choices": [
       {
         "text": "— 프롤로그 종료. 챕터 1: 플랫폼 0 —",
-        "nextScene": "hub_platform0"
+        "nextScene": "ch1_01"
       }
     ]
   }
