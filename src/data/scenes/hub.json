@@ -51,6 +51,26 @@
         "nextScene": "hub_npc_weary"
       },
       {
+        "text": "안내자를 찾는다",
+        "conditions": [{ "type": "hasFlag", "flag": "subway_unlocked" }],
+        "nextScene": "hub_guide_progress"
+      },
+      {
+        "text": "새로 도착한 영혼과 이야기한다",
+        "conditions": [{ "type": "hasFlag", "flag": "district_a_cleared" }],
+        "nextScene": "hub_freed_soul_a"
+      },
+      {
+        "text": "넥타이를 푼 영혼에게 말을 건다",
+        "conditions": [{ "type": "hasFlag", "flag": "district_b_cleared" }],
+        "nextScene": "hub_freed_soul_b"
+      },
+      {
+        "text": "따뜻한 국물 냄새를 따라간다",
+        "conditions": [{ "type": "hasFlag", "flag": "district_d_cleared" }],
+        "nextScene": "hub_chef_stall"
+      },
+      {
         "text": "돌아간다",
         "nextScene": "hub_platform0"
       }
@@ -181,6 +201,148 @@
       {
         "text": "떠난다",
         "nextScene": "hub_platform0"
+      }
+    ]
+  },
+
+  {
+    "id": "hub_guide_progress",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": "guide",
+    "text": "안내자가 텐트 앞에 앉아있다. 당신을 보고 고개를 든다.",
+    "choices": [
+      {
+        "text": "이야기를 나눈다",
+        "conditions": [{ "type": "hasFlag", "flag": "district_a_cleared", "value": false }],
+        "nextScene": "hub_guide_early"
+      },
+      {
+        "text": "이야기를 나눈다",
+        "conditions": [
+          { "type": "hasFlag", "flag": "district_a_cleared" },
+          { "type": "hasFlag", "flag": "district_b_cleared", "value": false }
+        ],
+        "nextScene": "hub_guide_after_a"
+      },
+      {
+        "text": "이야기를 나눈다",
+        "conditions": [
+          { "type": "hasFlag", "flag": "district_b_cleared" },
+          { "type": "hasFlag", "flag": "district_d_cleared", "value": false }
+        ],
+        "nextScene": "hub_guide_after_b"
+      },
+      {
+        "text": "이야기를 나눈다",
+        "conditions": [{ "type": "hasFlag", "flag": "district_d_cleared" }],
+        "nextScene": "hub_guide_final"
+      }
+    ]
+  },
+  {
+    "id": "hub_guide_early",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": "guide",
+    "text": "\"살아있구나. 다행이다.\"\n\n안내자가 허름한 커피를 건넨다.\n\n\"첫 번째 지구 가봤어? 어느 쪽이든 만만한 데는 없을 거야.\"\n\n\"팁 하나. 지구에 들어가면 주민들한테 먼저 이야기를 들어. 보스한테 직행하는 건 바보짓이야.\"\n\n\"...내가 도울 수 있는 건 여기까지지만. 네가 돌아올 때마다 기다리고 있을게.\"",
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "hub_platform0"
+      }
+    ]
+  },
+  {
+    "id": "hub_guide_after_a",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": "guide",
+    "text": "\"하나 해냈어. 대단하다.\"\n\n안내자의 눈에 빛이 돌아온다.\n\n\"A지구... 침묵의 저택이지. 소리가 돌아왔다고 들었어. 여기까지 바람을 타고 속삭임이 오더라.\"\n\n\"근데 있잖아. 보안 카드 4개 모으면 중앙 터미널이 열려. 거기서 역장을 만나게 될 거야.\"\n\n\"역장은... 시간을 다루는 놈이야. 조심해.\"",
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "hub_platform0"
+      }
+    ]
+  },
+  {
+    "id": "hub_guide_after_b",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": "guide",
+    "text": "\"반이 됐어. 대단한 놈이야, 넌.\"\n\n안내자가 진지한 표정으로 말한다.\n\n\"텐트촌이 달라지고 있어. 네가 지구를 해방할 때마다 여기 영혼들 표정이 변해.\"\n\n\"아까 벽에 '출구 없음'이라고 쓴 놈 있잖아? 그 글씨 위에 '출구 있음?'이라고 누가 덧써놨더라.\"\n\n안내자가 웃는다.\n\n\"물음표가 붙었다는 게 중요해. 희망은 물음표에서 시작하거든.\"",
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "hub_platform0"
+      }
+    ]
+  },
+  {
+    "id": "hub_guide_final",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": "guide",
+    "text": "\"4개 전부.\"\n\n안내자가 일어선다. 처음으로.\n\n\"너... 진짜 해냈어.\"\n\n그가 주머니에서 무언가를 꺼낸다. 오래된 사진. 누군가의 웃는 얼굴이지만, 흐릿해서 누군지 알 수 없다.\n\n\"이거 내 기억이야. 마지막 남은 거. 비 오는 날 창문 너머 웃던 사람.\"\n\n\"가져가. 중앙에서 — 아마 도움이 될 거야. 아닐 수도 있고.\"\n\n\"...난 여기서 기다릴게. 언제나처럼.\"",
+    "effects": [
+      { "type": "addItem", "item": "guide_memory_photo" },
+      { "type": "addAbyssMemory", "id": "mem_guide_final", "label": "안내자의 마지막 기억", "weight": 4, "source": "platform0" }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "hub_platform0"
+      }
+    ]
+  },
+
+  {
+    "id": "hub_freed_soul_a",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": null,
+    "text": "텐트촌에 새로운 얼굴이 보인다. A지구에서 온 영혼.\n\n입의 봉합 자국이 남아있지만, 입이 열려있다. 말할 수 있다.\n\n\"...안녕. 처음으로 이 말을 해봐.\"\n\n영혼이 어색하게 웃는다.\n\n\"A지구가 달라졌어. 아직 완벽하진 않지만, 기록 보관소에 글자가 돌아오기 시작했대.\"\n\n\"고마워. 진심으로.\"",
+    "effects": [
+      { "type": "modifyKarma", "value": 3 }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "hub_look_around"
+      }
+    ]
+  },
+  {
+    "id": "hub_freed_soul_b",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": null,
+    "text": "넥타이를 풀고 양복 상의를 벗은 영혼이 텐트 옆에 앉아있다.\n\n\"퇴근했어. 처음으로.\"\n\n그가 하늘을 올려다본다. 여기서는 천장밖에 없지만.\n\n\"이상하지. 일하던 게 내 전부였는데, 안 하니까 뭘 해야 할지 모르겠어.\"\n\n\"근데... 나쁘지 않아. 이 '뭘 해야 할지 모르는' 기분.\"\n\n\"자유가 이런 거였나.\"",
+    "effects": [
+      { "type": "modifyKarma", "value": 3 }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "hub_look_around"
+      }
+    ]
+  },
+  {
+    "id": "hub_chef_stall",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": null,
+    "text": "텐트촌 구석에 — 작은 노점이 생겼다.\n\n불꽃이 아니라 연탄불. D지구에서 온 영혼이 요리를 하고 있다.\n\n\"주방장이 남긴 레시피로 해봤어. 서투르지만.\"\n\n국물 냄새가 텐트촌 전체에 퍼진다. 영혼들이 하나둘 모여든다.\n\n\"태우는 건 그만두기로 했어. 이제는 따뜻하게 할 거야.\"\n\n국물을 한 그릇 건넨다.",
+    "effects": [
+      { "type": "modifyStat", "stat": "hp", "value": 10 },
+      { "type": "modifyKarma", "value": 3 }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "hub_look_around"
       }
     ]
   }

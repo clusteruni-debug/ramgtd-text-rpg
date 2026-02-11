@@ -22,10 +22,28 @@
     "choices": [
       {
         "text": "\"왜 나를 끌어왔지?\"",
-        "nextScene": "ch1_03"
+        "nextScene": "ch1_02b"
       },
       {
         "text": "\"도시를 돌린다니?\"",
+        "nextScene": "ch1_02b"
+      }
+    ]
+  },
+
+  {
+    "id": "ch1_02b",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": "guide",
+    "text": "안내자가 텐트 바닥의 환풍구 뚜껑을 연다. 아래에서 붉은 빛과 울음소리 같은 진동이 올라온다.\n\n\"이게 감정 파이프라인이야. 도시 전체에 깔려 있지.\"\n\n깨진 형광등이 희미하게 깜빡인다.\n\n\"저 형광등? 누군가의 슬픔으로 켜진 거야.\"",
+    "choices": [
+      {
+        "text": "형광등을 올려다본다",
+        "nextScene": "ch1_03"
+      },
+      {
+        "text": "환풍구 아래를 더 들여다본다",
         "nextScene": "ch1_03"
       }
     ]
@@ -40,6 +58,24 @@
     "choices": [
       {
         "text": "...",
+        "nextScene": "ch1_03b"
+      }
+    ]
+  },
+
+  {
+    "id": "ch1_03b",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": "guide",
+    "text": "안내자가 주머니에서 희미하게 빛나는 결정을 꺼낸다.\n\n\"이건 엔그램. 감정 결정이야. 여기선 돈 같은 거지. 검표원 잡으면 떨어지고, 자판기에서 쓸 수 있어.\"\n\n잠깐 멈칫한다.\n\n\"나? 나도 떨어진 놈이야. 신규가 오면 알려주는 게... 습관이 됐어.\"",
+    "choices": [
+      {
+        "text": "\"왜 그렇게 친절한 거야?\"",
+        "nextScene": "ch1_04"
+      },
+      {
+        "text": "고개를 끄덕인다",
         "nextScene": "ch1_04"
       }
     ]
@@ -54,10 +90,28 @@
     "choices": [
       {
         "text": "\"벽돌...\"",
-        "nextScene": "ch1_05"
+        "nextScene": "ch1_04b"
       },
       {
         "text": "\"절대 그렇게 안 된다\"",
+        "nextScene": "ch1_04b"
+      }
+    ]
+  },
+
+  {
+    "id": "ch1_04b",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": "guide",
+    "text": "\"나도 기억이 많이 없어. 이름도 잊었고.\"\n\n안내자가 텐트 천장을 올려다본다.\n\n\"근데 하나는 기억나. 비 오는 날 창문 너머로 누군가 웃고 있었어.\"\n\n\"너도 그런 거 하나쯤은 있겠지. 꼭 붙잡아.\"",
+    "choices": [
+      {
+        "text": "\"...기억해볼게\"",
+        "nextScene": "ch1_05"
+      },
+      {
+        "text": "\"...\"",
         "nextScene": "ch1_05"
       }
     ]
@@ -85,6 +139,11 @@
     "text": "플랫폼 0. 텐트촌과 녹슨 형광등. 몇 가지 눈에 띄는 것들이 있다.",
     "choices": [
       {
+        "text": "텐트 사이의 작은 형체",
+        "conditions": [{ "type": "hasFlag", "flag": "explored_child", "value": false }],
+        "nextScene": "ch1_child"
+      },
+      {
         "text": "벽에 기댄 영혼에게 말을 건다",
         "conditions": [{ "type": "hasFlag", "flag": "explored_weary", "value": false }],
         "nextScene": "ch1_weary"
@@ -93,6 +152,16 @@
         "text": "형광빛 자판기에 다가간다",
         "conditions": [{ "type": "hasFlag", "flag": "explored_vending", "value": false }],
         "nextScene": "ch1_vending"
+      },
+      {
+        "text": "기둥의 낙서들",
+        "conditions": [{ "type": "hasFlag", "flag": "explored_graffiti", "value": false }],
+        "nextScene": "ch1_graffiti"
+      },
+      {
+        "text": "선로 앞 대기열",
+        "conditions": [{ "type": "hasFlag", "flag": "explored_queue", "value": false }],
+        "nextScene": "ch1_queue"
       },
       {
         "text": "벽에 박힌 벽돌을 살핀다",
@@ -113,6 +182,83 @@
     "text": "\"산 사람이 왜 여기... 아, 개찰구? 운 없었네.\"\n\n\"팁 줄게. 검표원은 졸개야. 지구장이 진짜 무서운 놈들.\"\n\n\"그리고 보안 게이트... 그거 통과하려면 분류 심사를 받아야 해.\"",
     "effects": [
       { "type": "setFlag", "flag": "explored_weary" }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "ch1_explore"
+      },
+      {
+        "text": "더 물어본다",
+        "nextScene": "ch1_weary_02"
+      }
+    ]
+  },
+
+  {
+    "id": "ch1_weary_02",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": "weary_soul",
+    "text": "\"여기 규칙? 강한 놈이 이겨. 약한 놈은 벽돌이 되거나 자판기가 되거나.\"\n\n지친 영혼이 고개를 들어 널 본다.\n\n\"근데 가끔 이상한 놈이 와. 너처럼. 시스템이 분류 못 하는 놈.\"\n\n\"그런 놈들이 도시를 흔들거든.\"",
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "ch1_explore"
+      }
+    ]
+  },
+
+  {
+    "id": "ch1_child",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": null,
+    "text": "텐트 사이에 웅크린 작은 형체. 투명하다. 가끔 입술이 움직이는데 소리는 없다.\n\n아이 영혼이다. 잠든 것 같기도 하고, 깨어 있는 것 같기도 하다.\n\n어깨 위로 얇은 담요가 반쯤 흘러내려 있다.",
+    "effects": [
+      { "type": "setFlag", "flag": "explored_child" }
+    ],
+    "choices": [
+      {
+        "text": "담요를 여며준다",
+        "effects": [
+          { "type": "modifyStat", "stat": "bond", "value": 1 },
+          { "type": "setFlag", "flag": "gentle_to_child" }
+        ],
+        "nextScene": "ch1_explore"
+      },
+      {
+        "text": "조용히 지나친다",
+        "nextScene": "ch1_explore"
+      }
+    ]
+  },
+
+  {
+    "id": "ch1_graffiti",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": null,
+    "text": "기둥에 온갖 글씨가 새겨져 있다.\n\n\"B지구 절대 가지 마\"\n\"검표원은 왼쪽이 느림\"\n\"엄마 보고 싶다\"\n\n맨 아래, 다른 필체로:\n\"시장을 이긴 사람이 있다는 소문을 들었다. 거짓말이겠지.\"",
+    "effects": [
+      { "type": "setFlag", "flag": "explored_graffiti" }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "ch1_explore"
+      }
+    ]
+  },
+
+  {
+    "id": "ch1_queue",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": null,
+    "text": "선로 앞에 20명쯤 줄 서 있는 영혼들. 전부 같은 방향을 보고 있다. 먼지가 어깨에 수북하다.\n\n\"열차가 올까요?\"\n\n대답 없이 고개만 끄덕인다. 얼마나 기다린 건지 모르겠다.",
+    "effects": [
+      { "type": "setFlag", "flag": "explored_queue" }
     ],
     "choices": [
       {

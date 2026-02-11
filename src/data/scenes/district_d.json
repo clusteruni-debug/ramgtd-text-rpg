@@ -80,6 +80,26 @@
         "nextScene": "district_d_furnace_club"
       },
       {
+        "text": "뒷골목의 벽화를 살핀다",
+        "conditions": [{ "type": "hasFlag", "flag": "explored_d_mural", "value": false }],
+        "nextScene": "district_d_mural"
+      },
+      {
+        "text": "지하 계단에서 나는 목소리",
+        "conditions": [{ "type": "hasFlag", "flag": "explored_d_support", "value": false }],
+        "nextScene": "district_d_support_group"
+      },
+      {
+        "text": "불꽃 대장간으로 간다",
+        "conditions": [{ "type": "hasFlag", "flag": "explored_d_forge", "value": false }],
+        "nextScene": "district_d_forge"
+      },
+      {
+        "text": "폐허가 된 식당 간판",
+        "conditions": [{ "type": "hasFlag", "flag": "explored_d_restaurant", "value": false }],
+        "nextScene": "district_d_old_restaurant"
+      },
+      {
         "text": "소각장으로 간다 (보스 방향)",
         "nextScene": "district_d_incinerator_gate"
       },
@@ -230,6 +250,281 @@
       }
     ]
   },
+  {
+    "id": "district_d_mural",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": null,
+    "text": "뒷골목 벽에 거대한 벽화가 그려져 있다. 이 동네의 거친 낙서와는 다르다.\n\n붉은 불꽃이 꽃으로 변하는 그림. 주먹이 펼쳐져 손바닥이 되는 그림. 분노가 아름다움으로 변하는 과정.\n\n벽화 앞에 한 영혼이 앉아 페인트를 섞고 있다. 온몸에 화상 자국이 있지만, 손만은 깨끗하다.",
+    "effects": [
+      { "type": "setFlag", "flag": "explored_d_mural" }
+    ],
+    "choices": [
+      {
+        "text": "\"이거 네가 그린 거야?\"",
+        "nextScene": "district_d_mural_talk"
+      },
+      {
+        "text": "벽화를 조용히 감상한다",
+        "nextScene": "district_d_mural_observe"
+      },
+      {
+        "text": "돌아간다",
+        "nextScene": "district_d_street_safe"
+      }
+    ]
+  },
+  {
+    "id": "district_d_mural_talk",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": null,
+    "text": "\"어. 나밖에 안 그리니까.\"\n\n영혼이 고개를 든다. 눈에서 불꽃이 나지 않는다. 여기서 보기 드문 모습.\n\n\"여기 사람들은 분노를 태우거나 때리거나 부수거나. 근데 나는 그리거든.\"\n\n그가 붓을 든다.\n\n\"분노를 색으로 바꾸면 — 덜 뜨거워. 없어지진 않는데, 견딜 만해져.\"\n\n\"주방장은 그걸 '비생산적'이라고 했지만. 내가 이 벽에 그리는 걸 막지는 못했어.\"",
+    "effects": [
+      { "type": "addAbyssMemory", "id": "mem_mural_artist", "label": "분노를 그리는 화가", "weight": 2, "source": "district_d" },
+      { "type": "modifyStat", "stat": "bond", "value": 1 }
+    ],
+    "choices": [
+      {
+        "text": "\"주방장에 대해 더 알려줘\"",
+        "nextScene": "district_d_mural_chef_info"
+      },
+      {
+        "text": "돌아간다",
+        "nextScene": "district_d_street_safe"
+      }
+    ]
+  },
+  {
+    "id": "district_d_mural_observe",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": null,
+    "text": "벽화를 가만히 본다.\n\n가장 큰 그림은 — 한 남자가 요리를 하고 있다. 프라이팬에서 불꽃이 아니라 꽃이 피어오른다. 남자는 웃고 있다.\n\n그런데 그림이 중간에서 끊겨있다. 남자의 웃음이 일그러지는 부분부터 — 검은 잉크로 덮여있다.\n\n화가가 고개를 든다.\n\n\"...그 부분은 못 그렸어. 주방장이 행복했던 마지막 순간이거든. 그 다음은... 너무 뜨거워서.\"",
+    "effects": [
+      { "type": "addAbyssMemory", "id": "mem_mural_chef_smile", "label": "벽화 속 주방장의 마지막 웃음", "weight": 2, "source": "district_d" }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "district_d_street_safe"
+      }
+    ]
+  },
+  {
+    "id": "district_d_mural_chef_info",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": null,
+    "text": "\"주방장? 원래 진짜 요리사였어. 이 동네에서 식당을 했지. 여기 오기 전에.\"\n\n화가가 벽화의 한쪽을 가리킨다. 작은 식당 그림.\n\n\"손님이 많았대. 맛있었거든. 근데 누군가가 악플을 달기 시작했어. 리뷰 테러. 가짜 신고.\"\n\n\"식당이 망하고, 빚에 쫓기고, 마지막엔 화재로... 여기 왔지.\"\n\n\"소각장 옆에 옛 식당 자리가 아직 있어. 불에 탄 간판이 남아있을 거야.\"",
+    "effects": [
+      { "type": "setFlag", "flag": "knows_chef_backstory" }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "district_d_street_safe"
+      }
+    ]
+  },
+
+  {
+    "id": "district_d_support_group",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": null,
+    "text": "지하 계단을 내려가면 — 좁은 방에 영혼 다섯이 둥글게 앉아있다.\n\n분노 관리 모임이다.\n\n한 영혼이 말하고 있다.\n\n\"...그래서 오늘은 주먹을 안 쥐어봤어. 10분. 10분 동안.\"\n\n다른 영혼들이 박수를 친다. 작은 박수. 하지만 진심이 담겨있다.",
+    "effects": [
+      { "type": "setFlag", "flag": "explored_d_support" }
+    ],
+    "choices": [
+      {
+        "text": "모임에 합류한다",
+        "nextScene": "district_d_support_join"
+      },
+      {
+        "text": "조용히 듣기만 한다",
+        "nextScene": "district_d_support_listen"
+      },
+      {
+        "text": "돌아간다",
+        "nextScene": "district_d_street_safe"
+      }
+    ]
+  },
+  {
+    "id": "district_d_support_join",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": null,
+    "text": "원 안에 자리를 잡고 앉는다.\n\n진행자가 고개를 끄덕인다. \"새로운 분이시네요. 여기선 아무도 판단하지 않아요.\"\n\n\"오늘의 주제는 — '나는 왜 화가 났는가'입니다.\"\n\n한 영혼이 말한다. \"아버지가. 맨날 때렸으니까.\"\n다른 영혼. \"아무도 내 말을 안 들어서.\"\n또 다른 영혼. \"...모르겠어. 화가 난 이유를 잊어버렸어. 근데 아직 화가 나.\"",
+    "effects": [
+      { "type": "modifyKarma", "value": 3 },
+      { "type": "modifyStat", "stat": "bond", "value": 1 }
+    ],
+    "choices": [
+      {
+        "text": "\"나도 화날 때가 있었어\"",
+        "nextScene": "district_d_support_share"
+      },
+      {
+        "text": "묵묵히 들어준다",
+        "nextScene": "district_d_support_share"
+      }
+    ]
+  },
+  {
+    "id": "district_d_support_listen",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": null,
+    "text": "문 밖에서 조용히 듣는다.\n\n\"...주방장이 이 모임을 알면 화낼 거야. '비생산적'이라고.\"\n\n\"알면 어때. 여기가 유일하게 안 때리는 곳이잖아.\"\n\n\"근데 있잖아, 주방장도 원래 이런 사람 아니었대. 식당하던 시절엔 웃는 게 직업이었다면서.\"\n\n\"식당이 망하고 나서... 웃음이 불꽃으로 바뀐 거지.\"",
+    "effects": [
+      { "type": "addAbyssMemory", "id": "mem_support_group", "label": "분노 관리 모임의 속삭임", "weight": 2, "source": "district_d" }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "district_d_street_safe"
+      }
+    ]
+  },
+  {
+    "id": "district_d_support_share",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": null,
+    "text": "모임이 끝난다. 영혼들이 하나둘 일어선다.\n\n진행자가 다가온다.\n\n\"고마워요. 새 사람이 오면 — 희망이 생기거든.\"\n\n\"소각장에 갈 거라면... 주방장한테 이거 전해줄 수 있어요?\"\n\n그가 접힌 종이를 건넨다. '우리가 만든 레시피'라고 적혀있다.\n\n\"주방장이 예전에 가르쳐준 레시피야. 우리가 기억해서 적었어.\"",
+    "effects": [
+      { "type": "addItem", "item": "old_recipe" },
+      { "type": "setFlag", "flag": "has_old_recipe" }
+    ],
+    "choices": [
+      {
+        "text": "레시피를 받는다",
+        "nextScene": "district_d_street_safe"
+      }
+    ]
+  },
+
+  {
+    "id": "district_d_forge",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": null,
+    "text": "불꽃 대장간. 용광로 클럽 뒤편에 숨겨진 작업장.\n\n거대한 영혼이 쇠를 두드리고 있다. 모루 위에서 불꽃이 튄다. 하지만 파괴가 아니라 — 창조.\n\n\"뭐 봐. 구경하려면 엔그램 내.\"\n\n벽에 무기들이 걸려있다. 아니, 무기가 아니다. 도구다. 열쇠, 방패, 거울.",
+    "effects": [
+      { "type": "setFlag", "flag": "explored_d_forge" }
+    ],
+    "choices": [
+      {
+        "text": "\"이걸 왜 만들어?\"",
+        "nextScene": "district_d_forge_talk"
+      },
+      {
+        "text": "거울을 살펴본다",
+        "nextScene": "district_d_forge_mirror"
+      },
+      {
+        "text": "돌아간다",
+        "nextScene": "district_d_street_safe"
+      }
+    ]
+  },
+  {
+    "id": "district_d_forge_talk",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": null,
+    "text": "\"왜? 분노는 에너지거든. 태워버리면 끝이지만, 두드리면 형태가 돼.\"\n\n대장장이가 달궈진 쇠를 모루에 올린다.\n\n\"주방장은 태우는 놈이야. 나는 벼리는 놈이고.\"\n\n\"같은 불인데 결과가 다르지. 파괴할 수도, 만들 수도 있어.\"\n\n그가 완성된 열쇠를 든다.\n\n\"이거 가져가. 어딘가에 쓸모있을 거야.\"",
+    "effects": [
+      { "type": "addItem", "item": "forged_key" },
+      { "type": "addAbyssMemory", "id": "mem_forge_smith", "label": "분노를 벼리는 대장장이", "weight": 2, "source": "district_d" }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "district_d_street_safe"
+      }
+    ]
+  },
+  {
+    "id": "district_d_forge_mirror",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": null,
+    "text": "벽에 걸린 거울. 분노의 불꽃으로 단조한 것이다.\n\n거울을 들여다본다.\n\n...반사되는 건 자신의 얼굴이 아니다. 가장 화가 났던 순간의 자신이다.\n\n이를 악물고, 눈에 핏줄이 서고, 주먹을 쥐고 있다.\n\n그 모습이 서서히 변한다. 주먹이 풀리고, 이가 풀리고, 눈이 슬퍼진다.\n\n...분노 아래에는 항상 슬픔이 있다.",
+    "effects": [
+      { "type": "modifyStat", "stat": "sense", "value": 1 },
+      { "type": "addAbyssMemory", "id": "mem_anger_mirror", "label": "분노 거울 속의 자신", "weight": 2, "source": "district_d" }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "district_d_street_safe"
+      }
+    ]
+  },
+
+  {
+    "id": "district_d_old_restaurant",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": null,
+    "text": "소각장 옆 골목. 불에 탄 간판이 벽에 걸려있다.\n\n'맛있는 집' — 글씨가 반쯤 그을려 있지만 읽을 수 있다.\n\n폐허가 된 식당. 테이블이 뒤집혀 있고, 벽은 그을음으로 검다.\n\n하지만 주방 한쪽에 — 깨끗한 공간이 있다. 누군가 정리한 흔적. 선반 위에 조리도구가 가지런히 놓여있다.",
+    "effects": [
+      { "type": "setFlag", "flag": "explored_d_restaurant" }
+    ],
+    "choices": [
+      {
+        "text": "주방을 살펴본다",
+        "nextScene": "district_d_old_restaurant_kitchen"
+      },
+      {
+        "text": "벽의 리뷰를 읽는다",
+        "nextScene": "district_d_old_restaurant_reviews"
+      },
+      {
+        "text": "돌아간다",
+        "nextScene": "district_d_street_safe"
+      }
+    ]
+  },
+  {
+    "id": "district_d_old_restaurant_kitchen",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": null,
+    "text": "주방. 모든 조리도구가 정돈되어 있다. 그을음 속에서도 반짝인다.\n\n칼, 도마, 냄비. 요리사의 손길이 느껴진다.\n\n선반 위에 레시피 노트가 있다. 첫 페이지:\n\n'나의 음식 철학: 배고픈 사람에게 따뜻한 한 끼를.\n비싸지 않아도 좋다. 정성만 있으면 된다.'\n\n마지막 페이지에 빨간 글씨:\n'더 이상 못 하겠다. 미안. 다 태워버릴 거야.'\n\n...주방장이 변하기 전의 마지막 기록이다.",
+    "effects": [
+      { "type": "addAbyssMemory", "id": "mem_chef_philosophy", "label": "주방장의 요리 철학", "weight": 3, "source": "district_d" },
+      { "type": "setFlag", "flag": "found_chef_note" }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "district_d_street_safe"
+      }
+    ]
+  },
+  {
+    "id": "district_d_old_restaurant_reviews",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": null,
+    "text": "벽에 프린트된 리뷰가 붙어있다. 처음 몇 개는 따뜻하다.\n\n★★★★★ '여기 된장찌개 진짜 엄마 맛이에요'\n★★★★★ '사장님이 서비스로 밥 더 줬어요ㅠㅠ'\n\n중간부터 바뀐다.\n\n★☆☆☆☆ '위생 불량 신고함'\n★☆☆☆☆ '벌레 나옴 (사진 첨부)' — 사진은 없다.\n★☆☆☆☆ '사장 태도 나쁨. 불매합시다.'\n\n전부 같은 아이디에서 올라왔다. 조직적인 리뷰 테러.\n\n마지막 리뷰에 누군가 빨간 펜으로 적었다:\n'왜.'",
+    "effects": [
+      { "type": "addAbyssMemory", "id": "mem_fake_reviews", "label": "조작된 리뷰들", "weight": 2, "source": "district_d" },
+      { "type": "modifyKarma", "value": 3 }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "district_d_street_safe"
+      }
+    ]
+  },
+
   {
     "id": "district_d_incinerator_gate",
     "type": "dialogue",

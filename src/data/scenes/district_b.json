@@ -48,7 +48,7 @@
     "type": "dialogue",
     "background": "boss",
     "speaker": null,
-    "text": "오피스 거리. 하늘이 안 보인다. 빌딩들이 너무 높아서 꼭대기가 안개에 가려져 있다.\n\n좌측: 수천 명이 줄 서 있는 건물 — '야근의 탑'. 불이 한 번도 꺼진 적 없다고 한다.\n우측: 작은 골목. 무언가 깨지는 소리가 들린다.\n정면: 넥타이 좀비들이 걸어가는 길. 끝에 거대한 프레스 기계가 보인다.",
+    "text": "오피스 거리. 하늘이 안 보인다. 빌딩들이 너무 높아서 꼭대기가 안개에 가려져 있다.\n\n좌측: 수천 명이 줄 서 있는 건물 — '야근의 탑'. 불이 한 번도 꺼진 적 없다고 한다.\n우측: 작은 골목. 무언가 깨지는 소리가 들린다.\n정면: 넥타이 좀비들이 걸어가는 길. 끝에 거대한 프레스 기계가 보인다.\n\n다른 곳도 눈에 띈다. '직원 전용' 표시가 된 문, 깜빡이는 서버실 불빛, 안개 속 꼭대기 층, 지하의 웅성거림.",
     "choices": [
       {
         "text": "야근의 탑으로 간다",
@@ -57,6 +57,26 @@
       {
         "text": "골목에서 나는 소리를 확인한다",
         "nextScene": "district_b_alley"
+      },
+      {
+        "text": "직원 전용 휴게실에 들어간다",
+        "conditions": [{ "type": "hasFlag", "flag": "explored_b_breakroom", "value": false }],
+        "nextScene": "district_b_breakroom"
+      },
+      {
+        "text": "서버실 불빛을 확인한다",
+        "conditions": [{ "type": "hasFlag", "flag": "explored_b_server", "value": false }],
+        "nextScene": "district_b_server_room"
+      },
+      {
+        "text": "안개 속 꼭대기를 올려다본다",
+        "conditions": [{ "type": "hasFlag", "flag": "explored_b_floor99", "value": false }],
+        "nextScene": "district_b_floor99"
+      },
+      {
+        "text": "지하의 웅성거림을 따라간다",
+        "conditions": [{ "type": "hasFlag", "flag": "explored_b_resistance", "value": false }],
+        "nextScene": "district_b_resistance"
       },
       {
         "text": "프레스 기계 쪽으로 간다 (보스 방향)",
@@ -329,6 +349,219 @@
     ]
   },
   {
+    "id": "district_b_breakroom",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": null,
+    "text": "직원 전용 휴게실. '30분 이내 이용' 표지가 붙어있다.\n\n안에 자판기가 하나 있고, 접이식 의자 세 개. 벽에 시계가 있지만 분침이 30분 지점에 고정되어 있다.\n\n한 영혼이 의자에 앉아 멍하니 천장을 보고 있다.\n\n\"...쉬는 거야. 30분 동안. 매일. 이게 내 전부야.\"\n\n테이블에 누군가 볼펜으로 적었다:\n'퇴근시간: 미정\n점심시간: 취소\n휴게시간: 30분 (이동 포함)'",
+    "effects": [
+      { "type": "setFlag", "flag": "explored_b_breakroom" },
+      { "type": "modifyStat", "stat": "hp", "value": 3 }
+    ],
+    "choices": [
+      {
+        "text": "\"여기서 반항하는 사람은 없어?\"",
+        "nextScene": "district_b_breakroom_talk"
+      },
+      {
+        "text": "돌아간다",
+        "nextScene": "district_b_street"
+      }
+    ]
+  },
+  {
+    "id": "district_b_breakroom_talk",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": null,
+    "text": "영혼이 고개를 숙이며 속삭인다.\n\n\"쉿. 카메라 있어.\"\n\n\"지하에... 모이는 사람들이 있긴 해. '로그아웃 클럽'이라고. 소장 몰래.\"\n\n\"거기서 뭘 하냐고? 아무것도 안 해. 진짜로. 아무것도 안 하는 연습을 해.\"\n\n\"여기선 '아무것도 안 하기'가 가장 큰 반항이거든.\"",
+    "effects": [
+      { "type": "addAbyssMemory", "id": "mem_breakroom_whisper", "label": "휴게실의 속삭임", "weight": 1, "source": "district_b" }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "district_b_street"
+      }
+    ]
+  },
+
+  {
+    "id": "district_b_server_room",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": null,
+    "text": "빌딩 지하 1층. 서버실.\n\n서버 랙이 끝없이 늘어서 있다. 초록색 불빛이 깜빡인다. 열기가 대단하다.\n\n각 서버에 라벨이 붙어있다:\n'야근 관리 시스템'\n'생산성 지수 모니터링'\n'퇴근 요청 처리 (비활성)'\n'사직서 파쇄기 (자동)'\n\n마지막 서버의 라벨:\n'소장 감정 백업 — 접근 금지'",
+    "effects": [
+      { "type": "setFlag", "flag": "explored_b_server" }
+    ],
+    "choices": [
+      {
+        "text": "[이성 5] 소장 감정 백업 서버에 접근한다",
+        "conditions": [{ "type": "statGreaterThan", "stat": "reason", "value": 4 }],
+        "nextScene": "district_b_server_hack"
+      },
+      {
+        "text": "퇴근 요청 처리 시스템을 살펴본다",
+        "nextScene": "district_b_server_logout"
+      },
+      {
+        "text": "돌아간다",
+        "nextScene": "district_b_street"
+      }
+    ]
+  },
+  {
+    "id": "district_b_server_hack",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": null,
+    "text": "소장 감정 백업 서버. 잠금을 해제한다.\n\n화면에 데이터가 뜬다:\n\n'원본 감정 프로필: 현장 소장 (이름: 삭제됨)'\n'- 직업 만족도: 92% → 3%'\n'- 퇴근 욕구: 99% (억제됨)'\n'- 자아 인식: \"나는 기계가 아니다\" → \"나는 프레스다\"'\n'- 마지막 인간적 감정: \"집에 가고 싶다\" (872일 전)'\n\n...소장도 원래는 퇴근하고 싶은 보통 사람이었다.",
+    "effects": [
+      { "type": "addAbyssMemory", "id": "mem_foreman_backup", "label": "소장의 감정 백업 데이터", "weight": 3, "source": "district_b" },
+      { "type": "setFlag", "flag": "read_foreman_data" }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "district_b_street"
+      }
+    ]
+  },
+  {
+    "id": "district_b_server_logout",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": null,
+    "text": "퇴근 요청 처리 시스템.\n\n화면에 목록이 있다. 수만 개의 퇴근 요청.\n\n'요청 #00001: 퇴근합니다 — 거부됨 (사유: 업무 미완료)'\n'요청 #00002: 제발요 — 거부됨 (사유: 업무 미완료)'\n'요청 #12847: ... — 거부됨 (사유: 업무 미완료)'\n\n모든 요청의 거부 사유가 같다. 업무 미완료.\n\n하지만 '업무 완료' 기준을 찾아보면 — 정의되어 있지 않다.\n\n완료할 수 없는 업무. 영원한 야근. 시스템 자체가 감옥이다.",
+    "effects": [
+      { "type": "modifyStat", "stat": "reason", "value": 1 }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "district_b_street"
+      }
+    ]
+  },
+
+  {
+    "id": "district_b_floor99",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": null,
+    "text": "야근의 탑 비상 계단. 숨을 헐떡이며 올라간다.\n\n99층. 안개 위. 하늘이 보인다 — 이 도시에서 처음으로.\n\n임원실이라고 적힌 문. 안에는 아무도 없다.\n\n하지만 책상 위에 서류가 정리되어 있다. '경영 보고서'.",
+    "effects": [
+      { "type": "setFlag", "flag": "explored_b_floor99" }
+    ],
+    "choices": [
+      {
+        "text": "경영 보고서를 읽는다",
+        "nextScene": "district_b_floor99_report"
+      },
+      {
+        "text": "창밖을 내다본다",
+        "nextScene": "district_b_floor99_window"
+      },
+      {
+        "text": "돌아간다",
+        "nextScene": "district_b_street"
+      }
+    ]
+  },
+  {
+    "id": "district_b_floor99_report",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": null,
+    "text": "경영 보고서:\n\n'B지구 분기 실적'\n'- 감정 압착량: 전기 대비 300% 증가'\n'- 직원 이직률: 0% (이직 시스템 미구현)'\n'- 직원 만족도: 측정 불가 (측정 시스템 삭제됨)'\n'- 생산성: 무한대 (기준: 미정)'\n\n'권고사항: 현장 소장의 자아가 불안정합니다. 인간적 감정 잔여분이 0.3% 남아있습니다. 완전 기계화를 권고합니다.'\n\n보고서 마지막:\n'결재: (서명 없음) — 임원이 존재하지 않습니다. 이 시스템은 자동 운영됩니다.'",
+    "effects": [
+      { "type": "addAbyssMemory", "id": "mem_executive_report", "label": "임원 없는 회사의 경영 보고서", "weight": 3, "source": "district_b" }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "district_b_street"
+      }
+    ]
+  },
+  {
+    "id": "district_b_floor99_window",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": null,
+    "text": "99층 창밖.\n\n안개 위로 — 이 도시의 전체 모습이 보인다. 4개 지구가 지하철 선로로 연결되어 있고, 중앙에 터미널이 있다.\n\n아름답지 않다. 하지만 거대하다.\n\n아래를 내려다보면 넥타이 좀비들이 개미처럼 움직이고 있다.\n\n...여기서 뛰어내린 흔적이 창틀에 있다. 하지만 이 도시에서는 추락해도 죽지 않는다. 다시 1층에서 일어나 출근할 뿐이다.",
+    "effects": [
+      { "type": "addAbyssMemory", "id": "mem_99th_view", "label": "99층에서 본 도시", "weight": 2, "source": "district_b" }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "district_b_street"
+      }
+    ]
+  },
+
+  {
+    "id": "district_b_resistance",
+    "type": "dialogue",
+    "background": "corridor",
+    "speaker": null,
+    "text": "빌딩 지하 2층. 배관 사이의 좁은 공간.\n\n영혼 열 명이 원형으로 앉아있다. 넥타이를 풀고 양복 상의를 벗고 있다.\n\n벽에 적혀있다: '로그아웃 클럽 — 규칙: 아무것도 하지 않기'\n\n한 영혼이 눈을 감고 있다. 다른 영혼은 천장을 보고 있다. 또 다른 영혼은 웃고 있다.\n\n...아무것도 안 하고 있다. 정말로.",
+    "effects": [
+      { "type": "setFlag", "flag": "explored_b_resistance" }
+    ],
+    "choices": [
+      {
+        "text": "합류한다",
+        "nextScene": "district_b_resistance_join"
+      },
+      {
+        "text": "\"이게 뭐 하는 거야?\"",
+        "nextScene": "district_b_resistance_ask"
+      },
+      {
+        "text": "돌아간다",
+        "nextScene": "district_b_street"
+      }
+    ]
+  },
+  {
+    "id": "district_b_resistance_join",
+    "type": "dialogue",
+    "background": "corridor",
+    "speaker": null,
+    "text": "자리에 앉는다. 넥타이를 풀 것도 없지만 — 어깨의 힘을 뺀다.\n\n5분이 지난다. 10분.\n\n...아무 일도 일어나지 않는다. 그리고 그것이 평화롭다.\n\n옆의 영혼이 속삭인다.\n\n\"여기서 이러면 소장이 감지 못해. 생산성이 0이면 시스템이 인식 자체를 못 하거든.\"\n\n\"가끔 여기서 꿈을 꿔. 퇴근하는 꿈. 현관문 열고 '다녀왔어' 하는 꿈.\"\n\n\"...깨면 울지만.\"",
+    "effects": [
+      { "type": "modifyStat", "stat": "hp", "value": 5 },
+      { "type": "modifyStat", "stat": "bond", "value": 1 },
+      { "type": "addAbyssMemory", "id": "mem_logout_club", "label": "로그아웃 클럽의 평화", "weight": 2, "source": "district_b" }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "district_b_street"
+      }
+    ]
+  },
+  {
+    "id": "district_b_resistance_ask",
+    "type": "dialogue",
+    "background": "corridor",
+    "speaker": null,
+    "text": "\"아무것도 안 하는 거야.\"\n\n영혼이 웃는다.\n\n\"이 도시에서 '아무것도 안 하기'가 얼마나 어려운지 알아? 시스템이 계속 무언가를 시켜. 서류 쓰고, 보고하고, 야근하고.\"\n\n\"우리는 그냥... 멈추는 연습을 해. 멈추면 시스템이 에러를 내. 에러가 쌓이면 소장도 대응해야 하고.\"\n\n\"작은 저항이야. 파업까지는 못 하지만.\"",
+    "effects": [
+      { "type": "addAbyssMemory", "id": "mem_doing_nothing", "label": "아무것도 안 하기라는 저항", "weight": 2, "source": "district_b" }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "district_b_street"
+      }
+    ]
+  },
+
+  {
     "id": "district_b_press_gate",
     "type": "dialogue",
     "background": "boss",
@@ -525,6 +758,116 @@
       {
         "text": "플랫폼 0으로 돌아간다",
         "effects": [{ "type": "fullHeal" }],
+        "nextScene": "hub_platform0"
+      }
+    ]
+  },
+
+  {
+    "id": "district_b_minjun_quest_start",
+    "type": "dialogue",
+    "background": "corridor",
+    "speaker": "minjun",
+    "text": "민준이 노트북을 열어 보여준다. 화면에 오래된 코드가 떠 있다.\n\n\"이거... 내가 처음 만든 프로그램이야. 대학교 2학년 때.\"\n\n\"'할 일 목록 앱'. 웃기지? 심연에서 할 일 목록이라니.\"\n\n\"근데 이 코드가 아직 B지구 서버 어딘가에 있어. 내가 회사 다닐 때 서버에 백업해뒀거든.\"\n\n\"...찾아줄 수 있어? 왜 코딩을 시작했는지 기억하고 싶어.\"",
+    "conditions": [
+      { "type": "hasCompanion", "companion": "minjun" },
+      { "type": "hasFlag", "flag": "district_b_cleared" }
+    ],
+    "choices": [
+      {
+        "text": "\"찾으러 가자\"",
+        "nextScene": "district_b_minjun_quest_server"
+      },
+      {
+        "text": "\"나중에 하자\"",
+        "nextScene": "hub_platform0"
+      }
+    ]
+  },
+  {
+    "id": "district_b_minjun_quest_server",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": null,
+    "text": "해방된 B지구. 프레스는 멈추고, 서버실만 아직 돌아가고 있다.\n\n민준이 서버 앞에 앉아 키보드를 두드린다.\n\n\"...있다. 백업 폴더에. 'first_project_v1.zip'.\"\n\n파일을 연다. 오래된 코드가 화면에 뜬다.\n\n민준의 손이 멈춘다.\n\n\"이거... 주석에 적어놨네. '이 앱이 누군가의 하루를 조금이라도 편하게 해줬으면 좋겠다.' \"",
+    "effects": [
+      { "type": "modifyCompanionTrust", "companion": "minjun", "value": 10 }
+    ],
+    "choices": [
+      {
+        "text": "\"좋은 목표였네\"",
+        "nextScene": "district_b_minjun_quest_memory"
+      }
+    ]
+  },
+  {
+    "id": "district_b_minjun_quest_memory",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": "minjun",
+    "text": "\"좋은 목표... 였지.\"\n\n민준이 노트북을 내려다본다.\n\n\"언제부터 바뀐 걸까. '누군가를 돕겠다'에서 '마감을 맞추겠다'로. '좋은 코드를 쓰겠다'에서 '빨리 끝내겠다'로.\"\n\n\"2년 만에 야근이 일상이 됐고, 커피가 물이 됐고, 집에 가도 노트북을 열었고.\"\n\n\"그리고 어느 날 — 여기 왔지.\"\n\n화면에 커서가 깜빡인다.",
+    "choices": [
+      {
+        "text": "\"이 노트북으로 뭘 하고 싶어?\"",
+        "nextScene": "district_b_minjun_quest_choice"
+      }
+    ]
+  },
+  {
+    "id": "district_b_minjun_quest_choice",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": "minjun",
+    "text": "민준이 오래 생각한다.\n\n\"두 가지가 떠올라.\"\n\n\"하나는 — 이 노트북을 부수는 거야. 나를 여기 가둔 건 이 기계니까. 부수면 자유로워질 것 같아.\"\n\n\"다른 하나는 — 마지막으로 코드를 하나 쓰는 거야. 처음 시작했을 때처럼. 누군가를 위한 코드를.\"\n\n\"어떻게 생각해?\"",
+    "choices": [
+      {
+        "text": "\"부숴. 새로 시작하자.\"",
+        "effects": [
+          { "type": "modifyKarma", "value": -3 },
+          { "type": "modifyCompanionTrust", "companion": "minjun", "value": 15 },
+          { "type": "setFlag", "flag": "minjun_destroyed_laptop" }
+        ],
+        "nextScene": "district_b_minjun_quest_destroy"
+      },
+      {
+        "text": "\"코드를 써. 처음처럼.\"",
+        "effects": [
+          { "type": "modifyKarma", "value": 5 },
+          { "type": "modifyCompanionTrust", "companion": "minjun", "value": 20 },
+          { "type": "setFlag", "flag": "minjun_coded_again" }
+        ],
+        "nextScene": "district_b_minjun_quest_code"
+      }
+    ]
+  },
+  {
+    "id": "district_b_minjun_quest_destroy",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": "minjun",
+    "text": "민준이 노트북을 들어올린다. 그리고 바닥에 내리친다.\n\n쾅.\n\n화면이 갈라지고, 키보드가 튀어나온다. ESC 키가 공중에서 빙글 돌더니 바닥에 떨어진다.\n\n\"...가볍다.\"\n\n민준이 손을 본다. 떨리던 손이 멈춰있다.\n\n\"미안, 노트북. 고마웠어. 근데 이제 됐어.\"\n\n그가 ESC 키만 주워 주머니에 넣는다.\n\n\"이건 가지고 있을게. 탈출하라는 뜻이니까.\"",
+    "effects": [
+      { "type": "addAbyssMemory", "id": "mem_minjun_freedom", "label": "민준이 노트북을 부순 날", "weight": 4, "source": "district_b" }
+    ],
+    "choices": [
+      {
+        "text": "플랫폼 0으로 돌아간다",
+        "nextScene": "hub_platform0"
+      }
+    ]
+  },
+  {
+    "id": "district_b_minjun_quest_code",
+    "type": "dialogue",
+    "background": "boss",
+    "speaker": "minjun",
+    "text": "민준이 키보드에 손을 올린다. 오랫만에 — 마감이 아닌 코드를 쓴다.\n\n화면에 한 줄씩 나타난다:\n\nfunction hope() {\n  if (tired) {\n    rest();\n  }\n  return \"내일도 살아있자\";\n}\n\n민준이 웃는다. 코드를 쓰며 웃는 건 — 대학교 2학년 이후 처음이다.\n\n\"고마워. 이게 내가 하고 싶은 코딩이었어.\"\n\n\"'희망'이라는 함수. 간단하지? 피곤하면 쉬고, 내일도 살아있자.\"\n\n\"...이 코드를 서버에 남겨둘게. 누군가 찾으면 좋겠다.\"",
+    "effects": [
+      { "type": "addAbyssMemory", "id": "mem_minjun_hope_code", "label": "민준의 마지막 코드 — hope()", "weight": 4, "source": "district_b" }
+    ],
+    "choices": [
+      {
+        "text": "플랫폼 0으로 돌아간다",
         "nextScene": "hub_platform0"
       }
     ]

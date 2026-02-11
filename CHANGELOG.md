@@ -1,5 +1,40 @@
 # Changelog
 
+## [2026-02-11] 콘텐츠 대량 확장 — 146씬 → 217씬 (+71씬)
+
+### 목표
+- 플레이타임 ~1시간 45분 → ~3시간 (꼼꼼 탐색 기준)
+
+### 챕터 1 확장 (20→27씬)
+- **ACT 1 +3씬**: 감정 파이프라인 시연(ch1_02b), 엔그램/안내자 설명(ch1_03b), 안내자의 기억(ch1_04b)
+- **ACT 2 +4 탐색 포인트**: 잠든 아이 영혼(ch1_child), 낙서 벽(ch1_graffiti), 대기열(ch1_queue), 지친 영혼 후속 대화(ch1_weary_02)
+
+### A지구 확장 (19→35씬)
+- **신규 탐색 4곳**: 위스퍼넷(whisper_net), 검열 박물관(museum), 소리정원(sound_garden), 딸의 방(daughter_room)
+- **소연 동료 퀘스트 6씬**: 자료실 → 편집장 대면 → 용서/선택 분기 (soyeon_quest_*)
+
+### B지구 확장 (25→39씬)
+- **신규 탐색 4곳**: 휴게실(breakroom), 서버실(server_room), 99층(floor99), 저항모임(resistance)
+- **민준 동료 퀘스트 6씬**: 서버 → 기억 발견 → 파괴/코드 분기 (minjun_quest_*)
+
+### C지구 확장 (17→33씬)
+- **신규 탐색 5곳**: 수정 동굴(crystal_trail), 놀이터(playground), 707호(apt707), 우편함(mailbox), 관리사무소(management)
+- **신규 전투**: 서리 드론(frost_drone) — 양초 특수 공격
+
+### D지구 확장 (21→31씬)
+- **신규 탐색 4곳**: 벽화(mural), 지지모임(support_group), 대장간(forge), 옛 식당(old_restaurant)
+
+### 허브 확장 (8→16씬)
+- **안내자 진행 대화 4단계**: 초반/A클리어 후/B클리어 후/최종 (guide_progress → guide_early/after_a/after_b/final)
+- **해방된 영혼 NPC 3명**: A지구(freed_soul_a), B지구(freed_soul_b), D지구 셰프 노점(chef_stall, HP+10)
+
+### 검증
+- `npm run build` 성공
+- nextScene 참조 393개 전부 유효 (특수 토큰 7개 제외)
+- 총 217씬, 12전투
+
+---
+
 ## [2026-02-11] 챕터 1: 플랫폼 0의 규칙
 
 ### 추가

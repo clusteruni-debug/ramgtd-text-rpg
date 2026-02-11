@@ -49,7 +49,7 @@
     "type": "dialogue",
     "background": "corridor",
     "speaker": null,
-    "text": "침묵의 거리. 발소리조차 흡수되는 듯하다.\n\n좌측: 거대한 도서관. 『중앙 기록 보관소』라고 적혀있다. 사서의 본거지.\n우측: 좁은 골목에서 누군가 수화를 하며 물건을 거래하고 있다 — 속삭임의 시장.\n정면: 주거 구역. 저택들이 줄지어 있다. 검열 드론이 순찰 중이다.",
+    "text": "침묵의 거리. 발소리조차 흡수되는 듯하다.\n\n좌측: 거대한 도서관. 『중앙 기록 보관소』라고 적혀있다. 사서의 본거지.\n우측: 좁은 골목에서 누군가 수화를 하며 물건을 거래하고 있다 — 속삭임의 시장.\n정면: 주거 구역. 저택들이 줄지어 있다. 검열 드론이 순찰 중이다.\n\n곁길에 눈에 띄는 것들이 더 있다. 지하로 내려가는 계단, 닫힌 전시관, 꽃이 핀 정원, 그리고 검은 리본이 달린 저택.",
     "choices": [
       {
         "text": "속삭임의 시장으로 간다",
@@ -58,6 +58,26 @@
       {
         "text": "주거 구역을 탐색한다",
         "nextScene": "district_a_residential"
+      },
+      {
+        "text": "지하 계단으로 내려간다",
+        "conditions": [{ "type": "hasFlag", "flag": "explored_a_whisper", "value": false }],
+        "nextScene": "district_a_whisper_net"
+      },
+      {
+        "text": "닫힌 전시관을 살핀다",
+        "conditions": [{ "type": "hasFlag", "flag": "explored_a_museum", "value": false }],
+        "nextScene": "district_a_museum"
+      },
+      {
+        "text": "꽃이 핀 정원으로 간다",
+        "conditions": [{ "type": "hasFlag", "flag": "explored_a_garden", "value": false }],
+        "nextScene": "district_a_sound_garden"
+      },
+      {
+        "text": "검은 리본이 달린 저택",
+        "conditions": [{ "type": "hasFlag", "flag": "explored_a_daughter", "value": false }],
+        "nextScene": "district_a_daughter_room"
       },
       {
         "text": "중앙 기록 보관소로 간다 (보스 방향)",
@@ -285,6 +305,201 @@
     ]
   },
   {
+    "id": "district_a_whisper_net",
+    "type": "dialogue",
+    "background": "corridor",
+    "speaker": null,
+    "text": "지하 계단을 내려간다. 벽에 수화 기호가 화살표처럼 이어져 있다.\n\n좁은 터널 끝에 — 작은 방. 영혼 여덟이 둘러앉아 수화로 대화하고 있다.\n\n'속삭임 네트워크' — 검열을 피해 정보를 공유하는 비밀 모임이다.\n\n한 영혼이 당신을 보고 경계한다. 하지만 곧 수화로 '환영'을 표시한다.",
+    "effects": [
+      { "type": "setFlag", "flag": "explored_a_whisper" }
+    ],
+    "choices": [
+      {
+        "text": "모임에 합류한다",
+        "nextScene": "district_a_whisper_join"
+      },
+      {
+        "text": "돌아간다",
+        "nextScene": "district_a_street"
+      }
+    ]
+  },
+  {
+    "id": "district_a_whisper_join",
+    "type": "dialogue",
+    "background": "corridor",
+    "speaker": null,
+    "text": "쪽지가 돌아온다.\n\n'우리는 속삭임 네트워크. 사서가 지우지 못한 진실을 보존하는 사람들.'\n\n'기록 보관소 안에 — 사서가 처음 침묵 명령을 내린 이유가 적힌 문서가 있어. 첫 번째 침묵 명령서.'\n\n'그걸 사서 앞에서 읽으면... 사서가 멈출 수도 있어. 예전의 자신을 기억할 수도 있으니까.'\n\n'그리고 이거. 검열 드론의 순찰 시간표야. 도움이 될 거야.'",
+    "effects": [
+      { "type": "addAbyssMemory", "id": "mem_whisper_network", "label": "속삭임 네트워크의 진실", "weight": 2, "source": "district_a" },
+      { "type": "modifyStat", "stat": "reason", "value": 1 }
+    ],
+    "choices": [
+      {
+        "text": "\"금서 모임이 있다고 들었는데\"",
+        "nextScene": "district_a_banned_books"
+      },
+      {
+        "text": "돌아간다",
+        "nextScene": "district_a_street"
+      }
+    ]
+  },
+  {
+    "id": "district_a_banned_books",
+    "type": "dialogue",
+    "background": "corridor",
+    "speaker": null,
+    "text": "영혼들이 쪽지를 주고받으며 고개를 끄덕인다.\n\n방 한쪽 벽에 — 숨겨진 선반이 있다. 책이 꽂혀있다. 사서가 지운 줄 알았던 책들.\n\n한 권을 꺼내본다. 동화책이다.\n\n'아주 작은 새가 노래를 불렀습니다.\n 아무도 듣지 않았지만, 새는 계속 불렀습니다.\n 왜냐하면 노래는 듣는 사람을 위한 것이 아니라,\n 부르는 사람을 위한 것이니까요.'\n\n...이런 책이 검열 대상이었다.",
+    "effects": [
+      { "type": "addAbyssMemory", "id": "mem_banned_story", "label": "검열된 동화 — 작은 새의 노래", "weight": 2, "source": "district_a" },
+      { "type": "modifyKarma", "value": 3 }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "district_a_street"
+      }
+    ]
+  },
+
+  {
+    "id": "district_a_museum",
+    "type": "dialogue",
+    "background": "corridor",
+    "speaker": null,
+    "text": "닫힌 전시관. 간판에 적혀있다: '검열 역사 전시관 — 무기한 폐쇄'\n\n하지만 자물쇠가 부서져 있다. 누군가 먼저 들어간 흔적.",
+    "effects": [
+      { "type": "setFlag", "flag": "explored_a_museum" }
+    ],
+    "choices": [
+      {
+        "text": "안으로 들어간다",
+        "nextScene": "district_a_museum_inside"
+      },
+      {
+        "text": "돌아간다",
+        "nextScene": "district_a_street"
+      }
+    ]
+  },
+  {
+    "id": "district_a_museum_inside",
+    "type": "dialogue",
+    "background": "corridor",
+    "speaker": null,
+    "text": "전시관 내부. 벽에 연대기가 적혀있다.\n\n'1기: 거짓말만 검열. 시민 만족도 높음.'\n'2기: 악의적 발언 추가 검열. 일부 반발.'\n'3기: 비판적 의견 검열. 저항 발생.'\n'4기: 감정 표현 검열. 저항 소멸.'\n'5기: 모든 소리 검열. 현재.'\n\n마지막 전시물 — 사서의 원래 직함이 적힌 배지.\n\n'A지구 기록 보관 사서 — 임무: 진실의 보존'\n\n...보존이 검열로 바뀐 순간이 있었다.",
+    "effects": [
+      { "type": "addAbyssMemory", "id": "mem_censorship_history", "label": "검열의 5단계 역사", "weight": 3, "source": "district_a" },
+      { "type": "modifyStat", "stat": "reason", "value": 1 }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "district_a_street"
+      }
+    ]
+  },
+
+  {
+    "id": "district_a_sound_garden",
+    "type": "dialogue",
+    "background": "corridor",
+    "speaker": null,
+    "text": "석조 건물 사이에 숨겨진 작은 정원.\n\n놀랍게도 — 소리가 들린다. 바람 소리. 나뭇잎 소리. 물 흐르는 소리.\n\n이 도시에서 유일하게 소리가 살아있는 공간.\n\n정원 한가운데에 풍경(風磬)이 달려있다. 누군가 검열 드론의 감지 범위 밖에 만들어 놓은 것이다.",
+    "effects": [
+      { "type": "setFlag", "flag": "explored_a_garden" }
+    ],
+    "choices": [
+      {
+        "text": "풍경 소리를 듣는다",
+        "nextScene": "district_a_garden_listen"
+      },
+      {
+        "text": "정원을 만든 사람을 찾는다",
+        "nextScene": "district_a_garden_maker"
+      },
+      {
+        "text": "돌아간다",
+        "nextScene": "district_a_street"
+      }
+    ]
+  },
+  {
+    "id": "district_a_garden_listen",
+    "type": "dialogue",
+    "background": "corridor",
+    "speaker": null,
+    "text": "눈을 감고 풍경 소리를 듣는다.\n\n딸랑. 딸랑.\n\n...소리가 있다는 것. 그것만으로 눈물이 날 것 같다.\n\n이 도시의 영혼들은 이 소리를 들으려고 여기까지 온다. 검열 드론을 피해서.\n\n풍경 아래에 작은 글씨:\n'소리는 지울 수 있어도, 소리를 원하는 마음은 지울 수 없다.'",
+    "effects": [
+      { "type": "modifyStat", "stat": "hp", "value": 5 },
+      { "type": "addAbyssMemory", "id": "mem_sound_garden", "label": "소리 정원의 풍경 소리", "weight": 2, "source": "district_a" }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "district_a_street"
+      }
+    ]
+  },
+  {
+    "id": "district_a_garden_maker",
+    "type": "dialogue",
+    "background": "corridor",
+    "speaker": null,
+    "text": "정원 구석에 노인 영혼이 앉아있다. 입이 봉합되어 있지만 — 눈이 웃고 있다.\n\n그가 쪽지를 보여준다.\n\n'나는 음악가였어. 피아노를 쳤지. 여기 와서 소리를 잃었지만 — 소리를 만드는 건 못 막아.'\n\n'이 정원은 내가 기억으로 만들었어. 기억 하나에 소리 하나.'\n\n'기억이 다 사라지면 이 정원도 사라지겠지. 그때까지는 지킬 거야.'",
+    "effects": [
+      { "type": "modifyKarma", "value": 5 },
+      { "type": "modifyStat", "stat": "bond", "value": 1 }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "district_a_street"
+      }
+    ]
+  },
+
+  {
+    "id": "district_a_daughter_room",
+    "type": "dialogue",
+    "background": "corridor",
+    "speaker": null,
+    "text": "검은 리본이 달린 저택. 다른 저택들과 달리 문이 열려있다.\n\n안으로 들어가면 — 소녀의 방이다. 벽에 포스터, 책상에 노트, 침대에 인형.\n\n모든 것이 검게 칠해져 있다. 사서의 검열 잉크.\n\n하지만 한 곳만 — 베개 아래에 숨겨진 일기장은 검열되지 않았다.",
+    "effects": [
+      { "type": "setFlag", "flag": "explored_a_daughter" }
+    ],
+    "choices": [
+      {
+        "text": "일기장을 읽는다",
+        "nextScene": "district_a_daughter_diary"
+      },
+      {
+        "text": "돌아간다",
+        "nextScene": "district_a_street"
+      }
+    ]
+  },
+  {
+    "id": "district_a_daughter_diary",
+    "type": "dialogue",
+    "background": "corridor",
+    "speaker": null,
+    "text": "일기장.\n\n'오늘도 댓글이 달렸다. 죽으라고.\n내가 뭘 했다고. 사진 하나 올렸을 뿐인데.\n\n아빠한테 말했다. 아빠는 \"인터넷을 끊어\"라고 했다.\n그게 답이 아닌데.\n\n친구한테 말했다. 친구가 \"그냥 무시해\"라고 했다.\n무시가 되면 이러고 있겠어?\n\n...아무도 내 편이 아닌 것 같다.\n\n아빠가 나한테 \"소리를 내지 마, 그러면 안전해\"라고 했다.\n\n아빠의 얼굴이 무서웠다.'\n\n...이것이 사서의 딸이었다.",
+    "effects": [
+      { "type": "addAbyssMemory", "id": "mem_daughter_diary", "label": "사서의 딸의 일기", "weight": 4, "source": "district_a" },
+      { "type": "setFlag", "flag": "read_daughter_diary" },
+      { "type": "modifyKarma", "value": 5 }
+    ],
+    "choices": [
+      {
+        "text": "돌아간다",
+        "nextScene": "district_a_street"
+      }
+    ]
+  },
+
+  {
     "id": "district_a_archive_gate",
     "type": "dialogue",
     "background": "corridor",
@@ -482,6 +697,116 @@
       {
         "text": "플랫폼 0으로 돌아간다",
         "effects": [{ "type": "fullHeal" }],
+        "nextScene": "hub_platform0"
+      }
+    ]
+  },
+
+  {
+    "id": "district_a_soyeon_quest_start",
+    "type": "dialogue",
+    "background": "corridor",
+    "speaker": "soyeon",
+    "text": "소연이 쪽지를 건넨다. 손이 떨리고 있다.\n\n'부탁이 있어. 기록 보관소에 — 내 녹음 테이프가 있어. 마지막 보도 자료.\n\n사서가 검열하기 전에 숨겨뒀거든. 찾아줄 수 있어?\n\n...그리고 한 가지 더. 내 편집장이 있어. 여기 어딘가에.\n그 사람이 내 기사를 삭제하고, 내 혀를 잘랐어.\n\n만나고 싶어. 마지막으로.'",
+    "conditions": [
+      { "type": "hasCompanion", "companion": "soyeon" },
+      { "type": "hasFlag", "flag": "district_a_cleared" }
+    ],
+    "choices": [
+      {
+        "text": "\"같이 찾으러 가자\"",
+        "nextScene": "district_a_soyeon_quest_archive"
+      },
+      {
+        "text": "\"나중에 하자\"",
+        "nextScene": "hub_platform0"
+      }
+    ]
+  },
+  {
+    "id": "district_a_soyeon_quest_archive",
+    "type": "dialogue",
+    "background": "corridor",
+    "speaker": null,
+    "text": "해방된 기록 보관소. 책들에 글자가 돌아오고 있다.\n\n소연이 서가 사이를 뒤진다. 먼지투성이 선반 뒤에서 — 작은 카세트 테이프를 꺼낸다.\n\n소연의 눈에 눈물이 고인다.\n\n쪽지: '이게 마지막 보도야. 권력자의 비리를 파헤친 거였어. 이걸 방송하려다가...'\n\n소연이 목의 흉터를 만진다.",
+    "effects": [
+      { "type": "addItem", "item": "soyeon_tape" },
+      { "type": "modifyCompanionTrust", "companion": "soyeon", "value": 10 }
+    ],
+    "choices": [
+      {
+        "text": "\"편집장을 찾자\"",
+        "nextScene": "district_a_soyeon_quest_editor"
+      }
+    ]
+  },
+  {
+    "id": "district_a_soyeon_quest_editor",
+    "type": "dialogue",
+    "background": "corridor",
+    "speaker": null,
+    "text": "속삭임의 시장 뒤편. 좁은 골목 끝에 한 영혼이 웅크리고 있다.\n\n양복 차림. 명함이 바닥에 떨어져 있다: '편집장'.\n\n그가 소연을 보고 움찔한다.\n\n\"...소연씨?\"\n\n소연이 떨리는 손으로 쪽지를 쓴다.\n\n'왜 그랬어.'",
+    "choices": [
+      {
+        "text": "지켜본다",
+        "nextScene": "district_a_soyeon_quest_confrontation"
+      }
+    ]
+  },
+  {
+    "id": "district_a_soyeon_quest_confrontation",
+    "type": "dialogue",
+    "background": "corridor",
+    "speaker": null,
+    "text": "편집장이 고개를 숙인다.\n\n\"...협박을 받았어. 네 기사를 내보내면 신문사가 문을 닫는다고. 직원 200명이 길에 나앉는다고.\"\n\n\"그래서 기사를 삭제했어. 그리고 너를...\"\n\n그의 입도 봉합 자국이 있다. 자기가 자기 입을 꿰맨 것이다.\n\n\"...미안해. 매일 미안해.\"\n\n소연이 오래 서있다. 그리고 쪽지를 쓴다.",
+    "choices": [
+      {
+        "text": "\"용서해\" (소연에게 권유한다)",
+        "effects": [
+          { "type": "modifyKarma", "value": 5 },
+          { "type": "modifyCompanionTrust", "companion": "soyeon", "value": 15 },
+          { "type": "setFlag", "flag": "soyeon_forgave" }
+        ],
+        "nextScene": "district_a_soyeon_quest_resolve_forgive"
+      },
+      {
+        "text": "소연의 선택에 맡긴다",
+        "effects": [
+          { "type": "modifyCompanionTrust", "companion": "soyeon", "value": 20 },
+          { "type": "setFlag", "flag": "soyeon_chose_herself" }
+        ],
+        "nextScene": "district_a_soyeon_quest_resolve_choice"
+      }
+    ]
+  },
+  {
+    "id": "district_a_soyeon_quest_resolve_forgive",
+    "type": "dialogue",
+    "background": "corridor",
+    "speaker": "soyeon",
+    "text": "소연이 쪽지를 내민다.\n\n'용서까지는 못 해. 아직은.\n하지만 이해는 해.\n\n이 테이프 — 들어. 내가 왜 기자가 됐는지 들어있어.\n진실은 한 사람의 용기에서 시작하지만, 한 사람의 비겁함으로 끝나기도 해.\n\n...나는 다시 시작할 거야. 목소리가 없어도. 글로, 수화로, 쪽지로.'\n\n편집장이 테이프를 받고 운다.\n\n소연이 — 처음으로 — 미소짓는다.",
+    "effects": [
+      { "type": "addAbyssMemory", "id": "mem_soyeon_truth", "label": "소연이 다시 시작한 날", "weight": 4, "source": "district_a" }
+    ],
+    "choices": [
+      {
+        "text": "플랫폼 0으로 돌아간다",
+        "nextScene": "hub_platform0"
+      }
+    ]
+  },
+  {
+    "id": "district_a_soyeon_quest_resolve_choice",
+    "type": "dialogue",
+    "background": "corridor",
+    "speaker": "soyeon",
+    "text": "소연이 오래 생각한다. 그리고 쪽지를 쓴다.\n\n'나는 너를 미워했어. 오래.\n\n근데 미워하는 데 지쳤어. 그게 더 힘들더라.\n\n이 테이프는 내가 가지고 있을게. 언젠가 — 이 도시 밖에서 — 다시 방송할 거야.'\n\n소연이 테이프를 주머니에 넣고, 편집장에게 등을 돌린다.\n\n돌아서는 소연의 얼굴에 — 눈물이 아니라 결의가 있다.",
+    "effects": [
+      { "type": "addAbyssMemory", "id": "mem_soyeon_resolve", "label": "소연의 결의", "weight": 4, "source": "district_a" }
+    ],
+    "choices": [
+      {
+        "text": "플랫폼 0으로 돌아간다",
         "nextScene": "hub_platform0"
       }
     ]
