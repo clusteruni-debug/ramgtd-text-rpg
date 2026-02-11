@@ -412,6 +412,47 @@
   100% { transform: scale(1); opacity: 1; }
 }
 
+/* 주사위 성공/실패 glow */
+.dice-glow-success {
+  color: var(--exp-color) !important;
+  text-shadow: 0 0 20px var(--exp-color), 0 0 40px var(--exp-color) !important;
+}
+.dice-glow-failure {
+  color: var(--hp-color) !important;
+  text-shadow: 0 0 20px var(--hp-color), 0 0 40px var(--hp-color) !important;
+}
+
+/* 데미지/회복 팝업 */
+.damage-popup {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 18px;
+  font-weight: bold;
+  pointer-events: none;
+  z-index: 10;
+  animation: damage-float 1.2s ease-out forwards;
+}
+.damage-loss { color: var(--hp-color); }
+.damage-heal { color: var(--exp-color); }
+
+@keyframes damage-float {
+  0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  70% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-30px); }
+}
+
+/* HP 바 변동 플래시 */
+.hp-changed {
+  animation: hp-flash 0.5s ease;
+}
+@keyframes hp-flash {
+  0% { filter: brightness(1); }
+  30% { filter: brightness(1.8); }
+  100% { filter: brightness(1); }
+}
+
 /* 피해 흔들림 */
 .combat-shake {
   animation: combat-shake 0.4s ease;

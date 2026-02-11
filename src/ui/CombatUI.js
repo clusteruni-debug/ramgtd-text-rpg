@@ -109,6 +109,34 @@ export default class CombatUI {
     } else if (pct <= 50) {
       this.hpMiniFillEl.classList.add('hp-low');
     }
+
+    // HP 변동 플래시
+    if (this._lastHp !== undefined && this._lastHp !== hp) {
+      const delta = hp - this._lastHp;
+      // 데미지 팝업
+      this._showDamagePopup(delta);
+      // HP 바 플래시
+      const hpBar = this.el.querySelector('.combat-hp-mini');
+      if (hpBar) {
+        hpBar.classList.add('hp-changed');
+        setTimeout(() => hpBar.classList.remove('hp-changed'), 500);
+      }
+    }
+    this._lastHp = hp;
+  }
+
+  /** 데미지/회복 팝업 — HP 변동 시 떠오르는 숫자 */
+  _showDamagePopup(value) {
+    if (value === 0) return;
+    const popup = createElement('div', `damage-popup ${value < 0 ? 'damage-loss' : 'damage-heal'}`);
+    popup.textContent = `${value > 0 ? '+' : ''}${value}`;
+    // HP 바 근처에 배치
+    const hpMini = this.el.querySelector('.combat-hp-mini');
+    if (hpMini) {
+      hpMini.style.position = 'relative';
+      hpMini.appendChild(popup);
+      setTimeout(() => popup.remove(), 1200);
+    }
   }
 
   _showChoosePhase(data) {
@@ -191,20 +219,25 @@ export default class CombatUI {
     `;
 
     const numEl = this.resultEl.querySelector('.dice-rolling-number');
-    let count = 0;
 
-    this._diceInterval = setInterval(() => {
-      numEl.textContent = Math.floor(Math.random() * 6) + 1;
-      count++;
-      if (count >= 10) {
-        this._clearDiceInterval();
+    // 가속 타임아웃 체인 — 처음 빠르게, 점점 느려지며 멈춤
+    const delays = [50, 55, 60, 70, 80, 100, 120, 150, 200, 250];
+    let step = 0;
+    const rollStep = () => {
+      if (step < delays.length) {
+        numEl.textContent = Math.floor(Math.random() * 6) + 1;
+        step++;
+        this._diceTimeout = setTimeout(rollStep, delays[step - 1]);
+      } else {
+        // 최종 결과
         numEl.textContent = data.roll;
         numEl.classList.add('dice-settled');
-
-        // Phase 2: 전체 결과 표시 (0.5초 후)
+        // 성공/실패 glow
+        numEl.classList.add(data.success ? 'dice-glow-success' : 'dice-glow-failure');
         setTimeout(() => this._showFullResult(data), 500);
       }
-    }, 70);
+    };
+    rollStep();
   }
 
   _showFullResult(data) {
@@ -329,6 +362,10 @@ export default class CombatUI {
     if (this._diceInterval) {
       clearInterval(this._diceInterval);
       this._diceInterval = null;
+    }
+    if (this._diceTimeout) {
+      clearTimeout(this._diceTimeout);
+      this._diceTimeout = null;
     }
   }
 
