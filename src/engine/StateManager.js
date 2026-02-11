@@ -133,6 +133,13 @@ export default class StateManager {
 
   // --- 동료 ---
   addCompanion(companion) {
+    // 스킬에 currentCharges 자동 부여
+    if (companion.skills && companion.skills.length > 0) {
+      companion.skills = companion.skills.map(s => ({
+        ...s,
+        currentCharges: s.currentCharges ?? s.chargesPerRun ?? 0,
+      }));
+    }
     this.state.companions.push(companion);
     this.emit('companionJoined', { companion });
   }
@@ -167,6 +174,46 @@ export default class StateManager {
 
   getAliveCompanions() {
     return this.state.companions.filter(c => c.alive !== false);
+  }
+
+  /** 동료 스킬 사용 — 충전 차감, 이벤트 emit */
+  useCompanionSkill(companionId, skillId) {
+    const comp = this.getCompanion(companionId);
+    if (!comp || comp.alive === false) return false;
+    const skill = (comp.skills || []).find(s => s.id === skillId);
+    if (!skill || (skill.currentCharges ?? 0) <= 0) return false;
+    skill.currentCharges--;
+    this.emit('companionSkillUsed', { companion: comp, skill });
+    return true;
+  }
+
+  /** 모든 동료 스킬 충전 리셋 (휴식 시 호출) */
+  resetCompanionSkillCharges() {
+    this.state.companions.forEach(comp => {
+      if (comp.alive === false) return;
+      (comp.skills || []).forEach(s => {
+        s.currentCharges = s.chargesPerRun ?? 0;
+      });
+    });
+    this.emit('companionSkillsReset', null);
+  }
+
+  /** 현재 사용 가능한 동료 스킬 목록 반환 */
+  getAvailableCompanionSkills() {
+    const skills = [];
+    this.state.companions.forEach(comp => {
+      if (comp.alive === false) return;
+      (comp.skills || []).forEach(s => {
+        if ((s.currentCharges ?? 0) > 0) {
+          skills.push({
+            companionId: comp.id,
+            companionName: comp.name,
+            ...s,
+          });
+        }
+      });
+    });
+    return skills;
   }
 
   // --- 인벤토리 ---

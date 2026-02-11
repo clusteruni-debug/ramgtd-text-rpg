@@ -1,13 +1,14 @@
 /**
  * CompanionPanel - 동료 목록 및 상세 정보
- * 신뢰도, 생존 상태, 스킬 표시
+ * 신뢰도, 생존 상태, 스킬 + 충전 표시, 초상화
  */
 import { createElement } from '../utils/helpers.js';
 
 export default class CompanionPanel {
-  constructor(container, stateManager) {
+  constructor(container, stateManager, getCharacterData = null) {
     this.container = container;
     this.state = stateManager;
+    this._getCharacterData = getCharacterData; // (id) => charData
 
     this._build();
     this._subscribe();
@@ -39,7 +40,19 @@ export default class CompanionPanel {
     this.state.on('companionJoined', () => this.render());
     this.state.on('companionDied', () => this.render());
     this.state.on('companionTrustChanged', () => this.render());
+    this.state.on('companionSkillUsed', () => this.render());
+    this.state.on('companionSkillsReset', () => this.render());
     this.state.on('stateLoaded', () => this.render());
+  }
+
+  /** 초상화 HTML — portrait 있으면 img, 없으면 이모지 폴백 */
+  _getPortraitHtml(comp) {
+    const charData = this._getCharacterData ? this._getCharacterData(comp.id) : null;
+    if (charData && charData.portrait) {
+      const src = (import.meta.env.BASE_URL || '/') + charData.portrait;
+      return `<img class="comp-portrait-img" src="${src}" alt="${comp.name}" onerror="this.replaceWith(document.createTextNode('${comp.alive === false ? '💀' : '👤'}'))">`;
+    }
+    return comp.alive === false ? '💀' : '👤';
   }
 
   render() {
@@ -67,8 +80,23 @@ export default class CompanionPanel {
       else if (trust >= 50) trustLabel = '신뢰';
       else if (trust >= 20) trustLabel = '우호';
 
+      // 스킬 HTML (충전 표시 포함)
+      let skillsHtml = '';
+      if (comp.alive !== false && comp.skills && comp.skills.length > 0) {
+        const skillTags = comp.skills.map(s => {
+          const charges = s.currentCharges ?? 0;
+          const maxCharges = s.chargesPerRun ?? 0;
+          const depleted = charges <= 0;
+          const depletedClass = depleted ? 'skill-depleted' : '';
+          return `<span class="comp-skill ${depletedClass}" title="${s.description || ''}">
+            ${s.name || s.id} <span class="skill-charges">[${charges}/${maxCharges}]</span>
+          </span>`;
+        }).join('');
+        skillsHtml = `<div class="comp-skills">${skillTags}</div>`;
+      }
+
       card.innerHTML = `
-        <div class="comp-portrait">${comp.alive === false ? '💀' : '👤'}</div>
+        <div class="comp-portrait">${this._getPortraitHtml(comp)}</div>
         <div class="comp-info">
           <div class="comp-name">${comp.name} ${comp.alive === false ? '<span class="comp-dead-tag">영구 사망</span>' : ''}</div>
           ${comp.alive !== false ? `
@@ -78,13 +106,7 @@ export default class CompanionPanel {
                 <div class="comp-trust-fill" style="width: ${trustPercent}%"></div>
               </div>
             </div>
-            ${comp.skills && comp.skills.length > 0 ? `
-              <div class="comp-skills">
-                ${comp.skills.map(s =>
-                  `<span class="comp-skill" title="${s.description || ''}">${s.name || s.id}</span>`
-                ).join('')}
-              </div>
-            ` : ''}
+            ${skillsHtml}
           ` : '<div class="comp-dead-msg">이 세계에서 영원히 사라졌습니다.</div>'}
         </div>
       `;

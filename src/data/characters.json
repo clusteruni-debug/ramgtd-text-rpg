@@ -51,7 +51,17 @@
     "name": "민준",
     "description": "B지구(철의 오피스)에서 만나는 과로사한 영혼. 생전에 IT 회사 개발자였다. 아직도 노트북을 들고 다닌다. 논리적이지만 정이 많다.",
     "district": "B",
-    "companion": true
+    "companion": true,
+    "skills": [
+      {
+        "id": "debug_scan",
+        "name": "디버그 스캔",
+        "description": "적의 약점을 분석 (이성 DC-1)",
+        "stat": "reason",
+        "dcModifier": -1,
+        "chargesPerRun": 2
+      }
+    ]
   },
   {
     "id": "foreman",
@@ -68,7 +78,17 @@
     "name": "소연",
     "description": "A지구(침묵의 멘션)에서 만나는 내부 고발자의 영혼. 생전에 기자였다. 진실을 말하다 목소리를 잃었다. 수화로 소통한다.",
     "district": "A",
-    "companion": true
+    "companion": true,
+    "skills": [
+      {
+        "id": "silent_signal",
+        "name": "무언의 신호",
+        "description": "위험을 미리 감지 (감각 DC-1)",
+        "stat": "sense",
+        "dcModifier": -1,
+        "chargesPerRun": 2
+      }
+    ]
   },
   {
     "id": "ticket_inspector",

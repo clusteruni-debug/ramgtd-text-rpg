@@ -480,6 +480,29 @@
   font-style: italic;
 }
 
+/* 동료 초상화 이미지 */
+.comp-portrait-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+}
+
+/* 스킬 충전 표시 */
+.skill-charges {
+  font-size: 9px;
+  color: var(--text-secondary);
+  margin-left: 2px;
+}
+
+/* 스킬 소진 상태 */
+.comp-skill.skill-depleted {
+  opacity: 0.4;
+  text-decoration: line-through;
+  color: var(--text-secondary);
+}
+
 /* ===== 허브 메뉴 (Platform 0) ===== */
 .hub-menu {
   position: absolute;

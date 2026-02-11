@@ -103,7 +103,7 @@ export default class Game {
     this.deathScreen = new DeathScreen(this.app);
     this.mapUI = new MapUI(this.app, this.stateManager);
     this.upgradeUI = new UpgradeUI(this.app, this.stateManager);
-    this.companionPanel = new CompanionPanel(this.app, this.stateManager);
+    this.companionPanel = new CompanionPanel(this.app, this.stateManager, (id) => this.sceneManager.getCharacter(id));
   }
 
   _bindEvents() {
@@ -148,12 +148,16 @@ export default class Game {
       }
     });
 
-    // 인벤토리 아이템 사용
+    // 인벤토리 아이템 사용 — 단일 또는 멀티 이펙트 지원
     this.inventoryPanel.onUseItem((itemId) => {
       const item = this.stateManager.getItem(itemId);
       if (!item || item.type !== 'consumable') return;
       if (item.effect) {
-        this.sceneManager.applyEffect(item.effect);
+        if (Array.isArray(item.effect)) {
+          this.sceneManager.applyEffects(item.effect);
+        } else {
+          this.sceneManager.applyEffect(item.effect);
+        }
       }
       this.stateManager.removeItem(itemId, 1);
       this.showToast(`${item.name} 사용!`, 'success');
@@ -351,8 +355,9 @@ export default class Game {
       this.sceneManager.applyEffects(scene.effects);
     }
 
-    // 엔딩 도달 시 메타 기록
+    // 엔딩 도달 시 메타 기록 + 보상 적용
     if (scene.type === 'ending' && scene.endingType) {
+      this.metaProgression.applyEndingRewards(scene.endingType);
       this.metaProgression.recordVictory();
       this.metaProgression.recordEnding(scene.endingType);
       this.metaProgression.save();
@@ -614,10 +619,11 @@ export default class Game {
     this.mapUI.hide();
     this.upgradeUI.hide();
 
-    // HP 전량 회복
+    // HP 전량 회복 + 동료 스킬 충전 리셋
     const oldHp = this.stateManager.getStat('hp');
     const maxHp = this.stateManager.getStat('maxHp');
     this.stateManager.setStat('hp', maxHp);
+    this.stateManager.resetCompanionSkillCharges();
     const healed = maxHp - oldHp;
 
     this._setBackground('station');
