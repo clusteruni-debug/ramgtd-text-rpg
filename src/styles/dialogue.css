@@ -4,7 +4,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 200px;
+  height: var(--dialogue-height);
   background: var(--bg-dialogue);
   border-top: var(--border-width) solid var(--border-color);
   padding: 0;
@@ -16,8 +16,8 @@
 
 /* 초상화 */
 .dialogue-portrait {
-  width: 160px;
-  min-width: 160px;
+  width: var(--portrait-width);
+  min-width: var(--portrait-width);
   height: 100%;
   overflow: hidden;
   border-right: 2px solid var(--border-color);
@@ -87,7 +87,7 @@
 /* ===== 선택지 버튼 ===== */
 .choice-buttons {
   position: absolute;
-  bottom: 210px;
+  bottom: calc(var(--dialogue-height) + 10px);
   left: 0;
   right: 0;
   display: flex;
@@ -157,7 +157,7 @@
 }
 
 .title-text {
-  font-size: 48px;
+  font-size: var(--title-font-size);
   color: var(--text-accent);
   text-shadow:
     0 0 10px var(--text-accent),
@@ -290,8 +290,8 @@
 }
 
 .menu-btn {
-  width: 36px;
-  height: 36px;
+  width: var(--menu-btn-size);
+  height: var(--menu-btn-size);
   background: var(--bg-panel);
   border: 2px solid var(--border-color);
   font-size: 16px;
@@ -527,4 +527,38 @@
   padding: 4px 12px;
   background: var(--bg-panel);
   border-left: 3px solid var(--exp-color);
+}
+
+/* ===== 반응형: 폰 ===== */
+@media (max-width: 480px) {
+  .dialogue-portrait {
+    display: none;
+  }
+
+  .dialogue-content {
+    padding: 10px 14px;
+  }
+
+  .title-btn {
+    padding: 12px 24px;
+    min-width: 180px;
+  }
+
+  .choice-btn {
+    width: 95%;
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .death-title {
+    font-size: 24px;
+  }
+
+  .death-content {
+    padding: 16px;
+  }
+
+  .save-slots, .save-dialog {
+    max-width: 90vw;
+  }
 }

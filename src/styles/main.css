@@ -33,6 +33,12 @@
   --game-height: 600px;
   --pixel-size: 4px;
   --border-width: 3px;
+
+  /* 반응형 변수 */
+  --dialogue-height: 200px;
+  --portrait-width: 160px;
+  --menu-btn-size: 36px;
+  --title-font-size: 48px;
 }
 
 * {
@@ -324,16 +330,36 @@ button:disabled {
   opacity: 0.5;
 }
 
+/* ===== 공통 포커스 스타일 ===== */
+button:focus { outline: none; }
+button:focus-visible {
+  outline: 2px solid var(--text-speaker);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.3);
+}
+
 /* ===== 반응형 ===== */
 @media (max-width: 820px) {
   :root {
     --game-width: 100vw;
     --game-height: 100vh;
+    --menu-btn-size: 44px;
+    --dialogue-height: 180px;
+    --portrait-width: 120px;
   }
 
   #app {
     border: none;
     box-shadow: none;
     border-radius: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --dialogue-height: 160px;
+    --portrait-width: 0px;
+    --title-font-size: 32px;
+    --menu-btn-size: 44px;
   }
 }

@@ -27,10 +27,10 @@ export default class TitleScreen {
         </div>
         <div class="title-run-info hidden"></div>
         <div class="title-menu">
-          <button class="title-btn new-game-btn">&#9654; 새 게임</button>
-          <button class="title-btn continue-btn">&#9654; 이어하기</button>
-          <button class="title-btn perks-btn hidden">&#9733; 특전 목록</button>
-          <button class="title-btn test-combat-btn">&#9876; 전투 테스트</button>
+          <button class="title-btn new-game-btn" aria-label="새 게임 시작">&#9654; 새 게임</button>
+          <button class="title-btn continue-btn" aria-label="이어하기">&#9654; 이어하기</button>
+          <button class="title-btn perks-btn hidden" aria-label="특전 목록 보기">&#9733; 특전 목록</button>
+          <button class="title-btn test-combat-btn" aria-label="전투 테스트">&#9876; 전투 테스트</button>
         </div>
         <div class="save-slots hidden"></div>
         <div class="perks-panel hidden"></div>

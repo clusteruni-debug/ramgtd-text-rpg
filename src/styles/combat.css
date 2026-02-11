@@ -666,3 +666,45 @@
   color: var(--text-secondary);
   margin-top: 8px;
 }
+
+/* ===== 반응형: 폰 ===== */
+@media (max-width: 480px) {
+  .enemy-sprite {
+    width: 56px;
+    height: 56px;
+  }
+
+  .combat-enemy {
+    padding: 20px 12px 8px;
+  }
+
+  .dice-face-large {
+    font-size: 32px;
+  }
+
+  .dice-rolling-number {
+    font-size: 40px;
+    min-width: 44px;
+  }
+
+  .combat-choice-btn {
+    min-height: 44px;
+    padding: 10px 10px;
+    gap: 6px;
+  }
+
+  .combat-body {
+    padding: 0 10px;
+  }
+
+  .combat-round-text {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .combat-log {
+    padding: 6px 10px;
+    min-height: 60px;
+    max-height: 80px;
+  }
+}

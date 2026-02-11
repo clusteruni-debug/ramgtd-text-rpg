@@ -16,11 +16,16 @@ export default class MenuBar {
   _build() {
     this.el = createElement('div', 'menu-bar');
     this.el.innerHTML = `
-      <button class="menu-btn" data-action="inventory" title="인벤토리">🎒</button>
-      <button class="menu-btn" data-action="companion" title="동료">👥</button>
-      <button class="menu-btn" data-action="save" title="세이브">💾</button>
-      <button class="menu-btn" data-action="title" title="타이틀로">🏠</button>
+      <button class="menu-btn" data-action="inventory" title="인벤토리" aria-label="인벤토리">🎒</button>
+      <button class="menu-btn" data-action="companion" title="동료" aria-label="동료">👥</button>
+      <button class="menu-btn" data-action="log" title="대화 기록" aria-label="대화 기록">📜</button>
+      <button class="menu-btn" data-action="save" title="세이브" aria-label="세이브">💾</button>
+      <button class="menu-btn" data-action="settings" title="설정" aria-label="설정">⚙️</button>
+      <button class="menu-btn" data-action="title" title="타이틀로" aria-label="타이틀로">🏠</button>
+      <span class="save-indicator" aria-hidden="true">💾 저장됨</span>
     `;
+
+    this.saveIndicator = this.el.querySelector('.save-indicator');
 
     // 버튼 이벤트
     this.el.querySelectorAll('.menu-btn').forEach(btn => {
@@ -39,6 +44,15 @@ export default class MenuBar {
     this.el.appendChild(this.saveDialog);
 
     this.container.appendChild(this.el);
+  }
+
+  /** 오토세이브 시 💾 pulse 애니메이션 */
+  flashSaveIndicator() {
+    if (!this.saveIndicator) return;
+    this.saveIndicator.classList.remove('active');
+    // force reflow
+    void this.saveIndicator.offsetWidth;
+    this.saveIndicator.classList.add('active');
   }
 
   _showSaveDialog() {

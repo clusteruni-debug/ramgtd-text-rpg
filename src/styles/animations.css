@@ -236,3 +236,76 @@
   85% { opacity: 1; }
   100% { opacity: 0; }
 }
+
+/* ===== 오토세이브 인디케이터 ===== */
+@keyframes save-pulse {
+  0% { opacity: 0; transform: scale(0.8); }
+  15% { opacity: 1; transform: scale(1.1); }
+  30% { opacity: 1; transform: scale(1); }
+  70% { opacity: 0.8; }
+  100% { opacity: 0; }
+}
+
+.save-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--exp-color);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.save-indicator.active {
+  animation: save-pulse 1.5s ease forwards;
+}
+
+/* ===== 씬 전환 오버레이 ===== */
+.transition-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.transition-overlay.transition-active {
+  opacity: 1;
+}
+
+.transition-fade {
+  background: #000;
+}
+
+.transition-combat {
+  background: radial-gradient(circle, rgba(233, 69, 96, 0.6) 0%, rgba(10, 0, 0, 0.9) 100%);
+  transition-duration: 0.15s;
+}
+
+.transition-glitch {
+  background: repeating-linear-gradient(
+    0deg,
+    #e94560 0px, #e94560 2px,
+    #0f0e17 2px, #0f0e17 4px
+  );
+  animation: glitch-transition 0.3s steps(3) infinite;
+  transition-duration: 0.15s;
+}
+
+@keyframes glitch-transition {
+  0% { background-position: 0 0; }
+  33% { background-position: -2px 1px; }
+  66% { background-position: 2px -1px; }
+  100% { background-position: 0 0; }
+}
+
+/* ===== 반응형: 폰 ===== */
+@media (max-width: 480px) {
+  .inventory-panel {
+    width: 90vw;
+  }
+}

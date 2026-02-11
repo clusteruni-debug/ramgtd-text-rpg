@@ -8,6 +8,8 @@ export default class ChoiceButtons {
   constructor(container) {
     this.container = container;
     this.el = createElement('div', 'choice-buttons');
+    this.el.setAttribute('role', 'group');
+    this.el.setAttribute('aria-label', '선택지');
     this.container.appendChild(this.el);
     this.hide();
   }
@@ -38,6 +40,7 @@ export default class ChoiceButtons {
         const btn = createElement('button', 'choice-btn');
         btn.textContent = choice.text;
         btn.dataset.index = index;
+        btn.setAttribute('aria-label', `선택 ${index + 1}: ${choice.text}`);
 
         if (!choice.available) {
           btn.classList.add('disabled');

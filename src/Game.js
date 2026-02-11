@@ -9,6 +9,7 @@ import DialogueRenderer from './engine/DialogueRenderer.js';
 import CombatSystem from './engine/CombatSystem.js';
 import SaveLoadSystem from './engine/SaveLoadSystem.js';
 import MetaProgression from './engine/MetaProgression.js';
+import AudioManager from './engine/AudioManager.js';
 
 import DialogueBox from './ui/DialogueBox.js';
 import ChoiceButtons from './ui/ChoiceButtons.js';
@@ -21,6 +22,8 @@ import DeathScreen from './ui/DeathScreen.js';
 import MapUI from './ui/MapUI.js';
 import UpgradeUI from './ui/UpgradeUI.js';
 import CompanionPanel from './ui/CompanionPanel.js';
+import SettingsPanel from './ui/SettingsPanel.js';
+import DialogueLog from './ui/DialogueLog.js';
 
 import { createElement, deepClone, delay } from './utils/helpers.js';
 
@@ -58,6 +61,7 @@ export default class Game {
       (effects) => this.sceneManager.applyEffects(effects)
     );
     this.saveLoadSystem = new SaveLoadSystem(this.stateManager, this.metaProgression);
+    this.audioManager = new AudioManager();
 
     // 데이터 로드
     this.sceneManager.loadScenes(prologueScenes);
@@ -75,12 +79,12 @@ export default class Game {
     this.sceneManager.loadEnemies(enemies);
     this.sceneManager.loadConfig(gameConfig);
 
-    // 타이핑 속도
-    this.dialogueRenderer.setSpeed(gameConfig.typingSpeed || 30);
-
     // UI 빌드
     this._buildUI();
     this._bindEvents();
+
+    // 타이핑 속도: 설정 패널 값 우선, 없으면 config 값
+    this.dialogueRenderer.setSpeed(this.settingsPanel.typingSpeed || gameConfig.typingSpeed || 30);
 
     // 타이틀 화면
     this.showTitle();
@@ -89,6 +93,10 @@ export default class Game {
   _buildUI() {
     this.bgEl = createElement('div', 'game-background');
     this.app.appendChild(this.bgEl);
+
+    // 씬 전환 오버레이
+    this.transitionOverlay = createElement('div', 'transition-overlay');
+    this.app.appendChild(this.transitionOverlay);
 
     this.gameContainer = createElement('div', 'game-container');
     this.app.appendChild(this.gameContainer);
@@ -104,9 +112,17 @@ export default class Game {
     this.mapUI = new MapUI(this.app, this.stateManager);
     this.upgradeUI = new UpgradeUI(this.app, this.stateManager);
     this.companionPanel = new CompanionPanel(this.app, this.stateManager, (id) => this.sceneManager.getCharacter(id));
+    this.settingsPanel = new SettingsPanel(this.app, this.dialogueRenderer, this.audioManager, this.saveLoadSystem);
+    this.dialogueLog = new DialogueLog(this.app);
+    this.dialogueBox.setLog(this.dialogueLog);
   }
 
   _bindEvents() {
+    // 오디오 자동재생 정책 대응: 첫 인터랙션 시 resume
+    const resumeAudio = () => this.audioManager.resume();
+    document.addEventListener('click', resumeAudio, { once: true });
+    document.addEventListener('keydown', resumeAudio, { once: true });
+
     // 타이틀 → 새 게임 / 이어하기
     this.titleScreen.onNewGame(() => this.startNewGame());
     this.titleScreen.onLoadGame(() => this.resumeGame());
@@ -120,6 +136,8 @@ export default class Game {
     // 메뉴바
     this.menuBar.on('inventory', () => this.inventoryPanel.toggle());
     this.menuBar.on('companion', () => this.companionPanel.toggle());
+    this.menuBar.on('log', () => this.dialogueLog.toggle());
+    this.menuBar.on('settings', () => this.settingsPanel.toggle());
     this.menuBar.on('title', () => this.showTitle());
     this.menuBar.on('onSave', (slot) => this.showToast(`슬롯 ${slot + 1}에 세이브 완료!`, 'success'));
 
@@ -188,9 +206,12 @@ export default class Game {
     this.mapUI.hide();
     this.upgradeUI.hide();
     this.companionPanel.hide();
+    this.settingsPanel.hide();
+    this.dialogueLog.hide();
     this.statsPanel.el.classList.add('hidden');
     this.menuBar.hide();
     this.inventoryPanel.hide();
+    this.audioManager.stopBGM();
     this.bgEl.className = 'game-background';
     this.titleScreen.show();
   }
@@ -206,6 +227,7 @@ export default class Game {
 
     this.titleScreen.hide();
     this.deathScreen.hide();
+    this.dialogueLog.clear();
     this.statsPanel.el.classList.remove('hidden');
     this.statsPanel.update();
     this.menuBar.show();
@@ -231,7 +253,7 @@ export default class Game {
 
   // --- 사망 처리 ---
   // GDD v2: 그 자리에서 부활, 현실 기억 1개 소멸
-  _handleDeath() {
+  async _handleDeath() {
     // 현실 기억 소멸
     const lostMemory = this.stateManager.loseRealMemory();
     const remaining = this.stateManager.getRealMemoryCount();
@@ -270,7 +292,7 @@ export default class Game {
     this.choiceButtons.hide();
     this.statsPanel.el.classList.add('hidden');
     this.menuBar.hide();
-    this._setBackground('glitch');
+    await this._setBackground('glitch', 'glitch');
 
     // 사망 화면 표시
     this.deathScreen.show(lostMemory, remaining, isGameOver, this.metaProgression.serialize());
@@ -352,8 +374,16 @@ export default class Game {
     }
 
     this.stateManager.setCurrentScene(sceneId);
-    this.saveLoadSystem.autoSave();
-    this._setBackground(scene.background);
+    if (this.settingsPanel.autoSaveEnabled) {
+      this.saveLoadSystem.autoSave();
+      this.menuBar.flashSaveIndicator();
+    }
+    await this._setBackground(scene.background);
+
+    // 씬 BGM
+    if (scene.bgm) {
+      this.audioManager.playBGM(scene.bgm);
+    }
 
     // 씬 진입 효과
     if (scene.effects) {
@@ -472,10 +502,12 @@ export default class Game {
           this.combatUI.hide();
 
           if (result.victory) {
+            this.audioManager.playSFX('victory.mp3');
             if (scene.victoryScene) {
               this.playScene(scene.victoryScene);
             }
           } else {
+            this.audioManager.playSFX('defeat.mp3');
             this._handleDeath();
           }
 
@@ -486,7 +518,7 @@ export default class Game {
   }
 
   // --- 전투 테스트 ---
-  _startTestCombat() {
+  async _startTestCombat() {
     this.metaProgression.startNewRun();
     const bonuses = this.metaProgression.getRunBonuses();
     this.stateManager.reset(gameConfig, bonuses);
@@ -495,7 +527,7 @@ export default class Game {
     this.statsPanel.el.classList.remove('hidden');
     this.statsPanel.update();
     this.menuBar.show();
-    this._setBackground('boss');
+    await this._setBackground('boss', 'combat');
 
     const testEnemy = { name: '연습용 더미', sprite: 'default' };
     const testRounds = [
@@ -668,18 +700,39 @@ export default class Game {
     this.upgradeUI.hide();
     this.companionPanel.hide();
     this.inventoryPanel.hide();
+    this.settingsPanel.hide();
+    this.dialogueLog.hide();
   }
 
   // --- 유틸 ---
-  _setBackground(bg) {
+  async _setBackground(bg, type = 'fade') {
     if (!bg) return;
+
+    const isSameBg = this.bgEl.classList.contains(`bg-${bg}`);
+    if (isSameBg) return;
+
+    const durationMap = { fade: 300, combat: 150, glitch: 150 };
+    const duration = durationMap[type] || 300;
+
+    // Phase 1: 오버레이 fade in
+    this.transitionOverlay.className = `transition-overlay transition-${type}`;
+    this.transitionOverlay.classList.add('transition-active');
+
+    await delay(duration);
+
+    // 배경 교체
     this.bgEl.className = `game-background bg-${bg}`;
-    this.bgEl.classList.add('scene-transition');
-    setTimeout(() => this.bgEl.classList.remove('scene-transition'), 600);
+
+    // Phase 2: 오버레이 fade out
+    this.transitionOverlay.classList.remove('transition-active');
+
+    await delay(duration);
   }
 
   showToast(message, type = '') {
     const toast = createElement('div', `toast ${type}`, message);
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
     this.app.appendChild(toast);
     setTimeout(() => toast.remove(), 2100);
   }

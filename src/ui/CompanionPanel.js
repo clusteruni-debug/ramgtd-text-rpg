@@ -17,10 +17,13 @@ export default class CompanionPanel {
 
   _build() {
     this.el = createElement('div', 'companion-panel');
+    this.el.setAttribute('role', 'dialog');
+    this.el.setAttribute('aria-modal', 'true');
+    this.el.setAttribute('aria-label', '동료 목록');
     this.el.innerHTML = `
       <div class="companion-header">
         <span class="companion-title">동료</span>
-        <button class="companion-close-btn">✕</button>
+        <button class="companion-close-btn" aria-label="닫기">✕</button>
       </div>
       <div class="companion-list"></div>
       <div class="companion-empty">아직 동료가 없습니다.</div>

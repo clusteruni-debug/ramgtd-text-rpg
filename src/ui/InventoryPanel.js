@@ -17,10 +17,13 @@ export default class InventoryPanel {
 
   _build() {
     this.el = createElement('div', 'inventory-panel');
+    this.el.setAttribute('role', 'dialog');
+    this.el.setAttribute('aria-modal', 'true');
+    this.el.setAttribute('aria-label', '인벤토리');
     this.el.innerHTML = `
       <div class="inventory-header">
         <span class="inventory-title">🎒 인벤토리</span>
-        <button class="inventory-close">✕</button>
+        <button class="inventory-close" aria-label="닫기">✕</button>
       </div>
       <div class="inventory-list"></div>
     `;

@@ -1,5 +1,25 @@
 # Changelog
 
+## [2026-02-11] 세션: 완성도 강화 — 7단계 UX/UI
+
+### 완료
+- **모바일 반응형**: CSS 변수 + 3단계 미디어 쿼리 (기본/태블릿≤820px/폰≤480px), 5개 CSS 파일 전체 반응형 처리
+- **오디오 시스템**: AudioManager.js — HTMLAudioElement 기반 BGM(loop)/SFX(oneshot), 파일 없으면 조용히 무시 (graceful degradation)
+- **설정 메뉴**: SettingsPanel.js — 텍스트 속도(10-80ms), BGM/SFX 볼륨, 전체 음소거, 오토세이브 토글, 세이브 슬롯 삭제
+- **대화 로그**: DialogueLog.js — 최대 50개 엔트리 스크롤백, 📜 메뉴 버튼 + L키 토글, ESC 닫기
+- **접근성**: focus-visible 글로벌 스타일, aria-label/aria-live/role="dialog" (MenuBar, ChoiceButtons, CombatUI, TitleScreen, InventoryPanel, CompanionPanel, Toast)
+- **오토세이브 인디케이터**: 💾 save-pulse 애니메이션 (저장 시 1.5초 표시)
+- **씬 전환 연출**: 2단계 오버레이 (fade in → 배경 교체 → fade out), 3타입 (fade=검정300ms, combat=빨강150ms, glitch=스트라이프150ms)
+- **메뉴바 확장**: 🎒 👥 📜 💾 ⚙️ 🏠 (6버튼 + 저장 인디케이터)
+
+### 다음 세션
+- 동료 10명 확장 (사용자 캐릭터 설정 후 JSON 추가)
+- 이미지 연결 (초상화/배경/스프라이트)
+- 오디오 파일 추가 (public/audio/bgm/, public/audio/sfx/)
+- 밸런싱 (DC 조정, 엔그램 획득량)
+
+---
+
 ## [2026-02-11] 세션: 엔진 인프라 강화
 
 ### 완료
@@ -11,15 +31,6 @@
 - 맵 UI 개선: 지하철 노선도 스타일 (CSS 원형 마커, 호버 glow, 정화/잠금 뱃지)
 - 전투 UI 연출 강화: 주사위 감속 체인, 성공/실패 glow, 데미지 팝업, HP 플래시
 - 동료 스킬 전투 연동: DC 모디파이어 토글, 충전 차감, 스킬 바 UI
-
-### 진행중
-- (없음 — 9단계 플랜 전체 완료)
-
-### 다음 세션
-- 동료 10명 확장 (사용자 캐릭터 설정 후 JSON 추가)
-- 이미지 연결 (초상화/배경/스프라이트)
-- 밸런싱 (DC 조정, 엔그램 획득량)
-- 사운드/효과음 추가 검토
 
 ---
 

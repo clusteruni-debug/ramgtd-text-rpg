@@ -9,9 +9,15 @@ export default class DialogueBox {
     this.container = container;
     this.renderer = dialogueRenderer;
     this._onNext = null;
+    this._log = null;
 
     this._build();
     this._bindEvents();
+  }
+
+  /** 대화 로그 연결 */
+  setLog(dialogueLog) {
+    this._log = dialogueLog;
   }
 
   _build() {
@@ -84,6 +90,11 @@ export default class DialogueBox {
     this.nextEl.classList.add('hidden');
     await this.renderer.type(this.textEl, text);
     this.nextEl.classList.remove('hidden');
+
+    // 대화 로그에 기록
+    if (this._log) {
+      this._log.addEntry(speaker, text);
+    }
   }
 
   // 다음 버튼 콜백

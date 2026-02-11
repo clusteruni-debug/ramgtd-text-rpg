@@ -55,9 +55,9 @@ export default class CombatUI {
       <div class="combat-body">
         <div class="combat-round-text"></div>
         <div class="combat-choices"></div>
-        <div class="combat-result hidden"></div>
+        <div class="combat-result hidden" aria-live="polite"></div>
       </div>
-      <div class="combat-log"></div>
+      <div class="combat-log" aria-live="polite"></div>
     `;
 
     this.roundIndicatorEl = this.el.querySelector('.combat-round-indicator');
@@ -155,6 +155,8 @@ export default class CombatUI {
     // 선택지 생성
     this.choicesEl.innerHTML = '';
     this.choicesEl.classList.remove('hidden');
+    this.choicesEl.setAttribute('role', 'group');
+    this.choicesEl.setAttribute('aria-label', '전투 선택지');
 
     // 동료 스킬 바 (스킬이 있을 때만 표시)
     if (data.availableCompanionSkills && data.availableCompanionSkills.length > 0) {
