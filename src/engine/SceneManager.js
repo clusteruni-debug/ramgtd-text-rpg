@@ -198,16 +198,20 @@ export default class SceneManager {
         });
         break;
 
-      // 동료
-      case 'addCompanion':
+      // 동료 — characters.json에서 스킬 데이터 자동 병합
+      case 'addCompanion': {
+        const charData = this.characters[effect.companion];
+        // 씬 JSON의 skills보다 characters.json의 skills를 우선 (stat/dcModifier/chargesPerRun 포함)
+        const skills = (charData && charData.skills) || effect.skills || [];
         this.state.addCompanion({
           id: effect.companion,
-          name: effect.name,
+          name: effect.name || (charData && charData.name) || effect.companion,
           alive: true,
           trustLevel: effect.trustLevel || 0,
-          skills: effect.skills || [],
+          skills: skills.map(s => ({ ...s })), // 깊은 복사
         });
         break;
+      }
 
       // 동료 관계
       case 'modifyCompanionTrust':
