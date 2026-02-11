@@ -6,6 +6,26 @@ import { deepClone } from '../utils/helpers.js';
 
 const META_KEY = 'text_rpg_meta';
 
+/** 엔딩별 영구 보상 정의 — 최초 도달 시 1회만 부여 */
+const ENDING_REWARDS = {
+  bittersweet: {
+    perk: { id: 'memory_of_return', name: '귀환의 기억', description: '원점으로 돌아간 자의 지혜' },
+    bonus: { stat: 'reason', value: 1 },
+  },
+  hopeful: {
+    perk: { id: 'strangers_courage', name: '이방인의 용기', description: '새로운 세계에서 살아남은 용기' },
+    bonus: { stat: 'bond', value: 1 },
+  },
+  tragic: {
+    perk: { id: 'sacrifice_mark', name: '헌신의 흔적', description: '모든 것을 바친 자의 강인함' },
+    bonus: { stat: 'maxHp', value: 5 },
+  },
+  peaceful: {
+    perk: { id: 'guides_wisdom', name: '안내자의 지혜', description: '심연을 있는 그대로 받아들인 깨달음' },
+    bonus: { stat: 'sense', value: 1 },
+  },
+};
+
 export default class MetaProgression {
   constructor() {
     this.data = this._createInitialData();
@@ -81,6 +101,38 @@ export default class MetaProgression {
 
   getEndingsReached() {
     return Object.keys(this.data.endingsReached);
+  }
+
+  hasReachedEnding(endingType) {
+    return !!this.data.endingsReached[endingType];
+  }
+
+  /** 엔딩 보상 적용 — 최초 도달 시만 부여 */
+  applyEndingRewards(endingType) {
+    const reward = ENDING_REWARDS[endingType];
+    if (!reward) return false;
+    // 이미 보상 받았으면 스킵
+    if (this.hasPerk(reward.perk.id)) return false;
+
+    this.addPerk(reward.perk.id, {
+      name: reward.perk.name,
+      description: reward.perk.description,
+    });
+    if (reward.bonus) {
+      this.addPermanentBonus(reward.bonus.stat, reward.bonus.value);
+    }
+    return true;
+  }
+
+  /** 엔딩 보상 정보 (타이틀 표시용) */
+  static getEndingRewardInfo() {
+    return Object.entries(ENDING_REWARDS).map(([type, reward]) => ({
+      endingType: type,
+      perkId: reward.perk.id,
+      perkName: reward.perk.name,
+      perkDescription: reward.perk.description,
+      bonus: reward.bonus,
+    }));
   }
 
   startNewRun() {

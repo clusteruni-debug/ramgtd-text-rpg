@@ -126,6 +126,9 @@ export default class SceneManager {
       case 'deathCountGreaterThan':
         return this.meta && this.meta.data.totalDeaths > condition.value;
 
+      case 'hasReachedEnding':
+        return this.meta && this.meta.hasReachedEnding(condition.ending);
+
       default:
         console.warn(`알 수 없는 조건 타입: ${condition.type}`);
         return true;

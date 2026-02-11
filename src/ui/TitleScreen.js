@@ -3,6 +3,7 @@
  * 새 게임 / 이어하기 / 세이브 슬롯 선택 / 회차 정보 / 특전 확인
  */
 import { createElement } from '../utils/helpers.js';
+import MetaProgression from '../engine/MetaProgression.js';
 
 export default class TitleScreen {
   constructor(container, saveLoadSystem, metaProgression = null) {
@@ -161,6 +162,21 @@ export default class TitleScreen {
 
       this.perksPanel.innerHTML = html;
     }
+
+    // 엔딩 보상 섹션
+    const endingRewards = MetaProgression.getEndingRewardInfo();
+    const endingNames = { bittersweet: '원점회귀', hopeful: '이방인', tragic: '헌신', peaceful: '잔류' };
+    let endingHtml = '<div class="perks-bonus-title" style="margin-top:12px">결말 보상</div>';
+    endingRewards.forEach(r => {
+      const reached = this.meta && this.meta.hasReachedEnding(r.endingType);
+      const name = endingNames[r.endingType] || r.endingType;
+      if (reached) {
+        endingHtml += `<div class="perk-item"><span class="perk-name">${name}: ${r.perkName}</span><span class="perk-desc">${r.perkDescription}</span></div>`;
+      } else {
+        endingHtml += `<div class="perk-item" style="opacity:0.4"><span class="perk-name">${name}: ???</span><span class="perk-desc">이 결말을 도달하면 해금</span></div>`;
+      }
+    });
+    this.perksPanel.innerHTML += endingHtml;
 
     // 닫기 버튼
     const closeBtn = createElement('button', 'slot-btn slot-back', '← 닫기');
