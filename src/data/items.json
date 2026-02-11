@@ -110,5 +110,26 @@
     "description": "D지구에서 발견한 빨간 음료. 마시면 체력이 끓어오른다. 하지만 이성이 흐려진다.",
     "type": "consumable",
     "effect": { "type": "modifyStat", "stat": "body", "value": 1 }
+  },
+  {
+    "id": "engram_shard",
+    "name": "엔그램 결정",
+    "description": "응축된 기억 데이터의 결정체. 부서지면 엔그램으로 변환된다.",
+    "type": "consumable",
+    "effect": { "type": "addEngrams", "value": 10 }
+  },
+  {
+    "id": "karma_incense",
+    "name": "정화의 향",
+    "description": "태우면 마음이 맑아진다. 카르마가 명(Light) 쪽으로 기운다.",
+    "type": "consumable",
+    "effect": { "type": "modifyKarma", "value": 10 }
+  },
+  {
+    "id": "abyss_water",
+    "name": "심연의 샘물",
+    "description": "플랫폼 0 깊은 곳에서 솟는 검은 물. 마시면 모든 상처가 낫는다.",
+    "type": "consumable",
+    "effect": { "type": "fullHeal" }
   }
 ]
