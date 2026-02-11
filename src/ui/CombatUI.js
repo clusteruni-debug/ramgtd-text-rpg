@@ -5,6 +5,12 @@
  */
 import { createElement } from '../utils/helpers.js';
 
+const TIER_LABELS = {
+  minion: '하급',
+  elite: '정예',
+  boss: '보스',
+};
+
 const ALIGNMENT_LABELS = {
   light: '명',
   dark: '암',
@@ -70,7 +76,13 @@ export default class CombatUI {
   // CombatSystem onUpdate 콜백에서 호출
   updateCombat(data) {
     if (data.enemy) {
-      this.enemyNameEl.textContent = data.enemy.name;
+      // 적 이름 + tier 배지 표시
+      const tierLabel = TIER_LABELS[data.enemy.tier];
+      if (tierLabel) {
+        this.enemyNameEl.innerHTML = `${data.enemy.name} <span class="enemy-tier threat-${data.enemy.tier}">${tierLabel}</span>`;
+      } else {
+        this.enemyNameEl.textContent = data.enemy.name;
+      }
       this.enemySprite.className = `enemy-sprite enemy-${data.enemy.sprite || 'default'}`;
     }
 

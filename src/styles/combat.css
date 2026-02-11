@@ -118,6 +118,35 @@
   text-shadow: 0 0 8px var(--text-accent);
 }
 
+/* 적 등급 배지 */
+.enemy-tier {
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 2px;
+  margin-left: 6px;
+  vertical-align: middle;
+  letter-spacing: 1px;
+}
+.threat-minion {
+  color: var(--text-secondary);
+  border: 1px solid var(--text-secondary);
+}
+.threat-elite {
+  color: #f59e0b;
+  border: 1px solid #f59e0b;
+  text-shadow: 0 0 4px rgba(245, 158, 11, 0.3);
+}
+.threat-boss {
+  color: var(--hp-color);
+  border: 1px solid var(--hp-color);
+  text-shadow: 0 0 8px var(--hp-color);
+  animation: boss-glow 2s ease-in-out infinite;
+}
+@keyframes boss-glow {
+  0%, 100% { box-shadow: 0 0 4px rgba(239, 68, 68, 0.3); }
+  50% { box-shadow: 0 0 10px rgba(239, 68, 68, 0.6); }
+}
+
 /* 전투 본문 */
 .combat-body {
   flex: 1;

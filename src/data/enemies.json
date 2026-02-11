@@ -3,72 +3,108 @@
     "id": "shadow_self",
     "name": "그림자 자아",
     "sprite": "shadow",
-    "description": "당신과 같은 모습이지만 텅 비어 있는 그림자"
+    "description": "당신과 같은 모습이지만 텅 비어 있는 그림자",
+    "tier": "minion",
+    "threatLevel": 1,
+    "rewards": { "engrams": 5 }
   },
   {
     "id": "pain_collector",
     "name": "고통의 수집가",
     "sprite": "collector",
-    "description": "수천 개의 눈동자를 가진, 고통을 모으는 존재"
+    "description": "수천 개의 눈동자를 가진, 고통을 모으는 존재",
+    "tier": "elite",
+    "threatLevel": 3,
+    "rewards": { "engrams": 15 }
   },
   {
     "id": "ticket_inspector_enemy",
     "name": "검표원",
     "sprite": "default",
-    "description": "CCTV 얼굴을 한 관리직. 태블릿으로 스캔하며 '위반'을 선고한다."
+    "description": "CCTV 얼굴을 한 관리직. 태블릿으로 스캔하며 '위반'을 선고한다.",
+    "tier": "elite",
+    "threatLevel": 3,
+    "rewards": { "engrams": 10 }
   },
   {
     "id": "foreman",
     "name": "현장 소장",
     "sprite": "collector",
-    "description": "거대한 프레스 기계와 합체한 B지구의 지구장. 넥타이가 목에 파고들어 있다. '생산성'을 외치며 찍어누른다."
+    "description": "거대한 프레스 기계와 합체한 B지구의 지구장. 넥타이가 목에 파고들어 있다. '생산성'을 외치며 찍어누른다.",
+    "tier": "boss",
+    "threatLevel": 4,
+    "rewards": { "engrams": 25 }
   },
   {
     "id": "necktie_zombie",
     "name": "넥타이 좀비",
     "sprite": "shadow",
-    "description": "과로사한 직장인의 영혼. 서류 가방을 무기로 휘두른다. 눈이 빨갛고, '야근...'을 중얼거린다."
+    "description": "과로사한 직장인의 영혼. 서류 가방을 무기로 휘두른다. 눈이 빨갛고, '야근...'을 중얼거린다.",
+    "tier": "minion",
+    "threatLevel": 1,
+    "rewards": { "engrams": 5 }
   },
   {
     "id": "librarian",
     "name": "사서",
     "sprite": "collector",
-    "description": "입이 꿰매진 채 떠다니는 A지구의 지구장. 소리를 내면 혀를 자른다. 침묵으로 공격한다."
+    "description": "입이 꿰매진 채 떠다니는 A지구의 지구장. 소리를 내면 혀를 자른다. 침묵으로 공격한다.",
+    "tier": "boss",
+    "threatLevel": 4,
+    "rewards": { "engrams": 25 }
   },
   {
     "id": "censor_drone",
     "name": "검열 드론",
     "sprite": "default",
-    "description": "A지구를 순찰하는 비행 드론. 소리를 감지하면 공격한다. '정숙'이라 적힌 배너를 달고 있다."
+    "description": "A지구를 순찰하는 비행 드론. 소리를 감지하면 공격한다. '정숙'이라 적힌 배너를 달고 있다.",
+    "tier": "minion",
+    "threatLevel": 2,
+    "rewards": { "engrams": 8 }
   },
   {
     "id": "curator",
     "name": "동면 관리자",
     "sprite": "collector",
-    "description": "C지구의 지구장. 하체가 냉각 파이프에 연결된 채 영혼을 얼려 '보존'한다. 파란 눈에서 냉기가 나온다."
+    "description": "C지구의 지구장. 하체가 냉각 파이프에 연결된 채 영혼을 얼려 '보존'한다. 파란 눈에서 냉기가 나온다.",
+    "tier": "boss",
+    "threatLevel": 4,
+    "rewards": { "engrams": 30 }
   },
   {
     "id": "rage_fighter",
     "name": "분노의 투사",
     "sprite": "shadow",
-    "description": "D지구 파이트 클럽의 전사. 온몸에서 불꽃이 나며 맹목적으로 싸운다."
+    "description": "D지구 파이트 클럽의 전사. 온몸에서 불꽃이 나며 맹목적으로 싸운다.",
+    "tier": "minion",
+    "threatLevel": 2,
+    "rewards": { "engrams": 7 }
   },
   {
     "id": "chef",
     "name": "주방장",
     "sprite": "collector",
-    "description": "D지구의 지구장. 불타는 요리사 모자를 쓰고 프라이팬을 휘두른다. 분노를 태워 도시의 전기를 만든다."
+    "description": "D지구의 지구장. 불타는 요리사 모자를 쓰고 프라이팬을 휘두른다. 분노를 태워 도시의 전기를 만든다.",
+    "tier": "boss",
+    "threatLevel": 4,
+    "rewards": { "engrams": 30 }
   },
   {
     "id": "station_master",
     "name": "역장",
     "sprite": "collector",
-    "description": "중앙 환승 터미널의 관리자. 얼굴이 시계판이고, 호루라기로 열차를 조종한다. 시간을 조작하며 정시 운행을 강요한다."
+    "description": "중앙 환승 터미널의 관리자. 얼굴이 시계판이고, 호루라기로 열차를 조종한다. 시간을 조작하며 정시 운행을 강요한다.",
+    "tier": "boss",
+    "threatLevel": 5,
+    "rewards": { "engrams": 40 }
   },
   {
     "id": "mayor",
     "name": "시장",
     "sprite": "collector",
-    "description": "심연 도시의 최고 관리자. 거대한 스크린 얼굴, 수천 개의 케이블이 연결된 서버실의 중심. 영혼을 데이터로 처리하여 도시를 운영한다."
+    "description": "심연 도시의 최고 관리자. 거대한 스크린 얼굴, 수천 개의 케이블이 연결된 서버실의 중심. 영혼을 데이터로 처리하여 도시를 운영한다.",
+    "tier": "boss",
+    "threatLevel": 5,
+    "rewards": { "engrams": 50 }
   }
 ]
