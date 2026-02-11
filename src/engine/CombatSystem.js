@@ -28,6 +28,7 @@ export default class CombatSystem {
     this._onUpdate = null;
     this._onEnd = null;
     this._lastResult = null;
+    this._companionSkillActive = null; // 활성화된 동료 스킬
   }
 
   // --- 정적 유틸 ---
@@ -67,9 +68,27 @@ export default class CombatSystem {
     this._onUpdate = onUpdate;
     this._onEnd = onEnd;
     this._lastResult = null;
+    this._companionSkillActive = null;
 
     this._addLog(`${this.enemy.name}이(가) 나타났다!`);
     this._presentRound();
+  }
+
+  /** 동료 스킬 토글 — 활성화/비활성화 후 라운드 재표시 */
+  setCompanionSkill(skill) {
+    if (this._companionSkillActive && this._companionSkillActive.id === skill.id) {
+      // 같은 스킬 다시 클릭 → 비활성화
+      this._companionSkillActive = null;
+    } else {
+      this._companionSkillActive = skill;
+    }
+    // 선택지 DC/확률 재계산을 위해 라운드 재표시
+    this._presentRound();
+  }
+
+  /** 현재 활성 동료 스킬 반환 */
+  getActiveCompanionSkill() {
+    return this._companionSkillActive;
   }
 
   // 현재 라운드의 선택지 표시
@@ -80,24 +99,41 @@ export default class CombatSystem {
     }
 
     const round = this.rounds[this.currentRound];
+    const activeSkill = this._companionSkillActive;
+
+    // 사용 가능한 동료 스킬 목록
+    const availableCompanionSkills = this.state.getAvailableCompanionSkills();
+
     this._update({
       phase: 'choose',
       enemy: this.enemy,
       roundText: round.text,
       choices: round.choices.map(c => {
         const statValue = this.state.getStat(c.check.stat);
-        const dc = c.check.dc;
+        let dc = c.check.dc;
+
+        // 활성 동료 스킬의 stat이 선택지 stat과 일치하면 DC 수정
+        let dcModified = false;
+        if (activeSkill && activeSkill.stat === c.check.stat) {
+          dc = Math.max(1, dc + (activeSkill.dcModifier || 0));
+          dcModified = true;
+        }
+
         return {
           text: c.text,
           stat: c.check.stat,
           statName: STAT_NAMES[c.check.stat] || c.check.stat,
           statValue,
           dc,
+          baseDc: c.check.dc,
+          dcModified,
           difficulty: CombatSystem.getDifficultyLabel(dc),
           successRate: CombatSystem.getSuccessRate(statValue, dc),
           alignment: c.alignment || 'neutral',
         };
       }),
+      availableCompanionSkills,
+      activeCompanionSkill: activeSkill,
       log: [...this.log],
       isActive: true,
       roundIndex: this.currentRound,
@@ -120,7 +156,21 @@ export default class CombatSystem {
     const roll = rollD6();
     const statValue = this.state.getStat(choice.check.stat);
     const total = roll + statValue;
-    const dc = choice.check.dc;
+    let dc = choice.check.dc;
+
+    // 동료 스킬 DC 수정 적용
+    const activeSkill = this._companionSkillActive;
+    let skillUsed = false;
+    if (activeSkill && activeSkill.stat === choice.check.stat) {
+      dc = Math.max(1, dc + (activeSkill.dcModifier || 0));
+      // 충전 차감
+      this.state.useCompanionSkill(activeSkill.companionId, activeSkill.id);
+      this._addLog(`🤝 ${activeSkill.companionName}의 ${activeSkill.name} 발동! (DC ${choice.check.dc} → ${dc})`);
+      skillUsed = true;
+    }
+    // 스킬 사용 후 비활성화
+    this._companionSkillActive = null;
+
     const success = total >= dc;
     const statName = STAT_NAMES[choice.check.stat] || choice.check.stat;
 

@@ -156,6 +156,21 @@ export default class CombatUI {
     this.choicesEl.innerHTML = '';
     this.choicesEl.classList.remove('hidden');
 
+    // 동료 스킬 바 (스킬이 있을 때만 표시)
+    if (data.availableCompanionSkills && data.availableCompanionSkills.length > 0) {
+      const skillBar = createElement('div', 'companion-skill-bar');
+      data.availableCompanionSkills.forEach(skill => {
+        const isActive = data.activeCompanionSkill && data.activeCompanionSkill.id === skill.id;
+        const btn = createElement('button', `companion-skill-btn ${isActive ? 'active' : ''}`);
+        btn.innerHTML = `${skill.companionName}: ${skill.name} [${skill.currentCharges}] DC${skill.dcModifier > 0 ? '+' : ''}${skill.dcModifier}`;
+        btn.addEventListener('click', () => {
+          if (this._onCompanionSkill) this._onCompanionSkill(skill);
+        });
+        skillBar.appendChild(btn);
+      });
+      this.choicesEl.appendChild(skillBar);
+    }
+
     data.choices.forEach((choice, index) => {
       const alignClass = choice.alignment !== 'neutral' ? `choice-${choice.alignment}` : '';
       const diffClass = `difficulty-${choice.difficulty}`;
@@ -165,7 +180,12 @@ export default class CombatUI {
       if (ALIGNMENT_LABELS[choice.alignment]) {
         labelParts.push(ALIGNMENT_LABELS[choice.alignment]);
       }
-      labelParts.push(`${choice.statName} DC${choice.dc}`);
+      // DC 수정 시 원래 DC 대비 표시
+      if (choice.dcModified) {
+        labelParts.push(`${choice.statName} DC${choice.dc} (${choice.baseDc})`);
+      } else {
+        labelParts.push(`${choice.statName} DC${choice.dc}`);
+      }
 
       btn.innerHTML = `
         <span class="choice-key">${index + 1}</span>
@@ -371,6 +391,7 @@ export default class CombatUI {
 
   onChoice(callback) { this._onChoice = callback; }
   onProceed(callback) { this._onProceed = callback; }
+  onCompanionSkill(callback) { this._onCompanionSkill = callback; }
 
   show() { this.el.classList.remove('hidden'); }
 

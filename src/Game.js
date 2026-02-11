@@ -172,6 +172,11 @@ export default class Game {
     this.combatUI.onProceed(() => {
       this.combatSystem.proceedToNextRound();
     });
+
+    // 전투 UI: 동료 스킬 토글
+    this.combatUI.onCompanionSkill((skill) => {
+      this.combatSystem.setCompanionSkill(skill);
+    });
   }
 
   // --- 게임 흐름 ---

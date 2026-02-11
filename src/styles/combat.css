@@ -241,6 +241,39 @@
 .difficulty-extreme { color: #a855f7; }
 .difficulty-impossible { color: var(--text-secondary); }
 
+/* 동료 스킬 바 (전투 선택지 위) */
+.companion-skill-bar {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 6px 0;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.companion-skill-btn {
+  padding: 5px 10px;
+  font-size: 11px;
+  background: var(--bg-panel);
+  color: var(--text-accent);
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  transition: all 0.15s;
+  cursor: pointer;
+}
+
+.companion-skill-btn:hover {
+  border-color: var(--text-accent);
+  background: var(--bg-secondary);
+}
+
+.companion-skill-btn.active {
+  background: var(--text-accent);
+  color: var(--bg-primary);
+  border-color: var(--text-accent);
+  box-shadow: 0 0 8px var(--text-accent);
+}
+
 /* 카르마 정렬 표시 */
 .choice-light {
   border-left: 3px solid #f59e0b;
