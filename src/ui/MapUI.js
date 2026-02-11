@@ -1,6 +1,7 @@
 /**
  * MapUI - 지하철 노선도 / 지구 이동 화면
  * Platform 0 허브에서 4개 행정구로 이동
+ * v0.9: CSS 원형 마커 + 구역 문자(A/B/C/D), 정화 완료/잠김 상태 표시
  */
 import { createElement } from '../utils/helpers.js';
 
@@ -27,7 +28,6 @@ export default class MapUI {
           <div class="map-hub-icon">⬡</div>
           <div class="map-hub-label">플랫폼 0<br><span class="map-hub-sub">중앙 환승 센터</span></div>
         </div>
-        <div class="map-lines"></div>
         <div class="map-districts"></div>
       </div>
       <div class="map-footer">
@@ -36,7 +36,6 @@ export default class MapUI {
     `;
 
     this.districtsEl = this.el.querySelector('.map-districts');
-    this.linesEl = this.el.querySelector('.map-lines');
 
     this.el.querySelector('.map-back-btn').addEventListener('click', () => {
       if (this._onBack) this._onBack();
@@ -46,38 +45,41 @@ export default class MapUI {
   }
 
   /**
-   * 구역 목록 렌더링
+   * 구역 목록 렌더링 — 지하철 노선도 스타일
    * @param {Array} districts - gameConfig.districts
    */
   render(districts) {
     this.districtsEl.innerHTML = '';
-    this.linesEl.innerHTML = '';
 
     if (!districts || districts.length === 0) return;
 
-    const colors = ['#a7a7c4', '#4e9af5', '#50c8c8', '#e94560'];
-    const icons = ['📚', '🏢', '🧊', '🔥'];
+    districts.forEach((district) => {
+      const isUnlocked = district.defaultUnlocked || this.state.hasFlag(district.unlockFlag);
+      const isCleared = this.state.hasFlag(district.bossFlag);
+      const color = district.color || '#a7a7c4';
+      const icon = district.icon || district.id.slice(-1).toUpperCase();
 
-    districts.forEach((district, i) => {
       // 노선 연결선
-      const line = createElement('div', 'map-line');
-      line.style.borderColor = colors[i] || colors[0];
-      this.linesEl.appendChild(line);
+      const lineEl = createElement('div', 'map-line-connector');
+      lineEl.style.borderColor = color;
+      this.districtsEl.appendChild(lineEl);
 
       // 구역 카드
       const card = createElement('div', 'map-district-card');
-      const isUnlocked = district.defaultUnlocked || this.state.hasFlag(district.unlockFlag);
-      const isCleared = this.state.hasFlag(district.bossFlag);
+      if (!isUnlocked) card.classList.add('locked');
+      if (isCleared) card.classList.add('cleared');
 
-      if (!isUnlocked) {
-        card.classList.add('locked');
-      }
-      if (isCleared) {
-        card.classList.add('cleared');
-      }
+      // 원형 마커
+      const markerClass = isCleared ? 'district-marker district-marker-cleared' : 'district-marker';
+      const lockBadge = !isUnlocked ? '<span class="district-lock-badge">🔒</span>' : '';
+      const checkOverlay = isCleared ? '<span class="district-marker-check">✓</span>' : '';
 
       card.innerHTML = `
-        <div class="district-icon" style="color: ${colors[i]}">${icons[i]}</div>
+        <div class="${markerClass}" style="border-color: ${color}; color: ${color}">
+          ${icon}
+          ${checkOverlay}
+          ${lockBadge}
+        </div>
         <div class="district-info">
           <div class="district-name">${district.name}</div>
           <div class="district-desc">${district.description}</div>

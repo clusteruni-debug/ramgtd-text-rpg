@@ -35,7 +35,10 @@
       "startScene": "district_a_entrance",
       "bossFlag": "boss_librarian_defeated",
       "unlockFlag": "district_a_unlocked",
-      "defaultUnlocked": true
+      "defaultUnlocked": true,
+      "color": "#a7a7c4",
+      "icon": "A",
+      "theme": "silence"
     },
     {
       "id": "district_b",
@@ -44,7 +47,10 @@
       "startScene": "district_b_entrance",
       "bossFlag": "boss_foreman_defeated",
       "unlockFlag": "district_b_unlocked",
-      "defaultUnlocked": true
+      "defaultUnlocked": true,
+      "color": "#4e9af5",
+      "icon": "B",
+      "theme": "iron"
     },
     {
       "id": "district_c",
@@ -53,7 +59,10 @@
       "startScene": "district_c_entrance",
       "bossFlag": "boss_curator_defeated",
       "unlockFlag": "district_c_unlocked",
-      "defaultUnlocked": false
+      "defaultUnlocked": false,
+      "color": "#50c8c8",
+      "icon": "C",
+      "theme": "frozen"
     },
     {
       "id": "district_d",
@@ -62,7 +71,10 @@
       "startScene": "district_d_entrance",
       "bossFlag": "boss_chef_defeated",
       "unlockFlag": "district_d_unlocked",
-      "defaultUnlocked": false
+      "defaultUnlocked": false,
+      "color": "#e94560",
+      "icon": "D",
+      "theme": "rage"
     }
   ],
   "upgradeCostMultiplier": 10
