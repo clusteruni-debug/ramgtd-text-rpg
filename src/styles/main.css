@@ -102,7 +102,10 @@ body {
 
 /* 심연 공허 — 검정 + 미세한 맥동 */
 .bg-void {
-  background: radial-gradient(ellipse at center, #0a0a12 0%, #050508 60%, #000000 100%);
+  background: radial-gradient(ellipse at center, rgba(10,10,18,0.75) 0%, rgba(5,5,8,0.8) 60%, rgba(0,0,0,0.9) 100%),
+              url('/images/bg/bg-void.jpg');
+  background-size: cover;
+  background-position: center;
   animation: void-pulse 4s ease-in-out infinite;
 }
 
@@ -113,12 +116,18 @@ body {
 
 /* 폐쇄된 지하철역 — 어두운 콘크리트, 녹슨 조명 */
 .bg-station {
-  background: linear-gradient(180deg, #0d0d0d 0%, #1a1510 30%, #0f0e0a 60%, #080808 100%);
+  background: linear-gradient(180deg, rgba(13,13,13,0.65) 0%, rgba(26,21,16,0.6) 30%, rgba(15,14,10,0.65) 60%, rgba(8,8,8,0.75) 100%),
+              url('/images/bg/bg-station.jpg');
+  background-size: cover;
+  background-position: center;
 }
 
 /* 기억의 복도 — 안개 낀 보라 */
 .bg-corridor {
-  background: linear-gradient(180deg, #1a0a2e 0%, #2d1654 40%, #1a0a2e 70%, #0d0518 100%);
+  background: linear-gradient(180deg, rgba(26,10,46,0.65) 0%, rgba(45,22,84,0.6) 40%, rgba(26,10,46,0.65) 70%, rgba(13,5,24,0.75) 100%),
+              url('/images/bg/bg-corridor.jpg');
+  background-size: cover;
+  background-position: center;
   animation: corridor-fog 6s ease-in-out infinite;
 }
 
@@ -129,12 +138,18 @@ body {
 
 /* 울음의 방 — 어두운 청색, 물방울 느낌 */
 .bg-crying {
-  background: linear-gradient(180deg, #050a1a 0%, #0a1a3a 40%, #081530 70%, #030810 100%);
+  background: linear-gradient(180deg, rgba(5,10,26,0.65) 0%, rgba(10,26,58,0.6) 40%, rgba(8,21,48,0.65) 70%, rgba(3,8,16,0.75) 100%),
+              url('/images/bg/bg-crying.jpg');
+  background-size: cover;
+  background-position: center;
 }
 
 /* 침묵의 길 — 순백에서 점점 어두워짐 */
 .bg-silence {
-  background: linear-gradient(180deg, #e8e8e8 0%, #b0b0b0 30%, #606060 60%, #1a1a1a 100%);
+  background: linear-gradient(180deg, rgba(232,232,232,0.6) 0%, rgba(176,176,176,0.55) 30%, rgba(96,96,96,0.6) 60%, rgba(26,26,26,0.75) 100%),
+              url('/images/bg/bg-silence.jpg');
+  background-size: cover;
+  background-position: center;
   animation: silence-darken 8s ease-in forwards;
 }
 
@@ -145,18 +160,56 @@ body {
 
 /* B1 중앙홀 — 거대한 어두운 공간, 천장에서 희미한 빛 */
 .bg-hall {
-  background: radial-gradient(ellipse at top center, #1a1025 0%, #0d0815 40%, #050308 100%);
+  background: radial-gradient(ellipse at top center, rgba(26,16,37,0.65) 0%, rgba(13,8,21,0.6) 40%, rgba(5,3,8,0.75) 100%),
+              url('/images/bg/bg-hall.jpg');
+  background-size: cover;
+  background-position: center;
 }
 
 /* 보스 전투 — 붉은 맥동 */
 .bg-boss {
-  background: radial-gradient(ellipse at center, #2a0a0a 0%, #1a0505 50%, #0a0000 100%);
+  background: radial-gradient(ellipse at center, rgba(42,10,10,0.7) 0%, rgba(26,5,5,0.65) 50%, rgba(10,0,0,0.8) 100%),
+              url('/images/bg/bg-boss.jpg');
+  background-size: cover;
+  background-position: center;
   animation: boss-pulse 1.5s ease-in-out infinite;
 }
 
 @keyframes boss-pulse {
   0%, 100% { box-shadow: inset 0 0 80px rgba(180, 0, 0, 0.15); }
   50% { box-shadow: inset 0 0 120px rgba(220, 0, 0, 0.3); }
+}
+
+/* A지구: 침묵의 멘션 — 어두운 보라+회색, 입 꿰매진 저택 */
+.bg-mansion {
+  background: linear-gradient(180deg, rgba(30,25,45,0.65) 0%, rgba(20,18,35,0.6) 40%, rgba(15,12,25,0.7) 100%),
+              url('/images/bg/bg-mansion.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* B지구: 철의 오피스 — 차가운 청회색, 무한 마천루 */
+.bg-office {
+  background: linear-gradient(180deg, rgba(15,20,35,0.65) 0%, rgba(20,30,50,0.6) 40%, rgba(10,15,25,0.7) 100%),
+              url('/images/bg/bg-office.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* C지구: 동결 아파트 — 얼음빛 청록, 냉동 */
+.bg-frozen {
+  background: linear-gradient(180deg, rgba(20,35,45,0.65) 0%, rgba(15,40,50,0.6) 40%, rgba(10,25,35,0.7) 100%),
+              url('/images/bg/bg-frozen.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* D지구: 적색 번화가 — 붉은 네온, 분노 */
+.bg-rage {
+  background: linear-gradient(180deg, rgba(45,10,15,0.65) 0%, rgba(60,15,20,0.6) 40%, rgba(30,5,10,0.7) 100%),
+              url('/images/bg/bg-rage.jpg');
+  background-size: cover;
+  background-position: center;
 }
 
 /* 글리치 (사망 등) */
