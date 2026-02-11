@@ -2,247 +2,492 @@
   {
     "id": "prologue_01",
     "type": "dialogue",
-    "background": "void",
+    "background": "subway",
     "speaker": null,
-    "text": "어둠. 아무것도 보이지 않는다. 차갑고, 축축한 바닥이 느껴진다. 여기가 어디지?",
+    "text": "오후 6시 47분. 서울 어딘가의 지하철역.\n그는 개찰구 앞에 섰다. 손에는 교통카드. 주머니에는 편의점 영수증.\n오늘도 별일 없는 하루였다.",
     "choices": [
       {
-        "text": "눈을 뜬다",
+        "text": "카드를 갖다 댄다",
         "nextScene": "prologue_02"
       }
     ]
   },
+
   {
     "id": "prologue_02",
     "type": "dialogue",
-    "background": "station",
+    "background": "subway",
     "speaker": null,
-    "text": "흐릿한 시야가 서서히 초점을 맞춘다. 낡은 콘크리트 벽. 녹슨 철로. 먼지 쌓인 벤치. 폐쇄된 지하철역 같은 곳이다. 아무도 없다.",
+    "text": "카드를 갖다 댔다.\n'삐———'\n개찰구가 열리지 않았다.\n단말기 화면에 글자가 떴다.\n\n「감정 질량 미달 — 이송 대상 재분류」\n「처리 코드: NULL」\n\n그가 그 글자를 읽기도 전에, 발밑의 바닥이 사라졌다.",
     "choices": [
       {
-        "text": "주머니를 뒤진다",
+        "text": "—!",
         "nextScene": "prologue_03"
-      },
-      {
-        "text": "주변을 둘러본다",
-        "nextScene": "prologue_03b"
       }
     ]
   },
+
   {
     "id": "prologue_03",
     "type": "dialogue",
-    "background": "station",
+    "background": "void",
     "speaker": null,
-    "text": "주머니에 손을 넣는다. 구겨진 종이 한 장. 자신의 필체 같지만, 쓴 기억이 없다.",
-    "effects": [
-      { "type": "addItem", "item": "old_memo" }
-    ],
+    "text": "떨어지고 있었다.\n어둠 속으로. 소리도 없이. 바람도 없이.\n다만 아래에서 기계 소음 같은 것이 올라오고 있었다.\n\n그의 머릿속에 떠오른 것은—",
     "choices": [
       {
-        "text": "메모를 읽는다 (...익숙한 필체다)",
-        "conditions": [
-          { "type": "runGreaterThan", "value": 1 }
+        "text": "'출근 시간에 늦겠다.'",
+        "effects": [
+          { "type": "modifyStat", "stat": "reason", "value": 1 },
+          { "type": "setFlag", "flag": "fall_thought_practical" }
         ],
-        "nextScene": "prologue_03_memo_repeat"
+        "nextScene": "prologue_03_land"
       },
       {
-        "text": "메모를 읽는다",
-        "nextScene": "prologue_03_memo_first"
-      }
-    ]
-  },
-  {
-    "id": "prologue_03_memo_first",
-    "type": "dialogue",
-    "background": "station",
-    "speaker": "self_memo",
-    "text": "'...잊지 마. 네가 여기 온 이유를. 변해야 한다. 도망치지 마.'",
-    "choices": [
+        "text": "'...아무 생각도 나지 않았다.'",
+        "effects": [
+          { "type": "modifyStat", "stat": "sense", "value": 1 },
+          { "type": "setFlag", "flag": "fall_thought_empty" }
+        ],
+        "nextScene": "prologue_03_land"
+      },
       {
-        "text": "...뭔 소리야",
-        "nextScene": "prologue_04"
+        "text": "'누가 좀 도와줘.'",
+        "effects": [
+          { "type": "modifyKarma", "value": 5 },
+          { "type": "modifyStat", "stat": "bond", "value": 1 },
+          { "type": "setFlag", "flag": "fall_thought_human" }
+        ],
+        "nextScene": "prologue_03_land"
       }
     ]
   },
+
   {
-    "id": "prologue_03_memo_repeat",
+    "id": "prologue_03_land",
     "type": "dialogue",
-    "background": "station",
-    "speaker": "self_memo",
-    "text": "'또 읽고 있겠지. 몇 번째인지 모르겠지만, 이번에는 끝까지 가. 고통의 층을 지나야 해. 수집가를 조심해.'",
-    "effects": [
-      { "type": "setFlag", "flag": "memo_repeat_read" }
-    ],
-    "choices": [
-      {
-        "text": "...이 메모를 내가 썼다고?",
-        "nextScene": "prologue_04"
-      }
-    ]
-  },
-  {
-    "id": "prologue_03b",
-    "type": "dialogue",
-    "background": "station",
+    "background": "void",
     "speaker": null,
-    "text": "역 이름 표지판이 있었을 자리. 글자가 전부 긁혀 있다. 벽에 누군가 손톱으로 긁어 쓴 글씨: '아래로 가라'",
+    "text": "생각이 끝나기 전에 등이 바닥에 부딪혔다.\n차갑고 매끄러운 타일 바닥. 형광등 불빛.",
     "choices": [
       {
-        "text": "주머니를 확인한다",
-        "nextScene": "prologue_03"
+        "text": "...눈을 뜬다",
+        "nextScene": "prologue_04"
       }
     ]
   },
+
   {
     "id": "prologue_04",
     "type": "dialogue",
     "background": "station",
     "speaker": null,
-    "text": "메모를 접어 넣는다. 플랫폼 끝자락에 누군가 앉아 있는 게 보인다. 누더기를 걸친 사람이 다리를 늘어뜨리고 철로 쪽을 바라보고 있다.",
+    "text": "천장이 보였다. 콘크리트. 형광등. 배관.\n지하철역이었다. 아까와 비슷하지만 다른 곳.\n\n승강장 안내판에 이렇게 적혀 있었다:\n\n「플랫폼 0 — 중앙 환승 센터」\n「미분류 데이터 임시 보관소」\n\n선로 위로는 아무것도 지나가지 않았다.\n대신 승강장 구석구석에 사람들이 — 아니, 사람이었던 것들이 — 앉아 있었다.",
     "choices": [
       {
-        "text": "다가간다",
-        "nextScene": "prologue_05"
-      },
-      {
-        "text": "무시하고 출구를 찾는다",
-        "nextScene": "prologue_05_skip"
-      }
-    ]
-  },
-  {
-    "id": "prologue_05_skip",
-    "type": "dialogue",
-    "background": "station",
-    "speaker": "guide",
-    "text": "\"출구는 없어.\" 등 뒤에서 목소리가 들린다. 돌아보면 그 사람이 어느새 바로 옆에 서 있다. \"...적어도, 위쪽으로는.\"",
-    "choices": [
-      {
-        "text": "...당신은 누구죠?",
+        "text": "일어선다",
         "nextScene": "prologue_05"
       }
     ]
   },
+
   {
     "id": "prologue_05",
     "type": "dialogue",
     "background": "station",
-    "speaker": "guide",
-    "text": "\"이름 같은 건 의미 없어. 여기선 다들 뭔가를 잃어버리고 오니까.\" 피곤한 눈이 당신을 훑는다. \"넌... 뭘 잃어버렸어?\"",
+    "speaker": null,
+    "text": "승강장을 따라 텐트와 판잣집이 늘어서 있었다.\n낡은 담요를 덮고 웅크린 형체들. 자판기에서 뭔가를 뽑는 손.\n누군가는 벽에 기대어 허공을 보고 있었다.\n\n그들의 눈에는 공통점이 하나 있었다.\n아무도 이곳을 이상하게 여기지 않았다.",
     "choices": [
       {
-        "text": "기억을 잃어버린 것 같다",
-        "effects": [
-          { "type": "setFlag", "flag": "admitted_memory_loss" }
-        ],
-        "nextScene": "prologue_06"
+        "text": "가장 가까운 사람에게 말을 건다",
+        "nextScene": "prologue_06a"
       },
       {
-        "text": "잃어버린 건 없다",
-        "nextScene": "prologue_06_deny"
+        "text": "안내판을 더 읽어본다",
+        "nextScene": "prologue_06b"
       },
       {
-        "text": "...당신이 안내자인가 (2회차+)",
-        "conditions": [
-          { "type": "runGreaterThan", "value": 1 }
-        ],
-        "effects": [
-          { "type": "setFlag", "flag": "recognized_guide" }
-        ],
-        "nextScene": "prologue_06_repeat"
+        "text": "출구를 찾아 움직인다",
+        "nextScene": "prologue_06c"
       }
     ]
   },
+
   {
-    "id": "prologue_06",
+    "id": "prologue_06a",
     "type": "dialogue",
     "background": "station",
-    "speaker": "guide",
-    "text": "\"기억이라... 흔한 경우지.\" 그가 천천히 일어선다. \"아래로 가야 해. 심연이라고 부르는 곳이 있어. 거기서 네가 잃은 걸 찾을 수도 있어. 아니면...\"",
-    "choices": [
-      {
-        "text": "아니면?",
-        "nextScene": "prologue_07"
-      }
-    ]
-  },
-  {
-    "id": "prologue_06_deny",
-    "type": "dialogue",
-    "background": "station",
-    "speaker": "guide",
-    "text": "\"잃어버린 게 없다고?\" 그가 웃는다. 슬프게. \"그렇게 말하는 사람이 제일 많이 잃어버린 거야. 어쨌든 아래로 가야 해. 선택지가 그것뿐이니까.\"",
-    "choices": [
-      {
-        "text": "아래라니... 뭐가 있는데?",
-        "nextScene": "prologue_07"
-      }
-    ]
-  },
-  {
-    "id": "prologue_06_repeat",
-    "type": "dialogue",
-    "background": "station",
-    "speaker": "guide",
-    "text": "\"또 왔군.\" 그가 놀라지 않는다. \"몇 번째인지 세는 건 포기했어. 하지만 이번에는 뭔가 다른 것 같기도 하고.\" 그의 눈에 잠깐 빛이 스친다.",
+    "speaker": null,
+    "text": "\"여기가 어디예요?\"\n담요를 덮은 형체가 고개를 들었다.\n눈이 없었다. 눈꺼풀이 매끈하게 붙어 있었다.\n\n\"…신규? 개찰구?\"\n\n그것은 다시 고개를 숙였다.\n\"운 없었네.\"",
     "effects": [
-      { "type": "addEngrams", "value": 5 },
-      { "type": "addPermanentBonus", "stat": "sense", "value": 1 }
+      { "type": "setFlag", "flag": "explored_talk" }
     ],
     "choices": [
       {
-        "text": "이번에는 끝까지 갈 거다",
+        "text": "...",
         "nextScene": "prologue_07"
       }
     ]
   },
+
+  {
+    "id": "prologue_06b",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": null,
+    "text": "안내판 아래 작은 글씨가 빼곡했다.\n\n「처리 대기 중인 데이터는 지정 구역 외 이동을 금합니다」\n「미분류 데이터의 체류 기한: 없음」\n「민원 접수처: 해당 없음」\n\n마지막 줄에 누군가 펜으로 긁어놓았다.\n\"여긴 대합실이 아니라 쓰레기통이야\"",
+    "effects": [
+      { "type": "setFlag", "flag": "explored_sign" }
+    ],
+    "choices": [
+      {
+        "text": "...",
+        "nextScene": "prologue_07"
+      }
+    ]
+  },
+
+  {
+    "id": "prologue_06c",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": null,
+    "text": "승강장 양쪽 끝으로 걸어봤다.\n한쪽은 셔터가 내려져 있었다.\n반대쪽은 선로가 어둠 속으로 이어졌다.\n\n어둠 안에서 뭔가가 깜빡였다. 빨간 점. CCTV 같은.\n\n깜빡임이 멈추더니, 이쪽을 향해 움직이기 시작했다.",
+    "effects": [
+      { "type": "setFlag", "flag": "explored_exit" }
+    ],
+    "choices": [
+      {
+        "text": "...",
+        "nextScene": "prologue_07"
+      }
+    ]
+  },
+
   {
     "id": "prologue_07",
     "type": "dialogue",
     "background": "station",
-    "speaker": "guide",
-    "text": "\"심연은 층으로 되어 있어. 각 층마다 질문이 있지.\" 그가 철로 끝을 가리킨다. 어둠 속으로 계단이 내려가고 있다. \"첫 번째 층은 '고통의 층'이야. 고통이 사람을 바꾸는가? 네가 직접 답을 찾아야 해.\"",
-    "effects": [
-      { "type": "addItem", "item": "painkiller" }
-    ],
+    "speaker": null,
+    "text": "승강장에 안내 방송이 울렸다.\n\n「미등록 데이터 감지. 좌표 확인 중.」\n「검표원 배치. 코드 NULL 처리 대기.」\n\n형광등이 한 번 깜빡였다.\n선로 쪽 어둠에서 무언가가 걸어 나왔다.",
     "choices": [
       {
-        "text": "내려간다",
-        "nextScene": "prologue_08"
-      },
-      {
-        "text": "...다른 방법은 없나?",
-        "nextScene": "prologue_07b"
-      }
-    ]
-  },
-  {
-    "id": "prologue_07b",
-    "type": "dialogue",
-    "background": "station",
-    "speaker": "guide",
-    "text": "\"다른 방법?\" 그가 고개를 젓는다. \"위로 올라가는 길은 막혀 있어. 여기서 영원히 앉아 있을 수도 있지만, 그건 네가 도망쳐온 것과 뭐가 달라?\"",
-    "choices": [
-      {
-        "text": "...맞는 말이다. 내려간다.",
+        "text": "...",
         "nextScene": "prologue_08"
       }
     ]
   },
+
   {
     "id": "prologue_08",
     "type": "dialogue",
-    "background": "void",
+    "background": "station",
     "speaker": null,
-    "text": "계단을 내려간다. 한 발자국마다 빛이 줄어든다. 차가운 공기가 피부를 감싼다. 어디선가 낮은 울림이 들린다. 마치 심장 박동 같은.\n\n\n깊이, 더 깊이.\n\n\n심연의 첫 번째 층 — 고통의 층이 눈앞에 펼쳐진다.",
+    "text": "키가 2미터는 됐다.\n역무원 제복을 입고 있었지만, 머리 부분이 사람이 아니었다.\nCCTV 카메라가 목 위에 박혀 있었다. 렌즈가 천천히 초점을 맞췄다.\n\n한 손에는 태블릿. 다른 손에는 — 개찰구 차단봉 같은 것.\n\n「코드: NULL. 분류: 불가. 처리: 폐기.」\n\n차단봉이 올라갔다.",
+    "choices": [
+      {
+        "text": "피한다",
+        "effects": [
+          { "type": "setFlag", "flag": "approach_dodge" }
+        ],
+        "nextScene": "prologue_combat"
+      },
+      {
+        "text": "막는다",
+        "effects": [
+          { "type": "setFlag", "flag": "approach_block" }
+        ],
+        "nextScene": "prologue_combat"
+      },
+      {
+        "text": "말을 건다",
+        "effects": [
+          { "type": "setFlag", "flag": "approach_talk" }
+        ],
+        "nextScene": "prologue_combat"
+      }
+    ]
+  },
+
+  {
+    "id": "prologue_combat",
+    "type": "combat",
+    "background": "station",
+    "enemy": "ticket_inspector_enemy",
+    "introText": "검표원의 차단봉이 형광등 불빛을 가르며 내려온다!",
+    "victoryScene": "prologue_09",
+    "rewards": { "engrams": 10 },
+    "rounds": [
+      {
+        "text": "검표원의 차단봉이 형광등 불빛을 가르며 내려온다.",
+        "choices": [
+          {
+            "text": "옆으로 굴러 피한다",
+            "check": { "stat": "sense", "dc": 5 },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": {
+              "text": "몸을 낮춰 차단봉을 피했다. 바닥에 부딪힌 봉이 타일을 갈라놓는다.",
+              "effects": []
+            },
+            "failure": {
+              "text": "피하려 했지만 봉 끝이 어깨를 스쳤다. 얼얼한 통증이 퍼진다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -3 }]
+            }
+          },
+          {
+            "text": "팔로 막는다",
+            "check": { "stat": "body", "dc": 6 },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": {
+              "text": "양팔로 봉을 받아냈다. 충격이 뼈를 울리지만 버텼다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -1 }]
+            },
+            "failure": {
+              "text": "봉의 힘이 예상보다 강했다. 팔이 튕겨지며 몸통에 직격을 맞았다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -4 }]
+            }
+          },
+          {
+            "text": "다리를 걷어찬다",
+            "check": { "stat": "body", "dc": 6 },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": {
+              "text": "제복 입은 다리를 정확히 걷어찼다. 검표원이 한쪽으로 비틀거린다.",
+              "effects": []
+            },
+            "failure": {
+              "text": "발이 닿기 전에 차단봉이 정강이를 내리쳤다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -3 }]
+            }
+          },
+          {
+            "text": "패턴을 읽는다",
+            "check": { "stat": "reason", "dc": 6 },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": {
+              "text": "검표원의 움직임은 기계적이다. 스캔 → 판단 → 타격. 리듬이 보인다.",
+              "effects": []
+            },
+            "failure": {
+              "text": "관찰하는 사이 봉이 날아왔다. 생각할 시간이 부족했다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -3 }]
+            }
+          }
+        ]
+      },
+      {
+        "text": "검표원이 태블릿을 들어올린다. 화면에 빨간 글자가 스크롤된다.\n「대상 저항 중. 추가 검표원 호출 대기.」",
+        "choices": [
+          {
+            "text": "태블릿을 뺏는다",
+            "check": { "stat": "sense", "dc": 6 },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": {
+              "text": "빈틈을 노려 태블릿을 낚아챘다. 화면이 깜빡이더니 호출이 취소된다.",
+              "effects": []
+            },
+            "failure": {
+              "text": "태블릿에 손이 닿기 직전, 차단봉이 손등을 내리쳤다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -4 }]
+            }
+          },
+          {
+            "text": "차단봉을 잡고 비튼다",
+            "check": { "stat": "body", "dc": 7 },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": {
+              "text": "차단봉을 붙잡아 힘으로 비틀었다. 금속이 휘어지며 검표원의 팔 관절이 어긋난다.",
+              "effects": []
+            },
+            "failure": {
+              "text": "검표원의 악력이 기계적으로 강하다. 오히려 끌려가며 타격당했다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -4 }]
+            }
+          },
+          {
+            "text": "뒤로 물러나 거리를 벌린다",
+            "check": { "stat": "sense", "dc": 5 },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": {
+              "text": "빠르게 뒷걸음질쳐 사정거리 밖으로 벗어났다. 검표원이 재조준하는 사이 숨을 고른다.",
+              "effects": []
+            },
+            "failure": {
+              "text": "물러서는 도중 텐트줄에 걸렸다. 비틀거리는 사이 봉이 등을 갈겼다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -3 }]
+            }
+          },
+          {
+            "text": "\"나는 승객이다\"",
+            "check": { "stat": "bond", "dc": 7 },
+            "alignment": "light",
+            "karmaShift": 3,
+            "success": {
+              "text": "검표원의 렌즈가 깜빡인다. 「재분류 요청... 처리 중...」 1초의 정지. 시스템이 혼란에 빠졌다.",
+              "effects": [{ "type": "modifyKarma", "value": 3 }]
+            },
+            "failure": {
+              "text": "「승객 권한 없음. 처리 속행.」 검표원은 대답 대신 봉을 휘둘렀다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -2 }]
+            }
+          }
+        ]
+      },
+      {
+        "text": "검표원의 움직임이 느려졌다. 렌즈에 금이 가 있다.\n하지만 아직 서 있다.",
+        "choices": [
+          {
+            "text": "전력으로 밀친다",
+            "check": { "stat": "body", "dc": 5 },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": {
+              "text": "온 힘을 실어 밀쳤다. 검표원이 뒤로 쓰러지며 타일 바닥에 부딪혔다. 렌즈가 깨진다.",
+              "effects": [],
+              "endCombat": true
+            },
+            "failure": {
+              "text": "밀쳤지만 검표원이 발을 디디며 버텼다. 반격이 돌아온다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -3 }]
+            }
+          },
+          {
+            "text": "태블릿 화면을 깨뜨린다",
+            "check": { "stat": "sense", "dc": 5 },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": {
+              "text": "태블릿을 정확히 가격했다. 화면이 산산조각 나며 검표원의 움직임이 멈춘다. 「세션... 종료...」",
+              "effects": [],
+              "endCombat": true
+            },
+            "failure": {
+              "text": "화면을 노렸지만 빗나갔다. 마지막 발악처럼 봉이 스쳤다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -2 }]
+            }
+          },
+          {
+            "text": "선로 쪽으로 유인한다",
+            "check": { "stat": "reason", "dc": 6 },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": {
+              "text": "뒷걸음질로 선로 가장자리까지 유인했다. 마지막 순간 옆으로 비키자, 검표원이 관성 그대로 선로에 굴러떨어진다.",
+              "effects": [],
+              "endCombat": true
+            },
+            "failure": {
+              "text": "유인하려 했지만 검표원은 선로 앞에서 멈춘다. 학습된 경계 — 기계의 본능이다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -4 }]
+            }
+          },
+          {
+            "text": "렌즈에 손가락을 찔러넣는다",
+            "check": { "stat": "body", "dc": 4 },
+            "alignment": "dark",
+            "karmaShift": -5,
+            "success": {
+              "text": "금 간 렌즈에 손가락을 밀어넣었다. 유리가 으스러지고 검은 기름이 쏟아진다. 검표원이 경련하며 쓰러진다.\n\n...손에 묻은 기름이 차갑다.",
+              "effects": [{ "type": "modifyKarma", "value": -5 }],
+              "endCombat": true
+            },
+            "failure": {
+              "text": "렌즈를 노렸지만 검표원이 고개를 돌려 피했다. 차단봉이 반사적으로 내리꽂힌다.",
+              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -3 }]
+            }
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "prologue_09",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": null,
+    "text": "검표원이 쓰러졌다.\n제복 안에서 기름 같은 것이 흘러나왔다. 피가 아니었다.\n태블릿 화면이 깜빡이다 꺼졌다.\n\n「처리 실패. 세션 로그 저장. 재배치 대기.」\n\n형광등이 다시 안정됐다.",
+    "choices": [
+      {
+        "text": "잔해를 살핀다",
+        "nextScene": "prologue_10"
+      }
+    ]
+  },
+
+  {
+    "id": "prologue_10",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": null,
+    "text": "검표원의 잔해에서 무언가가 떠올랐다.\n빛나는 결정. 손가락 한 마디만 한 크기.\n만지자 손 안으로 스며들었다.\n\n「엔그램 획득: 검표원의 코드 조각」\n\n이 에너지로 자신의 한 가지를 강화할 수 있다는 걸 직감적으로 알았다.",
+    "choices": [
+      {
+        "text": "몸에 집중한다 (체력 +1)",
+        "effects": [
+          { "type": "modifyStat", "stat": "body", "value": 1 }
+        ],
+        "nextScene": "prologue_11"
+      },
+      {
+        "text": "감각을 날카롭게 한다 (감각 +1)",
+        "effects": [
+          { "type": "modifyStat", "stat": "sense", "value": 1 }
+        ],
+        "nextScene": "prologue_11"
+      },
+      {
+        "text": "머리를 맑게 한다 (이성 +1)",
+        "effects": [
+          { "type": "modifyStat", "stat": "reason", "value": 1 }
+        ],
+        "nextScene": "prologue_11"
+      },
+      {
+        "text": "따뜻한 무언가를 느낀다 (교감 +1)",
+        "effects": [
+          { "type": "modifyStat", "stat": "bond", "value": 1 }
+        ],
+        "nextScene": "prologue_11"
+      }
+    ]
+  },
+
+  {
+    "id": "prologue_11",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": "guide",
+    "text": "\"아직 살아있네.\"\n\n뒤에서 목소리가 들렸다.\n돌아보니 텐트촌 쪽에서 누군가가 걸어오고 있었다.\n\n낡은 역무원 조끼. 하지만 검표원과는 달랐다.\n사람이었다. — 사람이었던 것.\n\n\"신규치고 제법인데. 이름이 뭐야?\"\n\"…아, 맞다. 여기선 이름 같은 건 의미 없지.\"",
+    "choices": [
+      {
+        "text": "...",
+        "nextScene": "prologue_12"
+      }
+    ]
+  },
+
+  {
+    "id": "prologue_12",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": "guide",
+    "text": "\"일단 텐트로 와. 설명해줄 게 있어.\"\n\n그는 안내자를 따라 걸었다.\n발밑의 타일이 차가웠다.\n머리 위로 안내 방송이 다시 울렸다.\n\n「플랫폼 0 — 현재 체류 인원: 47. 미분류: 1.」",
     "effects": [
-      { "type": "setFlag", "flag": "entered_b1" }
+      { "type": "setFlag", "flag": "prologue_complete" },
+      { "type": "setFlag", "flag": "reached_hub" },
+      { "type": "fullHeal" }
     ],
     "choices": [
       {
-        "text": "계속...",
-        "nextScene": "b1_entrance"
+        "text": "— 프롤로그 종료. 챕터 1: 플랫폼 0 —",
+        "nextScene": "hub_platform0"
       }
     ]
   }

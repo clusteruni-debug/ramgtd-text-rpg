@@ -95,6 +95,11 @@ body {
   transition: background-color 0.5s ease;
 }
 
+/* 현실 지하철역 — 형광등, 타일, 일상의 빛 */
+.bg-subway {
+  background: linear-gradient(180deg, #e8e4d8 0%, #d4cfc0 30%, #b8b0a0 60%, #8a8070 100%);
+}
+
 /* 심연 공허 — 검정 + 미세한 맥동 */
 .bg-void {
   background: radial-gradient(ellipse at center, #0a0a12 0%, #050508 60%, #000000 100%);
