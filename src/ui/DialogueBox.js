@@ -43,7 +43,7 @@ export default class DialogueBox {
 
   _bindEvents() {
     // 클릭 또는 Space/Enter로 스킵/다음
-    const handleAdvance = () => {
+    this._handleAdvance = () => {
       if (this.renderer.isTyping) {
         this.renderer.skip();
       } else if (this._onNext) {
@@ -51,13 +51,16 @@ export default class DialogueBox {
       }
     };
 
-    this.el.addEventListener('click', handleAdvance);
-    document.addEventListener('keydown', (e) => {
+    this._clickHandler = () => this._handleAdvance();
+    this._keyHandler = (e) => {
       if (!this.el.classList.contains('hidden') && (e.key === ' ' || e.key === 'Enter')) {
         e.preventDefault();
-        handleAdvance();
+        this._handleAdvance();
       }
-    });
+    };
+
+    this.el.addEventListener('click', this._clickHandler);
+    document.addEventListener('keydown', this._keyHandler);
   }
 
   /**
@@ -108,5 +111,19 @@ export default class DialogueBox {
 
   hide() {
     this.el.classList.add('hidden');
+  }
+
+  destroy() {
+    if (this._clickHandler) {
+      this.el.removeEventListener('click', this._clickHandler);
+      this._clickHandler = null;
+    }
+    if (this._keyHandler) {
+      document.removeEventListener('keydown', this._keyHandler);
+      this._keyHandler = null;
+    }
+    if (this.el?.parentNode) {
+      this.el.parentNode.removeChild(this.el);
+    }
   }
 }

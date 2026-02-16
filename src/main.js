@@ -11,6 +11,9 @@ import Game from './Game.js';
 
 // 게임 시작
 const app = document.querySelector('#app');
+if (!app) {
+  throw new Error('App mount element not found: #app');
+}
 const game = new Game(app);
 
 // 디버그용 (개발 중에만)

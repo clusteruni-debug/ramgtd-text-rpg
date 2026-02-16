@@ -427,15 +427,30 @@ export default class Game {
     await this.dialogueBox.showDialogue(speakerName, scene.text, portrait);
 
     const choices = this.sceneManager.getAvailableChoices(scene);
+    const availableChoices = choices.filter(choice => choice.available !== false);
 
     if (choices.length === 0) return;
+    if (availableChoices.length === 0) {
+      const fallbackChoice = choices.find(choice => choice.nextScene || choice.effects);
+      if (fallbackChoice) {
+        if (fallbackChoice.effects) {
+          this.sceneManager.applyEffects(fallbackChoice.effects);
+        }
+        if (fallbackChoice.nextScene) {
+          this.playScene(fallbackChoice.nextScene);
+        }
+      } else {
+        this.showToast('선택 가능한 행동이 없습니다.', 'error');
+      }
+      return;
+    }
 
     // 단일 선택지 (자동 진행)
-    if (choices.length === 1 && !choices[0].conditions) {
+    if (availableChoices.length === 1 && !availableChoices[0].conditions) {
       return new Promise(resolve => {
         this.dialogueBox.onNext(() => {
           this.dialogueBox.onNext(null);
-          const choice = choices[0];
+          const choice = availableChoices[0];
           if (choice.effects) {
             this.sceneManager.applyEffects(choice.effects);
           }
@@ -449,7 +464,8 @@ export default class Game {
 
     // 여러 선택지
     this.dialogueBox.onNext(null);
-    const selected = await this.choiceButtons.showChoices(choices);
+    const selected = await this.choiceButtons.showChoices(availableChoices);
+    if (!selected) return;
 
     if (selected.effects) {
       this.sceneManager.applyEffects(selected.effects);

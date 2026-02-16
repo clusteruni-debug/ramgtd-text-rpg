@@ -37,7 +37,7 @@ export default class DialogueLog {
   }
 
   _bindKeys() {
-    document.addEventListener('keydown', (e) => {
+    this._keyHandler = (e) => {
       if (e.key === 'l' || e.key === 'L') {
         // L키: 입력 중이 아닐 때만 토글
         if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) return;
@@ -46,7 +46,8 @@ export default class DialogueLog {
       if (e.key === 'Escape' && this._visible) {
         this.hide();
       }
-    });
+    };
+    document.addEventListener('keydown', this._keyHandler);
   }
 
   /** 대화 엔트리 추가 */
@@ -105,5 +106,15 @@ export default class DialogueLog {
   /** 새 게임 시 초기화 */
   clear() {
     this._entries = [];
+  }
+
+  destroy() {
+    if (this._keyHandler) {
+      document.removeEventListener('keydown', this._keyHandler);
+      this._keyHandler = null;
+    }
+    if (this.el?.parentNode) {
+      this.el.parentNode.removeChild(this.el);
+    }
   }
 }
