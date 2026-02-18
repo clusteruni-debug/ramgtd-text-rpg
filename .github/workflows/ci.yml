@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build-and-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - run: npm ci
+      - run: npm run build
+      - name: Forbidden pattern scan
+        shell: bash
+        run: |
+          set -euo pipefail
+          TARGET="src"
+          COMMON='sk-[a-zA-Z0-9]{20,}|ghp_[a-zA-Z0-9]{36,}|gho_[a-zA-Z0-9]{36,}'
+
+          grep -RInE "$COMMON" "$TARGET" \
+            --include="*.js" --include="*.jsx" --include="*.ts" --include="*.tsx" \
+            --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=dist --exclude-dir=build --exclude-dir=.next || true
+
+          if grep -RInE "$COMMON" "$TARGET" \
+            --include="*.js" --include="*.jsx" --include="*.ts" --include="*.tsx" \
+            --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=dist --exclude-dir=build --exclude-dir=.next; then
+            echo "Forbidden patterns found."
+            exit 1
+          fi
