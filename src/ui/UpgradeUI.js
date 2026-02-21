@@ -25,6 +25,7 @@ export default class UpgradeUI {
     this.container = container;
     this.state = stateManager;
     this._onBack = null;
+    this._onUpgrade = null;
 
     this._build();
     this.hide();
@@ -38,6 +39,7 @@ export default class UpgradeUI {
         <span class="upgrade-engrams">💎 <span class="upgrade-engram-count">0</span></span>
       </div>
       <div class="upgrade-desc">기억 조각(엔그램)을 소모하여 능력을 강화합니다.</div>
+      <div class="upgrade-summary" aria-live="polite"></div>
       <div class="upgrade-list"></div>
       <div class="upgrade-footer">
         <button class="upgrade-back-btn">← 돌아가기</button>
@@ -46,6 +48,7 @@ export default class UpgradeUI {
 
     this.listEl = this.el.querySelector('.upgrade-list');
     this.engramCountEl = this.el.querySelector('.upgrade-engram-count');
+    this.summaryEl = this.el.querySelector('.upgrade-summary');
 
     this.el.querySelector('.upgrade-back-btn').addEventListener('click', () => {
       if (this._onBack) this._onBack();
@@ -58,6 +61,23 @@ export default class UpgradeUI {
     const engrams = this.state.getStat('engrams');
     this.engramCountEl.textContent = engrams;
     this.listEl.innerHTML = '';
+    const statEntries = Object.keys(STAT_NAMES).map(stat => {
+      const current = this.state.getStat(stat);
+      return {
+        stat,
+        current,
+        cost: current * 10,
+        isMax: current >= MAX_STAT,
+      };
+    });
+    const affordable = statEntries.filter(entry => !entry.isMax && engrams >= entry.cost);
+    const minCost = statEntries
+      .filter(entry => !entry.isMax)
+      .reduce((acc, entry) => Math.min(acc, entry.cost), Number.POSITIVE_INFINITY);
+    this.summaryEl.innerHTML = `
+      <span>강화 가능: <strong>${affordable.length}</strong>개</span>
+      <span>최소 비용: <strong>${Number.isFinite(minCost) ? `💎${minCost}` : 'MAX 달성'}</strong></span>
+    `;
 
     Object.keys(STAT_NAMES).forEach(stat => {
       const current = this.state.getStat(stat);
@@ -83,7 +103,9 @@ export default class UpgradeUI {
             ? '<span class="upgrade-max">MAX</span>'
             : `<button class="upgrade-btn ${canAfford ? '' : 'disabled'}" ${canAfford ? '' : 'disabled'}>
                 +1 (💎${cost})
-              </button>`
+              </button>
+              ${canAfford ? '' : `<div class="upgrade-hint">💎${Math.max(cost - engrams, 0)} 부족</div>`}
+              `
           }
         </div>
       `;
@@ -92,6 +114,14 @@ export default class UpgradeUI {
         row.querySelector('.upgrade-btn').addEventListener('click', () => {
           this.state.addEngrams(-cost);
           this.state.modifyStat(stat, 1);
+          if (this._onUpgrade) {
+            this._onUpgrade({
+              stat: STAT_NAMES[stat] || stat,
+              statId: stat,
+              cost,
+              nextValue: this.state.getStat(stat),
+            });
+          }
           this.render();
         });
       }
@@ -101,6 +131,7 @@ export default class UpgradeUI {
   }
 
   onBack(callback) { this._onBack = callback; }
+  onUpgrade(callback) { this._onUpgrade = callback; }
 
   show() {
     this.render();

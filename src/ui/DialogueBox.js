@@ -53,7 +53,9 @@ export default class DialogueBox {
 
     this._clickHandler = () => this._handleAdvance();
     this._keyHandler = (e) => {
-      if (!this.el.classList.contains('hidden') && (e.key === ' ' || e.key === 'Enter')) {
+      const tag = e.target?.tagName;
+      const isTypingTarget = tag === 'INPUT' || tag === 'TEXTAREA';
+      if (!this.el.classList.contains('hidden') && !isTypingTarget && !e.repeat && (e.key === ' ' || e.key === 'Enter')) {
         e.preventDefault();
         this._handleAdvance();
       }

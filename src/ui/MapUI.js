@@ -20,8 +20,11 @@ export default class MapUI {
     this.el = createElement('div', 'map-ui');
     this.el.innerHTML = `
       <div class="map-header">
-        <span class="map-title">지하철 노선도</span>
-        <span class="map-location">현재: 플랫폼 0</span>
+        <div class="map-header-left">
+          <span class="map-title">지하철 노선도</span>
+          <span class="map-location">현재: 플랫폼 0</span>
+        </div>
+        <span class="map-progress" aria-live="polite"></span>
       </div>
       <div class="map-body">
         <div class="map-hub">
@@ -36,6 +39,7 @@ export default class MapUI {
     `;
 
     this.districtsEl = this.el.querySelector('.map-districts');
+    this.progressEl = this.el.querySelector('.map-progress');
 
     this.el.querySelector('.map-back-btn').addEventListener('click', () => {
       if (this._onBack) this._onBack();
@@ -48,10 +52,24 @@ export default class MapUI {
    * 구역 목록 렌더링 — 지하철 노선도 스타일
    * @param {Array} districts - gameConfig.districts
    */
-  render(districts) {
+  render(districts, config = null) {
     this.districtsEl.innerHTML = '';
 
     if (!districts || districts.length === 0) return;
+    const total = districts.length;
+    let unlockedCount = 0;
+    let clearedCount = 0;
+
+    districts.forEach((district) => {
+      const isUnlocked = district.defaultUnlocked || this.state.hasFlag(district.unlockFlag);
+      const isCleared = this.state.hasFlag(district.bossFlag);
+      if (isUnlocked) unlockedCount++;
+      if (isCleared) clearedCount++;
+    });
+
+    if (this.progressEl) {
+      this.progressEl.textContent = `해금 ${unlockedCount}/${total} · 정화 ${clearedCount}/${total}`;
+    }
 
     districts.forEach((district) => {
       const isUnlocked = district.defaultUnlocked || this.state.hasFlag(district.unlockFlag);
@@ -84,7 +102,7 @@ export default class MapUI {
           <div class="district-name">${district.name}</div>
           <div class="district-desc">${district.description}</div>
           ${isCleared ? '<div class="district-status cleared-badge">정화 완료</div>' : ''}
-          ${!isUnlocked ? '<div class="district-status locked-badge">잠김</div>' : ''}
+          ${!isUnlocked ? `<div class="district-status locked-badge">잠김 · ${this._formatUnlockHint(district, config)}</div>` : ''}
         </div>
       `;
 
@@ -96,6 +114,14 @@ export default class MapUI {
 
       this.districtsEl.appendChild(card);
     });
+  }
+
+  _formatUnlockHint(district, config) {
+    if (district.defaultUnlocked) return '초기 해금';
+    const mappedHint = config?.districtUnlockHints?.[district.id];
+    if (mappedHint) return mappedHint;
+    if (!district.unlockFlag) return '조건 미확인';
+    return `${district.unlockFlag} 달성 필요`;
   }
 
   onTravel(callback) { this._onTravel = callback; }

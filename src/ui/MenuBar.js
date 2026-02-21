@@ -81,7 +81,11 @@ export default class MenuBar {
 
       const slot = i;
       btn.addEventListener('click', () => {
-        this.saveSystem.save(slot);
+        const ok = this.saveSystem.save(slot);
+        if (!ok) {
+          if (this._callbacks.onSaveError) this._callbacks.onSaveError(slot);
+          return;
+        }
         this.saveDialog.classList.add('hidden');
         if (this._callbacks.onSave) this._callbacks.onSave(slot);
       });

@@ -59,10 +59,12 @@ export default class ChoiceButtons {
 
       // 키보드 단축키 (1~9)
       this._keyHandler = (e) => {
+        if (this.el.classList.contains('hidden') || e.repeat) return;
         const num = parseInt(e.key);
         if (num >= 1 && num <= choices.length) {
           const choice = choices[num - 1];
           if (choice.available) {
+            e.preventDefault();
             cleanup();
             this.hide();
             resolve(choice);
@@ -78,6 +80,10 @@ export default class ChoiceButtons {
   }
 
   hide() {
+    if (this._keyHandler) {
+      document.removeEventListener('keydown', this._keyHandler);
+      this._keyHandler = null;
+    }
     this.el.classList.add('hidden');
     this.el.innerHTML = '';
   }

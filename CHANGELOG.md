@@ -1,5 +1,40 @@
 # Changelog
 
+## [2026-02-21] 시스템 안정화/운영성 개선 (스토리 추가 없음)
+
+### 핵심 안정화
+- `Game.playScene` 전환 락 로직을 타이머 기반(200ms)에서 `try/finally + 큐` 방식으로 교체
+  - 전환 중 추가 호출은 마지막 `sceneId`를 큐잉해 유실 없이 순차 처리
+- 대화 씬에서 **조건 미충족 선택지 우회 실행** 제거
+  - 기존: 조건 불충족이어도 fallback choice의 effect/nextScene 실행 가능
+  - 변경: 허브(또는 시작 씬)로 안전 복귀 + 경고 토스트 표시
+- 오토세이브 실패 시 무시하지 않고 오류 토스트 표시
+
+### UI/입력 신뢰성
+- 타이틀 슬롯 로드 실패 시 즉시 상태 메시지 출력 (`title-status`)
+- 메뉴바 수동 세이브 실패 처리 추가 (`onSaveError` 콜백)
+- 이어하기 버튼 `disabled` 클래스 동기화 버그 수정
+- 전역 키 입력 가드 강화
+  - `ChoiceButtons`, `CombatUI`, `DialogueBox`에서 hidden/repeat/input-target 케이스 무시
+  - `ChoiceButtons.hide()` 시 keydown 핸들러 확실히 해제
+
+### 시스템 정보 전달 개선
+- 맵 UI에 진행도 요약 추가: `해금 X/Y · 정화 X/Y`
+- 잠긴 구역에 해금 힌트 문구 표시 (`unlockFlag` 또는 config 힌트)
+- 업그레이드 UI에 요약 정보 추가
+  - 강화 가능 개수, 최소 비용, 부족 엔그램 표시
+- 업그레이드 성공 시 토스트 피드백 추가
+
+### 검증 자동화
+- `scripts/validate-scenes.mjs` 신규 추가
+  - 중복 ID, 깨진 참조(next/victory), 타입/choices/rounds 정합성 검증
+  - 조건부-only 씬/도달 불가 씬은 warning으로 보고
+- `npm run validate:scenes` 스크립트 추가
+
+### 비고
+- 이번 변경은 **시스템 품질 개선 전용**이며 스토리/콘텐츠 JSON은 확장하지 않음
+- 기존 세이브 데이터 포맷(version 1)은 유지
+
 ## [2026-02-11] 콘텐츠 대량 확장 — 146씬 → 217씬 (+71씬)
 
 ### 목표

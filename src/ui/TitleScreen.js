@@ -26,6 +26,7 @@ export default class TitleScreen {
           <div class="title-subtitle">The Abyss</div>
         </div>
         <div class="title-run-info hidden"></div>
+        <div class="title-status hidden" aria-live="polite"></div>
         <div class="title-menu">
           <button class="title-btn new-game-btn" aria-label="새 게임 시작">&#9654; 새 게임</button>
           <button class="title-btn continue-btn" aria-label="이어하기">&#9654; 이어하기</button>
@@ -44,6 +45,7 @@ export default class TitleScreen {
     this.slotsEl = this.el.querySelector('.save-slots');
     this.continueBtn = this.el.querySelector('.continue-btn');
     this.runInfoEl = this.el.querySelector('.title-run-info');
+    this.statusEl = this.el.querySelector('.title-status');
     this.perksBtn = this.el.querySelector('.perks-btn');
     this.perksPanel = this.el.querySelector('.perks-panel');
 
@@ -84,8 +86,12 @@ export default class TitleScreen {
         <span class="slot-info">${autoInfo.playerName} 🧠${autoInfo.memories} - ${autoInfo.date}</span>
       `;
       btn.addEventListener('click', () => {
-        this.saveSystem.loadAutoSave();
-        if (this._onLoadGame) this._onLoadGame();
+        const ok = this.saveSystem.loadAutoSave();
+        if (!ok) {
+          this._setStatus('오토세이브를 불러오지 못했습니다. 다른 슬롯을 선택하세요.', 'error');
+          return;
+        }
+        if (this._onLoadGame) this._onLoadGame({ success: true, source: 'auto' });
       });
       this.slotsEl.appendChild(btn);
     }
@@ -100,8 +106,12 @@ export default class TitleScreen {
           <span class="slot-info">${info.playerName} 🧠${info.memories} - ${info.date}</span>
         `;
         btn.addEventListener('click', () => {
-          this.saveSystem.load(i);
-          if (this._onLoadGame) this._onLoadGame();
+          const ok = this.saveSystem.load(i);
+          if (!ok) {
+            this._setStatus(`슬롯 ${i + 1} 로드 실패. 다른 슬롯을 선택하세요.`, 'error');
+            return;
+          }
+          if (this._onLoadGame) this._onLoadGame({ success: true, source: 'slot', slot: i });
         });
       } else {
         btn.innerHTML = `
@@ -195,7 +205,7 @@ export default class TitleScreen {
 
     const d = this.meta.data;
     const endings = Object.keys(d.endingsReached || {}).length;
-    let info = `Run #${d.totalRuns + 1} | 사망: ${d.totalDeaths} | 클리어: ${d.totalVictories}`;
+    let info = `${d.totalRuns + 1}회차 | 사망: ${d.totalDeaths} | 클리어: ${d.totalVictories}`;
     if (endings > 0) {
       info += ` | 결말: ${endings}/4`;
     }
@@ -219,7 +229,16 @@ export default class TitleScreen {
     this.continueBtn.disabled = !hasAuto && !hasSlot;
     if (this.continueBtn.disabled) {
       this.continueBtn.classList.add('disabled');
+    } else {
+      this.continueBtn.classList.remove('disabled');
     }
+  }
+
+  _setStatus(message, type = 'error') {
+    if (!this.statusEl) return;
+    this.statusEl.textContent = message;
+    this.statusEl.classList.remove('hidden', 'success', 'error');
+    this.statusEl.classList.add(type === 'success' ? 'success' : 'error');
   }
 
   onNewGame(callback) { this._onNewGame = callback; }
@@ -229,6 +248,7 @@ export default class TitleScreen {
   show() {
     this.slotsEl.classList.add('hidden');
     this.perksPanel.classList.add('hidden');
+    this.statusEl.classList.add('hidden');
     this.updateContinueButton();
     this._updateRunInfo();
     this.el.classList.remove('hidden');

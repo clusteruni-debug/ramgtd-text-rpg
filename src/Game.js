@@ -86,6 +86,10 @@ export default class Game {
     // 타이핑 속도: 설정 패널 값 우선, 없으면 config 값
     this.dialogueRenderer.setSpeed(this.settingsPanel.typingSpeed || gameConfig.typingSpeed || 30);
 
+    // 씬 전환 상태
+    this._sceneTransitioning = false;
+    this._queuedSceneId = null;
+
     // 타이틀 화면
     this.showTitle();
   }
@@ -125,7 +129,13 @@ export default class Game {
 
     // 타이틀 → 새 게임 / 이어하기
     this.titleScreen.onNewGame(() => this.startNewGame());
-    this.titleScreen.onLoadGame(() => this.resumeGame());
+    this.titleScreen.onLoadGame((payload) => {
+      if (!payload || payload.success !== true) {
+        this.showToast('저장 데이터를 불러오지 못했습니다.', 'error');
+        return;
+      }
+      this.resumeGame();
+    });
 
     // 전투 테스트
     this.titleScreen.onTestCombat(() => this._startTestCombat());
@@ -140,6 +150,7 @@ export default class Game {
     this.menuBar.on('settings', () => this.settingsPanel.toggle());
     this.menuBar.on('title', () => this.showTitle());
     this.menuBar.on('onSave', (slot) => this.showToast(`슬롯 ${slot + 1}에 세이브 완료!`, 'success'));
+    this.menuBar.on('onSaveError', () => this.showToast('세이브 실패: 브라우저 저장소를 확인하세요.', 'error'));
 
     // 맵 UI
     this.mapUI.onTravel((district) => {
@@ -164,6 +175,9 @@ export default class Game {
       if (hubScene) {
         this.playScene(hubScene);
       }
+    });
+    this.upgradeUI.onUpgrade(({ stat, cost, nextValue }) => {
+      this.showToast(`${stat} 강화 완료 (-💎${cost}) → Lv.${nextValue}`, 'success');
     });
 
     // 인벤토리 아이템 사용 — 단일 또는 멀티 이펙트 지원
@@ -233,6 +247,7 @@ export default class Game {
     this.menuBar.show();
 
     // 첫 씬 시작
+    this._queuedSceneId = null;
     this.playScene(gameConfig.startScene);
   }
 
@@ -244,6 +259,7 @@ export default class Game {
     this.menuBar.show();
 
     const currentScene = this.stateManager.state.currentScene;
+    this._queuedSceneId = null;
     if (currentScene) {
       this.playScene(currentScene);
     } else {
@@ -322,17 +338,29 @@ export default class Game {
 
   // --- 씬 재생 ---
   async playScene(sceneId) {
-    // 짧은 디바운스 — 중복 클릭 방지 (200ms)
-    if (this._sceneTransitioning) return;
-    this._sceneTransitioning = true;
-    setTimeout(() => { this._sceneTransitioning = false; }, 200);
-
-    // 이전 타이핑 즉시 종료
-    if (this.dialogueRenderer.isTyping) {
-      this.dialogueRenderer.skip();
+    if (!sceneId) return;
+    if (this._sceneTransitioning) {
+      this._queuedSceneId = sceneId;
+      return;
     }
 
-    await this._playSceneInner(sceneId);
+    this._sceneTransitioning = true;
+
+    try {
+      // 이전 타이핑 즉시 종료
+      if (this.dialogueRenderer.isTyping) {
+        this.dialogueRenderer.skip();
+      }
+      await this._playSceneInner(sceneId);
+    } finally {
+      this._sceneTransitioning = false;
+
+      const queued = this._queuedSceneId;
+      this._queuedSceneId = null;
+      if (queued && queued !== sceneId) {
+        queueMicrotask(() => this.playScene(queued));
+      }
+    }
   }
 
   async _playSceneInner(sceneId) {
@@ -375,8 +403,12 @@ export default class Game {
 
     this.stateManager.setCurrentScene(sceneId);
     if (this.settingsPanel.autoSaveEnabled) {
-      this.saveLoadSystem.autoSave();
-      this.menuBar.flashSaveIndicator();
+      const autoSaved = this.saveLoadSystem.autoSave();
+      if (autoSaved) {
+        this.menuBar.flashSaveIndicator();
+      } else {
+        this.showToast('오토세이브 실패: 저장공간을 확인하세요.', 'error');
+      }
     }
     await this._setBackground(scene.background);
 
@@ -431,16 +463,12 @@ export default class Game {
 
     if (choices.length === 0) return;
     if (availableChoices.length === 0) {
-      const fallbackChoice = choices.find(choice => choice.nextScene || choice.effects);
-      if (fallbackChoice) {
-        if (fallbackChoice.effects) {
-          this.sceneManager.applyEffects(fallbackChoice.effects);
-        }
-        if (fallbackChoice.nextScene) {
-          this.playScene(fallbackChoice.nextScene);
-        }
-      } else {
-        this.showToast('선택 가능한 행동이 없습니다.', 'error');
+      console.warn(`[SceneGuard] 선택지 조건 불충족으로 진행 중단: ${scene.id}`);
+      this.showToast('조건 충족 선택지가 없어 허브로 이동합니다.', 'error');
+      await delay(350);
+      const fallbackScene = gameConfig.hubScene || gameConfig.startScene;
+      if (fallbackScene) {
+        this.playScene(fallbackScene);
       }
       return;
     }
@@ -654,7 +682,7 @@ export default class Game {
     this.choiceButtons.hide();
     this.combatUI.hide();
     this._setBackground('station');
-    this.mapUI.render(gameConfig.districts || []);
+    this.mapUI.render(gameConfig.districts || [], gameConfig);
     this.mapUI.show();
   }
 

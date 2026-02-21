@@ -210,8 +210,10 @@ export default class CombatUI {
     // 키보드 단축키 (1~N)
     this._removeKeyHandler();
     this._keyHandler = (e) => {
+      if (this.el.classList.contains('hidden') || e.repeat) return;
       const num = parseInt(e.key);
       if (num >= 1 && num <= data.choices.length) {
+        e.preventDefault();
         this._removeKeyHandler();
         if (this._onChoice) this._onChoice(num - 1);
       }
@@ -316,6 +318,7 @@ export default class CombatUI {
     // Enter/Space로 계속
     this._removeContinueKeyHandler();
     this._continueKeyHandler = (e) => {
+      if (this.el.classList.contains('hidden') || e.repeat) return;
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         this._removeContinueKeyHandler();
