@@ -1,0 +1,179 @@
+/* ===== 동료 패널 ===== */
+.companion-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 280px;
+  height: 100%;
+  z-index: 25;
+  background: var(--bg-panel);
+  border-left: 2px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  animation: slide-in-right 0.2s ease;
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.companion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 2px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.companion-title {
+  font-size: 14px;
+  color: var(--text-speaker);
+  letter-spacing: 1px;
+}
+
+.companion-close-btn {
+  background: none;
+  color: var(--text-secondary);
+  font-size: 14px;
+  padding: 4px 8px;
+  transition: color 0.15s;
+}
+
+.companion-close-btn:hover {
+  color: var(--text-accent);
+}
+
+.companion-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.companion-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--text-secondary);
+  padding: 20px;
+  text-align: center;
+}
+
+.companion-card {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+.companion-card.dead {
+  opacity: 0.5;
+  border-color: var(--hp-color);
+}
+
+.comp-portrait {
+  font-size: 24px;
+  flex-shrink: 0;
+  width: 36px;
+  text-align: center;
+}
+
+.comp-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.comp-name {
+  font-size: 13px;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.comp-dead-tag {
+  font-size: 10px;
+  color: var(--hp-color);
+  margin-left: 4px;
+}
+
+.comp-trust {
+  margin-bottom: 4px;
+}
+
+.comp-trust-label {
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+.comp-trust-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--bg-primary);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.comp-trust-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--text-accent), var(--text-speaker));
+  transition: width 0.3s ease;
+}
+
+.comp-skills {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.comp-skill {
+  font-size: 10px;
+  color: var(--text-accent);
+  background: var(--bg-primary);
+  padding: 1px 5px;
+  border-radius: 2px;
+  border: 1px solid var(--border-color);
+}
+
+.comp-dead-msg {
+  font-size: 11px;
+  color: var(--hp-color);
+  font-style: italic;
+}
+
+/* 동료 초상화 이미지 */
+.comp-portrait-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+}
+
+/* 스킬 충전 표시 */
+.skill-charges {
+  font-size: 9px;
+  color: var(--text-secondary);
+  margin-left: 2px;
+}
+
+/* 스킬 소진 상태 */
+.comp-skill.skill-depleted {
+  opacity: 0.4;
+  text-decoration: line-through;
+  color: var(--text-secondary);
+}
+
+/* ===== 반응형: 폰 ===== */
+@media (max-width: 480px) {
+  .companion-panel {
+    width: 100vw;
+  }
+}

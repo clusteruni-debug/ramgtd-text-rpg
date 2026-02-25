@@ -1,0 +1,53 @@
+/* ===== 휴식 화면 ===== */
+.rest-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  background: var(--bg-secondary);
+  gap: 16px;
+  animation: fade-in 0.5s ease;
+}
+
+.rest-icon {
+  font-size: 48px;
+  animation: rest-pulse 2s ease-in-out infinite;
+}
+
+@keyframes rest-pulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+.rest-text {
+  font-size: 16px;
+  color: var(--text-primary);
+  text-align: center;
+  line-height: 1.6;
+}
+
+.rest-hp-restored {
+  font-size: 18px;
+  color: var(--exp-color);
+  font-weight: bold;
+}
+
+.rest-continue-btn {
+  margin-top: 8px;
+  padding: 12px 32px;
+  background: var(--btn-primary);
+  color: var(--btn-text);
+  border: 2px solid var(--btn-hover);
+  font-size: 14px;
+  transition: all 0.15s;
+}
+
+.rest-continue-btn:hover {
+  background: var(--btn-hover);
+}

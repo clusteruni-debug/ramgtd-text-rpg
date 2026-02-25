@@ -1,0 +1,173 @@
+/* ===== 사망 화면 ===== */
+.death-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: fade-in 0.8s ease;
+}
+
+.death-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  max-width: 400px;
+  width: 90%;
+}
+
+.death-title {
+  font-size: 36px;
+  color: var(--text-accent);
+  text-shadow:
+    0 0 10px var(--text-accent),
+    0 0 40px var(--text-accent);
+  letter-spacing: 6px;
+  animation: death-pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes death-pulse {
+  from { opacity: 0.7; text-shadow: 0 0 10px var(--text-accent); }
+  to { opacity: 1; text-shadow: 0 0 20px var(--text-accent), 0 0 60px var(--text-accent); }
+}
+
+.death-subtitle {
+  font-size: 12px;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+}
+
+.death-memory-loss {
+  margin: 16px 0;
+}
+
+.memory-lost-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.memory-lost-name {
+  font-size: 20px;
+  color: var(--text-accent);
+  text-shadow: 0 0 10px var(--text-accent);
+}
+
+.memory-lost-gone {
+  font-size: 11px;
+  color: var(--hp-color);
+  margin-top: 8px;
+}
+
+.memory-remaining {
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.memory-warning {
+  font-size: 12px;
+  color: var(--hp-color);
+  margin-top: 4px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.game-over-text {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.death-stats {
+  width: 100%;
+  background: var(--bg-panel);
+  border: 2px solid var(--border-color);
+  padding: 16px;
+}
+
+.death-stat-title {
+  color: var(--text-speaker);
+  font-size: 14px;
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+}
+
+.death-stat-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.death-stat-row span:last-child {
+  color: var(--text-primary);
+}
+
+.death-rewards {
+  width: 100%;
+}
+
+.death-reward-title {
+  color: var(--exp-color);
+  font-size: 15px;
+  margin-bottom: 8px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px var(--exp-color);
+}
+
+.death-reward-item {
+  background: var(--bg-panel);
+  border: 1px solid var(--exp-color);
+  padding: 8px 12px;
+  margin-bottom: 4px;
+  font-size: 13px;
+  color: var(--text-primary);
+  animation: slide-up 0.4s ease;
+}
+
+.death-restart-btn {
+  padding: 14px 48px;
+  font-size: 16px;
+  background: transparent;
+  color: var(--text-primary);
+  border: 2px solid var(--text-accent);
+  transition: all 0.2s;
+  min-width: 220px;
+  margin-top: 8px;
+}
+
+.death-restart-btn:hover {
+  background: var(--text-accent);
+  color: var(--bg-primary);
+  transform: scale(1.02);
+  box-shadow: 0 0 20px var(--text-accent);
+}
+
+.death-run-info {
+  font-size: 11px;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+}
+
+/* ===== 반응형: 폰 ===== */
+@media (max-width: 480px) {
+  .death-title {
+    font-size: 24px;
+  }
+
+  .death-content {
+    padding: 16px;
+  }
+}

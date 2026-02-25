@@ -1,0 +1,181 @@
+/* ===== 업그레이드 UI ===== */
+.upgrade-ui {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  z-index: 20;
+  background: var(--bg-secondary);
+  animation: fade-in 0.3s ease;
+}
+
+.upgrade-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: var(--bg-panel);
+  border-bottom: 2px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.upgrade-title {
+  font-size: 16px;
+  color: var(--exp-color);
+  letter-spacing: 2px;
+}
+
+.upgrade-engrams {
+  font-size: 14px;
+  color: var(--exp-color);
+}
+
+.upgrade-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.upgrade-summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 11px;
+  color: var(--text-secondary);
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.upgrade-summary strong {
+  color: var(--text-primary);
+}
+
+.upgrade-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 20px;
+  overflow-y: auto;
+}
+
+.upgrade-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+.upgrade-stat-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.upgrade-stat-name {
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.upgrade-stat-desc {
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.upgrade-stat-level {
+  flex-shrink: 0;
+}
+
+.upgrade-pips {
+  display: flex;
+  gap: 3px;
+  font-size: 14px;
+}
+
+.pip {
+  color: var(--border-color);
+}
+
+.pip.filled {
+  color: var(--text-accent);
+}
+
+.upgrade-action {
+  flex-shrink: 0;
+  min-width: 90px;
+  text-align: right;
+}
+
+.upgrade-btn {
+  padding: 6px 12px;
+  background: var(--btn-primary);
+  color: var(--btn-text);
+  border: 1px solid var(--btn-hover);
+  font-size: 11px;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.upgrade-btn:hover {
+  background: var(--btn-hover);
+}
+
+.upgrade-btn.disabled {
+  background: var(--btn-disabled);
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+.upgrade-max {
+  font-size: 12px;
+  color: var(--text-speaker);
+  font-weight: bold;
+}
+
+.upgrade-hint {
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.upgrade-footer {
+  padding: 12px 20px;
+  border-top: 2px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.upgrade-back-btn {
+  width: 100%;
+  padding: 10px;
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+  font-size: 13px;
+  transition: all 0.15s;
+}
+
+.upgrade-back-btn:hover {
+  background: var(--btn-primary);
+  border-color: var(--btn-hover);
+  color: white;
+}
+
+/* ===== 반응형: 폰 ===== */
+@media (max-width: 480px) {
+  .upgrade-summary {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .upgrade-row {
+    flex-wrap: wrap;
+  }
+}

@@ -4,26 +4,13 @@
  * v0.5: 주사위 애니메이션, 라운드 표시, HP 표시, 난이도/확률 표시
  */
 import { createElement } from '../utils/helpers.js';
-
-const TIER_LABELS = {
-  minion: '하급',
-  elite: '정예',
-  boss: '보스',
-};
-
-const ALIGNMENT_LABELS = {
-  light: '명',
-  dark: '암',
-  neutral: '',
-};
-
-const DIFFICULTY_LABELS = {
-  easy: '쉬움',
-  normal: '보통',
-  hard: '어려움',
-  extreme: '극한',
-  impossible: '불가능',
-};
+import { TIER_LABELS, DIFFICULTY_LABELS } from './combatConstants.js';
+import {
+  renderDiceAnimation,
+  renderFullResult,
+  renderEndBanner,
+  buildChoiceLabelParts,
+} from './combatRenderers.js';
 
 export default class CombatUI {
   constructor(container) {
@@ -76,7 +63,6 @@ export default class CombatUI {
   // CombatSystem onUpdate 콜백에서 호출
   updateCombat(data) {
     if (data.enemy) {
-      // 적 이름 + tier 배지 표시
       const tierLabel = TIER_LABELS[data.enemy.tier];
       if (tierLabel) {
         this.enemyNameEl.innerHTML = `${data.enemy.name} <span class="enemy-tier threat-${data.enemy.tier}">${tierLabel}</span>`;
@@ -113,9 +99,7 @@ export default class CombatUI {
     // HP 변동 플래시
     if (this._lastHp !== undefined && this._lastHp !== hp) {
       const delta = hp - this._lastHp;
-      // 데미지 팝업
       this._showDamagePopup(delta);
-      // HP 바 플래시
       const hpBar = this.el.querySelector('.combat-hp-mini');
       if (hpBar) {
         hpBar.classList.add('hp-changed');
@@ -125,12 +109,11 @@ export default class CombatUI {
     this._lastHp = hp;
   }
 
-  /** 데미지/회복 팝업 — HP 변동 시 떠오르는 숫자 */
+  /** 데미지/회복 팝업 */
   _showDamagePopup(value) {
     if (value === 0) return;
     const popup = createElement('div', `damage-popup ${value < 0 ? 'damage-loss' : 'damage-heal'}`);
     popup.textContent = `${value > 0 ? '+' : ''}${value}`;
-    // HP 바 근처에 배치
     const hpMini = this.el.querySelector('.combat-hp-mini');
     if (hpMini) {
       hpMini.style.position = 'relative';
@@ -158,7 +141,7 @@ export default class CombatUI {
     this.choicesEl.setAttribute('role', 'group');
     this.choicesEl.setAttribute('aria-label', '전투 선택지');
 
-    // 동료 스킬 바 (스킬이 있을 때만 표시)
+    // 동료 스킬 바
     if (data.availableCompanionSkills && data.availableCompanionSkills.length > 0) {
       const skillBar = createElement('div', 'companion-skill-bar');
       data.availableCompanionSkills.forEach(skill => {
@@ -178,16 +161,7 @@ export default class CombatUI {
       const diffClass = `difficulty-${choice.difficulty}`;
       const btn = createElement('button', `combat-choice-btn ${alignClass}`);
 
-      const labelParts = [];
-      if (ALIGNMENT_LABELS[choice.alignment]) {
-        labelParts.push(ALIGNMENT_LABELS[choice.alignment]);
-      }
-      // DC 수정 시 원래 DC 대비 표시
-      if (choice.dcModified) {
-        labelParts.push(`${choice.statName} DC${choice.dc} (${choice.baseDc})`);
-      } else {
-        labelParts.push(`${choice.statName} DC${choice.dc}`);
-      }
+      const labelParts = buildChoiceLabelParts(choice);
 
       btn.innerHTML = `
         <span class="choice-key">${index + 1}</span>
@@ -229,22 +203,11 @@ export default class CombatUI {
     this.resultEl.classList.remove('hidden');
 
     // Phase 1: 주사위 굴림 애니메이션
-    this.resultEl.innerHTML = `
-      <div class="dice-animation">
-        <div class="dice-rolling-container">
-          <span class="dice-face-large">🎲</span>
-          <span class="dice-rolling-number">?</span>
-        </div>
-        <div class="dice-check-info">
-          ${data.statName} <strong>${data.statValue}</strong>
-          <span class="dice-vs-preview">vs DC ${data.dc}</span>
-        </div>
-      </div>
-    `;
+    this.resultEl.innerHTML = renderDiceAnimation(data);
 
     const numEl = this.resultEl.querySelector('.dice-rolling-number');
 
-    // 가속 타임아웃 체인 — 처음 빠르게, 점점 느려지며 멈춤
+    // 가속 타임아웃 체인
     const delays = [50, 55, 60, 70, 80, 100, 120, 150, 200, 250];
     let step = 0;
     const rollStep = () => {
@@ -253,10 +216,8 @@ export default class CombatUI {
         step++;
         this._diceTimeout = setTimeout(rollStep, delays[step - 1]);
       } else {
-        // 최종 결과
         numEl.textContent = data.roll;
         numEl.classList.add('dice-settled');
-        // 성공/실패 glow
         numEl.classList.add(data.success ? 'dice-glow-success' : 'dice-glow-failure');
         setTimeout(() => this._showFullResult(data), 500);
       }
@@ -265,25 +226,9 @@ export default class CombatUI {
   }
 
   _showFullResult(data) {
-    const successClass = data.success ? 'result-success' : 'result-failure';
-    const icon = data.success ? '✅' : '❌';
-
-    // HP 변동 표시
-    let hpChangeHtml = '';
-    if (data.effects) {
-      data.effects.forEach(effect => {
-        if (effect.type === 'modifyStat' && effect.stat === 'hp' && effect.value !== 0) {
-          const sign = effect.value > 0 ? '+' : '';
-          const cls = effect.value < 0 ? 'hp-loss' : 'hp-gain';
-          hpChangeHtml += `<div class="result-hp-change ${cls}">HP ${sign}${effect.value}</div>`;
-        }
-      });
-    }
+    const { html, tookDamage } = renderFullResult(data);
 
     // 피해 시 화면 흔들림
-    const tookDamage = data.effects && data.effects.some(
-      e => e.type === 'modifyStat' && e.stat === 'hp' && e.value < 0
-    );
     if (tookDamage) {
       this.el.classList.add('combat-shake');
       setTimeout(() => this.el.classList.remove('combat-shake'), 400);
@@ -295,19 +240,7 @@ export default class CombatUI {
       setTimeout(() => this.enemySprite.classList.remove('enemy-hit'), 400);
     }
 
-    this.resultEl.innerHTML = `
-      <div class="result-dice ${successClass}">
-        <div class="dice-roll">
-          <span class="dice-icon">🎲</span>
-          <span class="dice-formula">d6(<strong>${data.roll}</strong>) + ${data.statName}(<strong>${data.statValue}</strong>) = <strong>${data.total}</strong></span>
-          <span class="dice-vs">vs DC <strong>${data.dc}</strong></span>
-        </div>
-        <div class="dice-verdict">${icon} ${data.success ? '성공!' : '실패...'}</div>
-      </div>
-      <div class="result-narrative">${data.resultText}</div>
-      ${hpChangeHtml}
-      <button class="result-continue-btn">계속 ▶</button>
-    `;
+    this.resultEl.innerHTML = html;
 
     // 계속 버튼
     this.resultEl.querySelector('.result-continue-btn').addEventListener('click', () => {
@@ -337,26 +270,7 @@ export default class CombatUI {
     this.roundTextEl.classList.add('hidden');
     this.resultEl.classList.remove('hidden');
 
-    if (isVictory) {
-      let rewardsHtml = '';
-      if (data.rewards && data.rewards.engrams) {
-        rewardsHtml = `<div class="result-reward">💎 엔그램 +${data.rewards.engrams}</div>`;
-      }
-      this.resultEl.innerHTML = `
-        <div class="combat-end-banner victory">
-          <div class="end-icon">⚔️</div>
-          <div class="end-text">승리!</div>
-          ${rewardsHtml}
-        </div>
-      `;
-    } else {
-      this.resultEl.innerHTML = `
-        <div class="combat-end-banner defeat">
-          <div class="end-icon">💀</div>
-          <div class="end-text">쓰러졌다...</div>
-        </div>
-      `;
-    }
+    this.resultEl.innerHTML = renderEndBanner(data, isVictory);
   }
 
   _updateLog(log) {
