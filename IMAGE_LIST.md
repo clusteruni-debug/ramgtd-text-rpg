@@ -1,55 +1,55 @@
-# 필요한 이미지 목록
+# Required Image List
 
-## 이미지 넣을 폴더
+## Image Folder Locations
 ```
-public/images/bg/          ← 배경 이미지
-public/images/characters/   ← 캐릭터 이미지
+public/images/bg/          <- Background images
+public/images/characters/   <- Character images
 ```
 
-> 이미지를 넣으면 코드에서 CSS나 JS로 연결하는 작업은 제가 해드릴게요.
-> 권장 사이즈: 배경 800x600, 캐릭터 200x400 (투명 PNG)
+> Once you add the images, I can handle linking them via CSS or JS in the code.
+> Recommended sizes: Backgrounds 800x600, Characters 200x400 (transparent PNG)
 
 ---
 
-## 배경 이미지 (7장)
+## Background Images (7 images)
 
-| 파일명 | 장면 | 분위기 설명 |
-|--------|------|-------------|
-| `bg-void.png` | 심연 공허 | 완전한 어둠. 검은 공간에 미세한 빛 입자가 떠다니는 느낌. 우주 같은 공허. |
-| `bg-station.png` | 폐쇄된 지하철역 | 버려진 지하철 플랫폼. 녹슨 철로, 먼지 쌓인 벤치, 깨진 형광등이 깜빡임. 콘크리트 벽에 긁힌 자국. |
-| `bg-corridor.png` | 기억의 복도 | 보라색 안개가 가득한 긴 복도. 양쪽 벽에 흐릿한 거울들. 바닥에 유리 파편. 몽환적이고 불안한 분위기. |
-| `bg-crying.png` | 울음의 방 | 어두운 청색 공간. 벽에서 물(눈물)이 흘러내리고 있음. 바닥에 얕은 물웅덩이. 차갑고 슬픈 분위기. |
-| `bg-silence.png` | 침묵의 길 | 눈부신 순백 공간. 벽, 바닥, 천장 구분 없이 하얗다. 그림자도 없음. 깨끗하지만 불안한 공허. |
-| `bg-hall.png` | B1 중앙홀 | 거대한 지하 공간. 높은 천장에서 희미한 붉은 빛이 내려옴. 세 갈래 아치형 입구. 고대 신전 느낌. |
-| `bg-boss.png` | 보스전 | 붉은 빛이 맥동하는 어두운 공간. 바닥에 수천 개의 유리 파편(고통의 파편)이 빛남. 압도적 위압감. |
-
----
-
-## 캐릭터 이미지 (5장)
-
-| 파일명 | 캐릭터 | 외형 설명 |
-|--------|--------|-----------|
-| `guide.png` | 안내자 | 누더기를 걸친 노숙자 같은 존재. 후드 깊이 눌러쓰고, 피곤한 눈만 보임. 친절하지 않지만 악의도 없는 표정. |
-| `lost_one.png` | 상실자 | 얼굴이 없는 존재. 눈/코/입 자리가 매끈하게 비어있음. 웅크린 자세. 몸에서 희미한 파란 빛(눈물)이 흘러내림. |
-| `collector.png` | 고통의 수집가 | 깔끔한 검은 외투. 우아한 자태. 눈이 수천 개의 작은 눈동자 파편으로 이루어져 있음(만화경 같은 눈). 미소. |
-| `shadow_self.png` | 그림자 자아 | 주인공의 실루엣이지만 완전히 검은 그림자. 눈 부분만 텅 빈 흰 빛. 거울에서 빠져나온 느낌. |
-| `mirror.png` | 거울 속 목소리 | (선택) 금이 간 거울. 거울 안에 흐릿한 형체가 비침. 아직 정체불명 — 실루엣만. B3 복선. |
+| Filename | Scene | Mood Description |
+|----------|-------|------------------|
+| `bg-void.png` | Abyss Void | Complete darkness. A black space with faint light particles floating. A cosmic emptiness. |
+| `bg-station.png` | Abandoned Subway Station | An abandoned subway platform. Rusty rails, dusty benches, broken fluorescent lights flickering. Scratched marks on concrete walls. |
+| `bg-corridor.png` | Corridor of Memories | A long corridor filled with purple mist. Blurry mirrors line both walls. Glass fragments on the floor. Dreamlike and unsettling atmosphere. |
+| `bg-crying.png` | Room of Tears | A dark blue space. Water (tears) streams down the walls. Shallow puddles on the floor. Cold and sorrowful atmosphere. |
+| `bg-silence.png` | Path of Silence | A blindingly white space. No distinction between walls, floor, and ceiling — all white. No shadows. Clean but unsettlingly empty. |
+| `bg-hall.png` | B1 Central Hall | A massive underground space. A dim red light pulses from the high ceiling. Three arched entrances. An ancient temple feel. |
+| `bg-boss.png` | Boss Battle | A dark space pulsing with red light. Thousands of glass shards (pain fragments) gleam on the floor. Overwhelmingly oppressive. |
 
 ---
 
-## 우선순위
+## Character Images (5 images)
 
-**1순위 (이것만 있어도 분위기 확 바뀜):**
-- `bg-station.png` — 프롤로그 주 배경
-- `bg-corridor.png` — 기억의 복도
-- `bg-boss.png` — 보스전
-- `collector.png` — 메인 보스
-- `guide.png` — 안내자 (첫 NPC)
+| Filename | Character | Appearance Description |
+|----------|-----------|----------------------|
+| `guide.png` | The Guide | A homeless-looking being wrapped in rags. Hood pulled deep over the face, only tired eyes visible. An expression neither kind nor malicious. |
+| `lost_one.png` | The Lost One | A faceless being. The eye/nose/mouth areas are smoothly blank. Curled up posture. A faint blue light (tears) drips from its body. |
+| `collector.png` | The Pain Collector | A neat black coat. Elegant demeanor. Eyes composed of thousands of tiny pupil fragments (kaleidoscope-like eyes). A smile. |
+| `shadow_self.png` | Shadow Self | The protagonist's silhouette but completely black shadow. Only the eye area glows with hollow white light. As if it emerged from a mirror. |
+| `mirror.png` | Voice in the Mirror | (Optional) A cracked mirror. A blurry figure is reflected inside. Identity unknown — only a silhouette. Foreshadowing for B3. |
 
-**2순위:**
+---
+
+## Priority
+
+**Priority 1 (these alone dramatically change the atmosphere):**
+- `bg-station.png` — Prologue main background
+- `bg-corridor.png` — Corridor of Memories
+- `bg-boss.png` — Boss battle
+- `collector.png` — Main boss
+- `guide.png` — The Guide (first NPC)
+
+**Priority 2:**
 - `bg-crying.png`, `bg-silence.png`, `bg-hall.png`
 - `lost_one.png`, `shadow_self.png`
 
-**3순위:**
-- `bg-void.png` (CSS 그라데이션으로도 충분)
-- `mirror.png` (B3에서 본격 등장)
+**Priority 3:**
+- `bg-void.png` (CSS gradients are sufficient)
+- `mirror.png` (fully appears in B3)

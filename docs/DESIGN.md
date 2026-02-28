@@ -1,366 +1,366 @@
-# 심연 (The Abyss) — Game Design Document v2.0
-**장르:** 어반 호러 / 텍스트 어드벤처 RPG  
-**테마:** 현대 도시의 병폐를 정화하는 '시스템적 지옥'에 떨어진 산 자의 탈출기  
-**톤:** 디스코 엘리시움의 건조한 내레이션 + 인더스트리얼 호러 + 한국 도시 풍자  
-**플레이타임:** 1회 플레이 6~10시간, 결말 분기로 회차 가치 제공  
+# The Abyss — Game Design Document v2.0
+**Genre:** Urban Horror / Text Adventure RPG
+**Theme:** The escape of a living person trapped in a 'systemic hell' that purifies the ills of the modern city
+**Tone:** Disco Elysium's dry narration + Industrial Horror + Korean urban satire
+**Playtime:** 6~10 hours per playthrough, branching endings provide replay value
 
 ---
 
-## 1. 세계관: 감정 엔트로피 처리 시설 (The Factory City)
+## 1. Setting: Emotional Entropy Processing Facility (The Factory City)
 
-### 1-1. 정체
-전설 속 '지옥'이 현대화된 거대한 지하 산업 도시. 도시 사람들이 배출한 부정적 감정(엔트로피)을 연료와 자재로 재활용하는 시스템.
+### 1-1. True Nature
+A legendary 'hell' modernized into a vast underground industrial city. A system that recycles the negative emotions (entropy) emitted by city dwellers into fuel and materials.
 
-### 1-2. 왜 '도시'인가
-- **형태적 이유:** 현대인의 무의식에 가장 깊이 박힌 이미지가 '아파트', '빌딩', '지하철'이기 때문에, 감정의 찌꺼기가 자연스럽게 도시 형태로 굳어짐.
-- **기능적 이유:** 영혼들에게 익숙한 환경(도시)을 제공하면, 생전의 습관대로 스스로 공정 라인에 올라탐. 직장인 영혼은 제 발로 오피스 지구로 출근해서 압착당해 줌. 도시는 영혼들이 스스로 처리되게 만드는 거대한 덫.
+### 1-2. Why a 'City'?
+- **Formal reason:** The images most deeply embedded in modern people's subconscious are 'apartments', 'buildings', and 'subways', so the residue of emotions naturally solidifies into a city form.
+- **Functional reason:** By providing souls with a familiar environment (a city), they voluntarily join the processing line following their habits from life. Office worker souls walk themselves to the office district and get crushed. The city is a massive trap that makes souls process themselves.
 
-### 1-3. 분위기
-차가운 관료제, 웅장한 기계 소음, 핏물과 기름이 섞인 산업 현장. 사이버펑크와 인더스트리얼 호러의 결합. 영혼을 태우는 네온사인, 비명 지르는 파이프, 끝없이 솟은 콘크리트 빌딩(사실은 굴뚝).
-
----
-
-## 2. 도시 구조: 중앙 집권형 필터링
-
-### 2-1. 플랫폼 0 & 중앙 환승 센터 (거점)
-- **역할:** 주인공의 안전 거점(Base), 부활 지점
-- **풍경:** 탈출을 포기한 영혼들이 모여 사는 텐트촌. 유일한 중립 구역.
-- **시설:** 상인(자판기 인간), 안내자 상주
-- **기능:** 정비 후 지하철을 타고 각 지구(District)로 원정
-
-### 2-2. 4대 행정구역 (1차 필터링)
-각 구역은 단순한 던전이 아니라, 망자들이 거주하고 노동하는 '마을'.  
-감정을 종류별로 분류(Sorting)하고 농축(Condense)하여 중앙으로 보냄.
-
-#### A지구: 침묵의 멘션 (The Silent Mansions)
-- **공정:** 소음 필터 — 거짓말, 악플, 소음을 압착하여 침묵을 만듦
-- **테마:** 거대한 도서관 + 감옥
-- **외형:** 입이 꿰매진 사람들이 사는 고풍스러운 저택. "정숙(Silence)" 표지판. 소리를 내면 검열 드론이 혀를 자름.
-- **주민(NPC):** 소문을 피해 도망친 연예인, 내부 고발자, 악플러들의 영혼
-- **주요 시설:** 속삭임의 시장 (수화/글로만 거래하는 암시장)
-- **지구장 보스:** 사서 (The Librarian)
-
-#### B지구: 철의 오피스 (The Iron Offices)
-- **공정:** 무한 압착 프레스 — 나태와 무기력을 찍어 누르는 공장
-- **테마:** 끝없이 솟은 마천루 + 공장 (구로공단/판교 테크노밸리의 뒤틀린 버전)
-- **외형:** 빌딩 전체가 피스톤처럼 위아래로 움직이며 쿵쿵거림. 넥타이 맨 좀비(과로사 영혼)들이 서류 가방 들고 좀비처럼 출근.
-- **주민(NPC):** 워커홀릭, 취준생, 번아웃 온 직장인
-- **주요 시설:** 야근의 탑 (불이 꺼지지 않는 빌딩)
-- **지구장 보스:** 현장 소장 (The Foreman)
-
-#### C지구: 동결 아파트 (The Frozen Apartments)
-- **공정:** 냉각 보존 — 고독과 우울을 급속 냉동하여 보관
-- **테마:** 복도식 아파트 단지 + 영안실
-- **외형:** 수천 개의 창문이 모두 얼어붙은 잿빛 아파트 단지. 인적 없는 거리, 찬 바람. 가로등이 얼어서 파랗게 빛남. 집집마다 사람들이 얼음 큐브가 되어 '전시(보존)'.
-- **주민(NPC):** 히키코모리, 고독사한 노인, 왕따 당한 학생
-- **주요 시설:** 101동 지하실 (가장 춥고 어두운 곳)
-- **지구장 보스:** 동면 관리자 (The Curator)
-
-#### D지구: 적색 번화가 (The Red District)
-- **공정:** 열분해 소각 — 분노와 증오를 태워 발전기를 돌림
-- **테마:** 유흥가 + 제철소
-- **외형:** 붉은 네온사인이 번쩍이는 밤거리. 바닥에 빗물 대신 기름과 쇳물. 곳곳에서 싸움과 폭발. 가장 시끄럽고 활기차지만 가장 위험한 무법지대.
-- **주민(NPC):** 깡패, 살인자, 분노조절장애 환자
-- **주요 시설:** 용광로 클럽 (춤추며 영혼을 태우는 광란의 파티장)
-- **지구장 보스:** 주방장 (The Chef)
-
-### 2-3. 중앙 중추 (The Core)
-- **정체:** 도시 정중앙의 거대한 검은 탑(The Black Monolith)이자 통제실(시청)
-- **역할:** 4개 구역에서 보내온 감정 액기스를 순수 에너지(도시 동력)로 변환. 찌꺼기는 바닥으로 내려보내 도시 지반을 확장.
-- **위험도:** 가장 강력한 정화 작용. 존재감이 약한 주인공은 순식간에 증발 위험.
-- **최종 보스:** 시장(The Mayor) 거주
-
-### 2-4. 이동 체계: 지하철 (Veins)
-- 도시 곳곳을 연결하는 수송망
-- 플랫폼 0에서 지하철을 타고 원하는 지구로 이동
-- 역장(The Station Master)이 관리
-- 진행에 따라 노선 차단, 검표원 추적 등 이동 제한 이벤트 발생
+### 1-3. Atmosphere
+Cold bureaucracy, grand mechanical noise, an industrial site where blood and oil mix. A fusion of cyberpunk and industrial horror. Neon signs that burn souls, screaming pipes, endlessly rising concrete buildings (actually smokestacks).
 
 ---
 
-## 3. 주인공: 산 자 (The Glitch / Empty Data)
+## 2. City Structure: Centralized Filtering
 
-### 3-1. 신분
-평범한 30대 소시민. 감정이 극도로 희석(Burnout)되어 내면이 텅 빈 상태. 흐릿한 얼굴, 기억나지 않는 이름, 회색 양복, 낡은 서류가방.
+### 2-1. Platform 0 & Central Transfer Center (Base)
+- **Role:** Protagonist's safe base, revival point
+- **Scenery:** A tent city where souls who gave up escaping live. The only neutral zone.
+- **Facilities:** Merchant (vending machine human), Guide stationed here
+- **Function:** After maintenance, take the subway to expedition in each district
 
-### 3-2. 진입 원인
-지하철 개찰구에서 교통카드를 찍는 순간, '감정 질량 미달'로 시스템 오류 발생. 현실 좌표를 잃고 처리 시설로 잘못 이송됨.
+### 2-2. Four Administrative Districts (Primary Filtering)
+Each district is not just a dungeon but a 'village' where the dead reside and labor.
+Emotions are sorted by type and condensed before being sent to the center.
 
-### 3-3. 부활 시스템 (System Reboot)
-- 죽으면 **그 자리에서** 즉시 재부팅됨 (처음으로 돌아가지 않음)
-- 시스템이 '분해'를 시도하나, 분해할 데이터(영혼의 무게)가 없어서 `Processing Error` 발생
-- **대가:** 부활할 때마다 **현실의 기억**이 하나씩 영구 소멸
-  - 예시 순서: 어머니의 얼굴 → 집 주소 → 친구 이름 → 자기 이름
-- **게임 오버:** 현실 기억이 0이 되면 완전한 죽음 (벽돌화 — 도시의 벽이 됨)
+#### District A: The Silent Mansions
+- **Process:** Noise filter — compresses lies, hate comments, and noise into silence
+- **Theme:** Massive library + prison
+- **Appearance:** Elegant mansions where people with sewn mouths live. "Silence" signs. Making sound triggers censorship drones that cut out tongues.
+- **Residents (NPCs):** Celebrities hiding from rumors, whistleblowers, hateful commenters' souls
+- **Key Facility:** Whisper Market (black market trading only via sign language/writing)
+- **District Boss:** The Librarian
 
-### 3-4. 부활의 파급 효과
-- 동료들은 눈앞에서 죽었다 살아나는 것을 목격 → 공포/경외
-- 초반: "죽어도 살아나니까 괜찮아" (가볍게 여김)
-- 중반: "잠깐, 엄마 얼굴이 기억이 안 나" (공포)
-- 후반: "현실에 돌아가도 나를 아는 사람이 없는 거 아냐?" (절박)
+#### District B: The Iron Offices
+- **Process:** Infinite compression press — a factory that crushes sloth and lethargy
+- **Theme:** Endlessly rising skyscrapers + factory (a twisted version of Korean industrial/tech parks)
+- **Appearance:** Entire buildings move up and down like pistons, thudding. Tie-wearing zombies (overwork death souls) carry briefcases and commute like zombies.
+- **Residents (NPCs):** Workaholics, job seekers, burnt-out office workers
+- **Key Facility:** The Overtime Tower (a building whose lights never go out)
+- **District Boss:** The Foreman
 
-### 3-5. 주인공의 목표
-기억(Data)이 완전히 마모되기 전에, 시스템을 뚫고 산 채로 탈출하는 것.
+#### District C: The Frozen Apartments
+- **Process:** Cryogenic preservation — flash-freezes loneliness and depression for storage
+- **Theme:** Corridor-style apartment complex + morgue
+- **Appearance:** An ashen apartment complex with thousands of frozen windows. Deserted streets, cold wind. Street lights frozen blue. People in each home frozen into ice cubes for 'display (preservation).'
+- **Residents (NPCs):** Hikikomori, elderly who died alone, bullied students
+- **Key Facility:** Building 101 basement (the coldest, darkest place)
+- **District Boss:** The Curator
 
----
+#### District D: The Red District
+- **Process:** Thermal decomposition incineration — burns anger and hatred to power generators
+- **Theme:** Red-light district + steel mill
+- **Appearance:** Night streets flashing with red neon signs. Oil and molten metal instead of rainwater on the ground. Fights and explosions everywhere. The loudest and most vibrant, yet the most dangerous lawless zone.
+- **Residents (NPCs):** Thugs, murderers, anger management patients
+- **Key Facility:** The Furnace Club (a frenzied party venue where souls are burned while dancing)
+- **District Boss:** The Chef
 
-## 4. 동료: 죽은 자들 (The Corrupted / Heavy Data)
+### 2-3. The Core
+- **True nature:** A massive black tower (The Black Monolith) at the city's center, also the control room (City Hall)
+- **Role:** Converts emotional essence sent from the 4 districts into pure energy (city power). Residue is sent downward to expand the city's foundation.
+- **Danger level:** The most powerful purification effect. The protagonist with weak presence risks instant evaporation.
+- **Final Boss:** The Mayor resides here
 
-### 4-1. 정체
-실제로 사망한 사람들. 죽는 순간의 트라우마가 너무 강해 데이터가 비정상적으로 무겁거나 손상됨(Corrupted). 그 '무거움' 때문에 처리 기계에 끼어서 소각되지 못하고 각 구역에 갇혀 있음.
-
-### 4-2. 산 자와의 관계
-- 주인공과 달리 **영구적 죽음(Permadeath)** 가능
-- 산 자(주인공)와 죽은 자(동료) 사이의 이질감과 긴장 존재
-  - "넌 여기 있을 자격도 없잖아"
-  - "넌 죽지도 않았으면서 뭘 안다고?"
-- 시간이 지나면서 공포 → 관심 → 유대 → 희망 또는 질투로 변화
-
-### 4-3. 심연의 기억
-- 동료와 유대를 맺으면 **새로운 기억(심연의 기억)**을 획득
-- 이 기억은 성장 자원이자, 결말에서의 핵심 희생 대상
-- "현실의 기억은 잃어가지만 심연의 관계는 쌓인다"는 아이러니
-
-### 4-4. 동료 목록
-> ※ 상세 캐릭터 설계는 별도 문서로 진행 예정.  
-> Gemini 세션에서 초안 10명 설계됨. "죽은 자" 프레임에 맞춰 재설계 필요.  
-> 각 동료는 특정 구역에 배치되며, 고유 퀘스트를 통해 영입.
-
----
-
-## 5. 관리자 계급 (The System Admins)
-
-### 5-1. 검표원 (저승사자) — 일반 적/잡몹
-- 말단 관리직
-- CCTV 얼굴을 하고 태블릿으로 영혼을 스캔/연행
-- 도시 곳곳에서 순찰하며 주인공을 추적
-
-### 5-2. 4대 지구장 — 구역 보스
-각 행정구역의 공장장. 해당 구역의 공정을 관리.
-| 구역 | 지구장 | 모티프 |
-|------|--------|--------|
-| A. 침묵의 멘션 | 사서 (The Librarian) | 검열/기록 말소 |
-| B. 철의 오피스 | 현장 소장 (The Foreman) | 과로/착취 |
-| C. 동결 아파트 | 동면 관리자 (The Curator) | 보존/방치 |
-| D. 적색 번화가 | 주방장 (The Chef) | 소각/연료화 |
-
-### 5-3. 역장 (The Station Master) — 중간 보스
-- **모티프:** 저승의 뱃사공(카론) + 철도청장
-- **관할:** 지하철 노선 & 플랫폼
-- **역할:** 감정 원료(영혼)를 각 구역으로 배송하는 물류 책임자. 주인공의 이동을 차단하고 검표원을 보냄.
-- **보스전 위치:** 순환선 터미널 (중앙으로 가는 열차를 타기 위해 반드시 돌파)
-- **캐릭터성:** "시간 엄수. 정시 도착. 티켓 없는 승객은 선로에 던져버려."
-
-### 5-4. 시장 (The Mayor) — 최종 보스
-- **모티프:** 염라대왕 + 슈퍼컴퓨터(AI)
-- **관할:** 공정 도시 전체 & 중앙 통제실
-- **역할:** 도시의 법률(규칙)을 정하고 감정 처리 효율을 계산하는 설계자. 주인공을 '오류'로 규정하고 포맷(기억 소거)을 집행하려 함.
-- **보스전 위치:** 심연의 중추 (시청/타워)
-- **캐릭터성:** "이 도시는 완벽하다. 네가 가진 그 불필요한 자아(기억)만 빼면."
+### 2-4. Transportation System: Subway (Veins)
+- A transport network connecting all parts of the city
+- Take the subway from Platform 0 to travel to desired districts
+- Managed by The Station Master
+- As progress advances, route blockades, ticket inspector pursuits, and other movement restriction events occur
 
 ---
 
-## 6. 전투 시스템: 스탯 체크 + 카르마 선택지
+## 3. Protagonist: The Living (The Glitch / Empty Data)
 
-### 6-1. 설계 철학
-텍스트 RPG에서 전투의 재미는 "때리는 쾌감"이 아니라 "판단의 쾌감".  
-매 전투에서 "안전하지만 비싼 선택" vs "위험하지만 이득인 선택"을 제시.  
-전투를 피할 수 있지만, 피하면 대가가 있음.
+### 3-1. Identity
+An ordinary 30-something citizen. Emotions extremely diluted (Burnout), leaving an internally hollow state. Blurry face, forgotten name, gray suit, worn briefcase.
 
-### 6-2. 기본 수치
-| 항목 | 초기값 | 범위 | 비고 |
-|------|--------|------|------|
-| HP | 20 | 0~20 | 0이 되면 사망 → 부활 → 현실 기억 -1 |
-| 체력 (Body) | 2 | 1~5 | 물리적 돌파/지구력 |
-| 감각 (Sense) | 2 | 1~5 | 회피/탐색/위험감지 |
-| 이성 (Reason) | 2 | 1~5 | 분석/퍼즐/약점간파 |
-| 교감 (Bond) | 1 | 1~5 | 설득/감정연결/동료연계 (무감각 소시민이라 최저) |
-| 카르마 | 0 | -100~+100 | 명(Light+) ↔ 암(Dark-) |
-| 현실 기억 | 10개 | 0~10 | = 총 사망 가능 횟수. 0이면 게임 오버(벽돌화) |
+### 3-2. Entry Cause
+At the subway turnstile, when tapping the transit card, a system error occurs due to 'insufficient emotional mass.' Loses real-world coordinates and is erroneously transported to the processing facility.
 
-### 6-3. 판정 시스템
-**판정 공식:** d6 + 스탯 ≥ DC (목표치)
+### 3-3. Revival System (System Reboot)
+- Upon death, **instantly reboots on the spot** (does not return to the beginning)
+- System attempts 'disassembly,' but with no data (soul weight) to disassemble, a `Processing Error` occurs
+- **Cost:** Each revival **permanently destroys one real-world memory**
+  - Example order: Mother's face -> Home address -> Friend's name -> Own name
+- **Game Over:** When real-world memories reach 0, it's complete death (bricked — becomes part of the city's walls)
 
-| 난이도 | DC | 스탯 1일 때 성공률 | 스탯 3일 때 성공률 | 스탯 5일 때 성공률 |
-|--------|----|--------------------|--------------------|--------------------|
-| 쉬움 | 4 | 50% | 83% | 100% |
-| 보통 | 6 | 17% | 50% | 83% |
-| 어려움 | 8 | 0% | 17% | 50% |
-| 극한 | 10 | 0% | 0% | 17% |
+### 3-4. Ripple Effects of Revival
+- Companions witness dying and coming back to life -> terror/awe
+- Early game: "It's fine since I come back alive" (taken lightly)
+- Mid game: "Wait, I can't remember Mom's face" (terror)
+- Late game: "If I return to reality, won't there be no one who knows me?" (desperation)
 
-### 6-4. 턴 구조
-- **일반 전투:** 내 선택 → 판정 → 결과(적 반응 포함) → 종료 (1턴 해결)
-- **보스전:** 내 선택 → 판정 → 적 반응 → 내 선택 → ... (3~5턴 멀티 턴)
-- 별도 적 턴 없음. 실패 시 피해를 받는 구조.
+### 3-5. Protagonist's Goal
+Escape alive by breaking through the system before memories (Data) are completely worn away.
 
-### 6-5. 데미지/회복
-| 상황 | HP 변동 |
-|------|---------|
-| 안전한 선택지 실패 | -3~5 |
-| 위험한 선택지 실패 | -7~10 |
-| 아이템 회복 (엔그램 소모) | +5~10 |
-| 동료 스킬 회복 | +3~7 |
-| 플랫폼 0 귀환 시 | 전량 회복 |
+---
 
-### 6-6. 동료 스킬 운용
-- 전투 중 선택지에 동료 옵션이 등장
-- 1구역당 2~3회 사용 가능
-- 플랫폼 0 복귀 시 충전
-- 동료별 고유 효과 (전투/탐색/회복 등)
+## 4. Companions: The Dead (The Corrupted / Heavy Data)
 
-### 6-7. 카르마 게이지: 명(Light) ↔ 암(Dark)
-- 레벨이나 스탯이 아닌, 선택에 따라 양쪽으로 흔들리는 축
-- 중앙이 0, +방향이 명(Light), -방향이 암(Dark)
-- 전투/대화 선택에 따라 누적 변동
+### 4-1. True Nature
+People who have actually died. Their trauma at the moment of death is so strong that their data is abnormally heavy or corrupted. This 'heaviness' causes them to get stuck in the processing machines, unable to be incinerated, and trapped in each district.
 
-**명(Light)의 의미:** 직시하는 힘. 진실을 보는 것, 기억을 지키는 것, 타인을 위하는 것.  
-**암(Dark)의 의미:** 은폐하는 힘. 잊는 것, 눈 감는 것, 자기를 위하는 것.
+### 4-2. Relationship with the Living
+- Unlike the protagonist, **permanent death (Permadeath)** is possible
+- Tension and dissonance exist between the living (protagonist) and the dead (companions)
+  - "You don't even belong here"
+  - "You haven't even died, what do you know?"
+- Over time, evolves from fear -> curiosity -> bond -> hope or jealousy
 
-### 6-8. 전투 흐름
+### 4-3. Abyss Memories
+- Forming bonds with companions grants **new memories (Abyss Memories)**
+- These memories are both a growth resource and a key sacrifice target in the ending
+- The irony: "Real-world memories are lost, but abyss relationships accumulate"
 
-적 조우 시 상황 텍스트가 표시되고, 3~4개의 선택지가 제공됨.  
-각 선택지는 특정 스탯 체크 + 카르마 성향이 연동됨.
+### 4-4. Companion Roster
+> Note: Detailed character design to be handled in a separate document.
+> 10 companions drafted in a Gemini session. Need redesign to fit the "dead" framework.
+> Each companion is placed in a specific district and recruited through unique quests.
 
-**예시 1: 일반 전투**
+---
+
+## 5. Administrator Class (The System Admins)
+
+### 5-1. Ticket Inspectors (Reapers) — Regular Enemies/Mobs
+- Low-level administrators
+- CCTV face, scanning/apprehending souls with a tablet
+- Patrol the city and track the protagonist
+
+### 5-2. Four District Chiefs — Zone Bosses
+Factory managers of each administrative district. They manage the processing of their zone.
+| District | Chief | Motif |
+|----------|-------|-------|
+| A. The Silent Mansions | The Librarian | Censorship/record erasure |
+| B. The Iron Offices | The Foreman | Overwork/exploitation |
+| C. The Frozen Apartments | The Curator | Preservation/neglect |
+| D. The Red District | The Chef | Incineration/fuel conversion |
+
+### 5-3. The Station Master — Mid-Boss
+- **Motif:** Charon (ferryman of the dead) + Railway director
+- **Jurisdiction:** Subway lines & platforms
+- **Role:** Logistics manager shipping emotional raw materials (souls) to each district. Blocks the protagonist's movement and dispatches ticket inspectors.
+- **Boss battle location:** Loop Line Terminal (must be defeated to board the train to the center)
+- **Character trait:** "Punctuality. On-time arrival. Passengers without tickets get thrown onto the tracks."
+
+### 5-4. The Mayor — Final Boss
+- **Motif:** King of the Underworld + Supercomputer (AI)
+- **Jurisdiction:** Entire Factory City & Central Control Room
+- **Role:** The designer who sets the city's laws (rules) and calculates emotional processing efficiency. Designates the protagonist as an 'error' and attempts to execute a format (memory wipe).
+- **Boss battle location:** The Abyss Core (City Hall/Tower)
+- **Character trait:** "This city is perfect. If only we remove that unnecessary self (memory) of yours."
+
+---
+
+## 6. Combat System: Stat Checks + Karma Choices
+
+### 6-1. Design Philosophy
+In a text RPG, the fun of combat is not "the thrill of hitting" but "the thrill of judgment."
+Every battle presents "safe but expensive choice" vs "risky but rewarding choice."
+Combat can be avoided, but avoidance comes at a cost.
+
+### 6-2. Base Stats
+| Stat | Initial | Range | Notes |
+|------|---------|-------|-------|
+| HP | 20 | 0~20 | Reaching 0 = death -> revival -> real memory -1 |
+| Body | 2 | 1~5 | Physical breakthrough/endurance |
+| Sense | 2 | 1~5 | Evasion/exploration/danger detection |
+| Reason | 2 | 1~5 | Analysis/puzzle/weakness identification |
+| Bond | 1 | 1~5 | Persuasion/emotional connection/companion synergy (lowest due to being an apathetic citizen) |
+| Karma | 0 | -100~+100 | Light (+) <-> Dark (-) |
+| Real Memories | 10 | 0~10 | = Total possible deaths. 0 = game over (bricked) |
+
+### 6-3. Check System
+**Check formula:** d6 + stat >= DC (target number)
+
+| Difficulty | DC | Success rate at stat 1 | Success rate at stat 3 | Success rate at stat 5 |
+|------------|----|-----------------------|-----------------------|-----------------------|
+| Easy | 4 | 50% | 83% | 100% |
+| Normal | 6 | 17% | 50% | 83% |
+| Hard | 8 | 0% | 17% | 50% |
+| Extreme | 10 | 0% | 0% | 17% |
+
+### 6-4. Turn Structure
+- **Regular combat:** My choice -> check -> result (including enemy response) -> end (resolved in 1 turn)
+- **Boss battles:** My choice -> check -> enemy response -> my choice -> ... (3~5 turn multi-turn)
+- No separate enemy turn. Taking damage happens on failure.
+
+### 6-5. Damage/Recovery
+| Situation | HP Change |
+|-----------|-----------|
+| Safe choice failure | -3~5 |
+| Risky choice failure | -7~10 |
+| Item recovery (engram cost) | +5~10 |
+| Companion skill recovery | +3~7 |
+| Return to Platform 0 | Full recovery |
+
+### 6-6. Companion Skill Usage
+- Companion options appear in combat choices
+- Usable 2~3 times per district
+- Recharged on return to Platform 0
+- Unique effects per companion (combat/exploration/recovery, etc.)
+
+### 6-7. Karma Gauge: Light <-> Dark
+- Not a level or stat, but an axis that swings both ways based on choices
+- Center is 0, positive direction is Light, negative direction is Dark
+- Cumulatively shifts based on combat/dialogue choices
+
+**Meaning of Light:** The power to confront. Seeing the truth, protecting memories, acting for others.
+**Meaning of Dark:** The power to conceal. Forgetting, closing your eyes, acting for yourself.
+
+### 6-8. Combat Flow
+
+When encountering an enemy, situation text is displayed, and 3~4 choices are provided.
+Each choice is linked to a specific stat check + karma alignment.
+
+**Example 1: Regular Combat**
 ```
-> 분노의 망자가 주먹을 치켜든다. 눈에서 불꽃이 튄다.
+> The wrathful ghost raises its fist. Sparks fly from its eyes.
 
-1. [체력 7] 정면으로 받아친다 → 확실하지만 HP 소모 큼
-2. [감각 5] 옆으로 굴러 피한다 → 성공하면 무피해, 실패하면 즉사급
-3. [이성 6] 팔의 균열을 노린다 → 성공하면 한 방에 무력화
-4. [교감 4] "왜 화가 났어?" → 성공하면 전투 종료, 실패하면 큰 피해
-```
-
-**예시 2: 카르마 분기 전투**
-```
-> 동료 "고치"가 적에게 붙잡혔다.
-
-[체력 체크]
-- 명 선택: "몸을 던져 고치를 감싼다" → 내가 피해를 받음 (명+)
-- 암 선택: "고치를 방패 삼아 적을 친다" → 고치가 피해를 받음 (암+)
-
-[이성 체크]
-- 명 선택: "적의 약점을 분석해 무력화한다" → 시간 소모 (명+)
-- 암 선택: "적의 트라우마를 자극해 자멸시킨다" → 잔혹하지만 빠름 (암+)
+1. [Body 7] Block head-on -> Reliable but high HP cost
+2. [Sense 5] Roll sideways to dodge -> No damage on success, near-fatal on failure
+3. [Reason 6] Target the crack in its arm -> One-hit disable on success
+4. [Bond 4] "Why are you angry?" -> Ends combat on success, heavy damage on failure
 ```
 
-### 6-9. 카르마가 게임에 미치는 영향
-| 항목 | 명(Light) 높을 때 | 암(Dark) 높을 때 |
-|------|-------------------|------------------|
-| 동료 관계 | 신뢰도 상승, 교감 보너스 | 동료가 경계하거나 떠남 |
-| 전투 효율 | 낮음 (비효율적이지만 올바른 선택) | 높음 (효율적이지만 잔혹한 선택) |
-| NPC 반응 | 망자들이 희망을 품음 | 관리자(시스템)와 거래 가능 |
-| 결말 | 동료 기억의 무게가 커짐 | 현실 복귀의 효율이 높아짐 |
+**Example 2: Karma-branching Combat**
+```
+> Companion "Gochi" has been grabbed by the enemy.
 
-### 6-10. 전투 외 선택지
-- 전투를 **회피**하는 선택지가 항상 존재 (대화, 도주, 속임수)
-- 회피하면 동료 신뢰를 잃거나, 자원을 못 얻거나, 나중에 더 큰 위기가 옴
-- **"싸울 것인가 도망칠 것인가"** 자체가 이 게임의 테마를 반복하는 구조 (도망치던 소시민이 맞서 싸우는 이야기)
+[Body Check]
+- Light choice: "Throw yourself to shield Gochi" -> You take damage (Light+)
+- Dark choice: "Use Gochi as a shield to strike the enemy" -> Gochi takes damage (Dark+)
 
----
+[Reason Check]
+- Light choice: "Analyze the enemy's weakness to neutralize it" -> Time-consuming (Light+)
+- Dark choice: "Trigger the enemy's trauma to make it self-destruct" -> Cruel but fast (Dark+)
+```
 
-## 7. 성장 시스템
+### 6-9. Karma's Impact on Gameplay
+| Category | High Light | High Dark |
+|----------|-----------|----------|
+| Companion Relations | Trust increases, Bond bonus | Companions become wary or leave |
+| Combat Efficiency | Low (inefficient but righteous choices) | High (efficient but cruel choices) |
+| NPC Reactions | The dead feel hope | Able to negotiate with administrators (system) |
+| Endings | Companion memory weight increases | Reality return efficiency increases |
 
-### 7-1. 엔그램 (기억 데이터)
-- 전투 승리, 탐색, 퀘스트 완료로 **엔그램(기억 조각)** 획득
-- 엔그램을 소모하여 스탯 강화
-- 동시에 엔그램은 부활 비용이자 결말 자원
-- **"강해지기 위해 모은 것 = 나중에 바쳐야 할 것"**
-
-### 7-2. 동료 연계 성장
-- 동료와의 관계 심화 → 교감(Bond) 스탯 상승
-- 동료별 고유 스킬 해금 (횟수 제한)
-- 동료 퀘스트 완료 시 **심연의 기억** 획득 → 결말 자원
-
-### 7-3. 리스크/리턴 구조
-| 상황 | 결과 |
-|------|------|
-| 주인공 사망 | 그 자리 부활 + 현실 기억 1개 소멸 |
-| 동료 사망 | **영구 사망**, 되돌릴 수 없음 |
-| 현실 기억 0 | 게임 오버 (벽돌화) |
-| 안전한 전투 선택 | 자원 소모 많음, 느리지만 안 죽음 |
-| 위험한 전투 선택 | 자원 절약, 실패하면 사망 → 현실 기억 소모 |
-| 전투 회피 | 자원/신뢰 손실, 추후 더 큰 위기 |
+### 6-10. Non-Combat Choices
+- There is **always** an option to avoid combat (dialogue, flight, trickery)
+- Avoidance means losing companion trust, missing resources, or facing bigger crises later
+- **"Fight or flee"** itself is a structure that repeats the game's theme (a fleeing citizen standing and fighting)
 
 ---
 
-## 8. 게임 진행 구조
+## 7. Growth System
 
-### 8-1. 전체 흐름
-1. **프롤로그:** 퇴근길 지하철 개찰구 오류 → 플랫폼 0 도착 → 검표원과 첫 조우
-2. **4대 구역 탐험:** 자유 순서로 4개 구역 탐험, 동료 영입, 지구장 격파, 보안 카드 키 획득
-3. **역장 돌파:** 4개 키를 모아 순환선 터미널에서 역장과 대면
-4. **중앙 중추 진입:** 시장과 최종 대면
-5. **레테의 선택:** 기억을 바치고 탈출할 것인가
+### 7-1. Engrams (Memory Data)
+- Earn **engrams (memory fragments)** from combat victories, exploration, quest completion
+- Spend engrams to enhance stats
+- Engrams also serve as revival costs and ending resources
+- **"What you collected to grow stronger = what you'll have to sacrifice later"**
 
-### 8-2. 각 구역 내 흐름
-1. **출근 (Deploy):** 플랫폼 0에서 지하철 탑승 → 구역 도착
-2. **탐색 (Explore):** 거리 탐험, NPC 대화로 정보 수집, 상점 이용
-3. **영입 (Recruit):** 숨겨진 동료 발견 → 설득 퀘스트 수행
-4. **잠입/전투 (Action):** 랜드마크(보스 시설) 진입, 경비 돌파 또는 출입증 위조
-5. **퇴근 (Extract/Die):** 지하철역으로 귀환 또는 사망 시 플랫폼 0 재부팅
+### 7-2. Companion-Linked Growth
+- Deepening companion relationships -> Bond stat increases
+- Unlock companion-specific skills (usage-limited)
+- Completing companion quests grants **Abyss Memories** -> ending resources
 
----
-
-## 9. 결말 시스템: 레테의 도강 (The Choice)
-
-### 9-1. 전제
-마지막 탈출구에서 시스템은 '통행료'로 기억을 요구함.  
-플레이어가 **무엇을 바치느냐**에 따라 결말이 갈림.  
-현실의 기억과 심연의 기억(동료와의 유대) 모두 희생 대상.
-
-### 9-2. 결말 분기
-
-#### A. 원점 회귀 (Return to Zero)
-- **조건:** 심연의 기억(동료)을 바침
-- **결과:** 현실로 돌아가지만, 심연에서의 성장이 사라짐. 무기력한 소시민으로 원상복귀.
-- **톤:** 씁쓸한 안도. "살아돌아왔지만, 나는 달라지지 않았다."
-
-#### B. 이방인 (The Stranger)
-- **조건:** 현실의 기억(과거)을 바침
-- **결과:** 백지 상태지만 심연에서 얻은 감정을 안고 새로운 삶을 시작. 가족도 친구도 모르지만, 처음으로 무언가를 느끼는 사람.
-- **톤:** 아프지만 희망적. "모든 것을 잃었지만, 처음으로 살아있다."
-
-#### C. 헌신 (Sacrifice) ※ 능동적 선택
-- **조건:** 동료를 살리기 위해 / 시스템을 파괴하기 위해 남은 기억을 전부 소진
-- **결과:** 식물인간 상태로 생환하거나, 시스템과 함께 소멸
-- **톤:** 비장한 희생. "나를 전부 바쳐서 무언가를 바꿨다."
-
-#### D. 잔류 (Remain)
-- **조건:** 희생을 거부함
-- **결과:** 심연에 남아 죽은 자들의 새로운 가이드가 됨. 모든 기억을 간직한 채로.
-- **톤:** 쓸쓸한 평화. "돌아갈 수 없지만, 여기서의 나는 진짜다."
-
-### 9-3. 결말에 영향을 주는 변수
-- **잔여 현실 기억 수:** 많이 남았으면 선택지가 넓고, 적으면 좁음
-- **카르마(명/암):** 같은 결말이라도 톤과 디테일이 달라짐
-- **동료 생존 수:** 살아있는 동료가 많을수록 D결말의 의미가 깊어짐
-- **동료별 심연의 기억 보유 여부:** 특정 동료 기억이 있어야 열리는 세부 분기 가능
+### 7-3. Risk/Return Structure
+| Situation | Result |
+|-----------|--------|
+| Protagonist death | Revive on the spot + 1 real memory permanently destroyed |
+| Companion death | **Permanent death**, irreversible |
+| Real memories at 0 | Game Over (bricked) |
+| Safe combat choice | High resource cost, slow but safe |
+| Risky combat choice | Resource-efficient, failure = death -> real memory consumed |
+| Combat avoidance | Resource/trust loss, bigger crisis later |
 
 ---
 
-## 10. 기술 구현 노트
+## 8. Game Progression Structure
 
-### 10-1. 핵심 시스템 모듈
-| 모듈 | 설명 | 우선순위 |
-|------|------|----------|
-| 선택지 엔진 | 텍스트 표시 + 분기 선택 + 결과 처리 | ★★★ |
-| 스탯 체크 | 4개 스탯 기반 성공/실패 판정 | ★★★ |
-| 카르마 시스템 | 명/암 게이지 관리 + 선택지 분기 | ★★★ |
-| 기억 관리 | 현실 기억 목록 + 소멸 순서 + 심연의 기억 획득 | ★★★ |
-| 동료 시스템 | 영입/관계도/생존상태/고유스킬 | ★★☆ |
-| 인벤토리 | 아이템/엔그램 관리 | ★★☆ |
-| 지도/이동 | 구역 간 이동 + 해금 상태 | ★★☆ |
-| 세이브/로드 | 진행 상태 저장 | ★★☆ |
+### 8-1. Overall Flow
+1. **Prologue:** Commute home subway turnstile error -> Arrive at Platform 0 -> First encounter with Ticket Inspector
+2. **4 District Exploration:** Explore 4 districts in any order, recruit companions, defeat district chiefs, acquire security card keys
+3. **Station Master Breakthrough:** Collect 4 keys and confront the Station Master at the Loop Line Terminal
+4. **Core Entry:** Final confrontation with the Mayor
+5. **Lethe's Choice:** Will you sacrifice memories and escape?
 
-### 10-2. 데이터 구조 (개요)
+### 8-2. Flow Within Each District
+1. **Deploy:** Board subway from Platform 0 -> Arrive at district
+2. **Explore:** Street exploration, gather info through NPC dialogue, use shops
+3. **Recruit:** Discover hidden companions -> Complete persuasion quest
+4. **Action:** Enter landmark (boss facility), break through security or forge access passes
+5. **Extract/Die:** Return to subway station or reboot at Platform 0 on death
+
+---
+
+## 9. Ending System: Crossing the Lethe (The Choice)
+
+### 9-1. Premise
+At the final exit, the system demands memories as a 'toll.'
+The ending diverges based on **what the player sacrifices.**
+Both real-world memories and Abyss memories (companion bonds) are sacrifice targets.
+
+### 9-2. Ending Branches
+
+#### A. Return to Zero
+- **Condition:** Sacrifice Abyss memories (companions)
+- **Result:** Return to reality, but growth from the Abyss disappears. Reset to a listless citizen.
+- **Tone:** Bittersweet relief. "I came back alive, but I haven't changed."
+
+#### B. The Stranger
+- **Condition:** Sacrifice real-world memories (past)
+- **Result:** A blank slate, but starting a new life carrying the emotions gained in the Abyss. Knows no family or friends, but feels something for the first time.
+- **Tone:** Painful but hopeful. "I've lost everything, but for the first time, I'm alive."
+
+#### C. Sacrifice (active choice)
+- **Condition:** Exhaust all remaining memories to save companions / destroy the system
+- **Result:** Returned in a vegetative state, or perishes along with the system
+- **Tone:** Solemn sacrifice. "I gave everything of myself to change something."
+
+#### D. Remain
+- **Condition:** Refuse to sacrifice
+- **Result:** Stay in the Abyss and become a new guide for the dead. Retaining all memories.
+- **Tone:** Lonely peace. "I can't go back, but here, I am real."
+
+### 9-3. Variables Affecting Endings
+- **Remaining real memories:** More remaining = wider choices, fewer = narrower
+- **Karma (Light/Dark):** Same ending but different tone and details
+- **Surviving companions:** More alive companions = deeper meaning in Ending D
+- **Companion-specific Abyss memories:** Certain companion memories required for detailed sub-branches
+
+---
+
+## 10. Technical Implementation Notes
+
+### 10-1. Core System Modules
+| Module | Description | Priority |
+|--------|-------------|----------|
+| Choice Engine | Text display + branch selection + result processing | 3/3 |
+| Stat Check | Success/failure checks based on 4 stats | 3/3 |
+| Karma System | Light/Dark gauge management + choice branching | 3/3 |
+| Memory Management | Real memory list + destruction order + Abyss memory acquisition | 3/3 |
+| Companion System | Recruitment/relationship/survival state/unique skills | 2/3 |
+| Inventory | Item/engram management | 2/3 |
+| Map/Movement | Inter-district movement + unlock states | 2/3 |
+| Save/Load | Progress state persistence | 2/3 |
+
+### 10-2. Data Structure (Overview)
 ```
 Player {
   stats: { body, sense, reason, bond }
-  karma: number  // -100(암) ~ +100(명)
-  realMemories: Memory[]  // 현실 기억 목록 (소멸하면 제거)
-  abyssMemories: Memory[]  // 심연의 기억 목록 (동료 유대)
-  engrams: number  // 성장 자원
+  karma: number  // -100 (Dark) ~ +100 (Light)
+  realMemories: Memory[]  // Real memory list (removed on destruction)
+  abyssMemories: Memory[]  // Abyss memory list (companion bonds)
+  engrams: number  // Growth resource
   currentLocation: string
   companions: Companion[]
 }
@@ -368,44 +368,44 @@ Player {
 Companion {
   id: string
   name: string
-  district: string  // 소속 구역
-  alive: boolean  // false면 영구 사망
-  trustLevel: number  // 관계도
-  skills: Skill[]  // 고유 스킬 (횟수 제한)
-  quest: QuestState  // 영입/유대 퀘스트 진행도
+  district: string  // Assigned district
+  alive: boolean  // false = permanently dead
+  trustLevel: number  // Relationship level
+  skills: Skill[]  // Unique skills (usage-limited)
+  quest: QuestState  // Recruitment/bond quest progress
 }
 
 Memory {
   id: string
   type: "real" | "abyss"
-  label: string  // "어머니의 얼굴", "고치와 나눈 첫 대화"
-  weight: number  // 결말에서의 가치
+  label: string  // "Mother's face", "First conversation with Gochi"
+  weight: number  // Value at ending
 }
 ```
 
-### 10-3. 개발 순서 (제안)
-1. **Phase 1:** 프롤로그 구현 (개찰구 오류 → 플랫폼 0 도착 → 첫 선택)
-2. **Phase 2:** 전투 시스템 프로토타입 (스탯 체크 + 카르마 선택지)
-3. **Phase 3:** 플랫폼 0 허브 구현 (이동/상점/안내자)
-4. **Phase 4:** 1개 구역 완성 (B지구 권장 — 주인공과 테마 유사)
-5. **Phase 5:** 나머지 3개 구역
-6. **Phase 6:** 역장/시장 보스전 + 결말 분기
+### 10-3. Development Order (Proposed)
+1. **Phase 1:** Prologue implementation (turnstile error -> Platform 0 arrival -> first choice)
+2. **Phase 2:** Combat system prototype (stat check + karma choices)
+3. **Phase 3:** Platform 0 hub implementation (movement/shop/guide)
+4. **Phase 4:** Complete 1 district (District B recommended — similar theme to protagonist)
+5. **Phase 5:** Remaining 3 districts
+6. **Phase 6:** Station Master/Mayor boss battles + ending branches
 
 ---
 
-## 부록: 미결정 사항
+## Appendix: Undecided Items
 
-- [ ] 동료 10명 상세 설계 ("죽은 자" 프레임에 맞춰 재설계)
-- [ ] 안내자(The Guide) 캐릭터 설계 및 포지션
-- [ ] 각 구역 세부 이벤트/퀘스트 설계
-- [ ] 현실 기억 목록 (총 몇 개? = 총 사망 가능 횟수)
-- [ ] 엔그램 밸런싱 (스탯 강화 비용 vs 획득량)
-- [ ] 구역 공략 순서: 완전 자유 vs 일부 잠금
-- [ ] 상성 시스템 추가 여부 (볼륨 확장 시 검토)
-- [ ] 아트 스타일 가이드 확정 (디스코 엘리시움 + 글리치 이펙트)
+- [ ] Detailed design for 10 companions (redesign to fit "dead" framework)
+- [ ] Guide (The Guide) character design and positioning
+- [ ] Detailed event/quest design for each district
+- [ ] Real memory list (how many total? = total possible deaths)
+- [ ] Engram balancing (stat upgrade cost vs acquisition rate)
+- [ ] District clear order: Fully free vs partially locked
+- [ ] Affinity system addition (review when expanding volume)
+- [ ] Art style guide finalization (Disco Elysium + glitch effects)
 
 ---
 
-*Document Version: 2.0*  
-*Last Updated: 2026-02-09*  
-*Status: 기획 확정 — 개발 착수 가능*
+*Document Version: 2.0*
+*Last Updated: 2026-02-09*
+*Status: Design finalized — ready for development*

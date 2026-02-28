@@ -1,9 +1,9 @@
-# Text RPG — CC/CX 파일 담당
+# Text RPG — CC/CX File Ownership
 
-| 영역 | 파일/디렉토리 | 담당 | 근거 |
-|------|-------------|:----:|------|
-| 게임 코어 | src/Game.js | CC | 오케스트레이터 |
-| 엔진 시스템 | src/engine/* | CC | 핵심 로직 (전투, 씬, 상태) |
-| UI 컴포넌트 | src/ui/* | CX | 표시 레이어 |
-| 콘텐츠 데이터 | src/data/** (JSON) | CX | 스토리/아이템/적 데이터 |
-| 스타일 | src/styles/* | CX | CSS |
+| Area | File/Directory | Owner | Rationale |
+|------|---------------|:-----:|-----------|
+| Game Core | src/Game.js | CC | Orchestrator |
+| Engine Systems | src/engine/* | CC | Core logic (combat, scenes, state) |
+| UI Components | src/ui/* | CX | Display layer |
+| Content Data | src/data/** (JSON) | CX | Story/item/enemy data |
+| Styles | src/styles/* | CX | CSS |
