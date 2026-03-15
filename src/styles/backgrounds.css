@@ -126,6 +126,229 @@
   background-position: center;
 }
 
+/* 터미널 — 불안할 정도로 깨끗하고 밝은 역 */
+.bg-terminal {
+  background: linear-gradient(180deg, rgba(220,225,230,0.65) 0%, rgba(200,208,215,0.6) 40%, rgba(180,190,200,0.65) 70%, rgba(120,130,140,0.75) 100%),
+              url('/images/bg/bg-terminal.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* 코어 / 서버실 — 케이블과 LED의 심장 */
+.bg-core {
+  background: radial-gradient(ellipse at center, rgba(15,10,25,0.7) 0%, rgba(8,5,15,0.65) 50%, rgba(3,2,8,0.85) 100%),
+              url('/images/bg/bg-core.jpg');
+  background-size: cover;
+  background-position: center;
+  animation: core-pulse 2s ease-in-out infinite;
+}
+
+@keyframes core-pulse {
+  0%, 100% { box-shadow: inset 0 0 60px rgba(80, 80, 200, 0.1); }
+  50% { box-shadow: inset 0 0 100px rgba(100, 50, 200, 0.2); }
+}
+
+/* 캠프파이어 — 게임에서 유일하게 따뜻한 장면 */
+.bg-campfire {
+  background: radial-gradient(ellipse at bottom center, rgba(60,30,10,0.6) 0%, rgba(25,15,8,0.65) 40%, rgba(10,8,5,0.8) 100%),
+              url('/images/bg/bg-campfire.jpg');
+  background-size: cover;
+  background-position: center;
+  animation: campfire-flicker 3s ease-in-out infinite;
+}
+
+@keyframes campfire-flicker {
+  0%, 100% { filter: brightness(1); }
+  30% { filter: brightness(1.05); }
+  60% { filter: brightness(0.95); }
+}
+
+/* === A지구 세부 === */
+
+/* 속삭임의 시장 — 비밀 거래, 수신호, 촛불 */
+.bg-whisper-market {
+  background: linear-gradient(180deg, rgba(30,20,40,0.7) 0%, rgba(20,15,30,0.65) 50%, rgba(10,8,15,0.8) 100%),
+              url('/images/bg/bg-whisper-market.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* 기록 보관소 — 끝없는 서가, 검열된 책 */
+.bg-archive {
+  background: linear-gradient(180deg, rgba(15,10,30,0.7) 0%, rgba(10,8,25,0.65) 50%, rgba(5,3,15,0.8) 100%),
+              url('/images/bg/bg-archive.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* 무한 시험장 — 카프카적 반복 */
+.bg-exam {
+  background: linear-gradient(180deg, rgba(40,38,35,0.7) 0%, rgba(30,28,25,0.65) 50%, rgba(20,18,15,0.8) 100%),
+              url('/images/bg/bg-exam.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* === B지구 세부 === */
+
+/* 야근의 탑 — 무한 층의 오피스 */
+.bg-overtime-tower {
+  background: linear-gradient(180deg, rgba(15,20,40,0.7) 0%, rgba(20,25,45,0.65) 50%, rgba(10,12,25,0.8) 100%),
+              url('/images/bg/bg-overtime-tower.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* 프레스 구역 — 산업 호러 */
+.bg-press {
+  background: linear-gradient(180deg, rgba(30,20,15,0.7) 0%, rgba(40,25,15,0.65) 50%, rgba(20,12,8,0.8) 100%),
+              url('/images/bg/bg-press.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* === C지구 세부 === */
+
+/* 얼어붙은 복도 — 707동으로 가는 길 */
+.bg-frozen-corridor {
+  background: linear-gradient(180deg, rgba(20,30,40,0.7) 0%, rgba(15,25,35,0.65) 50%, rgba(10,18,25,0.8) 100%),
+              url('/images/bg/bg-frozen-corridor.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* 유리의 방 — 고독의 안식처 */
+.bg-apt-interior {
+  background: linear-gradient(180deg, rgba(25,30,38,0.7) 0%, rgba(18,22,30,0.65) 50%, rgba(12,15,20,0.8) 100%),
+              url('/images/bg/bg-apt-interior.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* 얼어붙은 놀이터 */
+.bg-playground {
+  background: linear-gradient(180deg, rgba(25,35,45,0.7) 0%, rgba(20,30,40,0.65) 50%, rgba(15,22,30,0.8) 100%),
+              url('/images/bg/bg-playground.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* === D지구 세부 === */
+
+/* 퍼니스 클럽 — 분노의 무대 */
+.bg-furnace-club {
+  background: linear-gradient(180deg, rgba(50,10,10,0.7) 0%, rgba(60,12,8,0.65) 50%, rgba(30,5,5,0.8) 100%),
+              url('/images/bg/bg-furnace-club.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* 백스테이지 */
+.bg-backstage {
+  background: linear-gradient(180deg, rgba(25,8,8,0.7) 0%, rgba(15,5,5,0.65) 50%, rgba(8,3,3,0.8) 100%),
+              url('/images/bg/bg-backstage.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* 태현의 포장마차 — 유일한 따뜻한 곳 */
+.bg-stall {
+  background: radial-gradient(ellipse at bottom center, rgba(50,30,15,0.6) 0%, rgba(30,15,8,0.7) 50%, rgba(15,8,5,0.8) 100%),
+              url('/images/bg/bg-stall.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* === 보스 개별 배경 === */
+
+.bg-boss-librarian {
+  background: radial-gradient(ellipse at center, rgba(20,10,35,0.7) 0%, rgba(12,6,22,0.65) 50%, rgba(5,2,12,0.85) 100%),
+              url('/images/bg/bg-boss-librarian.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-boss-foreman {
+  background: radial-gradient(ellipse at center, rgba(25,20,18,0.7) 0%, rgba(18,14,12,0.65) 50%, rgba(8,6,5,0.85) 100%),
+              url('/images/bg/bg-boss-foreman.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-boss-curator {
+  background: radial-gradient(ellipse at center, rgba(15,25,35,0.7) 0%, rgba(10,18,28,0.65) 50%, rgba(5,10,18,0.85) 100%),
+              url('/images/bg/bg-boss-curator.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-boss-chef {
+  background: radial-gradient(ellipse at center, rgba(45,15,8,0.7) 0%, rgba(30,10,5,0.65) 50%, rgba(15,5,2,0.85) 100%),
+              url('/images/bg/bg-boss-chef.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-boss-stationmaster {
+  background: radial-gradient(ellipse at center, rgba(10,15,30,0.7) 0%, rgba(8,10,22,0.65) 50%, rgba(3,5,12,0.85) 100%),
+              url('/images/bg/bg-boss-stationmaster.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* === 특수 === */
+
+/* 기억 소거 — 따뜻한 중심이 보이드로 용해 */
+.bg-memory-fade {
+  background: radial-gradient(ellipse at center, rgba(60,45,30,0.5) 0%, rgba(20,15,10,0.7) 40%, rgba(0,0,0,0.95) 100%);
+  animation: memory-dissolve 3s ease-out forwards;
+}
+
+@keyframes memory-dissolve {
+  0% { filter: brightness(1) blur(0px); }
+  100% { filter: brightness(0.3) blur(2px); }
+}
+
+/* 엔딩 개찰구 — 무 속의 개찰구 */
+.bg-ending-gate {
+  background: radial-gradient(ellipse at center, rgba(20,18,25,0.5) 0%, rgba(5,5,8,0.8) 60%, rgba(0,0,0,0.95) 100%),
+              url('/images/bg/bg-ending-gate.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* 서울 하늘 — 현실 귀환 */
+.bg-ending-seoul {
+  background: linear-gradient(180deg, rgba(160,170,180,0.5) 0%, rgba(140,150,165,0.5) 50%, rgba(100,110,125,0.6) 100%),
+              url('/images/bg/bg-ending-seoul.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* 병원 — 엔딩 C */
+.bg-ending-hospital {
+  background: linear-gradient(180deg, rgba(200,210,215,0.6) 0%, rgba(180,195,200,0.55) 50%, rgba(150,165,175,0.65) 100%),
+              url('/images/bg/bg-ending-hospital.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* 텐트촌 상세 — Hub 대체 */
+.bg-tent-city {
+  background: linear-gradient(180deg, rgba(15,15,20,0.7) 0%, rgba(20,18,15,0.65) 50%, rgba(10,10,12,0.8) 100%),
+              url('/images/bg/bg-tent-city.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* 현실 지하철 — 프롤로그 */
+.bg-subway-modern {
+  background: linear-gradient(180deg, rgba(220,215,210,0.5) 0%, rgba(200,195,190,0.5) 50%, rgba(170,165,160,0.6) 100%),
+              url('/images/bg/bg-subway-modern.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
 /* 글리치 (사망 등) */
 .bg-glitch {
   background: linear-gradient(180deg, #e94560 0%, #0f0e17 20%, #e94560 40%, #0f0e17 60%, #e94560 100%);

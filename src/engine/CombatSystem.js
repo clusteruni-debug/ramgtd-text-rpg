@@ -158,20 +158,76 @@ export default class CombatSystem {
     const total = roll + statValue;
     let dc = choice.check.dc;
 
-    // 동료 스킬 DC 수정 적용
+    // 동료 스킬 적용
     const activeSkill = this._companionSkillActive;
     let skillUsed = false;
-    if (activeSkill && activeSkill.stat === choice.check.stat) {
-      dc = Math.max(1, dc + (activeSkill.dcModifier || 0));
-      // 충전 차감
-      this.state.useCompanionSkill(activeSkill.companionId, activeSkill.id);
-      this._addLog(`🤝 ${activeSkill.companionName}의 ${activeSkill.name} 발동! (DC ${choice.check.dc} → ${dc})`);
-      skillUsed = true;
+    let retryAvailable = false;
+    let shieldActive = false;
+    let healApplied = false;
+
+    if (activeSkill) {
+      const skillType = activeSkill.type || 'dc'; // default: dc modifier
+
+      if (skillType === 'retry') {
+        // 준서: 실패 시 재시도 — 판정 후 처리
+        retryAvailable = true;
+        this.state.useCompanionSkill(activeSkill.companionId, activeSkill.id);
+        this._addLog(`🤝 ${activeSkill.companionName}의 ${activeSkill.name} 대기 중! (실패 시 재시도)`);
+        skillUsed = true;
+      } else if (skillType === 'party_buff') {
+        // 영재: 전원 DC-1 (현재 라운드 모든 선택지)
+        dc = Math.max(1, dc + (activeSkill.dcModifier || -1));
+        this.state.useCompanionSkill(activeSkill.companionId, activeSkill.id);
+        this._addLog(`🤝 ${activeSkill.companionName}의 ${activeSkill.name} 발동! (전원 DC-1)`);
+        skillUsed = true;
+      } else if (skillType === 'shield') {
+        // 미선: 실패 시 피해 절반 + 카르마
+        shieldActive = true;
+        this.state.useCompanionSkill(activeSkill.companionId, activeSkill.id);
+        this._addLog(`🤝 ${activeSkill.companionName}의 ${activeSkill.name} 발동! (피해 절반)`);
+        if (activeSkill.karmaShift) {
+          this.state.modifyKarma(activeSkill.karmaShift);
+        }
+        skillUsed = true;
+      } else if (skillType === 'heal') {
+        // 하영/태현: 즉시 HP 회복
+        const healAmt = activeSkill.healAmount || 5;
+        this.state.modifyStat('hp', healAmt);
+        this.state.useCompanionSkill(activeSkill.companionId, activeSkill.id);
+        this._addLog(`🤝 ${activeSkill.companionName}의 ${activeSkill.name} 발동! (HP +${healAmt})`);
+        healApplied = true;
+        skillUsed = true;
+      } else if (activeSkill.stat === choice.check.stat) {
+        // 기본: stat 일치 시 DC 수정 (소연/민준/정수/나래)
+        dc = Math.max(1, dc + (activeSkill.dcModifier || 0));
+        this.state.useCompanionSkill(activeSkill.companionId, activeSkill.id);
+        this._addLog(`🤝 ${activeSkill.companionName}의 ${activeSkill.name} 발동! (DC ${choice.check.dc} → ${dc})`);
+        // 나래 flame_rhyme: 카르마 변동
+        if (activeSkill.karmaShift) {
+          this.state.modifyKarma(activeSkill.karmaShift);
+          const dir = activeSkill.karmaShift > 0 ? '명(Light)' : '암(Dark)';
+          this._addLog(`카르마 ${dir} ${activeSkill.karmaShift > 0 ? '+' : ''}${activeSkill.karmaShift}`);
+        }
+        skillUsed = true;
+      }
     }
     // 스킬 사용 후 비활성화
     this._companionSkillActive = null;
 
-    const success = total >= dc;
+    let success = total >= dc;
+
+    // 준서 retry: 실패 시 한 번 더 굴림
+    if (!success && retryAvailable) {
+      const retryRoll = rollD6();
+      const retryTotal = retryRoll + statValue;
+      this._addLog(`🔄 재도전! d6(${retryRoll}) + ${statValue} = ${retryTotal} vs DC ${dc}`);
+      if (retryTotal >= dc) {
+        success = true;
+        this._addLog('✅ 재도전 성공!');
+      } else {
+        this._addLog('❌ 재도전도 실패...');
+      }
+    }
     const statName = STAT_NAMES[choice.check.stat] || choice.check.stat;
 
     // 판정 로그
@@ -191,7 +247,19 @@ export default class CombatSystem {
 
     // 효과 적용 (SceneManager.applyEffects 위임)
     if (result.effects && result.effects.length > 0) {
-      this.applyEffects(result.effects);
+      // 미선 shield: 실패 시 HP 피해를 절반으로 줄임
+      let effectsToApply = result.effects;
+      if (!success && shieldActive) {
+        effectsToApply = result.effects.map(e => {
+          if (e.type === 'modifyStat' && e.stat === 'hp' && e.value < 0) {
+            const halved = Math.ceil(e.value / 2);
+            this._addLog(`🛡️ 피해 절반! (${e.value} → ${halved})`);
+            return { ...e, value: halved };
+          }
+          return e;
+        });
+      }
+      this.applyEffects(effectsToApply);
     }
 
     this._lastResult = {

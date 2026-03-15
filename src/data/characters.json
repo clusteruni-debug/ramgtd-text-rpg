@@ -2,7 +2,7 @@
   {
     "id": "player",
     "name": "???",
-    "description": "기억을 잃은 채 심연에 떨어진 자. 변해야 한다는 것만 안다.",
+    "description": "기억을 잃은 채 심연에 떨어진 자. 관계를 끊다가 번아웃된 30대. 비어있지만 — 아직 채워지지 않은 것.",
     "portrait": "images/characters/player.jpg"
   },
   {
@@ -24,17 +24,8 @@
   {
     "id": "lost_one",
     "name": "상실자",
-    "description": "B1 울음의 방에 웅크린 존재. 모든 것을 잃은 사람. 얼굴이 없다."
-  },
-  {
-    "id": "collector",
-    "name": "고통의 수집가",
-    "description": "B1의 주인. 타인의 고통을 수집하여 자신의 존재를 유지한다. 우아하고 잔인하다."
-  },
-  {
-    "id": "mirror",
-    "name": "거울 속 목소리",
-    "description": "정체불명의 존재. 심연의 더 깊은 곳에서 들려오는 목소리."
+    "description": "플랫폼 0 텐트촌에 웅크린 존재. 모든 것을 잃은 사람. 얼굴이 없다.",
+    "portrait": "images/characters/lost_one.png"
   },
   {
     "id": "weary_soul",
@@ -44,46 +35,21 @@
   {
     "id": "vending_human",
     "name": "자판기 인간",
-    "description": "기억을 전부 잃어 자판기가 된 존재. 말을 더듬지만 친절하다. 엔그램으로 아이템을 판매한다."
-  },
-  {
-    "id": "minjun",
-    "name": "민준",
-    "description": "B지구(철의 오피스)에서 만나는 과로사한 영혼. 생전에 IT 회사 개발자였다. 아직도 노트북을 들고 다닌다. 논리적이지만 정이 많다.",
-    "district": "B",
-    "companion": true,
-    "skills": [
-      {
-        "id": "debug_scan",
-        "name": "디버그 스캔",
-        "description": "적의 약점을 분석 (이성 DC-1)",
-        "stat": "reason",
-        "dcModifier": -1,
-        "chargesPerRun": 2
-      }
-    ]
-  },
-  {
-    "id": "foreman",
-    "name": "현장 소장",
-    "description": "B지구의 지구장. 거대한 프레스 기계와 합체한 존재. '효율'과 '생산성'만을 외친다. 넥타이가 목에 파고들어 있다."
-  },
-  {
-    "id": "librarian",
-    "name": "사서",
-    "description": "A지구의 지구장. 입이 꿰매진 채 책장 사이를 떠다니는 존재. 소리를 내면 혀를 자른다. 침묵이 곧 법."
+    "description": "기억을 전부 잃어 자판기가 된 존재. 말을 더듬지만 친절하다. 엔그램으로 아이템을 판매한다.",
+    "portrait": "images/characters/vending_human.png"
   },
   {
     "id": "soyeon",
     "name": "소연",
-    "description": "A지구(침묵의 멘션)에서 만나는 내부 고발자의 영혼. 생전에 기자였다. 진실을 말하다 목소리를 잃었다. 수화로 소통한다.",
+    "description": "A지구에서 만나는 탐사보도 기자의 영혼 (28세). 기업 비리를 폭로하다 사망. 목소리를 압수당해 수화와 쪽지로 소통한다. 목에 검은 철사가 감겨있다.",
     "district": "A",
     "companion": true,
+    "portrait": "images/characters/soyeon.jpg",
     "skills": [
       {
         "id": "silent_signal",
         "name": "무언의 신호",
-        "description": "위험을 미리 감지 (감각 DC-1)",
+        "description": "위험을 미리 감지하여 쪽지로 경고 (감각 DC-1)",
         "stat": "sense",
         "dcModifier": -1,
         "chargesPerRun": 2
@@ -91,28 +57,210 @@
     ]
   },
   {
+    "id": "junseo",
+    "name": "준서",
+    "description": "A지구에서 만나는 공무원 시험 3수생의 영혼 (23세). 고시원에서 사망. 3년간 시험만 보다 자기 자신을 잃었다. 사과가 습관이다.",
+    "district": "A",
+    "companion": true,
+    "portrait": "images/characters/junseo.jpg",
+    "skills": [
+      {
+        "id": "last_retry",
+        "name": "마지막 재도전",
+        "description": "실패한 판정을 한 번 더 시도 (같은 DC)",
+        "type": "retry",
+        "chargesPerRun": 2
+      }
+    ]
+  },
+  {
+    "id": "minjun",
+    "name": "민준",
+    "description": "B지구에서 만나는 IT 개발자의 영혼 (31세). 72시간 크런치 후 심장마비. 마지막 커밋: 'TODO: 집에 가기'. 아직도 노트북을 들고 다닌다.",
+    "district": "B",
+    "companion": true,
+    "portrait": "images/characters/minjun.jpg",
+    "skills": [
+      {
+        "id": "debug_scan",
+        "name": "디버그 스캔",
+        "description": "적의 패턴을 코드처럼 분석 (이성 DC-1)",
+        "stat": "reason",
+        "dcModifier": -1,
+        "chargesPerRun": 2
+      }
+    ]
+  },
+  {
+    "id": "jeongsu",
+    "name": "정수",
+    "description": "B지구에서 만나는 건설 노동자의 영혼 (43세). 20년 근무 후 명퇴, 치킨집 폐업, 일용직 추락사. 금이 간 안전모를 쓰고 묵묵히 부서진 것을 고친다.",
+    "district": "B",
+    "companion": true,
+    "portrait": "images/characters/jeongsu.jpg",
+    "skills": [
+      {
+        "id": "iron_will",
+        "name": "노동자의 뚝심",
+        "description": "35년의 현장이 단련한 몸 (체력 DC-1)",
+        "stat": "body",
+        "dcModifier": -1,
+        "chargesPerRun": 2
+      }
+    ]
+  },
+  {
+    "id": "yuri",
+    "name": "유리",
+    "description": "C지구에서 만나는 프리랜서 번역가의 영혼 (33세). 대면 대화 0건 8개월. 3주 뒤 택배 기사가 발견. 마지막 번역: '그녀는 마침내 문을 열었다.'",
+    "district": "C",
+    "companion": true,
+    "portrait": "images/characters/yuri.jpg",
+    "skills": [
+      {
+        "id": "translation",
+        "name": "번역",
+        "description": "숨겨진 의도를 파악 — 강력하지만 제한적 (교감 DC-2)",
+        "stat": "bond",
+        "dcModifier": -2,
+        "chargesPerRun": 1
+      }
+    ]
+  },
+  {
+    "id": "hayoung",
+    "name": "하영",
+    "description": "C지구에서 만나는 간호사의 영혼 (27세). 5년차 태움과 3교대에 소진. 미완성 카톡: '엄마, 나 좀 힘들—'. 죽어서도 맥을 재고 있다.",
+    "district": "C",
+    "companion": true,
+    "portrait": "images/characters/hayoung.png",
+    "skills": [
+      {
+        "id": "first_aid",
+        "name": "응급처치",
+        "description": "전문 의료 처치 — HP 회복 + 디버프 해제",
+        "type": "heal",
+        "healAmount": 5,
+        "clearsDebuff": true,
+        "chargesPerRun": 2
+      }
+    ]
+  },
+  {
+    "id": "narae",
+    "name": "나래",
+    "description": "D지구에서 만나는 인디 래퍼의 영혼 (24세). 가정폭력 가정 출신. 아버지 집 계단에서 추락사. 분노를 랩으로 태우지만 — 분노 뒤에는 6살짜리 아이가 숨어있다.",
+    "district": "D",
+    "companion": true,
+    "portrait": "images/characters/narae.png",
+    "skills": [
+      {
+        "id": "flame_rhyme",
+        "name": "불꽃 라임",
+        "description": "분노를 태워 강력한 공격 (체력 DC-2, 카르마 -3)",
+        "stat": "body",
+        "dcModifier": -2,
+        "karmaShift": -3,
+        "chargesPerRun": 2
+      }
+    ]
+  },
+  {
+    "id": "taehyun",
+    "name": "태현",
+    "description": "D지구에서 만나는 순대국집 사장의 영혼 (45세). 15년 가게가 재개발에 밀려 폐업. 가게에 방화 후 사망. 국솥만 안 탔다. 뒷골목에서 국을 끓인다.",
+    "district": "D",
+    "companion": true,
+    "portrait": "images/characters/taehyun.jpg",
+    "skills": [
+      {
+        "id": "late_night_kitchen",
+        "name": "심야식당",
+        "description": "정성을 담은 국 한 그릇 — HP 대량 회복",
+        "type": "heal",
+        "healAmount": 10,
+        "chargesPerRun": 1
+      }
+    ]
+  },
+  {
+    "id": "miseon",
+    "name": "미선",
+    "description": "플랫폼 0에서 만나는 워킹맘의 영혼 (38세). 시어머니 간병 + 아이 둘 + 파트타임 3개. 편의점 야근 중 오니기리 진열하다 심근경색. '나는 괜찮아'가 입버릇.",
+    "district": "hub",
+    "companion": true,
+    "portrait": "images/characters/miseon.jpg",
+    "skills": [
+      {
+        "id": "its_okay",
+        "name": "괜찮아",
+        "description": "40년 돌봄이 만든 보호 — 다음 실패 시 피해 절반, 카르마 +2",
+        "type": "shield",
+        "damageReduction": 0.5,
+        "karmaShift": 2,
+        "chargesPerRun": 2
+      }
+    ]
+  },
+  {
+    "id": "youngjae",
+    "name": "영재",
+    "description": "터미널에서 만나는 지하철 계약직의 영혼 (22세). 투신자를 구하고 본인이 사망. 스크린도어 없는 역, 안전교육 없는 비정규직. 역장에게 이용당하고 있다.",
+    "district": "terminal",
+    "companion": true,
+    "portrait": "images/characters/youngjae.jpg",
+    "skills": [
+      {
+        "id": "emergency_broadcast",
+        "name": "비상 방송",
+        "description": "역 안내 방송으로 전원 집결 — 모든 동료 DC-1 (1라운드)",
+        "type": "party_buff",
+        "dcModifier": -1,
+        "duration": 1,
+        "chargesPerRun": 1
+      }
+    ]
+  },
+  {
     "id": "ticket_inspector",
     "name": "검표원",
-    "description": "도시의 말단 관리직. CCTV 얼굴을 하고 태블릿으로 영혼을 스캔한다. 감정이 없다."
+    "description": "도시의 말단 관리직. CCTV 얼굴을 하고 태블릿으로 영혼을 스캔한다. 감정이 없다.",
+    "portrait": "images/characters/ticket_inspector.png"
+  },
+  {
+    "id": "librarian",
+    "name": "사서",
+    "description": "A지구의 지구장. 입이 꿰매진 채 책장 사이를 떠다니는 존재. '침묵하면 안 다친다'고 믿는다. 틀리지 않았지만 — 그게 전부는 아니다.",
+    "portrait": "images/characters/librarian.jpg"
+  },
+  {
+    "id": "foreman",
+    "name": "현장 소장",
+    "description": "B지구의 지구장. 거대한 프레스 기계와 합체한 존재. '일이 있어야 산다'고 믿는다. 넥타이가 목에 파고들어 있다.",
+    "portrait": "images/characters/foreman.jpg"
   },
   {
     "id": "curator",
     "name": "동면 관리자",
-    "description": "C지구의 지구장. 냉각 파이프에 연결된 채 영혼을 얼려 보존하는 존재. '얼리면 아프지 않다'고 믿는다. 가장 외로운 보스."
+    "description": "C지구의 지구장. 냉각 파이프에 연결된 채 영혼을 얼려 보존하는 존재. '얼리면 안 아프다'고 믿는다. 가장 외로운 보스.",
+    "portrait": "images/characters/curator.png"
   },
   {
     "id": "chef",
     "name": "주방장",
-    "description": "D지구의 지구장. 생전에 15년간 요리사였으나 식당이 망하고 화재로 사망. 분노를 태워 도시의 전기를 만든다. 불타는 모자가 트레이드마크."
+    "description": "D지구의 지구장. 불타는 요리사 모자가 트레이드마크. '분노는 솔직하다'고 믿는다. 한때 음식을 사랑했지만 이제 불만 남았다.",
+    "portrait": "images/characters/chef.png"
   },
   {
     "id": "station_master",
     "name": "역장",
-    "description": "중앙 환승 터미널의 관리자. 검은 철도 제복에 금장 단추, 얼굴은 시계판. 분침과 시침이 눈 역할을 한다. 시간표를 절대시하며, 영혼의 운송을 정시에 처리한다."
+    "description": "중앙 환승 터미널의 관리자. 얼굴이 시계판. '규칙을 지키면 안전하다'고 믿는다. 승객이 어디로 가는지는 한 번도 안 물어봤다.",
+    "portrait": "images/characters/station_master.png"
   },
   {
     "id": "mayor",
     "name": "시장",
-    "description": "심연 도시의 최고 관리자이자 최종 보스. 얼굴이 거대한 스크린이고, 수천 개의 케이블이 몸에서 서버실로 이어진다. 영혼을 데이터로 변환하여 도시의 영원한 순환을 유지하는 존재."
+    "description": "심연 도시의 최고 관리자. 얼굴이 거대한 스크린, 수천 개의 케이블이 서버실로 이어진다. 'NULL은 오류가 아니라 가능성이다'라고 말하는 유일한 존재.",
+    "portrait": "images/characters/mayor.png"
   }
 ]

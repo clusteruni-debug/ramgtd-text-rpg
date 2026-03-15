@@ -2,7 +2,7 @@
   {
     "id": "prologue_01",
     "type": "dialogue",
-    "background": "subway",
+    "background": "subway-modern",
     "speaker": null,
     "text": "오후 6시 47분. 서울 어딘가의 지하철역.\n그는 개찰구 앞에 섰다. 손에는 교통카드. 주머니에는 편의점 영수증.\n오늘도 별일 없는 하루였다.",
     "choices": [
@@ -16,7 +16,7 @@
   {
     "id": "prologue_02",
     "type": "dialogue",
-    "background": "subway",
+    "background": "subway-modern",
     "speaker": null,
     "text": "카드를 갖다 댔다.\n'삐———'\n개찰구가 열리지 않았다.\n단말기 화면에 글자가 떴다.\n\n「감정 질량 미달 — 이송 대상 재분류」\n「처리 코드: NULL」\n\n그가 그 글자를 읽기도 전에, 발밑의 바닥이 사라졌다.",
     "choices": [

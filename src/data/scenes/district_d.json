@@ -100,6 +100,55 @@
         "nextScene": "district_d_old_restaurant"
       },
       {
+        "text": "퍼니스 클럽에서 공연을 본다",
+        "conditions": [
+          { "type": "hasFlag", "flag": "narae_recruited", "value": false },
+          { "type": "hasFlag", "flag": "saw_narae_perform", "value": false }
+        ],
+        "nextScene": "district_d_narae_01"
+      },
+      {
+        "text": "뒷골목의 포장마차로 간다",
+        "conditions": [
+          { "type": "hasFlag", "flag": "taehyun_recruited", "value": false },
+          { "type": "hasFlag", "flag": "met_taehyun", "value": false }
+        ],
+        "nextScene": "district_d_taehyun_01"
+      },
+      {
+        "text": "태현의 포장마차를 지킨다",
+        "conditions": [
+          { "type": "hasFlag", "flag": "met_taehyun" },
+          { "type": "hasFlag", "flag": "taehyun_recruited", "value": false }
+        ],
+        "nextScene": "district_d_taehyun_defend"
+      },
+      {
+        "text": "태현이 포장마차 자리에 앉아있다",
+        "conditions": [
+          {"type": "hasFlag", "flag": "boss_chef_defeated"},
+          {"type": "hasFlag", "flag": "taehyun_recruited"},
+          {"type": "hasFlag", "flag": "taehyun_arc_done", "value": false}
+        ],
+        "nextScene": "district_d_taehyun_arc"
+      },
+      {
+        "text": "나래가 뭔가를 집어든다",
+        "conditions": [
+          {"type": "hasFlag", "flag": "narae_recruited"},
+          {"type": "hasFlag", "flag": "narae_crack_01_done", "value": false}
+        ],
+        "nextScene": "district_d_narae_crack_01"
+      },
+      {
+        "text": "나래가 백스테이지에 앉아있다",
+        "conditions": [
+          {"type": "hasFlag", "flag": "narae_crack_01_done"},
+          {"type": "hasFlag", "flag": "narae_crack_02_done", "value": false}
+        ],
+        "nextScene": "district_d_narae_crack_02"
+      },
+      {
         "text": "소각장으로 간다 (보스 방향)",
         "nextScene": "district_d_incinerator_gate"
       },
@@ -210,7 +259,7 @@
   {
     "id": "district_d_furnace_club",
     "type": "dialogue",
-    "background": "boss",
+    "background": "furnace-club",
     "speaker": null,
     "text": "용광로 클럽.\n\n안은 붉은 빛으로 가득하다. 바닥이 뜨겁다. 영혼들이 춤을 추고 있다 — 아니, 불타고 있다.\n\n모든 감정을 태워 에너지로 변환하는 곳. 춤추면서 분노를 발산하면, 그 열이 도시 발전기로 간다.\n\n\"여기서 한 곡 추면 연료 증명서를 줄 수 있어!\" DJ가 외친다. \"뜨겁게!\"",
     "choices": [
@@ -593,7 +642,7 @@
   {
     "id": "district_d_boss_battle",
     "type": "combat",
-    "background": "boss",
+    "background": "boss-chef",
     "enemy": "chef",
     "introText": "주방장이 프라이팬을 들고 돌진한다!\n\n\"불 세기: 최대! 조리 시간: 영원!\"",
     "victoryScene": "district_d_boss_victory",
@@ -723,6 +772,257 @@
         "effects": [{ "type": "fullHeal" }],
         "nextScene": "hub_platform0"
       }
+    ]
+  },
+  {
+    "id": "district_d_narae_01",
+    "type": "dialogue",
+    "background": "furnace-club",
+    "speaker": null,
+    "text": "퍼니스 클럽. 붉은 네온. 무대 위에서 여자가 랩을 한다.\n\n마이크에 불이 붙어있다. 가사 한 줄마다 천장에 불꽃이 튄다. 에너지 미터가 올라간다 — 89%... 92%... 97%.\n\n군중이 열광한다. 하지만 주인공은 가사를 듣는다:\n\n\"아빠 주먹이 벽을 때릴 때 / 나는 이불 속에서 목소리를 죽였어 / 그게 내 첫 번째 곡이었어 / 살려고 부른 노래가 나를 죽이네\"\n\n공연이 끝난다.",
+    "effects": [{ "type": "setFlag", "flag": "saw_narae_perform" }],
+    "choices": [
+      { "text": "백스테이지로 간다", "nextScene": "district_d_narae_02" },
+      { "text": "나간다", "nextScene": "district_d_street" }
+    ]
+  },
+  {
+    "id": "district_d_narae_02",
+    "type": "dialogue",
+    "background": "backstage",
+    "speaker": "narae",
+    "text": "백스테이지. 나래가 앰프에 앉아있다. 빨간 후드티가 그을려있지만 타지 않았다.\n\n땀을 닦는다. 아니, 눈물을.\n\n주인공을 본다.\n\n\"...왜 울면서 듣고 있었어?\"",
+    "choices": [
+      { "text": "\"가사가 아름다워서.\"", "nextScene": "district_d_narae_03a" },
+      { "text": "\"슬퍼서.\"", "nextScene": "district_d_narae_03b" },
+      { "text": "\"안 울었어.\"", "nextScene": "district_d_narae_03c" }
+    ]
+  },
+  {
+    "id": "district_d_narae_03a",
+    "type": "dialogue",
+    "background": "backstage",
+    "speaker": "narae",
+    "text": "\"...아름답다고?\"\n\n멈춘다. 무대 쪽을 본다.\n\n\"아무도 그렇게 말한 적 없어. '강렬하다.' '날것이다.' '거칠다.' 아름답다고는 — 한 번도.\"\n\n\"넌 누군데.\"",
+    "choices": [
+      { "text": "\"아무도 아니야.\"", "nextScene": "district_d_narae_04" }
+    ]
+  },
+  {
+    "id": "district_d_narae_03b",
+    "type": "dialogue",
+    "background": "backstage",
+    "speaker": "narae",
+    "text": "\"...슬프다고?\" 얼굴이 일그러진다. \"나는 화가 난 거야. 그 노래는 분노야.\"\n\n긴 침묵.\n\n\"...내가 슬펐어?\"",
+    "choices": [
+      { "text": "\"응.\"", "nextScene": "district_d_narae_04" }
+    ]
+  },
+  {
+    "id": "district_d_narae_03c",
+    "type": "dialogue",
+    "background": "backstage",
+    "speaker": "narae",
+    "text": "나래가 손을 내민다. 손가락 끝에 물기.\n\n\"그럼 이건 뭐야?\"",
+    "choices": [
+      { "text": "\"...\"", "nextScene": "district_d_narae_04" }
+    ]
+  },
+  {
+    "id": "district_d_narae_04",
+    "type": "dialogue",
+    "background": "rage",
+    "speaker": null,
+    "text": "문이 열린다. 주방장의 부하 둘이 들어온다.\n\n\"나래. 다음 공연 일정이 앞당겨졌어. 에너지 수요가 늘었거든.\"\n\n나래의 눈이 어두워진다. \"...방금 끝났잖아.\"\n\n\"알아. 근데 시장님 지시야. 더 태워.\"\n\n나래를 끌고 가려 한다.",
+    "choices": [
+      { "text": "막아선다", "nextScene": "district_d_narae_fight" },
+      { "text": "(지켜본다)", "nextScene": "district_d_street" }
+    ]
+  },
+  {
+    "id": "district_d_narae_fight",
+    "type": "combat",
+    "background": "rage",
+    "enemy": "rage_fighter",
+    "introText": "주방장의 부하가 주먹을 올린다. \"방해하지 마, NULL.\"",
+    "victoryScene": "district_d_narae_join",
+    "rounds": [
+      {
+        "text": "부하 둘이 동시에 덤벼든다.",
+        "choices": [
+          {
+            "text": "나래를 뒤로 밀치고 막는다",
+            "check": { "stat": "body", "dc": 5 },
+            "alignment": "light", "karmaShift": 3,
+            "success": { "text": "어깨로 받아냈다. 나래가 뒤로 물러난다.", "effects": [{ "type": "modifyKarma", "value": 3 }] },
+            "failure": { "text": "맞았지만 버텼다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -4 }] }
+          },
+          {
+            "text": "드럼통을 발로 차 넘긴다",
+            "check": { "stat": "sense", "dc": 5 },
+            "alignment": "neutral", "karmaShift": 0,
+            "success": { "text": "드럼통이 굴러가며 부하들을 막는다.", "effects": [], "endCombat": true },
+            "failure": { "text": "빗나갔다. 발등이 아프다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -3 }] }
+          }
+        ]
+      }
+    ],
+    "rewards": { "engrams": 10 }
+  },
+  {
+    "id": "district_d_narae_join",
+    "type": "dialogue",
+    "background": "rage",
+    "speaker": "narae",
+    "text": "부하들이 물러난다. \"기억해, NULL. 주방장이 가만 안 있을 거야.\"\n\n나래가 주인공을 본다. 놀란 표정.\n\n\"왜 막은 거야? 모르는 사인데.\"\n\n\"그냥.\"\n\n\"'그냥'이라. 세상에 그냥은 없어.\"\n\n빨간 후드를 여민다.\n\n\"좋아. 같이 가줄게. 근데 나 좋은 사람 아니야. 미리 말해둘게.\"",
+    "effects": [
+      { "type": "setFlag", "flag": "narae_recruited" },
+      { "type": "addCompanion", "companion": "narae" }
+    ],
+    "choices": [
+      { "text": "\"알았어.\"", "nextScene": "district_d_street" }
+    ]
+  },
+  {
+    "id": "district_d_taehyun_01",
+    "type": "dialogue",
+    "background": "stall",
+    "speaker": null,
+    "text": "뒷골목. 붉은 네온 사이, 방수포 지붕 아래 포장마차.\n\n플라스틱 의자 두 개. 카운터에 냄비 하나. 심연의 불로 끓고 있다.\n\n냄새가 — 불가능하다. 재와 쇳물 냄새만 가득한 D지구에서, 이건 — 집 냄새다.\n\n큰 남자가 앞치마를 하고 국을 젓고 있다. 한쪽 눈이 화상 흉터로 감겨있다.",
+    "choices": [
+      { "text": "\"국 먹어도 돼요?\"", "nextScene": "district_d_taehyun_02" },
+      { "text": "지나친다", "nextScene": "district_d_street" }
+    ]
+  },
+  {
+    "id": "district_d_taehyun_02",
+    "type": "dialogue",
+    "background": "stall",
+    "speaker": "taehyun",
+    "text": "\"앉아.\"\n\n묻지도 않는다. 국을 떠서 그릇에 담아 카운터에 놓는다.\n\n\"살아있는 놈이 왔는데 굶기면 안 되지.\"\n\n국솥 바닥을 가리킨다. 포크로 긁은 자국 — 웃는 얼굴 낙서.\n\n\"아들이 다섯 살 때 그렸어. 가게에서 기다리다가.\"\n\n\"...다음에 올 때 다른 사람도 데려와. 혼자 먹는 밥은 맛이 없어.\"",
+    "effects": [
+      { "type": "setFlag", "flag": "met_taehyun" },
+      { "type": "modifyStat", "stat": "hp", "value": 20 }
+    ],
+    "choices": [
+      { "text": "\"맛있어요.\"", "nextScene": "district_d_street" },
+      { "text": "\"왜 공짜로 줘요?\"", "nextScene": "district_d_taehyun_03" }
+    ]
+  },
+  {
+    "id": "district_d_taehyun_03",
+    "type": "dialogue",
+    "background": "stall",
+    "speaker": "taehyun",
+    "text": "\"여기서 돈이 무슨 소용이야.\"\n\n국을 젓는다. 불길이 냄비 아래서 춤춘다.\n\n\"나는 태현이야. 15년 동안 국밥집을 했어. 지금도 하고 있고.\"\n\n국솥을 본다.\n\n\"이것만 안 탔거든. 다 탔는데 이것만.\"",
+    "choices": [
+      { "text": "D지구 거리로 돌아간다", "nextScene": "district_d_street" }
+    ]
+  },
+  {
+    "id": "district_d_taehyun_defend",
+    "type": "dialogue",
+    "background": "stall",
+    "speaker": null,
+    "text": "뒷골목으로 돌아오자 — 부하 셋이 포장마차를 부수고 있다.\n\n태현이 국솥을 안고 서 있다. 맞서지 않는다. 국솥만 지킨다.\n\n\"낭비하고 있어, 영감. 이 분노로 전기를 만들어야지, 국을 끓이고 있어.\"",
+    "conditions": [{ "type": "hasFlag", "flag": "met_taehyun" }],
+    "choices": [
+      { "text": "막아선다", "nextScene": "district_d_taehyun_fight" },
+      { "text": "(지켜본다)", "nextScene": "district_d_street" }
+    ]
+  },
+  {
+    "id": "district_d_taehyun_fight",
+    "type": "combat",
+    "background": "stall",
+    "enemy": "rage_fighter",
+    "introText": "\"치워, NULL. 이건 네 일이 아니야.\"",
+    "victoryScene": "district_d_taehyun_join",
+    "rounds": [
+      {
+        "text": "부하 셋이 둘러싼다. 태현이 국솥을 꼭 안고 있다.",
+        "choices": [
+          {
+            "text": "국솥 뚜껑을 열어 뜨거운 국물을 뿌린다",
+            "check": { "stat": "sense", "dc": 5 },
+            "alignment": "neutral", "karmaShift": 0,
+            "success": { "text": "뜨거운 국물이 부하들에게 튄다. 비명을 지르며 물러난다.", "effects": [], "endCombat": true },
+            "failure": { "text": "빗나갔다. 주먹이 날아온다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -4 }] }
+          },
+          {
+            "text": "몸으로 막는다",
+            "check": { "stat": "body", "dc": 6 },
+            "alignment": "light", "karmaShift": 3,
+            "success": { "text": "태현과 국솥 사이에 섰다. 부하가 주춤한다.", "effects": [{ "type": "modifyKarma", "value": 3 }], "endCombat": true },
+            "failure": { "text": "밀렸다. 하지만 태현이 국솥으로 한 놈을 때렸다. 도망간다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -5 }], "endCombat": true }
+          }
+        ]
+      }
+    ],
+    "rewards": { "engrams": 10 }
+  },
+  {
+    "id": "district_d_taehyun_join",
+    "type": "dialogue",
+    "background": "stall",
+    "speaker": "taehyun",
+    "text": "부하들이 도망간다.\n\n태현이 부서진 방수포를 본다. 플라스틱 의자가 깨져있다. 하지만 국솥은 멀쩡하다. 언제나.\n\n\"...더 이상 가만히 있으면 안 되나보네.\"\n\n국솥을 든다. 앞치마를 여민다.\n\n\"그릇 하나 챙겨도 돼?\"",
+    "effects": [
+      { "type": "setFlag", "flag": "taehyun_recruited" },
+      { "type": "addCompanion", "companion": "taehyun" }
+    ],
+    "choices": [
+      { "text": "D지구 거리로 돌아간다", "nextScene": "district_d_street" }
+    ]
+  },
+  {
+    "id": "district_d_taehyun_arc",
+    "type": "dialogue",
+    "background": "stall",
+    "speaker": null,
+    "text": "보스를 쓰러뜨린 뒤. D지구가 조용해졌다.\n\n태현의 포장마차 자리. 부서진 방수포 아래.\n\n누군가가 앉아있다. 작은 여자. 머리에 헤어 타이를 하고. 앞치마를 두르고.\n\n태현이 멈춘다.\n\n\"...아줌마?\"\n\n여자가 돌아본다. 웃는다.\n\n\"태현아. 오래간만이다.\"\n\n족발집 아줌마. 15년간 매일 아침 '오늘도 화이팅!' 해주던.\n\n태현이 국솥을 내려놓는다. 무릎이 꺾인다.\n\n\"아줌마... 미안해요. 불이... 내가 지른 불이...\"\n\n\"알아.\"\n\n\"보험도 없었잖아요. 가게가 다 타고... 저 때문에...\"\n\n\"알아. 다 알아.\"\n\n아줌마가 국솥을 본다.\n\n\"근데 태현아. 나는 네 국밥이 맛있어서 15년 옆에 있었어. 불이 나도 그건 변하지 않아.\"\n\n\"국 한 그릇 줄 수 있어?\"\n\n태현이 국을 뜬다. 손이 떨린다. 아줌마가 받아서 마신다.\n\n\"...맛있다. 역시.\"\n\n아줌마가 빛이 되어 흩어진다. 미소를 남기고.\n\n태현이 빈 그릇을 잡고 한참을 앉아있다.",
+    "conditions": [{"type": "hasFlag", "flag": "boss_chef_defeated"}, {"type": "hasFlag", "flag": "taehyun_recruited"}, {"type": "hasFlag", "flag": "taehyun_arc_done", "value": false}],
+    "effects": [
+      {"type": "setFlag", "flag": "taehyun_arc_done"},
+      {"type": "modifyKarma", "value": 5},
+      {"type": "addAbyssMemory", "id": "mem_taehyun_ajumma", "label": "족발집 아줌마의 마지막 국 한 그릇", "weight": 3, "source": "district_d"}
+    ],
+    "choices": [
+      {"text": "(옆에 앉는다)", "nextScene": "district_d_street"},
+      {"text": "\"맛있었대요.\"", "nextScene": "district_d_street"}
+    ]
+  },
+  {
+    "id": "district_d_narae_crack_01",
+    "type": "dialogue",
+    "background": "rage",
+    "speaker": "narae",
+    "text": "D지구 거리를 걷는 중. 나래가 갑자기 멈춘다.\n\n길가에 — 어린아이의 인형이 떨어져 있다. 타다 만 인형. 한쪽 팔이 없다.\n\n나래가 인형을 집어든다. 아무 말 없이.\n\n\"...버려.\"\n\n하지만 손에서 놓지 않는다.\n\n\"6살 때 같은 인형이 있었어. 아빠가 화나면 내 물건을 부쉈거든. 그 인형도.\"\n\n인형을 후드 주머니에 넣는다.\n\n\"...쓸데없는 거 주웠네.\"",
+    "conditions": [{"type": "hasFlag", "flag": "narae_recruited"}, {"type": "hasFlag", "flag": "narae_crack_01_done", "value": false}],
+    "effects": [{"type": "setFlag", "flag": "narae_crack_01_done"}],
+    "choices": [
+      {"text": "\"쓸데없지 않아.\"", "effects": [{"type": "modifyKarma", "value": 2}], "nextScene": "district_d_street_safe"},
+      {"text": "(아무 말 안 한다)", "nextScene": "district_d_street_safe"}
+    ]
+  },
+  {
+    "id": "district_d_narae_crack_02",
+    "type": "dialogue",
+    "background": "backstage",
+    "speaker": "narae",
+    "text": "퍼니스 클럽 백스테이지. 나래가 벽에 기대 앉아있다. 공연을 안 하고 있다.\n\n\"...오늘은 못하겠어.\"\n\n처음 보는 나래다. 불이 꺼져있다. 눈에서 주황색 빛이 안 난다.\n\n\"가사가 안 나와. 분노가... 안 나와. 무서운 게 아니라. 슬퍼서.\"\n\n후드 주머니에서 인형을 꺼낸다. 전에 주웠던.\n\n\"이거 보면 엄마 생각나. 엄마가 이거 사줬거든. 아빠가 부수기 전에.\"\n\n\"엄마는... 왜 나를 데리고 안 갔을까. 못 간 걸까. 안 간 걸까.\"\n\n\"...보고 싶다. 화나는 게 아니라. 그냥 보고 싶어.\"\n\n인형을 다시 넣는다.\n\n\"아무한테도 말하지 마. 특히 민준한테. 그 인간 또 '감정 최적화'라고 할 거야.\"",
+    "conditions": [
+      {"type": "hasFlag", "flag": "narae_recruited"},
+      {"type": "hasFlag", "flag": "narae_crack_01_done"},
+      {"type": "hasFlag", "flag": "narae_crack_02_done", "value": false}
+    ],
+    "effects": [
+      {"type": "setFlag", "flag": "narae_crack_02_done"},
+      {"type": "addAbyssMemory", "id": "mem_narae_doll", "label": "나래의 인형 — 엄마가 사준", "weight": 2, "source": "district_d"}
+    ],
+    "choices": [
+      {"text": "\"안 말할게.\"", "nextScene": "district_d_street_safe"},
+      {"text": "\"보고 싶은 거 당연한 거야.\"", "effects": [{"type": "modifyKarma", "value": 3}], "nextScene": "district_d_street_safe"}
     ]
   }
 ]

@@ -40,6 +40,7 @@ import districtDScenes from './data/scenes/district_d.json';
 import terminalScenes from './data/scenes/terminal.json';
 import coreScenes from './data/scenes/core.json';
 import endingScenes from './data/scenes/ending.json';
+import memoryLossScenes from './data/scenes/memory_loss.json';
 import characters from './data/characters.json';
 import items from './data/items.json';
 import enemies from './data/enemies.json';
@@ -76,6 +77,7 @@ export default class Game {
     this.sceneManager.loadScenes(terminalScenes);
     this.sceneManager.loadScenes(coreScenes);
     this.sceneManager.loadScenes(endingScenes);
+    this.sceneManager.loadScenes(memoryLossScenes);
     this.sceneManager.loadCharacters(characters);
     this.sceneManager.loadItems(items);
     this.sceneManager.loadEnemies(enemies);
@@ -277,6 +279,24 @@ export default class Game {
       this.metaProgression
     );
 
+    // 기억 상실 씬이 있으면 먼저 재생
+    if (lostMemory && lostMemory.lossScene) {
+      const lossScene = this.sceneManager.getScene(lostMemory.lossScene);
+      if (lossScene) {
+        // 기억 상실 씬을 재생 — 씬의 마지막 선택지가 __death__로 연결됨
+        // __death__ 도달 시 다시 이 함수가 호출되지 않도록 플래그 설정
+        this._memoryLossPlayed = true;
+        this._pendingDeathData = { lostMemory, remaining, isGameOver };
+        this.combatUI.hide();
+        await this.playScene(lostMemory.lossScene);
+        return;
+      }
+    }
+
+    // 기억 상실 씬이 없거나 이미 재생된 경우 → 사망 화면
+    this._memoryLossPlayed = false;
+    this._pendingDeathData = null;
+
     // UI 전환
     this.combatUI.hide();
     this.dialogueBox.hide();
@@ -345,6 +365,20 @@ export default class Game {
     }
 
     if (sceneId === '__death__') {
+      if (this._memoryLossPlayed && this._pendingDeathData) {
+        // 기억 상실 씬 재생 완료 후 → 사망 화면 표시
+        const { lostMemory, remaining, isGameOver } = this._pendingDeathData;
+        this._memoryLossPlayed = false;
+        this._pendingDeathData = null;
+        this.combatUI.hide();
+        this.dialogueBox.hide();
+        this.choiceButtons.hide();
+        this.statsPanel.el.classList.add('hidden');
+        this.menuBar.hide();
+        await this._setBackground('glitch', 'glitch');
+        this.deathScreen.show(lostMemory, remaining, isGameOver, this.metaProgression.serialize());
+        return;
+      }
       this._handleDeath();
       return;
     }

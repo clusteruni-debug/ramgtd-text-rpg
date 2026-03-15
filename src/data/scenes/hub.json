@@ -34,6 +34,19 @@
         "nextScene": "terminal_entrance"
       },
       {
+        "text": "🔥 동료와 이야기한다 (캠프파이어)",
+        "conditions": [{ "type": "hasFlag", "flag": "district_a_cleared" }],
+        "nextScene": "hub_campfire"
+      },
+      {
+        "text": "👤 미선에게 간다",
+        "conditions": [
+          { "type": "hasFlag", "flag": "district_a_cleared" },
+          { "type": "hasFlag", "flag": "miseon_recruited", "value": false }
+        ],
+        "nextScene": "hub_miseon_recruit"
+      },
+      {
         "text": "💬 주변을 둘러본다",
         "nextScene": "hub_look_around"
       }
@@ -42,7 +55,7 @@
   {
     "id": "hub_look_around",
     "type": "dialogue",
-    "background": "station",
+    "background": "tent-city",
     "speaker": null,
     "text": "텐트촌의 풍경이 눈에 들어온다.\n\n파란 비닐 시트로 만든 텐트 사이로 영혼들이 웅크리고 있다. 누군가는 벽에 '출구 없음'이라고 쓰고 있고, 누군가는 보이지 않는 TV를 보고 있다.\n\n한쪽 구석에서 자판기처럼 생긴 존재가 형광빛을 깜빡이며 서 있다. 가끔 검표원이 지나가면 영혼들은 본능적으로 몸을 숨긴다.\n\n...여기는 편안한 곳이 아니다. 하지만 유일하게 안전한 곳이다.",
     "choices": [
@@ -79,7 +92,7 @@
   {
     "id": "hub_npc_weary",
     "type": "dialogue",
-    "background": "station",
+    "background": "tent-city",
     "speaker": "weary_soul",
     "text": "\"...뭐야. 산 사람이 왜 여기 있어?\"\n\n영혼이 고개를 돌린다. 눈은 있지만 초점이 없다.\n\n\"여기 와이파이 안 터져. 알지? 죽어서도 불편해.\n\n...농담이야. 이미 까먹었거든. 와이파이가 뭔지도.\"",
     "choices": [
@@ -344,6 +357,199 @@
         "text": "돌아간다",
         "nextScene": "hub_look_around"
       }
+    ]
+  },
+
+  {
+    "id": "hub_miseon_recruit",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": "miseon",
+    "text": "미선이 수건을 들고 다가온다. 이번에도 묻지 않고 상처를 닦기 시작한다.\n\n\"또 다쳤어?\"\n\n손놀림이 빠르다. 익숙하다. 40년의 손.\n\n\"살아있는 몸으로 이런 데서 싸우면 어떡해. 위험하잖아.\"",
+    "choices": [
+      {
+        "text": "\"같이 다니면 안 돼요?\"",
+        "nextScene": "hub_miseon_accept"
+      },
+      {
+        "text": "\"혼자 괜찮아요.\"",
+        "nextScene": "hub_miseon_decline"
+      }
+    ]
+  },
+  {
+    "id": "hub_miseon_accept",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": "miseon",
+    "text": "미선이 멈칫한다. 텐트촌을 돌아본다.\n\n\"...여기 아픈 사람이 너무 많은데.\"\n\n긴 침묵.\n\n\"그런데 살아있는 얘가 다치는 건 — 더 못 보겠다.\"\n\n수건을 접어 가방에 넣는다. 의료 파우치를 챙긴다.\n\n\"가자. 밥은 먹었어?\"",
+    "effects": [
+      { "type": "setFlag", "flag": "miseon_recruited" },
+      { "type": "addCompanion", "companion": "miseon" }
+    ],
+    "choices": [
+      { "text": "\"고마워요.\"", "nextScene": "hub_platform0" }
+    ]
+  },
+  {
+    "id": "hub_miseon_decline",
+    "type": "dialogue",
+    "background": "station",
+    "speaker": "miseon",
+    "text": "\"...그래. 조심해.\"\n\n미선이 수건으로 손을 닦는다. 등을 돌린다.\n\n하지만 주인공이 돌아올 때마다 — 미선은 거기 있다.\n기다리고 있다.",
+    "effects": [{ "type": "setFlag", "flag": "miseon_declined_once" }],
+    "choices": [
+      { "text": "...", "nextScene": "hub_platform0" }
+    ]
+  },
+
+  {
+    "id": "hub_campfire",
+    "type": "dialogue",
+    "background": "campfire",
+    "speaker": null,
+    "text": "플랫폼 0 구석, 드럼통 화덕 앞.\n\n동료들이 모여 앉아있다. 불빛이 얼굴을 비춘다.\n여기서만큼은 — 잠시 — 괜찮다.",
+    "choices": [
+      {
+        "text": "\"마지막으로 뭐 먹었어?\"",
+        "conditions": [
+          { "type": "hasFlag", "flag": "district_a_cleared" },
+          { "type": "hasFlag", "flag": "campfire_01_done", "value": false }
+        ],
+        "nextScene": "campfire_01_food"
+      },
+      {
+        "text": "\"꿈 꿔?\"",
+        "conditions": [
+          { "type": "hasFlag", "flag": "district_b_cleared" },
+          { "type": "hasFlag", "flag": "campfire_02_done", "value": false }
+        ],
+        "nextScene": "campfire_02_dream"
+      },
+      {
+        "text": "\"보고 싶은 사람 있어?\"",
+        "conditions": [
+          { "type": "hasFlag", "flag": "district_c_cleared" },
+          { "type": "hasFlag", "flag": "campfire_03_done", "value": false }
+        ],
+        "nextScene": "campfire_03_miss"
+      },
+      {
+        "text": "\"왜 싸워?\"",
+        "conditions": [
+          { "type": "hasFlag", "flag": "district_d_cleared" },
+          { "type": "hasFlag", "flag": "campfire_04_done", "value": false }
+        ],
+        "nextScene": "campfire_04_why"
+      },
+      {
+        "text": "\"돌아갈 수 있으면?\"",
+        "conditions": [
+          { "type": "hasFlag", "flag": "boss_stationmaster_defeated" },
+          { "type": "hasFlag", "flag": "campfire_05_done", "value": false }
+        ],
+        "nextScene": "campfire_05_return"
+      },
+      {
+        "text": "(불을 바라본다)",
+        "nextScene": "hub_platform0"
+      }
+    ]
+  },
+  {
+    "id": "campfire_01_food",
+    "type": "dialogue",
+    "background": "campfire",
+    "speaker": null,
+    "text": "태현이 국을 저으며 묻는다. \"마지막으로 뭐 먹었어?\"\n\n침묵. 하나씩 대답한다.\n\n준서: \"편의점 삼각김밥. 참치마요. 890원.\"\n\n민준: \"자판기 커피. 아메리카노 핫. 바닥에 쏟아졌지만.\"\n\n하영: \"안 먹었어요. 야근이라. 시간이 없었어요.\"\n\n정수: \"...공사장 자판기 커피. 설탕 두 개.\"\n\n미선: \"오니기리. 참치마요. 진열하다가...\"\n\n미선: \"오니기리. 참치마요. 진열하다가...\"\n\n소연이 쪽지를 내민다: '저는 기억 안 나요. 마지막에 뭔가 마셨는데. 차가웠어요.'\n\n준서와 미선의 눈이 마주친다. 같은 품목. 다른 선반.\n소연의 쪽지가 바람에 흔들린다.",
+    "effects": [{ "type": "setFlag", "flag": "campfire_01_done" }],
+    "choices": [
+      {
+        "text": "\"나는... 기억 안 나.\"",
+        "nextScene": "hub_campfire"
+      },
+      {
+        "text": "(아무 말 하지 않는다)",
+        "nextScene": "hub_campfire"
+      }
+    ]
+  },
+  {
+    "id": "campfire_02_dream",
+    "type": "dialogue",
+    "background": "campfire",
+    "speaker": null,
+    "text": "누군가 묻는다. \"너는 꿈 꿔?\"\n\n유리: \"살아있을 때, 사람이 문 두드리는 꿈을 꿨어. 매번 열어보면 아무도 없어. 죽고 나서 꿈이 멈췄어. 솔직히... 그게 더 편했어.\"\n\n준서: \"시험 꿈. 매일. 시험지 넘기면 빈 페이지야. 죽어서도 그 꿈 꿀 줄 알았는데 — 안 꾸더라.\"\n\n나래: \"꿈? 사치지. 눈 감으면 그냥 어둠이야.\"\n\n소연이 쪽지를 든다: '저는 꿈을 꿨어요. 기사가 나가는 꿈. 매번 인쇄기가 돌아가다 멈췄어요.'\n\n동료들이 주인공을 본다.",
+    "effects": [{ "type": "setFlag", "flag": "campfire_02_done" }],
+    "choices": [
+      {
+        "text": "\"나는 아직 꿈을 꿔. 살아있으니까.\"",
+        "effects": [{ "type": "modifyKarma", "value": 3 }],
+        "nextScene": "campfire_02b"
+      },
+      {
+        "text": "\"...잘 모르겠어.\"",
+        "nextScene": "hub_campfire"
+      }
+    ]
+  },
+  {
+    "id": "campfire_02b",
+    "type": "dialogue",
+    "background": "campfire",
+    "speaker": null,
+    "text": "모두 조용해진다.\n\n유리: \"...부럽다. 진짜로.\"\n\n민준: \"꿈이라. 오래 안 꿨는데.\" 노트북을 만지작거린다.\n\n미선: \"좋은 꿈 꿔, 얘야. 여기서는 그게 제일 비싼 거야.\"",
+    "choices": [
+      { "text": "...", "nextScene": "hub_campfire" }
+    ]
+  },
+  {
+    "id": "campfire_03_miss",
+    "type": "dialogue",
+    "background": "campfire",
+    "speaker": "miseon",
+    "text": "미선이 아무에게도 말하지 않는 것처럼 묻는다.\n\n\"...보고 싶은 사람 있어?\"\n\n정수: (오래 기다린 뒤) \"...아들.\"\n\n나래: \"...엄마.\" 작은 소리로. \"아무한테도 말하지 마.\"\n\n유리: \"택배 기사 아저씨. 웃기지? 나를 발견해준 유일한 사람이니까.\"\n\n태현: \"옆집 족발집 아줌마. 매일 '화이팅!' 해주셨는데. 불 나고... 한 마디도 못 했어.\"\n\n소연이 쪽지를 조용히 내려놓는다: '저는... 기사를 읽어줄 사람.' 더 이상 쓰지 않는다.\n\n미선이 입을 연다. 닫는다. 다시 연다.\n\n\"수연이. 내 딸. 유치원 졸업식이 곧인데...\"\n\n끝까지 말하지 못한다.",
+    "effects": [{ "type": "setFlag", "flag": "campfire_03_done" }],
+    "choices": [
+      {
+        "text": "(미선의 어깨에 손을 올린다)",
+        "effects": [{ "type": "modifyKarma", "value": 5 }],
+        "nextScene": "hub_campfire"
+      },
+      {
+        "text": "...",
+        "nextScene": "hub_campfire"
+      }
+    ]
+  },
+  {
+    "id": "campfire_04_why",
+    "type": "dialogue",
+    "background": "campfire",
+    "speaker": "narae",
+    "text": "나래가 도발적으로 묻는다. \"왜 싸워? 여기서 싸워봤자 뭐가 달라져?\"\n\n하영: \"...모르겠어. 살아있을 때도 몰랐어. 그냥... 멈추면 안 될 것 같아서.\"\n\n영재: \"처음엔 규칙을 지키려고. 지금은 규칙을 부수려고.\"\n\n민준: \"버그를 찾으려고. 이 시스템에 분명 빠져나갈 구멍이...\"\n\n소연이 쪽지를 든다: '진실을 알리려고. 목소리는 없어도 눈은 있으니까.'\n\n정수가 천천히 말한다.\n\n\"젊은이들이 안 싸워도 되게.\"\n\n모두 조용해진다. 준서가 울기 시작한다.",
+    "effects": [{ "type": "setFlag", "flag": "campfire_04_done" }],
+    "choices": [
+      {
+        "text": "\"나도 모르겠어. 근데 여기 사람들 때문에.\"",
+        "effects": [{ "type": "modifyKarma", "value": 5 }],
+        "nextScene": "hub_campfire"
+      },
+      {
+        "text": "\"나가려고.\"",
+        "nextScene": "hub_campfire"
+      }
+    ]
+  },
+  {
+    "id": "campfire_05_return",
+    "type": "dialogue",
+    "background": "campfire",
+    "speaker": null,
+    "text": "영재가 조용히 묻는다. \"돌아갈 수 있으면... 뭐 할 거예요?\"\n\n태현: \"가게를 안 태울 거야. 그냥 문 잠그고 나올 거야. 옆집 아줌마한테 '수고하셨습니다' 하고.\"\n\n민준: \"6시에 퇴근할 거야.\"\n\n준서: \"시험 안 볼 거야. 그냥... 뭐가 하고 싶은지 찾아볼 거야.\"\n\n나래: \"아빠 집에 안 갈 거야. 대신 엄마한테 전화할 거야.\"\n\n하영: \"간호사 안 할 거야.\" 멈춤. \"...아니. 할 거야. 대신 '나는 괜찮아'라고는 안 할 거야.\"\n\n유리: \"문을 열 거야. 진짜로.\"\n\n미선: \"수연이 유치원 데리러 갈 거야. 도시락 싸서. 제 시간에.\"\n\n정수: \"...아들한테 전화할 거야. '바빠서'라고 안 할 거야. '보고 싶다'고 할 거야.\"\n\n소연이 마지막 쪽지를 든다. 오래 쓴다. 다 쓰고 접는다. 아무에게도 보여주지 않는다. 가슴에 넣는다.\n\n모두 불꽃을 본다. 아무도 더 말하지 않는다.\n\n돌아갈 수 없다는 걸 모두 안다.",
+    "effects": [{ "type": "setFlag", "flag": "campfire_05_done" }],
+    "choices": [
+      { "text": "...", "nextScene": "hub_campfire" }
     ]
   }
 ]

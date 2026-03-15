@@ -1,0 +1,104 @@
+[
+  {
+    "id": "memory_loss_01",
+    "type": "dialogue",
+    "background": "memory-fade",
+    "speaker": null,
+    "text": "— 뭔가가 사라진다.\n\n누군가와 같이 웃었던 기억. 배가 아플 정도로. 눈이 마주치고, 또 웃고.\n\n뭐가 웃긴 건지 — 누구와였는지 — 흐려진다.\n\n배가 아팠다는 감각만 남아있다.\n그것마저 — 사라진다.\n\n「현실 기억 소거: 같이 웃은 순간」",
+    "effects": [{ "type": "setFlag", "flag": "memory_01_lost" }],
+    "choices": [{ "text": "...", "nextScene": "__death__" }]
+  },
+  {
+    "id": "memory_loss_02",
+    "type": "dialogue",
+    "background": "memory-fade",
+    "speaker": null,
+    "text": "— 뭔가가 —\n\n\"형(언니), 요즘 어때?\"\n\n읽었다. 답하지 않았다. 다음에 하려고 했다. 잊었다. 일주일 뒤에 생각났다. 너무 늦은 것 같았다.\n\n한 달이 지났다. 알림이 사라졌다.\n두 번째 메시지는 오지 않았다.\n\n누가 보낸 건지 — 프로필 사진이 뭐였는지 —\n\n「현실 기억 소거: 읽고 답하지 않은 메시지」",
+    "effects": [{ "type": "setFlag", "flag": "memory_02_lost" }],
+    "choices": [{ "text": "...", "nextScene": "__death__" }]
+  },
+  {
+    "id": "memory_loss_03",
+    "type": "dialogue",
+    "background": "memory-fade",
+    "speaker": null,
+    "text": "— 사라진다.\n\n자취방, 새벽. 벽 너머에서 콧노래가 들렸다. 무슨 노래인지 모른다. 누군가가 거기에 살고 있다는 소리.\n\n나도 모르게 따라 흥얼거렸다. 이름도 얼굴도 모르는 사람. 벽 하나를 사이에 두고 같은 노래를 불렀다.\n\n...그 멜로디가 뭐였더라.\n\n「현실 기억 소거: 벽 너머의 콧노래」",
+    "effects": [{ "type": "setFlag", "flag": "memory_03_lost" }],
+    "choices": [{ "text": "...", "nextScene": "__death__" }]
+  },
+  {
+    "id": "memory_loss_04",
+    "type": "dialogue",
+    "background": "memory-fade",
+    "speaker": null,
+    "text": "— 손의 감촉이 사라진다.\n\n할머니가 머리를 쓸어내렸다. \"우리 손주, 착한 애야.\"\n\n할머니 손이 거칠었다. 밭일로 굳은 손. 근데 따뜻했다.\n\n거칠었는지 부드러웠는지. 차가웠는지 따뜻했는지.\n안 느껴진다.\n\n「현실 기억 소거: 할머니의 손」",
+    "effects": [{ "type": "setFlag", "flag": "memory_04_lost" }],
+    "choices": [{ "text": "...", "nextScene": "__death__" }]
+  },
+  {
+    "id": "memory_loss_05",
+    "type": "dialogue",
+    "background": "memory-fade",
+    "speaker": null,
+    "text": "— 표정이 지워진다.\n\n도서관 앞 벤치. 가을. \"나... 너 좋아해.\"\n\n그 사람이 돌아봤다. 뭐라고 대답했는지는 기억나지 않는다. 좋았는지 나빴는지도.\n\n그냥 그 순간의 표정 — 놀란 건지, 웃은 건지 — 그것만 남아있었는데.\n\n그것마저.\n\n「현실 기억 소거: 첫사랑의 표정」",
+    "effects": [
+      { "type": "setFlag", "flag": "memory_05_lost" },
+      { "type": "modifyStat", "stat": "bond", "value": -1 }
+    ],
+    "choices": [{ "text": "...", "nextScene": "__death__" }]
+  },
+  {
+    "id": "memory_loss_06",
+    "type": "dialogue",
+    "background": "memory-fade",
+    "speaker": null,
+    "text": "— 빗소리가 멈춘다.\n\n비가 쏟아졌다. 우산이 없었다. 누군가가 \"같이 가자\"고 했다.\n\n어깨가 반쪽씩 젖었다. 아무 말 안 했다. 그냥 걸었다. 빗소리만 들렸다.\n\n집 앞에서 \"내일 봐\" 하고 헤어졌다.\n\n그 사람이 — 남자였는지 여자였는지 — 키가 —\n비 냄새만 기억나는데. 비 냄새도 —\n\n「현실 기억 소거: 비 오는 날 우산」",
+    "effects": [{ "type": "setFlag", "flag": "memory_06_lost" }],
+    "choices": [{ "text": "...", "nextScene": "__death__" }]
+  },
+  {
+    "id": "memory_loss_07",
+    "type": "dialogue",
+    "background": "memory-fade",
+    "speaker": null,
+    "text": "— 목소리가 멀어진다.\n\n학교 끝나면 매일 같이 다녔다. PC방, 편의점, 놀이터 벤치. 해 질 때까지 앉아있었다.\n\n\"집 가기 싫다\"는 말을 둘 다 안 했지만 둘 다 알고 있었다.\n\n졸업하고 한두 번 만났다. 카톡이 뜸해졌다. 프사가 바뀌었다. 번호가 바뀌었다.\n\n\"나중에 밥 먹자\"가 마지막이었다.\n\n그 목소리가 — 높았나 낮았나 — 뭐라고 나를 불렀나 —\n\n「현실 기억 소거: 절친의 목소리」",
+    "effects": [{ "type": "setFlag", "flag": "memory_07_lost" }],
+    "choices": [{ "text": "...", "nextScene": "__death__" }]
+  },
+  {
+    "id": "memory_loss_08",
+    "type": "dialogue",
+    "background": "memory-fade",
+    "speaker": null,
+    "text": "— 등이 차가워진다.\n\n다섯 살? 여섯 살? 아빠 등에 업혀있었다. 밤이었다.\n\n어디를 가고 있었는지 모르겠다. 등에서 땀 냄새가 났다. 넓었다. 따뜻했다.\n\n흔들리는 걸음에 맞춰 잠이 들었다.\n\n그 뒤로 등에 업힌 적이 있었나. 없었을 것이다. 아빠는 바빴으니까. 나도 컸으니까.\n\n등도. 냄새도. 기억나지 않는다.\n\n「현실 기억 소거: 아버지의 등」",
+    "effects": [{ "type": "setFlag", "flag": "memory_08_lost" }],
+    "choices": [{ "text": "...", "nextScene": "__death__" }]
+  },
+  {
+    "id": "memory_loss_09",
+    "type": "dialogue",
+    "background": "memory-fade",
+    "speaker": null,
+    "text": "— 뭔가가 —\n\n\"밥 먹었어?\"\n\n세상에서 가장 많이 들은 말이다.\n전화할 때마다. 만날 때마다.\n\n귀찮았다. \"네, 먹었어요\" — 거짓말인 날이 더 많았다.\n\n그 목소리가\n— 높았는지 낮았는지\n— 따뜻했는지 걱정스러웠는지\n— 들리지 않는다.\n\n'밥 먹었어?'\n\n네 글자는 보이는데\n소리가 없다.\n자막만 떠있다.\n\n「현실 기억 소거: 어머니의 목소리」",
+    "effects": [{ "type": "setFlag", "flag": "memory_09_lost" }],
+    "choices": [{ "text": "...", "nextScene": "memory_loss_09_reaction" }]
+  },
+  {
+    "id": "memory_loss_09_reaction",
+    "type": "dialogue",
+    "background": "memory-fade",
+    "speaker": null,
+    "text": "주인공이 눈을 뜬다. 뭔가가 — 크게 — 비었다.\n\n동료들이 본다.\n\n미선: \"얘야.\"\n\n반응 없다.\n\n미선: \"...얘야?\"\n\n반응 없다.\n\n미선이 한 발 뒤로 물러난다. 손으로 입을 가린다.\n\n정수가 헬멧을 벗는다. 안의 사진을 꺼내 본다. 다시 넣는다.\n\n하영이 주인공의 손목을 잡는다. \"...살아있어요. 아직 살아있어요.\"\n\n나래가 입을 열었다 닫는다.\n\n민준이 노트북을 닫는다. 처음으로.\n\n아무도 더 말하지 않는다.",
+    "choices": [{ "text": "...", "nextScene": "__death__" }]
+  },
+  {
+    "id": "memory_loss_10",
+    "type": "ending",
+    "endingType": "gameover",
+    "background": "memory-fade",
+    "speaker": null,
+    "text": "누군가가 나를 불렀다.\n어떤 이름이었다.\n높은 목소리? 낮은 목소리?\n\n...나는 누구에게 무엇이었지?\n\n...나는 —\n\n누구지?\n\n\n\n「코드: NULL. 포맷 완료. 벽면 통합 승인.」\n\n\n\n도시의 벽이 된다.\n콘크리트 속에 굳는다.\n다른 벽들과 함께.\n다른 이름 없는 것들과 함께.\n\n\n\n[ GAME OVER ]\n\"기억이 전부 소거되었습니다.\"",
+    "effects": [{ "type": "setFlag", "flag": "game_over_bricked" }],
+    "choices": [{ "text": "...", "nextScene": "__title__" }]
+  }
+]

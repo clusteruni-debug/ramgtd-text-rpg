@@ -1,6 +1,6 @@
 {
   "title": "심연",
-  "version": "0.8.0",
+  "version": "1.0.0",
   "startScene": "prologue_01",
   "hubScene": "hub_platform0",
   "typingSpeed": 35,
@@ -16,16 +16,86 @@
     "engrams": 0
   },
   "realMemories": [
-    { "id": "mem_hobby", "label": "좋아하던 취미", "weight": 1 },
-    { "id": "mem_food", "label": "좋아하던 음식", "weight": 1 },
-    { "id": "mem_song", "label": "자주 듣던 노래", "weight": 1 },
-    { "id": "mem_season", "label": "좋아하던 계절", "weight": 2 },
-    { "id": "mem_pet", "label": "키우던 반려동물", "weight": 2 },
-    { "id": "mem_workplace", "label": "직장 이름", "weight": 2 },
-    { "id": "mem_friend", "label": "친구의 이름", "weight": 3 },
-    { "id": "mem_address", "label": "집 주소", "weight": 3 },
-    { "id": "mem_mother", "label": "어머니의 얼굴", "weight": 4 },
-    { "id": "mem_name", "label": "자기 이름", "weight": 5 }
+    {
+      "id": "mem_laugh",
+      "label": "같이 웃은 순간",
+      "weight": 1,
+      "lossScene": "memory_loss_01",
+      "lossFlag": "memory_01_lost",
+      "description": "누군가와 배가 아플 정도로 웃었다. 누구와였는지, 뭐가 웃긴 건지 — 안개 속이다."
+    },
+    {
+      "id": "mem_unread",
+      "label": "읽고 답하지 않은 메시지",
+      "weight": 1,
+      "lossScene": "memory_loss_02",
+      "lossFlag": "memory_02_lost",
+      "description": "'형(언니), 요즘 어때?' 읽었다. 답하지 않았다. 두 번째 메시지는 오지 않았다."
+    },
+    {
+      "id": "mem_humming",
+      "label": "벽 너머의 콧노래",
+      "weight": 1,
+      "lossScene": "memory_loss_03",
+      "lossFlag": "memory_03_lost",
+      "description": "자취방, 새벽. 벽 너머에서 콧노래가 들렸다. 이름도 얼굴도 모르는 사람과 같은 노래를 흥얼거렸다."
+    },
+    {
+      "id": "mem_grandma",
+      "label": "할머니의 손",
+      "weight": 2,
+      "lossScene": "memory_loss_04",
+      "lossFlag": "memory_04_lost",
+      "description": "할머니가 머리를 쓸어내리며 말했다. '우리 손주, 착한 애야.' 거칠고 따뜻한 손."
+    },
+    {
+      "id": "mem_firstlove",
+      "label": "첫사랑의 표정",
+      "weight": 2,
+      "lossScene": "memory_loss_05",
+      "lossFlag": "memory_05_lost",
+      "description": "도서관 앞 벤치. '나... 너 좋아해.' 그 사람이 돌아봤다. 뭐라고 대답했는지 모르겠다. 표정만 남아있었는데..."
+    },
+    {
+      "id": "mem_umbrella",
+      "label": "비 오는 날 우산",
+      "weight": 2,
+      "lossScene": "memory_loss_06",
+      "lossFlag": "memory_06_lost",
+      "description": "비가 쏟아졌다. 누군가가 '같이 가자'고 했다. 어깨가 반쪽씩 젖었다. 아무 말 안 했다."
+    },
+    {
+      "id": "mem_bestfriend",
+      "label": "절친의 목소리",
+      "weight": 3,
+      "lossScene": "memory_loss_07",
+      "lossFlag": "memory_07_lost",
+      "description": "매일 같이 다니던 친구. PC방, 편의점, 놀이터 벤치. '나중에 밥 먹자'가 마지막이었다."
+    },
+    {
+      "id": "mem_father",
+      "label": "아버지의 등",
+      "weight": 3,
+      "lossScene": "memory_loss_08",
+      "lossFlag": "memory_08_lost",
+      "description": "아빠 등에 업혀있었다. 등에서 땀 냄새가 났다. 넓었다. 따뜻했다. 흔들리는 걸음에 맞춰 잠이 들었다."
+    },
+    {
+      "id": "mem_mother",
+      "label": "어머니의 목소리",
+      "weight": 4,
+      "lossScene": "memory_loss_09",
+      "lossFlag": "memory_09_lost",
+      "description": "'밥 먹었어?' 세상에서 가장 많이 들은 말. 그 목소리가 — 들리지 않는다."
+    },
+    {
+      "id": "mem_name",
+      "label": "나를 부르던 이름",
+      "weight": 5,
+      "lossScene": "memory_loss_10",
+      "lossFlag": "memory_10_lost",
+      "description": "누군가가 나를 불렀다. 어떤 이름이었다. ...나는 누구지?"
+    }
   ],
   "districts": [
     {
@@ -38,7 +108,8 @@
       "defaultUnlocked": true,
       "color": "#a7a7c4",
       "icon": "A",
-      "theme": "silence"
+      "theme": "silence",
+      "companions": ["soyeon", "junseo"]
     },
     {
       "id": "district_b",
@@ -50,7 +121,8 @@
       "defaultUnlocked": true,
       "color": "#4e9af5",
       "icon": "B",
-      "theme": "iron"
+      "theme": "iron",
+      "companions": ["minjun", "jeongsu"]
     },
     {
       "id": "district_c",
@@ -62,7 +134,8 @@
       "defaultUnlocked": false,
       "color": "#50c8c8",
       "icon": "C",
-      "theme": "frozen"
+      "theme": "frozen",
+      "companions": ["yuri", "hayoung"]
     },
     {
       "id": "district_d",
@@ -74,10 +147,12 @@
       "defaultUnlocked": false,
       "color": "#e94560",
       "icon": "D",
-      "theme": "rage"
+      "theme": "rage",
+      "companions": ["narae", "taehyun"]
     }
   ],
   "upgradeCostMultiplier": 10,
+  "maxCompanions": 4,
   "audio": {
     "defaultBGM": null,
     "sfxEnabled": true
