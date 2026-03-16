@@ -3,10 +3,12 @@
   position: absolute;
   top: 0;
   right: 0;
+  height: var(--header-height);
   display: flex;
+  align-items: center;
   gap: 4px;
-  padding: 8px;
-  z-index: 20;
+  padding: 0 8px;
+  z-index: 21;
 }
 
 .menu-btn {

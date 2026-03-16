@@ -11,7 +11,7 @@
         "nextScene": "terminal_auth"
       },
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 4개의 카드 리더기가 기다리고 있다.",
         "nextScene": "hub_platform0"
       }
     ]
@@ -23,7 +23,10 @@
     "speaker": null,
     "text": "카드를 하나씩 대갈 때마다 기계가 울린다.\n\n'삐—' A지구 인증. 침묵의 봉인 해제.\n'삐—' B지구 인증. 압착의 봉인 해제.\n'삐—' C지구 인증. 동결의 봉인 해제.\n'삐—' D지구 인증. 소각의 봉인 해제.\n\n개찰구가 천천히 열린다.\n\n그 순간 — 선로 위에 그림자가 나타난다.",
     "effects": [
-      { "type": "setFlag", "flag": "terminal_unlocked" }
+      {
+        "type": "setFlag",
+        "flag": "terminal_unlocked"
+      }
     ],
     "choices": [
       {
@@ -75,18 +78,33 @@
     "choices": [
       {
         "text": "\"넌 사람들을 기계에 보내고 있었어.\"",
-        "effects": [{ "type": "modifyKarma", "value": 5 }],
+        "effects": [
+          {
+            "type": "modifyKarma",
+            "value": 5
+          }
+        ],
         "nextScene": "terminal_youngjae_shatter"
       },
       {
         "text": "\"몰랐으니까 네 잘못이 아니야.\"",
-        "effects": [{ "type": "modifyKarma", "value": 3 }],
+        "effects": [
+          {
+            "type": "modifyKarma",
+            "value": 3
+          }
+        ],
         "nextScene": "terminal_youngjae_shatter"
       },
       {
         "text": "\"계속 안내해. 역장한테 데려다줘.\"",
-        "effects": [{ "type": "modifyKarma", "value": -10 }],
-        "nextScene": "terminal_stationmaster_intro"
+        "effects": [
+          {
+            "type": "modifyKarma",
+            "value": -10
+          }
+        ],
+        "nextScene": "terminal_shadow_encounter"
       }
     ]
   },
@@ -97,12 +115,429 @@
     "speaker": "youngjae",
     "text": "영재가 벽에 등을 기댄다. 미끄러져 앉는다.\n\n\"역장님이... 규칙을 따르면 된다고 했어요. 생각할 필요 없다고. 안내하면 된다고.\"\n\n유니폼의 이름표를 뜯는다. INTERN.\n\n\"플랫폼에서 그 사람을 구할 때도 — 생각 안 했어요. 그냥 뛰었어요. 그게 맞으니까.\"\n\n\"여기서도 그럴 줄 알았어요. 시키는 대로 하면 맞는 거라고.\"\n\n이름표를 본다.\n\n\"...틀렸네.\"\n\n일어선다.\n\n\"역장한테 따지러 갑니다. 같이 가시겠어요?\"",
     "effects": [
-      { "type": "setFlag", "flag": "youngjae_recruited" },
-      { "type": "addCompanion", "companion": "youngjae" }
+      {
+        "type": "setFlag",
+        "flag": "youngjae_recruited"
+      },
+      {
+        "type": "addCompanion",
+        "companion": "youngjae"
+      }
     ],
     "choices": [
       {
         "text": "\"가자.\"",
+        "nextScene": "terminal_shadow_encounter"
+      }
+    ]
+  },
+  {
+    "id": "terminal_shadow_encounter",
+    "type": "dialogue",
+    "background": "terminal",
+    "speaker": null,
+    "text": "역장에게 가는 복도. 형광등이 하나씩 꺼진다.\n\n터널 끝에 사람이 서 있다. 회색 양복. 서류가방.\n\n— 나다.\n\n죽기 전의 나. 출근 길의 나. 개찰구 앞의 나.\n\n\"...또 늦겠네.\"\n\n그림자가 서류가방을 든다. 서류가방 안에서 — 빛이 새어나온다.",
+    "choices": [
+      {
+        "text": "그림자와 마주한다",
+        "nextScene": "terminal_shadow_battle"
+      }
+    ]
+  },
+  {
+    "id": "terminal_shadow_battle",
+    "type": "combat",
+    "background": "terminal",
+    "enemy": "shadow_self",
+    "introText": "그림자 자아가 서류가방을 연다. 안에서 빛이 쏟아진다 — 잃어버린 기억의 빛.\n\n\"넌 이걸 버리고 왔잖아. 일상을. 이름을. 전부.\"",
+    "victoryScene": "terminal_shadow_victory",
+    "rewards": {
+      "engrams": 15
+    },
+    "rounds": [
+      {
+        "text": "그림자가 서류가방을 휘두른다. 안에서 기억의 파편이 날카롭게 흩어진다.",
+        "choices": [
+          {
+            "text": "기억의 파편을 피한다",
+            "check": {
+              "stat": "sense",
+              "dc": 7
+            },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": {
+              "text": "파편이 스쳐 지나간다. 한 조각에 편의점 영수증의 기억이 담겨있다.",
+              "effects": []
+            },
+            "failure": {
+              "text": "파편이 가슴에 박힌다. 잊고 있던 출근길의 피로가 되살아난다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -7
+                }
+              ]
+            }
+          },
+          {
+            "text": "그림자의 넥타이를 잡는다",
+            "check": {
+              "stat": "body",
+              "dc": 8
+            },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": {
+              "text": "넥타이를 잡아당기자 그림자가 비틀거린다. 서류가방이 떨어진다.",
+              "effects": []
+            },
+            "failure": {
+              "text": "그림자가 더 빠르다. 과거의 자신은 언제나 한 발 앞서 있다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -8
+                }
+              ]
+            }
+          },
+          {
+            "text": "\"넌 내가 아니야. 더 이상.\"",
+            "check": {
+              "stat": "bond",
+              "dc": 7
+            },
+            "alignment": "light",
+            "karmaShift": 5,
+            "success": {
+              "text": "그림자의 얼굴에 균열이 간다. \"...맞아. 넌 더 이상 나가 아니지.\"",
+              "effects": []
+            },
+            "failure": {
+              "text": "\"아니긴. 넌 아직도 나야.\" 서류가방이 얼굴을 때린다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -6
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "text": "그림자가 희미해진다. 하지만 마지막으로 — 교통카드를 꺼내 든다.\n\n\"이거 기억나? 오후 6시 47분. 삐— 소리.\"\n\n\"돌아갈 수 있어. 이 카드만 대면.\"",
+        "choices": [
+          {
+            "text": "카드를 받지 않는다",
+            "check": {
+              "stat": "reason",
+              "dc": 8
+            },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": {
+              "text": "\"돌아가는 건 답이 아니야.\" 카드가 빛이 되어 사라진다. 그림자도 함께.",
+              "effects": [],
+              "endCombat": true
+            },
+            "failure": {
+              "text": "손이 저절로 카드를 향해 뻗는다. 본능. 그 사이 그림자가 덮친다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -7
+                }
+              ]
+            }
+          },
+          {
+            "text": "카드를 부러뜨린다",
+            "check": {
+              "stat": "body",
+              "dc": 7
+            },
+            "alignment": "dark",
+            "karmaShift": -3,
+            "success": {
+              "text": "카드를 반으로 꺾는다. 그림자가 비명을 — 아니, 한숨을 쉰다.\n\"...다음에.\" 그림자가 녹아 사라진다.",
+              "effects": [],
+              "endCombat": true
+            },
+            "failure": {
+              "text": "카드가 강철처럼 단단하다. 과거는 쉽게 꺾이지 않는다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -8
+                }
+              ]
+            }
+          },
+          {
+            "text": "\"고마웠어. 그 일상이.\"",
+            "check": {
+              "stat": "bond",
+              "dc": 7
+            },
+            "alignment": "light",
+            "karmaShift": 5,
+            "success": {
+              "text": "그림자가 웃는다. 처음으로 따뜻하게.\n\"...나도.\"\n카드가 엔그램으로 변한다. 그림자가 빛 속으로 사라진다.",
+              "effects": [],
+              "endCombat": true
+            },
+            "failure": {
+              "text": "\"고맙긴. 매일 지옥이었잖아.\" 냉소와 함께 카드가 날아온다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -7
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "terminal_shadow_victory",
+    "type": "dialogue",
+    "background": "terminal",
+    "speaker": null,
+    "text": "그림자가 사라진 자리에 서류가방만 남아있다.\n\n가방 안은 비어있다. 아니 — 바닥에 글씨가 새겨져 있다.\n\n'다음에...'\n\n기억의 잔향이 복도를 채운다. 그리고 사라진다.\n\n형광등이 다시 켜진다. 앞에 — 역장의 방이 보인다.",
+    "effects": [
+      {
+        "type": "addAbyssMemory",
+        "id": "mem_shadow_farewell",
+        "label": "그림자 자아의 작별",
+        "weight": 3,
+        "source": "terminal"
+      }
+    ],
+    "choices": [
+      {
+        "text": "역장에게 간다",
+        "nextScene": "terminal_pain_gate"
+      }
+    ]
+  },
+  {
+    "id": "terminal_pain_gate",
+    "type": "dialogue",
+    "background": "terminal",
+    "speaker": null,
+    "text": "역장의 방 앞. 마지막 관문.\n\n바닥에서 무언가가 솟아오른다. 수천 개의 눈동자가 — 벽에서, 천장에서, 바닥에서 — 일제히 이쪽을 본다.\n\n고통의 수집가. 이 도시의 모든 고통이 응축된 존재.\n\n「오랫동안 기다렸다. 네 고통은 — 특별하다. 비어있으니까.」",
+    "choices": [
+      {
+        "text": "맞선다",
+        "nextScene": "terminal_pain_battle"
+      }
+    ]
+  },
+  {
+    "id": "terminal_pain_battle",
+    "type": "combat",
+    "background": "terminal",
+    "enemy": "pain_collector",
+    "maxFails": 1,
+    "introText": "고통의 수집가가 팔을 벌린다. 수천 개의 눈에서 빛이 쏟아진다.\n\n「네 고통을 수집한다 — 자발적이든 아니든.」",
+    "victoryScene": "terminal_pain_victory",
+    "rewards": {
+      "engrams": 20
+    },
+    "rounds": [
+      {
+        "text": "수집가가 고통의 파동을 보낸다. 과거의 상처가 되살아나는 느낌 — 머릿속에 비명이 울린다.",
+        "choices": [
+          {
+            "text": "정신을 집중해 파동을 밀어낸다",
+            "check": {
+              "stat": "reason",
+              "dc": 8
+            },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": {
+              "text": "이를 악물고 파동을 차단한다. 수집가가 놀란다. \"...거부하다니.\"",
+              "effects": []
+            },
+            "failure": {
+              "text": "과거의 고통이 밀려온다. 잊고 있던 상처가 되살아난다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -8
+                }
+              ]
+            }
+          },
+          {
+            "text": "고통을 받아들이고 전진한다",
+            "check": {
+              "stat": "body",
+              "dc": 7
+            },
+            "alignment": "dark",
+            "karmaShift": -3,
+            "success": {
+              "text": "고통이 밀려온다. 하지만 멈추지 않는다. 한 발. 한 발. 수집가에게 다가간다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -3
+                }
+              ]
+            },
+            "failure": {
+              "text": "고통의 무게에 무릎이 꺾인다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -9
+                }
+              ]
+            }
+          },
+          {
+            "text": "\"이 고통은 내 것이 아니야\"",
+            "check": {
+              "stat": "bond",
+              "dc": 7
+            },
+            "alignment": "light",
+            "karmaShift": 5,
+            "success": {
+              "text": "수집가의 눈들이 깜빡인다. \"...네 것이 아니라고?\" 파동이 흩어진다.",
+              "effects": []
+            },
+            "failure": {
+              "text": "\"아니야. 전부 네 것이야.\" 눈들이 더 밝게 빛난다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -7
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "text": "수집가가 축적한 고통을 하나의 구체로 응축한다. 수천 명의 울음이 하나의 소리가 된다.\n\n「이것이 이 도시의 총량이다. 받아라.」",
+        "choices": [
+          {
+            "text": "동료들의 기억을 방패로 삼는다",
+            "check": {
+              "stat": "bond",
+              "dc": 8
+            },
+            "alignment": "light",
+            "karmaShift": 5,
+            "success": {
+              "text": "소연의 쪽지. 민준의 코드. 정수의 안전모. 기억 하나하나가 방패가 된다.\n\n구체가 산산이 흩어진다. 수집가가 무릎을 꿇는다.",
+              "effects": [],
+              "endCombat": true
+            },
+            "failure": {
+              "text": "기억이 흐려진다. 방패가 깨진다. 고통이 관통한다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -9
+                }
+              ]
+            }
+          },
+          {
+            "text": "구체의 핵을 분석해 해체한다",
+            "check": {
+              "stat": "reason",
+              "dc": 9
+            },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": {
+              "text": "고통도 데이터다. 데이터는 분해할 수 있다. 구체의 구조를 파악하고 — 해체한다.\n\n수집가가 사라진다.",
+              "effects": [],
+              "endCombat": true
+            },
+            "failure": {
+              "text": "구조가 너무 복잡하다. 분석 중 고통이 역류한다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -9
+                }
+              ]
+            }
+          },
+          {
+            "text": "구체를 맨몸으로 받아낸다",
+            "check": {
+              "stat": "body",
+              "dc": 9
+            },
+            "alignment": "dark",
+            "karmaShift": -5,
+            "success": {
+              "text": "구체를 양손으로 잡는다. 온몸이 비명을 지른다. 하지만 — 부숴진다.\n\n\"불가능...\" 수집가가 소멸한다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -5
+                }
+              ],
+              "endCombat": true
+            },
+            "failure": {
+              "text": "인간이 감당할 수 있는 고통이 아니다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -10
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "terminal_pain_victory",
+    "type": "dialogue",
+    "background": "terminal",
+    "speaker": null,
+    "text": "수집가가 사라진다. 수천 개의 눈동자가 벽에서 떨어져 바닥에 구른다.\n\n각 눈동자에서 — 작은 빛이 새어나온다. 해방된 고통. 이제 더 이상 수집되지 않는다.\n\n역장의 방이 앞에 있다.",
+    "effects": [
+      {
+        "type": "addAbyssMemory",
+        "id": "mem_pain_freed",
+        "label": "해방된 고통의 눈동자들",
+        "weight": 3,
+        "source": "terminal"
+      }
+    ],
+    "choices": [
+      {
+        "text": "역장에게 간다",
         "nextScene": "terminal_stationmaster_intro"
       }
     ]
@@ -159,36 +594,89 @@
     "type": "combat",
     "background": "boss-stationmaster",
     "enemy": "station_master",
+    "maxFails": 1,
     "introText": "역장이 호루라기를 분다.\n\n선로 전체가 진동한다. 열차들이 사방에서 돌진해 온다.\n\n\"정시 운행 — 개시.\"",
     "victoryScene": "terminal_stationmaster_victory",
-    "rewards": { "engrams": 35 },
+    "rewards": {
+      "engrams": 40
+    },
     "rounds": [
       {
         "text": "역장이 호루라기를 불자 선로에서 유령 열차가 달려온다! 플랫폼이 흔들린다.",
         "choices": [
           {
             "text": "타이밍을 보고 선로 사이로 뛰어넘는다",
-            "check": { "stat": "sense", "dc": 6 },
+            "check": {
+              "stat": "sense",
+              "dc": 7
+            },
             "alignment": "neutral",
             "karmaShift": 0,
-            "success": { "text": "열차가 코앞을 지나간다! 바람에 옷이 찢어졌지만 무사하다.", "effects": [] },
-            "failure": { "text": "열차에 스쳤다. 온몸이 뒤틀린다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -6 }] }
+            "success": {
+              "text": "열차가 코앞을 지나간다! 바람에 옷이 찢어졌지만 무사하다.",
+              "effects": []
+            },
+            "failure": {
+              "text": "열차에 스쳤다. 온몸이 뒤틀린다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -7
+                }
+              ]
+            }
           },
           {
             "text": "열차의 시간표를 읽고 안전 구간을 계산한다",
-            "check": { "stat": "reason", "dc": 7 },
+            "check": {
+              "stat": "reason",
+              "dc": 8
+            },
             "alignment": "neutral",
             "karmaShift": 0,
-            "success": { "text": "3번 선로와 4번 선로 사이에 12초의 공백! 그 사이를 파고든다.", "effects": [{ "type": "setFlag", "flag": "stationmaster_schedule_read" }] },
-            "failure": { "text": "계산이 틀렸다. 열차가 예상보다 빨리 온다!", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -7 }] }
+            "success": {
+              "text": "3번 선로와 4번 선로 사이에 12초의 공백! 그 사이를 파고든다.",
+              "effects": [
+                {
+                  "type": "setFlag",
+                  "flag": "stationmaster_schedule_read"
+                }
+              ]
+            },
+            "failure": {
+              "text": "계산이 틀렸다. 열차가 예상보다 빨리 온다!",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -7
+                }
+              ]
+            }
           },
           {
             "text": "정면으로 달려가 역장의 호루라기를 뺏으려 한다",
-            "check": { "stat": "body", "dc": 7 },
+            "check": {
+              "stat": "body",
+              "dc": 8
+            },
             "alignment": "dark",
             "karmaShift": -3,
-            "success": { "text": "열차를 뚫고 역장에게 도달했다! 호루라기를 잡지만 역장이 밀어낸다.", "effects": [] },
-            "failure": { "text": "열차의 충격파에 튕겨나간다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -8 }] }
+            "success": {
+              "text": "열차를 뚫고 역장에게 도달했다! 호루라기를 잡지만 역장이 밀어낸다.",
+              "effects": []
+            },
+            "failure": {
+              "text": "열차의 충격파에 튕겨나간다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -7
+                }
+              ]
+            }
           }
         ]
       },
@@ -197,27 +685,72 @@
         "choices": [
           {
             "text": "본능적으로 바닥에 엎드린다",
-            "check": { "stat": "sense", "dc": 7 },
+            "check": {
+              "stat": "sense",
+              "dc": 8
+            },
             "alignment": "neutral",
             "karmaShift": 0,
-            "success": { "text": "열차들이 머리 위를 스쳐 지나간다! 바닥에 납작 엎드려서 간신히 피했다.", "effects": [] },
-            "failure": { "text": "열차 하나가 등을 스쳤다. 척추가 비명을 지른다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -7 }] }
+            "success": {
+              "text": "열차들이 머리 위를 스쳐 지나간다! 바닥에 납작 엎드려서 간신히 피했다.",
+              "effects": []
+            },
+            "failure": {
+              "text": "열차 하나가 등을 스쳤다. 척추가 비명을 지른다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -9
+                }
+              ]
+            }
           },
           {
             "text": "시간 조작의 원리를 역이용한다",
-            "check": { "stat": "reason", "dc": 8 },
+            "check": {
+              "stat": "reason",
+              "dc": 9
+            },
             "alignment": "neutral",
             "karmaShift": 0,
-            "success": { "text": "역장의 시간 조작에는 쿨다운이 있다! 그 틈을 포착한다.", "effects": [] },
-            "failure": { "text": "원리는 이해했지만 몸이 따라가지 못한다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -6 }] }
+            "success": {
+              "text": "역장의 시간 조작에는 쿨다운이 있다! 그 틈을 포착한다.",
+              "effects": []
+            },
+            "failure": {
+              "text": "원리는 이해했지만 몸이 따라가지 못한다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -9
+                }
+              ]
+            }
           },
           {
             "text": "\"시간표를 어긴 건 네 쪽이야!\"",
-            "check": { "stat": "bond", "dc": 7 },
+            "check": {
+              "stat": "bond",
+              "dc": 8
+            },
             "alignment": "light",
             "karmaShift": 5,
-            "success": { "text": "역장의 시계 얼굴에 균열이 간다. \"...시간 오류? 그럴 리가.\" 시간 정지가 풀린다.", "effects": [] },
-            "failure": { "text": "\"시간표는 절대적이다.\" 열차가 더 빠르게 온다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -5 }] }
+            "success": {
+              "text": "역장의 시계 얼굴에 균열이 간다. \"...시간 오류? 그럴 리가.\" 시간 정지가 풀린다.",
+              "effects": []
+            },
+            "failure": {
+              "text": "\"시간표는 절대적이다.\" 열차가 더 빠르게 온다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -9
+                }
+              ]
+            }
           }
         ]
       },
@@ -226,27 +759,146 @@
         "choices": [
           {
             "text": "열차의 비상 브레이크를 찾는다",
-            "check": { "stat": "reason", "dc": 7 },
+            "check": {
+              "stat": "reason",
+              "dc": 8
+            },
             "alignment": "neutral",
             "karmaShift": 0,
-            "success": { "text": "선로 옆 비상 레버를 당긴다! 열차가 불꽃을 일으키며 멈춘다. 역장이 무릎을 꿇는다.", "effects": [] },
-            "failure": { "text": "레버가 녹슬어 움직이지 않는다!", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -8 }] }
+            "success": {
+              "text": "선로 옆 비상 레버를 당긴다! 열차가 불꽃을 일으키며 멈춘다. 역장이 무릎을 꿇는다.",
+              "effects": []
+            },
+            "failure": {
+              "text": "레버가 녹슬어 움직이지 않는다!",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -9
+                }
+              ]
+            }
           },
           {
             "text": "열차를 정면으로 받아낸다",
-            "check": { "stat": "body", "dc": 8 },
+            "check": {
+              "stat": "body",
+              "dc": 9
+            },
             "alignment": "dark",
             "karmaShift": -5,
-            "success": { "text": "두 손으로 열차의 앞부분을 잡는다. 발이 선로에 파이면서 — 열차가 멈춘다. 불가능한 힘.", "effects": [] },
-            "failure": { "text": "열차의 무게에 밀려난다. 뼈가 으스러진다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -10 }] }
+            "success": {
+              "text": "두 손으로 열차의 앞부분을 잡는다. 발이 선로에 파이면서 — 열차가 멈춘다. 불가능한 힘.",
+              "effects": []
+            },
+            "failure": {
+              "text": "열차의 무게에 밀려난다. 뼈가 으스러진다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -9
+                }
+              ]
+            }
           },
           {
             "text": "역장의 호루라기를 분다",
-            "check": { "stat": "bond", "dc": 6 },
+            "check": {
+              "stat": "bond",
+              "dc": 8
+            },
             "alignment": "light",
             "karmaShift": 5,
-            "success": { "text": "떨어진 호루라기를 집어 문다. '삐—!'\n\n모든 열차가 멈춘다. 역장이 경악한다.\n\"...정차 신호? 내 호루라기가... 너를 인정한 거야?\"", "effects": [] },
-            "failure": { "text": "호루라기에서 소리가 나지 않는다. 당신은 역장이 아니니까.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -6 }] }
+            "success": {
+              "text": "떨어진 호루라기를 집어 문다. '삐—!'\n\n모든 열차가 멈춘다. 역장이 경악한다.\n\"...정차 신호? 내 호루라기가... 너를 인정한 거야?\"",
+              "effects": []
+            },
+            "failure": {
+              "text": "호루라기에서 소리가 나지 않는다. 당신은 역장이 아니니까.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -9
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "text": "역장의 시계 얼굴이 산산조각 난다. 그 안에서 — 모든 시간이 동시에 흐른다.\n\n과거와 미래의 열차가 한꺼번에 달려온다. 선로가 하나로 합쳐진다.\n\n\"최후열차 — 시간 자체가 너를 삼킨다.\"",
+        "choices": [
+          {
+            "text": "시간의 흐름을 역으로 거슬러 올라간다",
+            "check": {
+              "stat": "reason",
+              "dc": 10
+            },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": {
+              "text": "과거의 열차 사이에서 법칙을 발견한다. 시간은 직선이 아니라 원이다. 원의 중심에 서자 — 모든 것이 멈춘다.",
+              "effects": []
+            },
+            "failure": {
+              "text": "시간에 휩쓸린다. 과거의 자신이 현재의 자신을 때린다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -10
+                }
+              ]
+            }
+          },
+          {
+            "text": "온몸으로 최후열차를 막아선다",
+            "check": {
+              "stat": "body",
+              "dc": 10
+            },
+            "alignment": "dark",
+            "karmaShift": -5,
+            "success": {
+              "text": "두 발을 선로에 박고 버틴다. 열차가 밀어붙인다. 뼈가 삐걱거린다. 하지만 — 멈춘다. 불가능한 힘으로.",
+              "effects": []
+            },
+            "failure": {
+              "text": "열차의 무게에 밀려난다. 시간의 파편이 온몸을 관통한다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -10
+                }
+              ]
+            }
+          },
+          {
+            "text": "\"네 시간도 멈출 자격이 있어.\"",
+            "check": {
+              "stat": "bond",
+              "dc": 9
+            },
+            "alignment": "light",
+            "karmaShift": 8,
+            "success": {
+              "text": "역장의 깨진 시계 얼굴 너머로 — 사람의 눈이 보인다. 눈에 눈물이 고여있다.\n\n\"...멈춰도 되는 거였어?\"\n\n모든 열차가 정차한다. 역장이 무릎을 꿇는다.",
+              "effects": []
+            },
+            "failure": {
+              "text": "\"시간은 멈추지 않는다. 그것이 유일한 규칙이다.\" 열차가 가속한다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -10
+                }
+              ]
+            }
           }
         ]
       }
@@ -259,9 +911,21 @@
     "speaker": "station_master",
     "text": "선로가 조용해진다.\n\n역장이 바닥에 앉아있다. 시계 얼굴의 분침이 멈춰있다. 처음으로.\n\n\"...시간이 멈추면 이렇게 고요한 거였어.\"\n\n그가 중앙행 열차를 가리킨다.\n\n\"타. 시간표에 '운행 장애'로 기록한다. 시장에게는 단순 지연으로 보일 거야.\"\n\n\"하지만 중앙에 도착하면 — 돌아올 수 없을지도 모른다.\"\n\n\"...행운을 빈다, 승객.\"",
     "effects": [
-      { "type": "setFlag", "flag": "boss_stationmaster_defeated" },
-      { "type": "addEngrams", "value": 35 },
-      { "type": "addAbyssMemory", "id": "mem_stationmaster_farewell", "label": "역장의 작별 인사", "weight": 3, "source": "terminal" }
+      {
+        "type": "setFlag",
+        "flag": "boss_stationmaster_defeated"
+      },
+      {
+        "type": "addEngrams",
+        "value": 40
+      },
+      {
+        "type": "addAbyssMemory",
+        "id": "mem_stationmaster_farewell",
+        "label": "역장의 작별 인사",
+        "weight": 3,
+        "source": "terminal"
+      }
     ],
     "choices": [
       {
@@ -270,7 +934,11 @@
       },
       {
         "text": "플랫폼 0으로 돌아가 준비한다",
-        "effects": [{ "type": "fullHeal" }],
+        "effects": [
+          {
+            "type": "fullHeal"
+          }
+        ],
         "nextScene": "hub_platform0"
       }
     ]

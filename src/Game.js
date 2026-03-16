@@ -28,6 +28,11 @@ import DialogueLog from './ui/DialogueLog.js';
 import { createElement, deepClone, delay } from './utils/helpers.js';
 import { processDeath } from './engine/DeathHandler.js';
 import { testEnemy, testRounds, testRewards } from './data/testCombat.js';
+import {
+  trackGameStart, trackGameResume, trackSceneEnter,
+  trackChoice, trackCombatStart, trackCombatResult,
+  trackDeath, trackCompanionRecruit, trackEnding,
+} from './analytics.js';
 
 // 데이터 import
 import prologueScenes from './data/scenes/prologue.json';
@@ -231,6 +236,20 @@ export default class Game {
     this.inventoryPanel.hide();
     this.audioManager.stopBGM();
     this.bgEl.className = 'game-background';
+
+    // Clear district theme + particles on title
+    const toRemove = [];
+    document.body.classList.forEach(cls => {
+      if (cls.startsWith('district-') || cls.startsWith('particles-') || cls.startsWith('transition-')) {
+        toRemove.push(cls);
+      }
+    });
+    toRemove.forEach(cls => document.body.classList.remove(cls));
+    const particleEl = document.querySelector('.particle-container');
+    if (particleEl) particleEl.remove();
+    // 전환 오버레이 잔여물 정리
+    document.querySelectorAll('.scene-transition-overlay, .boss-entrance-overlay, .damage-vignette, .hp-critical-screen').forEach(el => el.remove());
+
     this.titleScreen.show();
   }
 
@@ -252,6 +271,7 @@ export default class Game {
 
     // 첫 씬 시작
     this._queuedSceneId = null;
+    trackGameStart(this.metaProgression.data.runCount);
     this.playScene(gameConfig.startScene);
   }
 
@@ -264,6 +284,7 @@ export default class Game {
 
     const currentScene = this.stateManager.state.currentScene;
     this._queuedSceneId = null;
+    trackGameResume(currentScene, 'save');
     if (currentScene) {
       this.playScene(currentScene);
     } else {
@@ -278,6 +299,7 @@ export default class Game {
       this.stateManager,
       this.metaProgression
     );
+    trackDeath(this.stateManager.state.currentScene, remaining, isGameOver);
 
     // 기억 상실 씬이 있으면 먼저 재생
     if (lostMemory && lostMemory.lossScene) {
@@ -320,15 +342,36 @@ export default class Game {
       return;
     }
 
-    // 같은 씬에서 재시작
+    // 재부팅 플래그 — 전환 효과 스킵용
+    this._isRebooting = true;
+
+    // 전투 씬에서 죽은 경우 → 전투 직전의 대화 씬으로 복귀
+    // (같은 전투 씬으로 돌아가면 즉시 전투 재개 → 반복 사망 루프)
+    let rebootScene = this.stateManager.state.currentScene;
+    const scene = rebootScene ? this.sceneManager.getScene(rebootScene) : null;
+    if (scene && scene.type === 'combat') {
+      // 전투 씬의 상위 허브/탐험 씬으로 복귀
+      // 허브가 가장 안전한 복귀 지점
+      rebootScene = 'hub_platform0';
+    }
+
+    // UI 복원
     this.statsPanel.el.classList.remove('hidden');
     this.statsPanel.update();
     this.menuBar.show();
 
-    const currentScene = this.stateManager.state.currentScene;
-    if (currentScene) {
-      this.playScene(currentScene);
+    // 전환 오버레이 정리
+    document.querySelectorAll('.scene-transition-overlay, .boss-entrance-overlay, .damage-vignette, .hp-critical-screen').forEach(el => el.remove());
+
+    // 씬 전환 큐 초기화 (중복 방지)
+    this._sceneTransitioning = false;
+    this._queuedSceneId = null;
+
+    if (rebootScene) {
+      this.playScene(rebootScene);
     }
+
+    this._isRebooting = false;
   }
 
   // --- 씬 재생 ---
@@ -346,6 +389,22 @@ export default class Game {
       if (this.dialogueRenderer.isTyping) {
         this.dialogueRenderer.skip();
       }
+
+      // Determine transition type based on previous and next scene
+      const fromSceneId = this.stateManager.state.currentScene;
+      const transitionType = this._getTransitionType(fromSceneId, sceneId);
+
+      // Play transition for significant scene changes (not simple fades within same district)
+      const fromDistrict = this._getDistrictFromScene(fromSceneId);
+      const toDistrict = this._getDistrictFromScene(sceneId);
+      const needsTransition = transitionType !== 'fade' || fromDistrict !== toDistrict;
+
+      if (needsTransition && fromSceneId && !this._isRebooting) {
+        await new Promise(resolve => {
+          this._playTransition(transitionType, resolve);
+        });
+      }
+
       await this._playSceneInner(sceneId);
     } finally {
       this._sceneTransitioning = false;
@@ -410,7 +469,11 @@ export default class Game {
       return;
     }
 
+    // Apply district theme + particles based on scene ID
+    this._applyDistrictTheme(sceneId);
+
     this.stateManager.setCurrentScene(sceneId);
+    trackSceneEnter(sceneId, scene.type);
     if (this.settingsPanel.autoSaveEnabled) {
       const autoSaved = this.saveLoadSystem.autoSave();
       if (autoSaved) {
@@ -437,6 +500,7 @@ export default class Game {
       this.metaProgression.recordVictory();
       this.metaProgression.recordEnding(scene.endingType);
       this.metaProgression.save();
+      trackEnding(scene.endingType);
     }
 
     switch (scene.type) {
@@ -504,6 +568,8 @@ export default class Game {
     const selected = await this.choiceButtons.showChoices(availableChoices);
     if (!selected) return;
 
+    trackChoice(scene.id, availableChoices.indexOf(selected), selected.text, selected.nextScene);
+
     if (selected.effects) {
       this.sceneManager.applyEffects(selected.effects);
     }
@@ -538,6 +604,12 @@ export default class Game {
 
     // 전투 UI 표시
     this.combatUI.show();
+    trackCombatStart(scene.enemy, scene.rounds.length);
+
+    // scene-level maxFails override → enemyData로 전달
+    if (typeof scene.maxFails === 'number') {
+      enemyData.maxFails = scene.maxFails;
+    }
 
     // 전투 시작
     return new Promise(resolve => {
@@ -554,6 +626,7 @@ export default class Game {
           await delay(1000);
           this.combatUI.hide();
 
+          trackCombatResult(scene.enemy, result.victory);
           if (result.victory) {
             this.audioManager.playSFX('victory.mp3');
             if (scene.victoryScene) {
@@ -672,6 +745,107 @@ export default class Game {
     this.inventoryPanel.hide();
     this.settingsPanel.hide();
     this.dialogueLog.hide();
+  }
+
+  // --- 지구 테마 / 파티클 / 전환 ---
+
+  _getDistrictFromScene(sceneId) {
+    if (!sceneId) return 'hub';
+    if (sceneId.startsWith('district_a') || sceneId.includes('archive') || sceneId.includes('soyeon') || sceneId.includes('junseo')) return 'a';
+    if (sceneId.startsWith('district_b') || sceneId.includes('minjun') || sceneId.includes('jeongsu')) return 'b';
+    if (sceneId.startsWith('district_c') || sceneId.includes('hayoung') || sceneId.includes('yuri')) return 'c';
+    if (sceneId.startsWith('district_d') || sceneId.includes('narae') || sceneId.includes('taehyun')) return 'd';
+    if (sceneId.startsWith('terminal')) return 'terminal';
+    if (sceneId.startsWith('core')) return 'core';
+    return 'hub';
+  }
+
+  _applyDistrictTheme(sceneId) {
+    const district = this._getDistrictFromScene(sceneId);
+    const body = document.body;
+
+    // Remove old district/particle classes
+    const toRemove = [];
+    body.classList.forEach(cls => {
+      if (cls.startsWith('district-') || cls.startsWith('particles-')) {
+        toRemove.push(cls);
+      }
+    });
+    toRemove.forEach(cls => body.classList.remove(cls));
+
+    // Apply new district class
+    const districtMap = {
+      'a': 'district-a',
+      'b': 'district-b',
+      'c': 'district-c',
+      'd': 'district-d',
+      'terminal': 'district-terminal',
+      'core': 'district-core',
+      'hub': 'district-hub',
+    };
+
+    const districtClass = districtMap[district];
+    if (districtClass) {
+      body.classList.add(districtClass);
+      body.classList.add(`particles-${districtClass}`);
+    }
+
+    // Manage particle container element
+    let particleEl = document.querySelector('.particle-container');
+    if (!particleEl && district !== 'hub') {
+      particleEl = document.createElement('div');
+      particleEl.className = 'particle-container';
+      document.body.appendChild(particleEl);
+    } else if (particleEl && district === 'hub') {
+      particleEl.remove();
+    }
+  }
+
+  _getTransitionType(fromSceneId, toSceneId) {
+    const toScene = toSceneId ? this.sceneManager.getScene(toSceneId) : null;
+
+    // Combat entry
+    if (toScene && toScene.type === 'combat') {
+      const enemyData = toScene.enemy ? this.sceneManager.getEnemy(toScene.enemy) : null;
+      const isBoss = enemyData && enemyData.tier === 'boss';
+      return isBoss ? 'boss' : 'combat';
+    }
+    // Subway travel (map destinations or entrance scenes)
+    if (fromSceneId === '__map__' || (toSceneId && toSceneId.includes('entrance')) || toSceneId === 'hub_platform0') {
+      return 'subway';
+    }
+    // Death
+    if (toSceneId === '__death__') return 'death';
+    // Chapter complete
+    if (toSceneId && (toSceneId.includes('complete') || toSceneId.includes('clear'))) return 'chapter';
+    // Default
+    return 'fade';
+  }
+
+  _playTransition(type, callback) {
+    // 기존 오버레이 정리 (중첩 방지)
+    document.querySelectorAll('.scene-transition-overlay').forEach(el => el.remove());
+    const overlay = document.createElement('div');
+    overlay.className = 'scene-transition-overlay';
+    document.body.appendChild(overlay);
+    document.body.classList.add(`transition-${type}`);
+
+    const durations = { fade: 600, combat: 800, boss: 2000, subway: 1200, death: 1500, chapter: 3000 };
+    const duration = durations[type] || 600;
+
+    // Force reflow so animation starts
+    overlay.offsetHeight; // eslint-disable-line no-unused-expressions
+
+    // Execute callback at midpoint
+    setTimeout(() => {
+      if (callback) callback();
+    }, duration * 0.4);
+
+    // Clean up
+    setTimeout(() => {
+      overlay.remove();
+      document.body.classList.remove(`transition-${type}`);
+    }, duration);
   }
 
   // --- 유틸 ---

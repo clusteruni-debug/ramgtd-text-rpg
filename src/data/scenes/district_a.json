@@ -4,9 +4,12 @@
     "type": "dialogue",
     "background": "corridor",
     "speaker": null,
-    "text": "지하철 문이 열리자 — 침묵이 쏟아져 들어온다.\n\n거대한 석조 건물들이 늘어선 거리. 고풍스러운 저택들이지만 모든 창문에 격자가 달려있다.\n\n주민들이 걸어다닌다. 모두 입이 꿰매져 있다. 실 대신 검은 철사로.\n\n곳곳에 표지판이 서 있다: 『정숙(SILENCE)』\n\n역 안내판:\n『A지구: 침묵의 멘션 — 소음 필터 시설』\n『소리는 오염입니다. 침묵은 정화입니다.』",
+    "text": "지하철 문이 열리자 — 침묵이 쏟아져 들어온다.\n\n발소리가 바닥에 닿기 전에 사라진다. 이 지구에서는 소리가 존재하기를 거부하는 것 같았다.\n\n거대한 석조 건물들이 늘어선 거리. 고풍스러운 저택들이지만 모든 창문에 격자가 달려있다.\n\n주민들이 걸어다닌다. 모두 입이 꿰매져 있다. 실 대신 검은 철사로.\n\n곳곳에 표지판이 서 있다: 『정숙(SILENCE)』\n\n역 안내판:\n『A지구: 침묵의 멘션 — 소음 필터 시설』\n『소리는 오염입니다. 침묵은 정화입니다.』",
     "effects": [
-      { "type": "setFlag", "flag": "district_a_visited" }
+      {
+        "type": "setFlag",
+        "flag": "district_a_visited"
+      }
     ],
     "choices": [
       {
@@ -18,7 +21,7 @@
         "nextScene": "district_a_station"
       },
       {
-        "text": "지하철로 돌아간다",
+        "text": "지하철로 돌아간다. ...발소리가 여기선 범죄다.",
         "nextScene": "hub_platform0"
       }
     ]
@@ -33,8 +36,14 @@
       {
         "text": "책갈피를 가져간다",
         "effects": [
-          { "type": "addItem", "item": "silence_bookmark" },
-          { "type": "setFlag", "flag": "picked_bookmark" }
+          {
+            "type": "addItem",
+            "item": "silence_bookmark"
+          },
+          {
+            "type": "setFlag",
+            "flag": "picked_bookmark"
+          }
         ],
         "nextScene": "district_a_street"
       },
@@ -49,7 +58,7 @@
     "type": "dialogue",
     "background": "corridor",
     "speaker": null,
-    "text": "침묵의 거리. 발소리조차 흡수되는 듯하다.\n\n좌측: 거대한 도서관. 『중앙 기록 보관소』라고 적혀있다. 사서의 본거지.\n우측: 좁은 골목에서 누군가 수화를 하며 물건을 거래하고 있다 — 속삭임의 시장.\n정면: 주거 구역. 저택들이 줄지어 있다. 검열 드론이 순찰 중이다.\n\n곁길에 눈에 띄는 것들이 더 있다. 지하로 내려가는 계단, 닫힌 전시관, 꽃이 핀 정원, 그리고 검은 리본이 달린 저택.",
+    "text": "침묵의 거리. 발소리조차 흡수되는 듯하다.\n\n공기가 두껍다. 소리를 삼키는 공기.\n\n좌측: 거대한 도서관. 『중앙 기록 보관소』라고 적혀있다. 사서의 본거지.\n우측: 좁은 골목에서 누군가 수화를 하며 물건을 거래하고 있다 — 속삭임의 시장.\n정면: 주거 구역. 저택들이 줄지어 있다. 검열 드론이 순찰 중이다.\n\n곁길에 눈에 띄는 것들이 더 있다. 지하로 내려가는 계단, 닫힌 전시관, 꽃이 핀 정원, 그리고 검은 리본이 달린 저택.",
     "choices": [
       {
         "text": "속삭임의 시장으로 간다",
@@ -61,30 +70,61 @@
       },
       {
         "text": "지하 계단으로 내려간다",
-        "conditions": [{ "type": "hasFlag", "flag": "explored_a_whisper", "value": false }],
+        "conditions": [
+          {
+            "type": "hasFlag",
+            "flag": "explored_a_whisper",
+            "value": false
+          }
+        ],
         "nextScene": "district_a_whisper_net"
       },
       {
         "text": "숨겨진 교실로 내려간다",
         "conditions": [
-          { "type": "hasFlag", "flag": "explored_a_whisper" },
-          { "type": "hasFlag", "flag": "junseo_recruited", "value": false }
+          {
+            "type": "hasFlag",
+            "flag": "explored_a_whisper"
+          },
+          {
+            "type": "hasFlag",
+            "flag": "junseo_recruited",
+            "value": false
+          }
         ],
         "nextScene": "district_a_exam_hall"
       },
       {
         "text": "닫힌 전시관을 살핀다",
-        "conditions": [{ "type": "hasFlag", "flag": "explored_a_museum", "value": false }],
+        "conditions": [
+          {
+            "type": "hasFlag",
+            "flag": "explored_a_museum",
+            "value": false
+          }
+        ],
         "nextScene": "district_a_museum"
       },
       {
         "text": "꽃이 핀 정원으로 간다",
-        "conditions": [{ "type": "hasFlag", "flag": "explored_a_garden", "value": false }],
+        "conditions": [
+          {
+            "type": "hasFlag",
+            "flag": "explored_a_garden",
+            "value": false
+          }
+        ],
         "nextScene": "district_a_sound_garden"
       },
       {
         "text": "검은 리본이 달린 저택",
-        "conditions": [{ "type": "hasFlag", "flag": "explored_a_daughter", "value": false }],
+        "conditions": [
+          {
+            "type": "hasFlag",
+            "flag": "explored_a_daughter",
+            "value": false
+          }
+        ],
         "nextScene": "district_a_daughter_room"
       },
       {
@@ -92,7 +132,7 @@
         "nextScene": "district_a_archive_gate"
       },
       {
-        "text": "지하철역으로 돌아간다",
+        "text": "지하철역으로 돌아간다. 침묵이 등 뒤에서 따라온다.",
         "nextScene": "district_a_entrance"
       }
     ]
@@ -113,7 +153,7 @@
         "nextScene": "district_a_market_browse"
       },
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 수화가 공기 중에 흔적을 남긴다.",
         "nextScene": "district_a_street"
       }
     ]
@@ -127,10 +167,21 @@
     "choices": [
       {
         "text": "진통제 구매 (💎10)",
-        "conditions": [{ "type": "engramGreaterThan", "value": 9 }],
+        "conditions": [
+          {
+            "type": "engramGreaterThan",
+            "value": 9
+          }
+        ],
         "effects": [
-          { "type": "addEngrams", "value": -10 },
-          { "type": "addItem", "item": "painkiller" }
+          {
+            "type": "addEngrams",
+            "value": -10
+          },
+          {
+            "type": "addItem",
+            "item": "painkiller"
+          }
         ],
         "nextScene": "district_a_market"
       },
@@ -139,7 +190,7 @@
         "nextScene": "district_a_soyeon_01"
       },
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 상인의 경고가 마음에 걸린다.",
         "nextScene": "district_a_street"
       }
     ]
@@ -154,9 +205,30 @@
       {
         "text": "\"같이 가자\"",
         "effects": [
-          { "type": "addCompanion", "companion": "soyeon", "name": "소연", "trustLevel": 20, "skills": [{ "id": "silent_signal", "name": "무언의 신호", "description": "소리 없이 적의 주의를 분산한다 (감각 체크 DC-1)" }] },
-          { "type": "setFlag", "flag": "soyeon_recruited" },
-          { "type": "addAbyssMemory", "id": "mem_soyeon_recruit", "label": "소연의 쪽지", "weight": 2, "source": "district_a" }
+          {
+            "type": "addCompanion",
+            "companion": "soyeon",
+            "name": "소연",
+            "trustLevel": 20,
+            "skills": [
+              {
+                "id": "silent_signal",
+                "name": "무언의 신호",
+                "description": "소리 없이 적의 주의를 분산한다 (감각 체크 DC-1)"
+              }
+            ]
+          },
+          {
+            "type": "setFlag",
+            "flag": "soyeon_recruited"
+          },
+          {
+            "type": "addAbyssMemory",
+            "id": "mem_soyeon_recruit",
+            "label": "소연의 쪽지",
+            "weight": 2,
+            "source": "district_a"
+          }
         ],
         "nextScene": "district_a_soyeon_joined"
       },
@@ -180,9 +252,30 @@
       {
         "text": "\"같이 가자, 소연\"",
         "effects": [
-          { "type": "addCompanion", "companion": "soyeon", "name": "소연", "trustLevel": 25, "skills": [{ "id": "silent_signal", "name": "무언의 신호", "description": "소리 없이 적의 주의를 분산한다 (감각 체크 DC-1)" }] },
-          { "type": "setFlag", "flag": "soyeon_recruited" },
-          { "type": "addAbyssMemory", "id": "mem_soyeon_recruit", "label": "소연의 쪽지", "weight": 2, "source": "district_a" }
+          {
+            "type": "addCompanion",
+            "companion": "soyeon",
+            "name": "소연",
+            "trustLevel": 25,
+            "skills": [
+              {
+                "id": "silent_signal",
+                "name": "무언의 신호",
+                "description": "소리 없이 적의 주의를 분산한다 (감각 체크 DC-1)"
+              }
+            ]
+          },
+          {
+            "type": "setFlag",
+            "flag": "soyeon_recruited"
+          },
+          {
+            "type": "addAbyssMemory",
+            "id": "mem_soyeon_recruit",
+            "label": "소연의 쪽지",
+            "weight": 2,
+            "source": "district_a"
+          }
         ],
         "nextScene": "district_a_soyeon_joined"
       },
@@ -201,7 +294,12 @@
     "choices": [
       {
         "text": "기록 보관소로 간다",
-        "conditions": [{ "type": "hasFlag", "flag": "has_reading_permit" }],
+        "conditions": [
+          {
+            "type": "hasFlag",
+            "flag": "has_reading_permit"
+          }
+        ],
         "nextScene": "district_a_archive_gate"
       },
       {
@@ -219,9 +317,18 @@
     "choices": [
       {
         "text": "[이성 5] 규정의 허점을 찾아 논리적으로 설득한다",
-        "conditions": [{ "type": "statGreaterThan", "stat": "reason", "value": 4 }],
+        "conditions": [
+          {
+            "type": "statGreaterThan",
+            "stat": "reason",
+            "value": 4
+          }
+        ],
         "effects": [
-          { "type": "setFlag", "flag": "has_reading_permit" }
+          {
+            "type": "setFlag",
+            "flag": "has_reading_permit"
+          }
         ],
         "nextScene": "district_a_permit_obtained"
       },
@@ -230,7 +337,7 @@
         "nextScene": "district_a_drone_encounter"
       },
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 철사로 꿰맨 입술이 눈에 밟힌다.",
         "nextScene": "district_a_street"
       }
     ]
@@ -247,7 +354,7 @@
         "nextScene": "district_a_archive_gate"
       },
       {
-        "text": "거리로 돌아간다",
+        "text": "거리로 돌아간다. 관료주의는 어디서든 같은 모양이다.",
         "nextScene": "district_a_street"
       }
     ]
@@ -259,34 +366,89 @@
     "enemy": "censor_drone",
     "introText": "검열 드론이 당신을 감지했다!\n\n\"소음 위반 감지. 대상 스캔 중. 위반 등급: 측정 불가. 처리 프로토콜 가동.\"",
     "victoryScene": "district_a_drone_defeated",
-    "rewards": { "engrams": 8 },
+    "rewards": {
+      "engrams": 8
+    },
     "rounds": [
       {
         "text": "검열 드론이 음파 공격을 발사한다. 역설적이게도, 침묵을 강요하는 기계가 가장 시끄럽다.",
         "choices": [
           {
             "text": "소리 없이 접근해 전원부를 노린다",
-            "check": { "stat": "sense", "dc": 5 },
+            "check": {
+              "stat": "sense",
+              "dc": 5
+            },
             "alignment": "neutral",
             "karmaShift": 0,
-            "success": { "text": "드론의 전원부에 손이 닿았다! 스위치를 끈다.", "effects": [], "endCombat": true },
-            "failure": { "text": "드론이 반응했다. 음파가 귀를 때린다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -5 }] }
+            "success": {
+              "text": "드론의 전원부에 손이 닿았다! 스위치를 끈다.",
+              "effects": [],
+              "endCombat": true
+            },
+            "failure": {
+              "text": "드론이 반응했다. 음파가 귀를 때린다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -5
+                }
+              ]
+            }
           },
           {
             "text": "드론의 센서를 분석한다",
-            "check": { "stat": "reason", "dc": 6 },
+            "check": {
+              "stat": "reason",
+              "dc": 6
+            },
             "alignment": "neutral",
             "karmaShift": 0,
-            "success": { "text": "음파 센서의 사각지대를 발견! 조용히 우회한다.", "effects": [], "endCombat": true },
-            "failure": { "text": "분석 중 발소리를 냈다. 드론이 돌진한다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -4 }] }
+            "success": {
+              "text": "음파 센서의 사각지대를 발견! 조용히 우회한다.",
+              "effects": [],
+              "endCombat": true
+            },
+            "failure": {
+              "text": "분석 중 발소리를 냈다. 드론이 돌진한다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -4
+                }
+              ]
+            }
           },
           {
             "text": "큰 소리를 질러 드론을 과부하시킨다",
-            "check": { "stat": "body", "dc": 7 },
+            "check": {
+              "stat": "body",
+              "dc": 7
+            },
             "alignment": "dark",
             "karmaShift": -5,
-            "success": { "text": "\"아아아아!\" 드론의 센서가 과부하로 폭발한다! 하지만 이 소리는...", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -3 }] },
-            "failure": { "text": "드론이 소리를 흡수했다. 그리고 더 강하게 돌려보낸다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -8 }] }
+            "success": {
+              "text": "\"아아아아!\" 드론의 센서가 과부하로 폭발한다! 하지만 이 소리는...",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -3
+                }
+              ]
+            },
+            "failure": {
+              "text": "드론이 소리를 흡수했다. 그리고 더 강하게 돌려보낸다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -8
+                }
+              ]
+            }
           }
         ]
       }
@@ -297,9 +459,12 @@
     "type": "dialogue",
     "background": "corridor",
     "speaker": null,
-    "text": "드론이 바닥에 떨어진다. 잔해 속에서 열람 허가증 칩이 나온다.\n\n드론도 열람 권한이 있었던 모양이다. 검열하려면 읽어야 하니까.\n\n열람 허가증을 손에 넣었다.",
+    "text": "드론이 바닥에 떨어진다. 잔해 속에서 열람 허가증 칩이 나온다.\n\n드론도 열람 권한이 있었던 모양이다. 검열하려면 읽어야 하니까.\n\n잔해의 배너에서 한 글자만 검열되지 않고 남아있었다 — '자'. 자유? 자비? 아무도 모른다.\n\n열람 허가증을 손에 넣었다.",
     "effects": [
-      { "type": "setFlag", "flag": "has_reading_permit" }
+      {
+        "type": "setFlag",
+        "flag": "has_reading_permit"
+      }
     ],
     "choices": [
       {
@@ -307,7 +472,7 @@
         "nextScene": "district_a_archive_gate"
       },
       {
-        "text": "거리로 돌아간다",
+        "text": "거리로 돌아간다. 드론의 잔해에서 '자'라는 글자가 빛난다.",
         "nextScene": "district_a_street"
       }
     ]
@@ -317,9 +482,12 @@
     "type": "dialogue",
     "background": "corridor",
     "speaker": null,
-    "text": "지하 계단을 내려간다. 벽에 수화 기호가 화살표처럼 이어져 있다.\n\n좁은 터널 끝에 — 작은 방. 영혼 여덟이 둘러앉아 수화로 대화하고 있다.\n\n'속삭임 네트워크' — 검열을 피해 정보를 공유하는 비밀 모임이다.\n\n한 영혼이 당신을 보고 경계한다. 하지만 곧 수화로 '환영'을 표시한다.",
+    "text": "지하 계단을 내려갈수록 공기가 가벼워진다. 소리가 숨 쉴 수 있는 곳.\n\n지하 계단을 내려간다. 벽에 수화 기호가 화살표처럼 이어져 있다.\n\n좁은 터널 끝에 — 작은 방. 영혼 여덟이 둘러앉아 수화로 대화하고 있다.\n\n'속삭임 네트워크' — 검열을 피해 정보를 공유하는 비밀 모임이다.\n\n한 영혼이 당신을 보고 경계한다. 하지만 곧 수화로 '환영'을 표시한다.",
     "effects": [
-      { "type": "setFlag", "flag": "explored_a_whisper" }
+      {
+        "type": "setFlag",
+        "flag": "explored_a_whisper"
+      }
     ],
     "choices": [
       {
@@ -327,7 +495,7 @@
         "nextScene": "district_a_whisper_join"
       },
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 수화 기호가 벽에서 손짓한다.",
         "nextScene": "district_a_street"
       }
     ]
@@ -339,8 +507,18 @@
     "speaker": null,
     "text": "쪽지가 돌아온다.\n\n'우리는 속삭임 네트워크. 사서가 지우지 못한 진실을 보존하는 사람들.'\n\n'기록 보관소 안에 — 사서가 처음 침묵 명령을 내린 이유가 적힌 문서가 있어. 첫 번째 침묵 명령서.'\n\n'그걸 사서 앞에서 읽으면... 사서가 멈출 수도 있어. 예전의 자신을 기억할 수도 있으니까.'\n\n'그리고 이거. 검열 드론의 순찰 시간표야. 도움이 될 거야.'",
     "effects": [
-      { "type": "addAbyssMemory", "id": "mem_whisper_network", "label": "속삭임 네트워크의 진실", "weight": 2, "source": "district_a" },
-      { "type": "modifyStat", "stat": "reason", "value": 1 }
+      {
+        "type": "addAbyssMemory",
+        "id": "mem_whisper_network",
+        "label": "속삭임 네트워크의 진실",
+        "weight": 2,
+        "source": "district_a"
+      },
+      {
+        "type": "modifyStat",
+        "stat": "reason",
+        "value": 1
+      }
     ],
     "choices": [
       {
@@ -348,7 +526,7 @@
         "nextScene": "district_a_banned_books"
       },
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 진실을 보존하는 사람들이 여기 있다.",
         "nextScene": "district_a_street"
       }
     ]
@@ -360,25 +538,36 @@
     "speaker": null,
     "text": "영혼들이 쪽지를 주고받으며 고개를 끄덕인다.\n\n방 한쪽 벽에 — 숨겨진 선반이 있다. 책이 꽂혀있다. 사서가 지운 줄 알았던 책들.\n\n한 권을 꺼내본다. 동화책이다.\n\n'아주 작은 새가 노래를 불렀습니다.\n 아무도 듣지 않았지만, 새는 계속 불렀습니다.\n 왜냐하면 노래는 듣는 사람을 위한 것이 아니라,\n 부르는 사람을 위한 것이니까요.'\n\n...이런 책이 검열 대상이었다.",
     "effects": [
-      { "type": "addAbyssMemory", "id": "mem_banned_story", "label": "검열된 동화 — 작은 새의 노래", "weight": 2, "source": "district_a" },
-      { "type": "modifyKarma", "value": 3 }
+      {
+        "type": "addAbyssMemory",
+        "id": "mem_banned_story",
+        "label": "검열된 동화 — 작은 새의 노래",
+        "weight": 2,
+        "source": "district_a"
+      },
+      {
+        "type": "modifyKarma",
+        "value": 3
+      }
     ],
     "choices": [
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 작은 새의 노래가 귓가에 맴돈다.",
         "nextScene": "district_a_street"
       }
     ]
   },
-
   {
     "id": "district_a_museum",
     "type": "dialogue",
     "background": "corridor",
     "speaker": null,
-    "text": "닫힌 전시관. 간판에 적혀있다: '검열 역사 전시관 — 무기한 폐쇄'\n\n하지만 자물쇠가 부서져 있다. 누군가 먼저 들어간 흔적.",
+    "text": "전시관 안은 먼지가 소리를 내며 떨어진다. 이 도시에서 유일하게 소리가 나는 먼지.\n\n닫힌 전시관. 간판에 적혀있다: '검열 역사 전시관 — 무기한 폐쇄'\n\n하지만 자물쇠가 부서져 있다. 누군가 먼저 들어간 흔적.",
     "effects": [
-      { "type": "setFlag", "flag": "explored_a_museum" }
+      {
+        "type": "setFlag",
+        "flag": "explored_a_museum"
+      }
     ],
     "choices": [
       {
@@ -386,7 +575,7 @@
         "nextScene": "district_a_museum_inside"
       },
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 부서진 자물쇠가 작은 반항이다.",
         "nextScene": "district_a_street"
       }
     ]
@@ -398,17 +587,26 @@
     "speaker": null,
     "text": "전시관 내부. 벽에 연대기가 적혀있다.\n\n'1기: 거짓말만 검열. 시민 만족도 높음.'\n'2기: 악의적 발언 추가 검열. 일부 반발.'\n'3기: 비판적 의견 검열. 저항 발생.'\n'4기: 감정 표현 검열. 저항 소멸.'\n'5기: 모든 소리 검열. 현재.'\n\n마지막 전시물 — 사서의 원래 직함이 적힌 배지.\n\n'A지구 기록 보관 사서 — 임무: 진실의 보존'\n\n...보존이 검열로 바뀐 순간이 있었다.",
     "effects": [
-      { "type": "addAbyssMemory", "id": "mem_censorship_history", "label": "검열의 5단계 역사", "weight": 3, "source": "district_a" },
-      { "type": "modifyStat", "stat": "reason", "value": 1 }
+      {
+        "type": "addAbyssMemory",
+        "id": "mem_censorship_history",
+        "label": "검열의 5단계 역사",
+        "weight": 3,
+        "source": "district_a"
+      },
+      {
+        "type": "modifyStat",
+        "stat": "reason",
+        "value": 1
+      }
     ],
     "choices": [
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 보존이 검열로 바뀐 순간을 기억해야 한다.",
         "nextScene": "district_a_street"
       }
     ]
   },
-
   {
     "id": "district_a_sound_garden",
     "type": "dialogue",
@@ -416,7 +614,10 @@
     "speaker": null,
     "text": "석조 건물 사이에 숨겨진 작은 정원.\n\n놀랍게도 — 소리가 들린다. 바람 소리. 나뭇잎 소리. 물 흐르는 소리.\n\n이 도시에서 유일하게 소리가 살아있는 공간.\n\n정원 한가운데에 풍경(風磬)이 달려있다. 누군가 검열 드론의 감지 범위 밖에 만들어 놓은 것이다.",
     "effects": [
-      { "type": "setFlag", "flag": "explored_a_garden" }
+      {
+        "type": "setFlag",
+        "flag": "explored_a_garden"
+      }
     ],
     "choices": [
       {
@@ -428,7 +629,7 @@
         "nextScene": "district_a_garden_maker"
       },
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 이곳에서만 바람이 노래한다.",
         "nextScene": "district_a_street"
       }
     ]
@@ -440,12 +641,22 @@
     "speaker": null,
     "text": "눈을 감고 풍경 소리를 듣는다.\n\n딸랑. 딸랑.\n\n...소리가 있다는 것. 그것만으로 눈물이 날 것 같다.\n\n이 도시의 영혼들은 이 소리를 들으려고 여기까지 온다. 검열 드론을 피해서.\n\n풍경 아래에 작은 글씨:\n'소리는 지울 수 있어도, 소리를 원하는 마음은 지울 수 없다.'",
     "effects": [
-      { "type": "modifyStat", "stat": "hp", "value": 5 },
-      { "type": "addAbyssMemory", "id": "mem_sound_garden", "label": "소리 정원의 풍경 소리", "weight": 2, "source": "district_a" }
+      {
+        "type": "modifyStat",
+        "stat": "hp",
+        "value": 5
+      },
+      {
+        "type": "addAbyssMemory",
+        "id": "mem_sound_garden",
+        "label": "소리 정원의 풍경 소리",
+        "weight": 2,
+        "source": "district_a"
+      }
     ],
     "choices": [
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 풍경 소리가 아직 귓속에서 울린다.",
         "nextScene": "district_a_street"
       }
     ]
@@ -457,25 +668,34 @@
     "speaker": null,
     "text": "정원 구석에 노인 영혼이 앉아있다. 입이 봉합되어 있지만 — 눈이 웃고 있다.\n\n그가 쪽지를 보여준다.\n\n'나는 음악가였어. 피아노를 쳤지. 여기 와서 소리를 잃었지만 — 소리를 만드는 건 못 막아.'\n\n'이 정원은 내가 기억으로 만들었어. 기억 하나에 소리 하나.'\n\n'기억이 다 사라지면 이 정원도 사라지겠지. 그때까지는 지킬 거야.'",
     "effects": [
-      { "type": "modifyKarma", "value": 5 },
-      { "type": "modifyStat", "stat": "bond", "value": 1 }
+      {
+        "type": "modifyKarma",
+        "value": 5
+      },
+      {
+        "type": "modifyStat",
+        "stat": "bond",
+        "value": 1
+      }
     ],
     "choices": [
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 기억을 태우면서도 소리를 지키는 사람이 있다.",
         "nextScene": "district_a_street"
       }
     ]
   },
-
   {
     "id": "district_a_daughter_room",
     "type": "dialogue",
     "background": "corridor",
     "speaker": null,
-    "text": "검은 리본이 달린 저택. 다른 저택들과 달리 문이 열려있다.\n\n안으로 들어가면 — 소녀의 방이다. 벽에 포스터, 책상에 노트, 침대에 인형.\n\n모든 것이 검게 칠해져 있다. 사서의 검열 잉크.\n\n하지만 한 곳만 — 베개 아래에 숨겨진 일기장은 검열되지 않았다.",
+    "text": "방 안에 어린 향수 냄새가 남아있다. 검열 잉크로도 지울 수 없었던 냄새.\n\n검은 리본이 달린 저택. 다른 저택들과 달리 문이 열려있다.\n\n안으로 들어가면 — 소녀의 방이다. 벽에 포스터, 책상에 노트, 침대에 인형.\n\n모든 것이 검게 칠해져 있다. 사서의 검열 잉크.\n\n하지만 한 곳만 — 베개 아래에 숨겨진 일기장은 검열되지 않았다.",
     "effects": [
-      { "type": "setFlag", "flag": "explored_a_daughter" }
+      {
+        "type": "setFlag",
+        "flag": "explored_a_daughter"
+      }
     ],
     "choices": [
       {
@@ -483,7 +703,7 @@
         "nextScene": "district_a_daughter_diary"
       },
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 검은 리본이 바람에 흔들린다.",
         "nextScene": "district_a_street"
       }
     ]
@@ -495,18 +715,29 @@
     "speaker": null,
     "text": "일기장.\n\n'오늘도 댓글이 달렸다. 죽으라고.\n내가 뭘 했다고. 사진 하나 올렸을 뿐인데.\n\n아빠한테 말했다. 아빠는 \"인터넷을 끊어\"라고 했다.\n그게 답이 아닌데.\n\n친구한테 말했다. 친구가 \"그냥 무시해\"라고 했다.\n무시가 되면 이러고 있겠어?\n\n...아무도 내 편이 아닌 것 같다.\n\n아빠가 나한테 \"소리를 내지 마, 그러면 안전해\"라고 했다.\n\n아빠의 얼굴이 무서웠다.'\n\n...이것이 사서의 딸이었다.",
     "effects": [
-      { "type": "addAbyssMemory", "id": "mem_daughter_diary", "label": "사서의 딸의 일기", "weight": 4, "source": "district_a" },
-      { "type": "setFlag", "flag": "read_daughter_diary" },
-      { "type": "modifyKarma", "value": 5 }
+      {
+        "type": "addAbyssMemory",
+        "id": "mem_daughter_diary",
+        "label": "사서의 딸의 일기",
+        "weight": 4,
+        "source": "district_a"
+      },
+      {
+        "type": "setFlag",
+        "flag": "read_daughter_diary"
+      },
+      {
+        "type": "modifyKarma",
+        "value": 5
+      }
     ],
     "choices": [
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 침묵 속에서도 진실은 사라지지 않는다.",
         "nextScene": "district_a_street"
       }
     ]
   },
-
   {
     "id": "district_a_archive_gate",
     "type": "dialogue",
@@ -516,7 +747,12 @@
     "choices": [
       {
         "text": "열람 허가증을 제시한다",
-        "conditions": [{ "type": "hasFlag", "flag": "has_reading_permit" }],
+        "conditions": [
+          {
+            "type": "hasFlag",
+            "flag": "has_reading_permit"
+          }
+        ],
         "nextScene": "district_a_archive_inside"
       },
       {
@@ -524,7 +760,7 @@
         "nextScene": "district_a_residential"
       },
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 빈 책들 사이로 글자가 돌아올 것이다.",
         "nextScene": "district_a_street"
       }
     ]
@@ -534,7 +770,7 @@
     "type": "dialogue",
     "background": "archive",
     "speaker": null,
-    "text": "기록 보관소 내부.\n\n수백만 권의 빈 책들 사이로 걸어간다. 가끔 글자가 나타났다 사라진다. 검열되고 있는 것이다.\n\n깊은 곳으로 갈수록 공기가 무거워진다. 소리가 점점 더 흡수된다. 자신의 심장 소리조차 들리지 않게 된다.\n\n맨 안쪽에 떠 있는 존재가 보인다. 입이 꿰매진 채 책장 사이를 떠다니는 —\n\n사서.",
+    "text": "기록 보관소 내부.\n\n수백만 권의 빈 책들 사이로 걸어간다. 가끔 글자가 나타났다 사라진다. 검열되고 있는 것이다.\n\n깊은 곳으로 갈수록 공기가 무거워진다. 소리가 점점 더 흡수된다. 자신의 심장 소리조차 들리지 않게 된다.\n\n소연이 손으로 가리킨다. 보관소의 가장 깊은 곳. 소연의 손이 떨리고 있다. 이곳에서 모든 것이 시작됐으니까.\n\n맨 안쪽에 떠 있는 존재가 보인다. 입이 꿰매진 채 책장 사이를 떠다니는 —\n\n사서.",
     "choices": [
       {
         "text": "사서에게 다가간다",
@@ -579,94 +815,264 @@
     "enemy": "librarian",
     "introText": "사서가 팔을 벌린다. 수만 권의 빈 책이 회전하며 방패를 만든다.\n\n\"...정숙. 정숙. 정숙.\"\n\n머릿속에서 울리는 목소리가 점점 커진다.",
     "victoryScene": "district_a_boss_victory",
-    "rewards": { "engrams": 25 },
+    "rewards": {
+      "engrams": 25
+    },
     "rounds": [
       {
-        "text": "사서가 침묵의 파동을 발사한다. 공기가 진공처럼 빨려든다!",
+        "text": "사서가 침묵의 파동을 발사한다. 공기가 진공처럼 빨려든다!\n\n사서의 꿰매진 입 사이에서 검은 잉크가 새어나온다. 고통인지 분노인지 알 수 없다.",
         "choices": [
           {
             "text": "귀를 막고 버틴다",
-            "check": { "stat": "body", "dc": 5 },
+            "check": {
+              "stat": "body",
+              "dc": 6
+            },
             "alignment": "neutral",
             "karmaShift": 0,
-            "success": { "text": "이를 악물고 침묵의 파동을 견뎌냈다!", "effects": [] },
-            "failure": { "text": "진공에 폐가 눌린다. 숨을 쉴 수 없다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -5 }] }
+            "success": {
+              "text": "이를 악물고 침묵의 파동을 견뎌냈다!",
+              "effects": []
+            },
+            "failure": {
+              "text": "진공에 폐가 눌린다. 숨을 쉴 수 없다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -6
+                }
+              ]
+            }
           },
           {
             "text": "파동의 패턴을 읽는다",
-            "check": { "stat": "reason", "dc": 6 },
+            "check": {
+              "stat": "reason",
+              "dc": 7
+            },
             "alignment": "neutral",
             "karmaShift": 0,
-            "success": { "text": "파동에 빈 틈이 있다! 그 사이로 다가간다.", "effects": [{ "type": "setFlag", "flag": "librarian_pattern_found" }] },
-            "failure": { "text": "패턴을 잡기 전에 다음 파동이 왔다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -4 }] }
+            "success": {
+              "text": "파동에 빈 틈이 있다! 그 사이로 다가간다.",
+              "effects": [
+                {
+                  "type": "setFlag",
+                  "flag": "librarian_pattern_found"
+                }
+              ]
+            },
+            "failure": {
+              "text": "패턴을 잡기 전에 다음 파동이 왔다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -5
+                }
+              ]
+            }
           },
           {
             "text": "소연에게 신호를 보낸다",
-            "check": { "stat": "bond", "dc": 5 },
+            "check": {
+              "stat": "bond",
+              "dc": 6
+            },
             "alignment": "light",
             "karmaShift": 3,
-            "conditions": [{ "type": "hasCompanion", "companion": "soyeon" }],
-            "success": { "text": "소연이 수화로 사서의 주의를 끈다! 사서가 잠시 멈칫한다.", "effects": [{ "type": "modifyCompanionTrust", "companion": "soyeon", "value": 10 }] },
-            "failure": { "text": "소연의 신호가 사서에게 포착됐다. 파동이 소연을 향한다!", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -3 }] }
+            "conditions": [
+              {
+                "type": "hasCompanion",
+                "companion": "soyeon"
+              }
+            ],
+            "success": {
+              "text": "소연이 수화로 사서의 주의를 끈다! 사서가 잠시 멈칫한다.",
+              "effects": [
+                {
+                  "type": "modifyCompanionTrust",
+                  "companion": "soyeon",
+                  "value": 10
+                }
+              ]
+            },
+            "failure": {
+              "text": "소연의 신호가 사서에게 포착됐다. 파동이 소연을 향한다!",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -5
+                }
+              ]
+            }
           }
         ]
       },
       {
-        "text": "사서가 빈 책들을 날카로운 종이학처럼 접어 발사한다! 수천 장의 백지가 칼날이 된다.",
+        "text": "사서가 빈 책들을 날카로운 종이학처럼 접어 발사한다! 수천 장의 백지가 칼날이 된다.\n\n각 종이학에 지워진 글자의 흔적이 남아있다. 누군가의 이름. 누군가의 이야기. 사서가 지운 것들.",
         "choices": [
           {
             "text": "종이 사이를 뚫고 돌진한다",
-            "check": { "stat": "body", "dc": 7 },
+            "check": {
+              "stat": "body",
+              "dc": 8
+            },
             "alignment": "dark",
             "karmaShift": -3,
-            "success": { "text": "종이에 베이면서도 사서에게 다가갔다! 피가 빈 책에 글자를 만든다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -2 }] },
-            "failure": { "text": "종이날이 온몸을 찢는다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -8 }] }
+            "success": {
+              "text": "종이에 베이면서도 사서에게 다가갔다! 피가 빈 책에 글자를 만든다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -2
+                }
+              ]
+            },
+            "failure": {
+              "text": "종이날이 온몸을 찢는다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -9
+                }
+              ]
+            }
           },
           {
             "text": "종이의 회전 방향을 역이용한다",
-            "check": { "stat": "sense", "dc": 6 },
+            "check": {
+              "stat": "sense",
+              "dc": 7
+            },
             "alignment": "neutral",
             "karmaShift": 0,
-            "success": { "text": "종이의 기류를 읽고 사이를 빠져나간다!", "effects": [] },
-            "failure": { "text": "예측이 빗나갔다. 종이가 팔을 스친다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -6 }] }
+            "success": {
+              "text": "종이의 기류를 읽고 사이를 빠져나간다!",
+              "effects": []
+            },
+            "failure": {
+              "text": "예측이 빗나갔다. 종이가 팔을 스친다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -7
+                }
+              ]
+            }
           },
           {
             "text": "\"네가 지운 것 중에 진짜 보존할 것도 있었을 텐데!\"",
-            "check": { "stat": "bond", "dc": 7 },
+            "check": {
+              "stat": "bond",
+              "dc": 8
+            },
             "alignment": "light",
             "karmaShift": 5,
-            "success": { "text": "사서의 손이 떨린다. 종이학들이 속도를 잃고 떨어진다.", "effects": [] },
-            "failure": { "text": "\"침묵!\" 종이가 더 맹렬히 날아온다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -6 }] }
+            "success": {
+              "text": "사서의 손이 떨린다. 종이학들이 속도를 잃고 떨어진다.",
+              "effects": []
+            },
+            "failure": {
+              "text": "\"침묵!\" 종이가 더 맹렬히 날아온다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -7
+                }
+              ]
+            }
           }
         ]
       },
       {
-        "text": "사서가 마지막 힘을 모은다. 모든 빈 책이 하나의 거대한 검은 책으로 합쳐진다.\n\n\"마지막 검열을 시작한다. 대상: 전부.\"",
+        "text": "사서가 마지막 힘을 모은다. 모든 빈 책이 하나의 거대한 검은 책으로 합쳐진다.\n\n\"마지막 검열을 시작한다. 대상: 전부.\"\n\n사서의 꿰매진 입에서 소리가 새어나온다. 울음인지 노래인지 알 수 없는 진동.",
         "choices": [
           {
             "text": "첫 번째 침묵 명령서를 찾아 읽는다",
-            "check": { "stat": "reason", "dc": 7 },
+            "check": {
+              "stat": "reason",
+              "dc": 9
+            },
             "alignment": "light",
             "karmaShift": 8,
-            "success": { "text": "거대한 책의 첫 페이지를 펼친다. 거기에 적혀있다:\n\n'사유: 딸이 악플로 자살. 다시는 아무도 다치지 않게.'\n\n사서의 동작이 멈춘다.", "effects": [] },
-            "failure": { "text": "페이지가 너무 빨리 넘어간다. 읽을 수 없다!", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -7 }] }
+            "success": {
+              "text": "거대한 책의 첫 페이지를 펼친다. 거기에 적혀있다:\n\n'사유: 딸이 악플로 자살. 다시는 아무도 다치지 않게.'\n\n사서의 동작이 멈춘다.",
+              "effects": []
+            },
+            "failure": {
+              "text": "페이지가 너무 빨리 넘어간다. 읽을 수 없다!",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -9
+                }
+              ]
+            }
           },
           {
             "text": "거대한 책을 물리적으로 찢는다",
-            "check": { "stat": "body", "dc": 7 },
+            "check": {
+              "stat": "body",
+              "dc": 9
+            },
             "alignment": "dark",
             "karmaShift": -5,
-            "success": { "text": "책을 양손으로 잡고 찢어버린다! 사서가 비명을 — 아니, 침묵을 지른다.", "effects": [] },
-            "failure": { "text": "책이 너무 두껍다. 손가락만 상처입는다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -6 }] }
+            "success": {
+              "text": "책을 양손으로 잡고 찢어버린다! 사서가 비명을 — 아니, 침묵을 지른다.",
+              "effects": []
+            },
+            "failure": {
+              "text": "책이 너무 두껍다. 손가락만 상처입는다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -8
+                }
+              ]
+            }
           },
           {
             "text": "소연과 함께 진실을 외친다",
-            "check": { "stat": "bond", "dc": 6 },
+            "check": {
+              "stat": "bond",
+              "dc": 8
+            },
             "alignment": "light",
             "karmaShift": 5,
-            "conditions": [{ "type": "hasCompanion", "companion": "soyeon" }],
-            "success": { "text": "소연이 목에서 — 잃어버린 줄 알았던 목소리가 나온다.\n\n\"...진실은 침묵시킬 수 없어.\"\n\n사서가 무릎을 꿇는다.", "effects": [{ "type": "modifyCompanionTrust", "companion": "soyeon", "value": 20 }] },
-            "failure": { "text": "소리가 나오지 않는다. 이 공간의 침묵이 너무 강하다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -5 }] }
+            "conditions": [
+              {
+                "type": "hasCompanion",
+                "companion": "soyeon"
+              }
+            ],
+            "success": {
+              "text": "소연이 목에서 — 잃어버린 줄 알았던 목소리가 나온다.\n\n\"...진실은 침묵시킬 수 없어.\"\n\n사서가 무릎을 꿇는다.",
+              "effects": [
+                {
+                  "type": "modifyCompanionTrust",
+                  "companion": "soyeon",
+                  "value": 20
+                }
+              ]
+            },
+            "failure": {
+              "text": "소리가 나오지 않는다. 이 공간의 침묵이 너무 강하다.",
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -8
+                }
+              ]
+            }
           }
         ]
       }
@@ -679,10 +1085,25 @@
     "speaker": null,
     "text": "거대한 검은 책이 산산이 흩어진다.\n\n사서가 바닥에 내려앉는다. 입의 봉합이 천천히 풀린다. 처음으로 — 목소리를 낸다.\n\n\"...미안하다. 딸아.\"\n\n작은 목소리. 하지만 기록 보관소 전체에 울린다. 수백만 권의 빈 책에 글자가 돌아오기 시작한다.\n\n사서가 사라지며, 바닥에 보안 카드가 남는다.",
     "effects": [
-      { "type": "setFlag", "flag": "boss_librarian_defeated" },
-      { "type": "addItem", "item": "key_card_a" },
-      { "type": "addEngrams", "value": 25 },
-      { "type": "addAbyssMemory", "id": "mem_librarian_freed", "label": "사서의 첫 목소리", "weight": 3, "source": "district_a" }
+      {
+        "type": "setFlag",
+        "flag": "boss_librarian_defeated"
+      },
+      {
+        "type": "addItem",
+        "item": "key_card_a"
+      },
+      {
+        "type": "addEngrams",
+        "value": 25
+      },
+      {
+        "type": "addAbyssMemory",
+        "id": "mem_librarian_freed",
+        "label": "사서의 첫 목소리",
+        "weight": 3,
+        "source": "district_a"
+      }
     ],
     "choices": [
       {
@@ -698,18 +1119,27 @@
     "speaker": null,
     "text": "A지구 — 침묵의 멘션.\n\n기록 보관소에서 소리가 돌아오기 시작한다. 작은 속삭임. 웃음. 울음.\n\n거리의 영혼들이 입의 봉합을 풀고 있다. 아직 서툴지만, 처음으로 서로에게 말을 건다.\n\n\"...안녕.\"\n\n그 한 마디가 이 도시에서 가장 아름다운 소리다.\n\nA지구 보안 카드의 무게가 느껴진다. 4장 중 1장.\n\n지하철이 도착한다.",
     "effects": [
-      { "type": "setFlag", "flag": "district_a_cleared" },
-      { "type": "setFlag", "flag": "district_c_unlocked" }
+      {
+        "type": "setFlag",
+        "flag": "district_a_cleared"
+      },
+      {
+        "type": "setFlag",
+        "flag": "district_c_unlocked"
+      }
     ],
     "choices": [
       {
-        "text": "플랫폼 0으로 돌아간다",
-        "effects": [{ "type": "fullHeal" }],
+        "text": "플랫폼 0으로 돌아간다. 소리가 돌아오고 있다.",
+        "effects": [
+          {
+            "type": "fullHeal"
+          }
+        ],
         "nextScene": "hub_platform0"
       }
     ]
   },
-
   {
     "id": "district_a_soyeon_quest_start",
     "type": "dialogue",
@@ -717,8 +1147,14 @@
     "speaker": "soyeon",
     "text": "소연이 쪽지를 건넨다. 손이 떨리고 있다.\n\n'부탁이 있어. 기록 보관소에 — 내 녹음 테이프가 있어. 마지막 보도 자료.\n\n사서가 검열하기 전에 숨겨뒀거든. 찾아줄 수 있어?\n\n...그리고 한 가지 더. 내 편집장이 있어. 여기 어딘가에.\n그 사람이 내 기사를 삭제하고, 내 혀를 잘랐어.\n\n만나고 싶어. 마지막으로.'",
     "conditions": [
-      { "type": "hasCompanion", "companion": "soyeon" },
-      { "type": "hasFlag", "flag": "district_a_cleared" }
+      {
+        "type": "hasCompanion",
+        "companion": "soyeon"
+      },
+      {
+        "type": "hasFlag",
+        "flag": "district_a_cleared"
+      }
     ],
     "choices": [
       {
@@ -738,8 +1174,15 @@
     "speaker": null,
     "text": "해방된 기록 보관소. 책들에 글자가 돌아오고 있다.\n\n소연이 서가 사이를 뒤진다. 먼지투성이 선반 뒤에서 — 작은 카세트 테이프를 꺼낸다.\n\n소연의 눈에 눈물이 고인다.\n\n쪽지: '이게 마지막 보도야. 권력자의 비리를 파헤친 거였어. 이걸 방송하려다가...'\n\n소연이 목의 흉터를 만진다.",
     "effects": [
-      { "type": "addItem", "item": "soyeon_tape" },
-      { "type": "modifyCompanionTrust", "companion": "soyeon", "value": 10 }
+      {
+        "type": "addItem",
+        "item": "soyeon_tape"
+      },
+      {
+        "type": "modifyCompanionTrust",
+        "companion": "soyeon",
+        "value": 10
+      }
     ],
     "choices": [
       {
@@ -771,17 +1214,34 @@
       {
         "text": "\"용서해\" (소연에게 권유한다)",
         "effects": [
-          { "type": "modifyKarma", "value": 5 },
-          { "type": "modifyCompanionTrust", "companion": "soyeon", "value": 15 },
-          { "type": "setFlag", "flag": "soyeon_forgave" }
+          {
+            "type": "modifyKarma",
+            "value": 5
+          },
+          {
+            "type": "modifyCompanionTrust",
+            "companion": "soyeon",
+            "value": 15
+          },
+          {
+            "type": "setFlag",
+            "flag": "soyeon_forgave"
+          }
         ],
         "nextScene": "district_a_soyeon_quest_resolve_forgive"
       },
       {
         "text": "소연의 선택에 맡긴다",
         "effects": [
-          { "type": "modifyCompanionTrust", "companion": "soyeon", "value": 20 },
-          { "type": "setFlag", "flag": "soyeon_chose_herself" }
+          {
+            "type": "modifyCompanionTrust",
+            "companion": "soyeon",
+            "value": 20
+          },
+          {
+            "type": "setFlag",
+            "flag": "soyeon_chose_herself"
+          }
         ],
         "nextScene": "district_a_soyeon_quest_resolve_choice"
       }
@@ -794,11 +1254,17 @@
     "speaker": "soyeon",
     "text": "소연이 쪽지를 내민다.\n\n'용서까지는 못 해. 아직은.\n하지만 이해는 해.\n\n이 테이프 — 들어. 내가 왜 기자가 됐는지 들어있어.\n진실은 한 사람의 용기에서 시작하지만, 한 사람의 비겁함으로 끝나기도 해.\n\n...나는 다시 시작할 거야. 목소리가 없어도. 글로, 수화로, 쪽지로.'\n\n편집장이 테이프를 받고 운다.\n\n소연이 — 처음으로 — 미소짓는다.",
     "effects": [
-      { "type": "addAbyssMemory", "id": "mem_soyeon_truth", "label": "소연이 다시 시작한 날", "weight": 4, "source": "district_a" }
+      {
+        "type": "addAbyssMemory",
+        "id": "mem_soyeon_truth",
+        "label": "소연이 다시 시작한 날",
+        "weight": 4,
+        "source": "district_a"
+      }
     ],
     "choices": [
       {
-        "text": "플랫폼 0으로 돌아간다",
+        "text": "플랫폼 0으로 돌아간다. 소연의 미소가 첫 번째 목소리였다.",
         "nextScene": "hub_platform0"
       }
     ]
@@ -810,11 +1276,17 @@
     "speaker": "soyeon",
     "text": "소연이 오래 생각한다. 그리고 쪽지를 쓴다.\n\n'나는 너를 미워했어. 오래.\n\n근데 미워하는 데 지쳤어. 그게 더 힘들더라.\n\n이 테이프는 내가 가지고 있을게. 언젠가 — 이 도시 밖에서 — 다시 방송할 거야.'\n\n소연이 테이프를 주머니에 넣고, 편집장에게 등을 돌린다.\n\n돌아서는 소연의 얼굴에 — 눈물이 아니라 결의가 있다.",
     "effects": [
-      { "type": "addAbyssMemory", "id": "mem_soyeon_resolve", "label": "소연의 결의", "weight": 4, "source": "district_a" }
+      {
+        "type": "addAbyssMemory",
+        "id": "mem_soyeon_resolve",
+        "label": "소연의 결의",
+        "weight": 4,
+        "source": "district_a"
+      }
     ],
     "choices": [
       {
-        "text": "플랫폼 0으로 돌아간다",
+        "text": "플랫폼 0으로 돌아간다. 소연의 결의가 바람을 가른다.",
         "nextScene": "hub_platform0"
       }
     ]
@@ -825,10 +1297,21 @@
     "background": "exam",
     "speaker": null,
     "text": "지하 계단을 내려가자 — 교실이 나타난다.\n\n수백 개의 책상. 수백 명의 영혼이 앉아 답안지를 채우고 있다. 연필 소리만 가득하다. 사각사각사각.\n\n대부분은 비어있다 — 기계적으로 연필만 움직이는, 처리된 영혼들.\n\n하지만 한 명이 다르다. 지우고, 쓰고, 지우고, 쓴다. 연필이 닳아 손가락만 한데도 멈추지 않는다. 표정이 있다 — 좌절.",
-    "effects": [{ "type": "setFlag", "flag": "found_exam_hall" }],
+    "effects": [
+      {
+        "type": "setFlag",
+        "flag": "found_exam_hall"
+      }
+    ],
     "choices": [
-      { "text": "그 사람에게 다가간다", "nextScene": "district_a_junseo_01" },
-      { "text": "지나친다", "nextScene": "district_a_street" }
+      {
+        "text": "그 사람에게 다가간다",
+        "nextScene": "district_a_junseo_01"
+      },
+      {
+        "text": "지나친다",
+        "nextScene": "district_a_street"
+      }
     ]
   },
   {
@@ -838,9 +1321,18 @@
     "speaker": null,
     "text": "\"뭐 시험이야?\"\n\n고개를 들지 않는다.\n\n\"5급. 아니면 7급. 아니면 9급. 몇 번째인지도 모르겠어요.\"\n\n답안지 구석에 빨간 도장: ATTEMPT 47.\n\n\"...중요해요? 몇 번째인 게?\"",
     "choices": [
-      { "text": "\"그 시험, 가짜야.\"", "nextScene": "district_a_junseo_02a" },
-      { "text": "(연필을 뺏는다)", "nextScene": "district_a_junseo_02b" },
-      { "text": "\"잘 되고 있어?\"", "nextScene": "district_a_junseo_02c" }
+      {
+        "text": "\"그 시험, 가짜야.\"",
+        "nextScene": "district_a_junseo_02a"
+      },
+      {
+        "text": "(연필을 뺏는다)",
+        "nextScene": "district_a_junseo_02b"
+      },
+      {
+        "text": "\"잘 되고 있어?\"",
+        "nextScene": "district_a_junseo_02c"
+      }
     ]
   },
   {
@@ -850,8 +1342,14 @@
     "speaker": null,
     "text": "\"가짜라고요?\" 연필이 멈춘다. 처음으로.\n\n\"...알아요. 알고 있어요. 매번 같은 문제야. 매번 답이 지워져. 이게 진짜 시험이 아니라는 거.\"\n\n\"그런데 멈추면 뭐가 남아요? 시험이라도 보고 있으면 — 뭔가 하고 있는 거잖아요. 멈추면 저는 그냥...\"",
     "choices": [
-      { "text": "\"그냥 너잖아.\"", "nextScene": "district_a_junseo_03" },
-      { "text": "\"모르겠어. 같이 찾아보자.\"", "nextScene": "district_a_junseo_03" }
+      {
+        "text": "\"그냥 너잖아.\"",
+        "nextScene": "district_a_junseo_03"
+      },
+      {
+        "text": "\"모르겠어. 같이 찾아보자.\"",
+        "nextScene": "district_a_junseo_03"
+      }
     ]
   },
   {
@@ -861,10 +1359,18 @@
     "speaker": null,
     "text": "연필을 뺏았다.\n\n그가 얼어붙는다. 아무도 이 순환을 방해한 적이 없다.\n\n\"뭐 하는 거예요? 돌려줘요. 끝내야 해요. 끝내지 않으면 떨어지고 떨어지면 다시 —\"\n\n\"시험은 없어. 넌 죽었어.\"\n\n교실이 조용해진다. 다른 영혼들은 계속 쓴다. 이 사람만 멈췄다.\n\n\"...알아요.\" 아주 작은 목소리. \"알면서도 못 멈춘 거예요. 멈추면 생각해야 하니까. 왜 여기 있는지. 왜 이렇게 된 건지.\"",
     "choices": [
-      { "text": "\"같이 생각하면 돼.\"", "nextScene": "district_a_junseo_03" },
+      {
+        "text": "\"같이 생각하면 돼.\"",
+        "nextScene": "district_a_junseo_03"
+      },
       {
         "text": "(연필을 부러뜨린다)",
-        "effects": [{ "type": "modifyKarma", "value": -3 }],
+        "effects": [
+          {
+            "type": "modifyKarma",
+            "value": -3
+          }
+        ],
         "nextScene": "district_a_junseo_03"
       }
     ]
@@ -876,10 +1382,18 @@
     "speaker": null,
     "text": "\"잘 되고 있냐고요?\"\n\n연필이 멈춘다. 고개를 든다. 처음으로 눈이 마주친다.\n\n\"...아무도 그렇게 물어본 적 없어요. 다들 '합격했어?' '몇 점이야?' 만 물어보지. '잘 되고 있어?'는...\"\n\n눈이 붉어진다.\n\n\"안 되고 있어요. 하나도.\"",
     "choices": [
-      { "text": "\"괜찮아.\"", "nextScene": "district_a_junseo_03" },
+      {
+        "text": "\"괜찮아.\"",
+        "nextScene": "district_a_junseo_03"
+      },
       {
         "text": "(옆에 앉는다)",
-        "effects": [{ "type": "modifyKarma", "value": 3 }],
+        "effects": [
+          {
+            "type": "modifyKarma",
+            "value": 3
+          }
+        ],
         "nextScene": "district_a_junseo_03"
       }
     ]
@@ -891,11 +1405,20 @@
     "speaker": "junseo",
     "text": "그가 일어선다. 다리가 떨린다 — 오래 앉아있어서.\n\n답안지가 손에서 떨어진다. 바닥에 닿기 전에 녹아 사라진다.\n\n\"저 — 준서예요. 준서. 스물셋이었어요. 아니, 스물셋이에요. 여기선 나이가 의미 있나 모르겠지만.\"\n\n주위를 둘러본다. 시험장이 처음 보이는 것처럼.\n\n\"여기서 나가면... 뭐가 있어요?\"\n\n\"모르겠어. 같이 가볼래?\"\n\n\"...네.\" 작은 목소리. 하지만 처음으로 — 자기가 원해서 하는 대답.\n\n\"아, 근데 — 죄송한데 — 제가 도움이 될지 모르겠어요. 저 시험 말고는 할 줄 아는 게 —\"\n\n\"됐어. 가자.\"",
     "effects": [
-      { "type": "setFlag", "flag": "junseo_recruited" },
-      { "type": "addCompanion", "companion": "junseo" }
+      {
+        "type": "setFlag",
+        "flag": "junseo_recruited"
+      },
+      {
+        "type": "addCompanion",
+        "companion": "junseo"
+      }
     ],
     "choices": [
-      { "text": "A지구 거리로 돌아간다", "nextScene": "district_a_street" }
+      {
+        "text": "A지구 거리로 돌아간다. 준서의 대답이 아직 귓속에 남아있다.",
+        "nextScene": "district_a_street"
+      }
     ]
   }
 ]

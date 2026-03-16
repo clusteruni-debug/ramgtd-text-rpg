@@ -12,7 +12,6 @@
       }
     ]
   },
-
   {
     "id": "ch1_02",
     "type": "dialogue",
@@ -30,7 +29,6 @@
       }
     ]
   },
-
   {
     "id": "ch1_02b",
     "type": "dialogue",
@@ -48,7 +46,6 @@
       }
     ]
   },
-
   {
     "id": "ch1_03",
     "type": "dialogue",
@@ -62,7 +59,6 @@
       }
     ]
   },
-
   {
     "id": "ch1_03b",
     "type": "dialogue",
@@ -80,7 +76,6 @@
       }
     ]
   },
-
   {
     "id": "ch1_04",
     "type": "dialogue",
@@ -98,7 +93,6 @@
       }
     ]
   },
-
   {
     "id": "ch1_04b",
     "type": "dialogue",
@@ -116,7 +110,6 @@
       }
     ]
   },
-
   {
     "id": "ch1_05",
     "type": "dialogue",
@@ -130,37 +123,66 @@
       }
     ]
   },
-
   {
     "id": "ch1_explore",
     "type": "dialogue",
     "background": "station",
     "speaker": null,
-    "text": "플랫폼 0. 텐트촌과 녹슨 형광등. 몇 가지 눈에 띄는 것들이 있다.",
+    "text": "플랫폼 0. 텐트촌과 녹슨 형광등.\n\n공기 중에 정전기가 떠다니고 있었다. 피부 위로 솜털이 곤두서는 느낌. 이 도시의 공기는 살아있는 것 같았다.\n\n몇 가지 눈에 띄는 것들이 있다.",
     "choices": [
       {
         "text": "텐트 사이의 작은 형체",
-        "conditions": [{ "type": "hasFlag", "flag": "explored_child", "value": false }],
+        "conditions": [
+          {
+            "type": "hasFlag",
+            "flag": "explored_child",
+            "value": false
+          }
+        ],
         "nextScene": "ch1_child"
       },
       {
         "text": "벽에 기댄 영혼에게 말을 건다",
-        "conditions": [{ "type": "hasFlag", "flag": "explored_weary", "value": false }],
+        "conditions": [
+          {
+            "type": "hasFlag",
+            "flag": "explored_weary",
+            "value": false
+          }
+        ],
         "nextScene": "ch1_weary"
       },
       {
         "text": "형광빛 자판기에 다가간다",
-        "conditions": [{ "type": "hasFlag", "flag": "explored_vending", "value": false }],
+        "conditions": [
+          {
+            "type": "hasFlag",
+            "flag": "explored_vending",
+            "value": false
+          }
+        ],
         "nextScene": "ch1_vending"
       },
       {
         "text": "기둥의 낙서들",
-        "conditions": [{ "type": "hasFlag", "flag": "explored_graffiti", "value": false }],
+        "conditions": [
+          {
+            "type": "hasFlag",
+            "flag": "explored_graffiti",
+            "value": false
+          }
+        ],
         "nextScene": "ch1_graffiti"
       },
       {
         "text": "선로 앞 대기열",
-        "conditions": [{ "type": "hasFlag", "flag": "explored_queue", "value": false }],
+        "conditions": [
+          {
+            "type": "hasFlag",
+            "flag": "explored_queue",
+            "value": false
+          }
+        ],
         "nextScene": "ch1_queue"
       },
       {
@@ -173,7 +195,6 @@
       }
     ]
   },
-
   {
     "id": "ch1_weary",
     "type": "dialogue",
@@ -181,11 +202,14 @@
     "speaker": "weary_soul",
     "text": "\"산 사람이 왜 여기... 아, 개찰구? 운 없었네.\"\n\n\"팁 줄게. 검표원은 졸개야. 지구장이 진짜 무서운 놈들.\"\n\n\"그리고 보안 게이트... 그거 통과하려면 분류 심사를 받아야 해.\"",
     "effects": [
-      { "type": "setFlag", "flag": "explored_weary" }
+      {
+        "type": "setFlag",
+        "flag": "explored_weary"
+      }
     ],
     "choices": [
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 분류 심사라는 말이 신경 쓰인다.",
         "nextScene": "ch1_explore"
       },
       {
@@ -194,7 +218,6 @@
       }
     ]
   },
-
   {
     "id": "ch1_weary_02",
     "type": "dialogue",
@@ -203,12 +226,11 @@
     "text": "\"여기 규칙? 강한 놈이 이겨. 약한 놈은 벽돌이 되거나 자판기가 되거나.\"\n\n지친 영혼이 고개를 들어 널 본다.\n\n\"근데 가끔 이상한 놈이 와. 너처럼. 시스템이 분류 못 하는 놈.\"\n\n\"그런 놈들이 도시를 흔들거든.\"",
     "choices": [
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 기억을 소중히 하라는 말이 마음에 남는다.",
         "nextScene": "ch1_explore"
       }
     ]
   },
-
   {
     "id": "ch1_child",
     "type": "dialogue",
@@ -216,14 +238,24 @@
     "speaker": null,
     "text": "텐트 사이에 웅크린 작은 형체. 투명하다. 가끔 입술이 움직이는데 소리는 없다.\n\n아이 영혼이다. 잠든 것 같기도 하고, 깨어 있는 것 같기도 하다.\n\n어깨 위로 얇은 담요가 반쯤 흘러내려 있다.",
     "effects": [
-      { "type": "setFlag", "flag": "explored_child" }
+      {
+        "type": "setFlag",
+        "flag": "explored_child"
+      }
     ],
     "choices": [
       {
         "text": "담요를 여며준다",
         "effects": [
-          { "type": "modifyStat", "stat": "bond", "value": 1 },
-          { "type": "setFlag", "flag": "gentle_to_child" }
+          {
+            "type": "modifyStat",
+            "stat": "bond",
+            "value": 1
+          },
+          {
+            "type": "setFlag",
+            "flag": "gentle_to_child"
+          }
         ],
         "nextScene": "ch1_explore"
       },
@@ -233,7 +265,6 @@
       }
     ]
   },
-
   {
     "id": "ch1_graffiti",
     "type": "dialogue",
@@ -241,16 +272,18 @@
     "speaker": null,
     "text": "기둥에 온갖 글씨가 새겨져 있다.\n\n\"B지구 절대 가지 마\"\n\"검표원은 왼쪽이 느림\"\n\"엄마 보고 싶다\"\n\n맨 아래, 다른 필체로:\n\"시장을 이긴 사람이 있다는 소문을 들었다. 거짓말이겠지.\"",
     "effects": [
-      { "type": "setFlag", "flag": "explored_graffiti" }
+      {
+        "type": "setFlag",
+        "flag": "explored_graffiti"
+      }
     ],
     "choices": [
       {
-        "text": "돌아간다",
+        "text": "돌아간다. '엄마 보고 싶다'라는 낙서가 눈에 밟힌다.",
         "nextScene": "ch1_explore"
       }
     ]
   },
-
   {
     "id": "ch1_queue",
     "type": "dialogue",
@@ -258,16 +291,18 @@
     "speaker": null,
     "text": "선로 앞에 20명쯤 줄 서 있는 영혼들. 전부 같은 방향을 보고 있다. 먼지가 어깨에 수북하다.\n\n\"열차가 올까요?\"\n\n대답 없이 고개만 끄덕인다. 얼마나 기다린 건지 모르겠다.",
     "effects": [
-      { "type": "setFlag", "flag": "explored_queue" }
+      {
+        "type": "setFlag",
+        "flag": "explored_queue"
+      }
     ],
     "choices": [
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 먼지가 어깨에 수북한 영혼들.",
         "nextScene": "ch1_explore"
       }
     ]
   },
-
   {
     "id": "ch1_vending",
     "type": "dialogue",
@@ -275,16 +310,18 @@
     "speaker": "vending_human",
     "text": "\"이-이-이라셔. 엔그램으로만 받아.\"\n\n자판기 인간이 형광빛 눈을 깜빡인다. 아직 살 것은 없지만, 존재 자체가 묘하다.\n\n\"공짜 팁: 심사관한테 솔직하게 답해. 거짓말은 들켜.\"",
     "effects": [
-      { "type": "setFlag", "flag": "explored_vending" }
+      {
+        "type": "setFlag",
+        "flag": "explored_vending"
+      }
     ],
     "choices": [
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 솔직하게 답하라는 팁을 기억해야 한다.",
         "nextScene": "ch1_explore"
       }
     ]
   },
-
   {
     "id": "ch1_bricks",
     "type": "dialogue",
@@ -292,16 +329,18 @@
     "speaker": null,
     "text": "벽에 박힌 벽돌들. 자세히 보면 미세한 표정이 남아 있다.\n\n한 벽돌에서 희미한 글씨: '이름이... 뭐였더라...'\n\n다른 벽돌에선 얼어붙은 웃음이 보인다. 마지막까지 웃으려 했던 걸까.",
     "effects": [
-      { "type": "setFlag", "flag": "seen_bricks" }
+      {
+        "type": "setFlag",
+        "flag": "seen_bricks"
+      }
     ],
     "choices": [
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 벽돌 속 얼어붙은 웃음이 잊히지 않는다.",
         "nextScene": "ch1_explore"
       }
     ]
   },
-
   {
     "id": "ch1_gate_blocked",
     "type": "dialogue",
@@ -310,7 +349,7 @@
     "text": "지하철 게이트. 적색 홀로그램이 깜빡인다.\n\n「미분류 데이터 통행 불가. 분류 심사 필요.」\n\n안내자가 말한 보안 게이트다. 혼자서는 통과할 수 없을 것 같다.",
     "choices": [
       {
-        "text": "안내자에게 돌아간다",
+        "text": "안내자에게 돌아간다. 혼자서는 통과할 수 없다.",
         "nextScene": "ch1_guide_ready"
       },
       {
@@ -319,7 +358,6 @@
       }
     ]
   },
-
   {
     "id": "ch1_guide_ready",
     "type": "dialogue",
@@ -333,7 +371,6 @@
       }
     ]
   },
-
   {
     "id": "ch1_gate_enter",
     "type": "dialogue",
@@ -347,7 +384,6 @@
       }
     ]
   },
-
   {
     "id": "ch1_exam_01",
     "type": "dialogue",
@@ -358,30 +394,49 @@
       {
         "text": "\"사람이다.\"",
         "effects": [
-          { "type": "modifyKarma", "value": 3 },
-          { "type": "setFlag", "flag": "exam_human" }
+          {
+            "type": "modifyKarma",
+            "value": 3
+          },
+          {
+            "type": "setFlag",
+            "flag": "exam_human"
+          }
         ],
         "nextScene": "ch1_exam_02"
       },
       {
         "text": "\"모르겠다.\"",
         "effects": [
-          { "type": "modifyStat", "stat": "sense", "value": 1 },
-          { "type": "setFlag", "flag": "exam_unknown" }
+          {
+            "type": "modifyStat",
+            "stat": "sense",
+            "value": 1
+          },
+          {
+            "type": "setFlag",
+            "flag": "exam_unknown"
+          }
         ],
         "nextScene": "ch1_exam_02"
       },
       {
         "text": "\"오류 데이터.\"",
         "effects": [
-          { "type": "modifyStat", "stat": "reason", "value": 1 },
-          { "type": "setFlag", "flag": "exam_data" }
+          {
+            "type": "modifyStat",
+            "stat": "reason",
+            "value": 1
+          },
+          {
+            "type": "setFlag",
+            "flag": "exam_data"
+          }
         ],
         "nextScene": "ch1_exam_02"
       }
     ]
   },
-
   {
     "id": "ch1_exam_02",
     "type": "dialogue",
@@ -392,30 +447,49 @@
       {
         "text": "\"여기서 나가는 것.\"",
         "effects": [
-          { "type": "modifyStat", "stat": "body", "value": 1 },
-          { "type": "setFlag", "flag": "exam_escape" }
+          {
+            "type": "modifyStat",
+            "stat": "body",
+            "value": 1
+          },
+          {
+            "type": "setFlag",
+            "flag": "exam_escape"
+          }
         ],
         "nextScene": "ch1_exam_03"
       },
       {
         "text": "\"아직 모른다.\"",
         "effects": [
-          { "type": "modifyStat", "stat": "bond", "value": 1 },
-          { "type": "setFlag", "flag": "exam_searching" }
+          {
+            "type": "modifyStat",
+            "stat": "bond",
+            "value": 1
+          },
+          {
+            "type": "setFlag",
+            "flag": "exam_searching"
+          }
         ],
         "nextScene": "ch1_exam_03"
       },
       {
         "text": "\"이 시스템을 부수는 것.\"",
         "effects": [
-          { "type": "modifyKarma", "value": -3 },
-          { "type": "setFlag", "flag": "exam_destroy" }
+          {
+            "type": "modifyKarma",
+            "value": -3
+          },
+          {
+            "type": "setFlag",
+            "flag": "exam_destroy"
+          }
         ],
         "nextScene": "ch1_exam_03"
       }
     ]
   },
-
   {
     "id": "ch1_exam_03",
     "type": "dialogue",
@@ -426,30 +500,50 @@
       {
         "text": "\"그래.\"",
         "effects": [
-          { "type": "modifyStat", "stat": "body", "value": 1 },
-          { "type": "setFlag", "flag": "exam_willing" }
+          {
+            "type": "modifyStat",
+            "stat": "body",
+            "value": 1
+          },
+          {
+            "type": "setFlag",
+            "flag": "exam_willing"
+          }
         ],
         "nextScene": "ch1_exam_result"
       },
       {
         "text": "\"고통 없이 해낼 방법을 찾겠다.\"",
         "effects": [
-          { "type": "modifyStat", "stat": "reason", "value": 1 },
-          { "type": "setFlag", "flag": "exam_clever" }
+          {
+            "type": "modifyStat",
+            "stat": "reason",
+            "value": 1
+          },
+          {
+            "type": "setFlag",
+            "flag": "exam_clever"
+          }
         ],
         "nextScene": "ch1_exam_result"
       },
       {
         "text": "\"고통은 이미 충분하다.\"",
         "effects": [
-          { "type": "modifyStat", "stat": "bond", "value": 1 },
-          { "type": "setFlag", "flag": "exam_enough" }
+          {
+            "type": "modifyStat",
+            "stat": "bond",
+            "value": 1
+          },
+          {
+            "type": "setFlag",
+            "flag": "exam_enough"
+          }
         ],
         "nextScene": "ch1_exam_result"
       }
     ]
   },
-
   {
     "id": "ch1_exam_result",
     "type": "dialogue",
@@ -463,7 +557,6 @@
       }
     ]
   },
-
   {
     "id": "ch1_combat",
     "type": "combat",
@@ -471,14 +564,19 @@
     "enemy": "classification_examiner",
     "introText": "심사관의 형태가 전투 모드로 전환된다. 적색 에너지가 양손에 모인다!",
     "victoryScene": "ch1_gate_open",
-    "rewards": { "engrams": 15 },
+    "rewards": {
+      "engrams": 12
+    },
     "rounds": [
       {
         "text": "심사관의 손에서 적색 에너지가 모인다. 「대상 저항 시 강제 처리.」",
         "choices": [
           {
             "text": "에너지를 피한다",
-            "check": { "stat": "sense", "dc": 5 },
+            "check": {
+              "stat": "sense",
+              "dc": 5
+            },
             "alignment": "neutral",
             "karmaShift": 0,
             "success": {
@@ -487,12 +585,21 @@
             },
             "failure": {
               "text": "에너지가 어깨를 스친다. 뜨거운 통증이 퍼진다.",
-              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -4 }]
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -4
+                }
+              ]
             }
           },
           {
             "text": "정면으로 돌파한다",
-            "check": { "stat": "body", "dc": 6 },
+            "check": {
+              "stat": "body",
+              "dc": 6
+            },
             "alignment": "neutral",
             "karmaShift": 0,
             "success": {
@@ -501,12 +608,21 @@
             },
             "failure": {
               "text": "에너지의 힘이 예상보다 강하다. 밀려나며 바닥에 끌린다.",
-              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -5 }]
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -5
+                }
+              ]
             }
           },
           {
             "text": "패턴을 분석한다",
-            "check": { "stat": "reason", "dc": 6 },
+            "check": {
+              "stat": "reason",
+              "dc": 6
+            },
             "alignment": "neutral",
             "karmaShift": 0,
             "success": {
@@ -515,21 +631,41 @@
             },
             "failure": {
               "text": "분석하는 사이 에너지가 날아왔다. 생각할 시간이 부족했다.",
-              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -4 }]
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -4
+                }
+              ]
             }
           },
           {
             "text": "\"나는 폐기물이 아니다\"",
-            "check": { "stat": "bond", "dc": 7 },
+            "check": {
+              "stat": "bond",
+              "dc": 7
+            },
             "alignment": "light",
             "karmaShift": 3,
             "success": {
               "text": "목소리에 확신이 담긴다. 심사관의 시스템이 잠깐 멈칫한다. 「재분류... 오류...」",
-              "effects": [{ "type": "modifyKarma", "value": 3 }]
+              "effects": [
+                {
+                  "type": "modifyKarma",
+                  "value": 3
+                }
+              ]
             },
             "failure": {
               "text": "「감정 기반 항의 무효.」 심사관은 대답 대신 에너지를 방출한다.",
-              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -3 }]
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -3
+                }
+              ]
             }
           }
         ]
@@ -539,7 +675,10 @@
         "choices": [
           {
             "text": "홀로그램 코어를 노린다",
-            "check": { "stat": "sense", "dc": 5 },
+            "check": {
+              "stat": "sense",
+              "dc": 5
+            },
             "alignment": "neutral",
             "karmaShift": 0,
             "success": {
@@ -549,12 +688,21 @@
             },
             "failure": {
               "text": "코어를 노렸지만 홀로그램이 순간 재구성된다. 반격이 날아온다.",
-              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -4 }]
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -4
+                }
+              ]
             }
           },
           {
             "text": "게이트 콘솔을 파괴한다",
-            "check": { "stat": "body", "dc": 5 },
+            "check": {
+              "stat": "body",
+              "dc": 5
+            },
             "alignment": "neutral",
             "karmaShift": 0,
             "success": {
@@ -564,12 +712,21 @@
             },
             "failure": {
               "text": "콘솔에 손이 닿기 전에 심사관이 가로막는다. 에너지가 팔을 스친다.",
-              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -4 }]
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -4
+                }
+              ]
             }
           },
           {
             "text": "시스템 명령을 역이용한다",
-            "check": { "stat": "reason", "dc": 6 },
+            "check": {
+              "stat": "reason",
+              "dc": 6
+            },
             "alignment": "neutral",
             "karmaShift": 0,
             "success": {
@@ -579,37 +736,59 @@
             },
             "failure": {
               "text": "「권한 없음.」 시스템이 거부한다. 그 사이 마지막 에너지가 날아온다.",
-              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -5 }]
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -5
+                }
+              ]
             }
           },
           {
             "text": "\"넌 그냥 프로그램이야. 멈춰.\"",
-            "check": { "stat": "bond", "dc": 7 },
+            "check": {
+              "stat": "bond",
+              "dc": 7
+            },
             "alignment": "light",
             "karmaShift": 5,
             "success": {
               "text": "심사관이 멈춘다. 「...프로그램...」 홀로그램 얼굴에 금이 간다. 무언가를 깨달은 것처럼. 심사관이 스스로 셧다운한다.",
-              "effects": [{ "type": "modifyKarma", "value": 5 }],
+              "effects": [
+                {
+                  "type": "modifyKarma",
+                  "value": 5
+                }
+              ],
               "endCombat": true
             },
             "failure": {
               "text": "「감정 기반 명령 무효.」 하지만 심사관이 잠깐 흔들린다. 마지막 발악처럼 에너지가 쏟아진다.",
-              "effects": [{ "type": "modifyStat", "stat": "hp", "value": -3 }]
+              "effects": [
+                {
+                  "type": "modifyStat",
+                  "stat": "hp",
+                  "value": -3
+                }
+              ]
             }
           }
         ]
       }
     ]
   },
-
   {
     "id": "ch1_gate_open",
     "type": "dialogue",
     "background": "station",
     "speaker": null,
-    "text": "심사관이 흩어진다. 홀로그램 파편이 바닥에 떨어진다.\n\n보안 게이트에서 '찰칵' 소리.\n\n「보안 프로토콜 해제. 통행 허가: 임시.」\n\n게이트가 열린다. 저 너머로 지하철 선로가 보인다.",
+    "text": "심사관이 흩어진다. 홀로그램 파편이 바닥에 떨어진다.\n\n파편 하나가 손바닥에 내려앉았다. 파편 안에 글자가 보였다 — 「분류 기준: 미정의」. 심사관도 자기가 무엇인지 분류받지 못한 존재였다.\n\n보안 게이트에서 '찰칵' 소리.\n\n「보안 프로토콜 해제. 통행 허가: 임시.」\n\n게이트가 열린다. 저 너머로 지하철 선로가 보인다.",
     "effects": [
-      { "type": "setFlag", "flag": "subway_unlocked" }
+      {
+        "type": "setFlag",
+        "flag": "subway_unlocked"
+      }
     ],
     "choices": [
       {
@@ -618,7 +797,6 @@
       }
     ]
   },
-
   {
     "id": "ch1_guide_farewell",
     "type": "dialogue",
@@ -632,7 +810,6 @@
       }
     ]
   },
-
   {
     "id": "ch1_complete",
     "type": "dialogue",
@@ -640,8 +817,13 @@
     "speaker": null,
     "text": "게이트를 넘어선다. 차가운 바람이 불어온다.\n\n선로 위로 희미한 진동. 어딘가에서 열차가 움직이고 있다.\n\n「플랫폼 0 — 통행 허가 대상: 1. 행선지: 미정.」",
     "effects": [
-      { "type": "setFlag", "flag": "chapter1_complete" },
-      { "type": "fullHeal" }
+      {
+        "type": "setFlag",
+        "flag": "chapter1_complete"
+      },
+      {
+        "type": "fullHeal"
+      }
     ],
     "choices": [
       {

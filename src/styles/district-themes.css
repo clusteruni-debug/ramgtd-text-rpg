@@ -1,0 +1,123 @@
+/* district-themes.css — 지구별 시각 정체성 */
+
+/* === A지구: 침묵 — 보라, 점선 테두리, 느린 텍스트 === */
+.district-a {
+  --district-accent: #6b5b95;
+  --district-accent-dim: #3d2b65;
+  --district-bg-tint: rgba(107, 91, 149, 0.05);
+  --district-border: 1px dashed #6b5b9566;
+  --district-glow: #6b5b9544;
+}
+.district-a .dialogue-text {
+  animation: text-silence 0.05s steps(1) both;
+}
+.district-a .choice-btn {
+  border-left: 3px dashed var(--district-accent);
+}
+.district-a .choice-btn:hover {
+  border-left-color: #8b7bb5;
+  box-shadow: -4px 0 12px var(--district-glow);
+}
+
+/* === B지구: 노동 — 산업 녹색/갈색, 이중선 테두리, 빠른 타이핑 === */
+.district-b {
+  --district-accent: #8a9a5b;
+  --district-accent-dim: #4a5a2b;
+  --district-bg-tint: rgba(138, 154, 91, 0.05);
+  --district-border: 3px double #8a9a5b66;
+  --district-glow: #8a9a5b44;
+}
+.district-b .choice-btn {
+  border-left: 3px double var(--district-accent);
+}
+.district-b .choice-btn:hover {
+  box-shadow: -4px 0 12px var(--district-glow);
+}
+
+/* === C지구: 동결 — 얼음 파랑, 서리 테두리, 느린 효과 === */
+.district-c {
+  --district-accent: #4e9af5;
+  --district-accent-dim: #1a4a8a;
+  --district-bg-tint: rgba(78, 154, 245, 0.05);
+  --district-border: 1px solid #4e9af544;
+  --district-glow: #4e9af544;
+}
+.district-c .game-container {
+  filter: saturate(0.8) brightness(0.95);
+}
+.district-c .dialogue-text {
+  text-shadow: 0 0 2px #4e9af522;
+}
+.district-c .choice-btn {
+  border-left: 3px solid var(--district-accent);
+  transition: all 0.5s ease; /* slower — frozen */
+}
+.district-c .choice-btn:hover {
+  box-shadow: -4px 0 15px var(--district-glow), inset 0 0 10px #4e9af511;
+}
+
+/* === D지구: 분노 — 불 빨강, 그을린 테두리, 흔들림 === */
+.district-d {
+  --district-accent: #e94560;
+  --district-accent-dim: #8a1530;
+  --district-bg-tint: rgba(233, 69, 96, 0.05);
+  --district-border: 2px solid #e9456066;
+  --district-glow: #e9456044;
+}
+.district-d .dialogue-box {
+  border-image: linear-gradient(90deg, #e9456033, #ff660033, #e9456033) 1;
+}
+.district-d .choice-btn {
+  border-left: 3px solid var(--district-accent);
+}
+.district-d .choice-btn:hover {
+  box-shadow: -4px 0 12px var(--district-glow);
+  animation: choice-heat 0.3s ease-in-out;
+}
+@keyframes choice-heat {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(2px); }
+  75% { transform: translateX(-1px); }
+  100% { transform: translateX(4px); }
+}
+
+/* === 터미널 — 금색, 시계 눈금, 카운트다운 === */
+.district-terminal {
+  --district-accent: #ffd700;
+  --district-accent-dim: #8a7400;
+  --district-bg-tint: rgba(255, 215, 0, 0.03);
+  --district-border: 1px solid #ffd70044;
+  --district-glow: #ffd70033;
+}
+.district-terminal .choice-btn {
+  border-left: 3px solid var(--district-accent);
+  letter-spacing: 0.5px;
+}
+
+/* === 코어 — 보라+흰, 데이터 스트림, 글리치 === */
+.district-core {
+  --district-accent: #9b59b6;
+  --district-accent-dim: #5b2976;
+  --district-bg-tint: rgba(155, 89, 182, 0.05);
+  --district-border: 1px solid #9b59b644;
+  --district-glow: #9b59b644;
+}
+.district-core .dialogue-box {
+  border: var(--district-border);
+  animation: core-border-glitch 5s ease-in-out infinite;
+}
+@keyframes core-border-glitch {
+  0%, 94%, 100% { border-color: #9b59b644; }
+  95% { border-color: #ff000088; }
+  96% { border-color: #00ff0088; }
+  97% { border-color: #0000ff88; }
+}
+
+/* === 허브 (플랫폼 0) — 중립, 따뜻한 주황 === */
+.district-hub {
+  --district-accent: #e8a84c;
+  --district-accent-dim: #8a6020;
+  --district-bg-tint: rgba(232, 168, 76, 0.03);
+  --district-border: 1px solid #e8a84c33;
+  --district-glow: #e8a84c22;
+}

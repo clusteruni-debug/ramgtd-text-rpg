@@ -1,0 +1,376 @@
+/* enemy-sprites.css — 적별 고유 비주얼 */
+
+/* === 검표원 (ticket_inspector_enemy) — CCTV head, mechanical === */
+.enemy-ticket_inspector_enemy .enemy-sprite-inner {
+  background: radial-gradient(circle at 50% 30%, #ff4444 20%, #660000 60%, #220000);
+  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 100%, 0% 100%, 0% 30%);
+  /* CCTV-like rectangular head shape */
+}
+.enemy-ticket_inspector_enemy .enemy-sprite-inner::after {
+  content: '';
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ff0000, #880000);
+  box-shadow: 0 0 10px #ff0000, 0 0 20px #ff000088;
+  animation: cctv-blink 2s ease-in-out infinite;
+}
+@keyframes cctv-blink {
+  0%, 90%, 100% { opacity: 1; }
+  95% { opacity: 0.2; }
+}
+
+/* === 넥타이 좀비 (necktie_zombie) — hunched, drooping tie === */
+.enemy-necktie_zombie .enemy-sprite-inner {
+  background: linear-gradient(180deg, #444455 0%, #222233 50%, #111122 100%);
+  clip-path: polygon(35% 0%, 65% 0%, 70% 15%, 75% 100%, 25% 100%, 30% 15%);
+  /* hunched suit shape */
+}
+.enemy-necktie_zombie .enemy-sprite-inner::after {
+  content: '';
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 40%;
+  background: linear-gradient(180deg, #cc3333, #881111);
+  animation: tie-sway 3s ease-in-out infinite;
+}
+@keyframes tie-sway {
+  0%, 100% { transform: translateX(-50%) rotate(-2deg); }
+  50% { transform: translateX(-50%) rotate(2deg); }
+}
+
+/* === 검열 드론 (censor_drone) — mechanical drone, symmetrical === */
+.enemy-censor_drone .enemy-sprite-inner {
+  background: radial-gradient(ellipse at center, #8888aa 0%, #444466 40%, #222244 80%);
+  clip-path: polygon(50% 5%, 80% 20%, 95% 50%, 80% 80%, 50% 95%, 20% 80%, 5% 50%, 20% 20%);
+  /* octagonal drone shape */
+  animation: drone-hover 2s ease-in-out infinite;
+}
+.enemy-censor_drone .enemy-sprite-inner::before {
+  content: '정숙';
+  position: absolute;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: #ff4444;
+  letter-spacing: 2px;
+  opacity: 0.8;
+}
+@keyframes drone-hover {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* === 냉각 드론 (frost_drone) — icy sphere, blue glow === */
+.enemy-frost_drone .enemy-sprite-inner {
+  background: radial-gradient(circle at 40% 40%, #aaddff 0%, #4488cc 30%, #224488 60%, #112244 100%);
+  clip-path: circle(48% at 50% 50%);
+  box-shadow: 0 0 20px #4488cc88, 0 0 40px #22448844;
+  animation: frost-pulse 2.5s ease-in-out infinite;
+}
+.enemy-frost_drone .enemy-sprite-inner::after {
+  content: '';
+  position: absolute;
+  inset: 10%;
+  border: 1px solid #aaddff44;
+  border-radius: 50%;
+  animation: frost-ring 3s linear infinite;
+}
+@keyframes frost-pulse {
+  0%, 100% { filter: brightness(1) hue-rotate(0deg); }
+  50% { filter: brightness(1.3) hue-rotate(10deg); }
+}
+@keyframes frost-ring {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* === 분노의 투사 (rage_fighter) — flame aura, aggressive === */
+.enemy-rage_fighter .enemy-sprite-inner {
+  background: radial-gradient(circle at 50% 60%, #ff6600 0%, #cc3300 40%, #661100 70%, #330800 100%);
+  clip-path: polygon(50% 0%, 85% 15%, 100% 50%, 90% 85%, 60% 100%, 40% 100%, 10% 85%, 0% 50%, 15% 15%);
+  /* irregular aggressive shape */
+  animation: rage-flicker 0.3s ease-in-out infinite alternate;
+}
+.enemy-rage_fighter .enemy-sprite-inner::after {
+  content: '';
+  position: absolute;
+  inset: -5%;
+  background: radial-gradient(circle, #ff660033, transparent 70%);
+  animation: flame-aura 1s ease-in-out infinite alternate;
+}
+@keyframes rage-flicker {
+  from { transform: scale(1) rotate(-1deg); }
+  to { transform: scale(1.02) rotate(1deg); }
+}
+@keyframes flame-aura {
+  from { opacity: 0.5; transform: scale(1); }
+  to { opacity: 0.8; transform: scale(1.1); }
+}
+
+/* === 분류 심사관 (classification_examiner) — holographic, data lines === */
+.enemy-classification_examiner .enemy-sprite-inner {
+  background: linear-gradient(135deg, #ff220044 0%, #ff444488 25%, #ff220044 50%, #ff444488 75%, #ff220044 100%);
+  clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+  border: 1px solid #ff444466;
+  animation: holo-scan 2s linear infinite;
+}
+.enemy-classification_examiner .enemy-sprite-inner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #ff4444;
+  animation: scan-line 1.5s linear infinite;
+}
+@keyframes holo-scan {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 200% 200%; }
+}
+@keyframes scan-line {
+  from { top: 0%; }
+  to { top: 100%; }
+}
+
+/* === 그림자 자아 (shadow_self) — mirror silhouette, grey === */
+.enemy-shadow_self .enemy-sprite-inner {
+  background: linear-gradient(180deg, #555566 0%, #333344 40%, #1a1a2e 100%);
+  clip-path: polygon(35% 0%, 65% 0%, 68% 20%, 72% 40%, 60% 55%, 70% 100%, 30% 100%, 40% 55%, 28% 40%, 32% 20%);
+  /* human suit silhouette */
+  animation: shadow-breathe 3s ease-in-out infinite;
+}
+.enemy-shadow_self .enemy-sprite-inner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, #ffffff08 50%, transparent 100%);
+  animation: shadow-glitch 4s ease-in-out infinite;
+}
+@keyframes shadow-breathe {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.03); }
+}
+@keyframes shadow-glitch {
+  0%, 95%, 100% { clip-path: inset(0); }
+  96% { clip-path: inset(20% 0 60% 0); }
+  97% { clip-path: inset(60% 0 10% 0); }
+  98% { clip-path: inset(40% 0 30% 0); }
+}
+
+/* === 고통의 수집가 (pain_collector) — many eyes, organic === */
+.enemy-pain_collector .enemy-sprite-inner {
+  background: radial-gradient(circle at 30% 30%, #cc2244 0%, #881133 30%, #440022 60%, #220011 100%);
+  clip-path: polygon(50% 0%, 75% 10%, 95% 35%, 100% 60%, 85% 85%, 65% 100%, 35% 100%, 15% 85%, 0% 60%, 5% 35%, 25% 10%);
+  /* amorphous organic shape */
+}
+.enemy-pain_collector .enemy-sprite-inner::after {
+  content: '\1F441 \1F441 \1F441';
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  letter-spacing: 4px;
+  animation: eyes-stare 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 4px #ff000088);
+}
+@keyframes eyes-stare {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; letter-spacing: 6px; }
+}
+
+/* === 사서 (librarian) — floating, ink tears, book wings === */
+.enemy-librarian .enemy-sprite-inner {
+  background: linear-gradient(180deg, #6b5b95 0%, #3d2b65 40%, #1a0e35 100%);
+  clip-path: polygon(30% 0%, 70% 0%, 85% 20%, 90% 50%, 70% 70%, 50% 100%, 30% 70%, 10% 50%, 15% 20%);
+  /* floating upper body with book wing silhouette */
+  animation: librarian-float 3s ease-in-out infinite;
+  box-shadow: 0 0 15px #6b5b9544;
+}
+.enemy-librarian .enemy-sprite-inner::before {
+  content: '';
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  width: 60%;
+  height: 2px;
+  transform: translateX(-50%);
+  background: #1a0e35;
+  /* sewn mouth line */
+}
+@keyframes librarian-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* === 현장 소장 (foreman) — mechanical lower body, press arms === */
+.enemy-foreman .enemy-sprite-inner {
+  background: linear-gradient(180deg, #5a6741 0%, #3a4725 30%, #666666 50%, #444444 100%);
+  clip-path: polygon(25% 0%, 75% 0%, 80% 10%, 100% 30%, 95% 50%, 100% 70%, 85% 100%, 15% 100%, 0% 70%, 5% 50%, 0% 30%, 20% 10%);
+  /* human top + mechanical bottom */
+  animation: foreman-press 1.5s ease-in-out infinite;
+}
+.enemy-foreman .enemy-sprite-inner::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 25%;
+  background: linear-gradient(180deg, #cc3333, #661111);
+  /* tie with blood */
+}
+@keyframes foreman-press {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.97); }
+}
+
+/* === 동면 관리자 (curator) — ice pipes, blue eyes === */
+.enemy-curator .enemy-sprite-inner {
+  background: linear-gradient(180deg, #88bbdd 0%, #4477aa 30%, #335588 50%, #224466 70%, #113344 100%);
+  clip-path: polygon(30% 0%, 70% 0%, 75% 20%, 80% 40%, 100% 60%, 95% 80%, 80% 100%, 20% 100%, 5% 80%, 0% 60%, 20% 40%, 25% 20%);
+  /* upper human + pipe-connected lower */
+  box-shadow: 0 0 25px #4488cc44, inset 0 0 20px #aaddff22;
+  animation: curator-freeze 4s ease-in-out infinite;
+}
+.enemy-curator .enemy-sprite-inner::after {
+  content: '';
+  position: absolute;
+  top: 20%;
+  left: 45%;
+  width: 10%;
+  height: 8%;
+  border-radius: 50%;
+  background: #66ccff;
+  box-shadow: 15px 0 0 #66ccff, 0 0 8px #66ccff;
+  /* blue eyes */
+}
+@keyframes curator-freeze {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.15) saturate(1.2); }
+}
+
+/* === 주방장 (chef) — burning hat, pan weapon === */
+.enemy-chef .enemy-sprite-inner {
+  background: radial-gradient(circle at 50% 70%, #ff6600 0%, #cc3300 30%, #882200 50%, #441100 80%);
+  clip-path: polygon(25% 0%, 75% 0%, 70% 5%, 80% 10%, 70% 15%, 80% 20%, 85% 100%, 15% 100%, 20% 20%, 30% 15%, 20% 10%, 30% 5%);
+  /* chef hat (flame-like top) + body */
+  animation: chef-burn 0.5s ease-in-out infinite alternate;
+}
+.enemy-chef .enemy-sprite-inner::after {
+  content: '';
+  position: absolute;
+  top: -5%;
+  left: 30%;
+  width: 40%;
+  height: 20%;
+  background: linear-gradient(180deg, #ffcc00, #ff6600, transparent);
+  clip-path: polygon(20% 100%, 50% 0%, 80% 100%);
+  animation: hat-flame 0.8s ease-in-out infinite alternate;
+}
+@keyframes chef-burn {
+  from { filter: brightness(1); }
+  to { filter: brightness(1.2); }
+}
+@keyframes hat-flame {
+  from { transform: scaleY(1) scaleX(1); }
+  to { transform: scaleY(1.3) scaleX(0.9); }
+}
+
+/* === 역장 (station_master) — clock face, precise === */
+.enemy-station_master .enemy-sprite-inner {
+  background: conic-gradient(from 0deg, #333333, #555555, #333333, #555555, #333333, #555555, #333333, #555555, #333333, #555555, #333333, #555555);
+  clip-path: circle(48% at 50% 40%);
+  box-shadow: 0 0 20px #ffd70044;
+  animation: clock-tick 1s steps(12) infinite;
+}
+.enemy-station_master .enemy-sprite-inner::before {
+  content: '';
+  position: absolute;
+  top: 15%;
+  left: 49%;
+  width: 2px;
+  height: 25%;
+  background: #ffd700;
+  transform-origin: bottom center;
+  animation: minute-hand 4s linear infinite;
+}
+.enemy-station_master .enemy-sprite-inner::after {
+  content: '';
+  position: absolute;
+  top: 20%;
+  left: 49%;
+  width: 2px;
+  height: 18%;
+  background: #ff6644;
+  transform-origin: bottom center;
+  animation: hour-hand 12s linear infinite;
+}
+@keyframes clock-tick {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes minute-hand {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes hour-hand {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* === 시장 (mayor) — screen face, cable throne, data streams === */
+.enemy-mayor .enemy-sprite-inner {
+  background: linear-gradient(180deg, #222244 0%, #1a1a3a 30%, #9b59b6 50%, #1a1a3a 70%, #222244 100%);
+  clip-path: polygon(20% 0%, 80% 0%, 90% 10%, 95% 30%, 100% 50%, 95% 70%, 90% 90%, 80% 100%, 20% 100%, 10% 90%, 5% 70%, 0% 50%, 5% 30%, 10% 10%);
+  /* massive server throne shape */
+  box-shadow: 0 0 30px #9b59b644, 0 0 60px #9b59b622;
+  animation: mayor-data 2s linear infinite;
+}
+.enemy-mayor .enemy-sprite-inner::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 25%;
+  width: 50%;
+  height: 25%;
+  background: #000;
+  border: 1px solid #9b59b6;
+  /* screen face */
+  animation: screen-flicker 3s ease-in-out infinite;
+}
+.enemy-mayor .enemy-sprite-inner::after {
+  content: '0100110';
+  position: absolute;
+  top: 14%;
+  left: 28%;
+  font-size: 8px;
+  color: #9b59b6;
+  font-family: monospace;
+  animation: data-scroll 2s linear infinite;
+}
+@keyframes mayor-data {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 100px; }
+}
+@keyframes screen-flicker {
+  0%, 95%, 100% { opacity: 1; }
+  96% { opacity: 0.5; }
+  97% { opacity: 1; }
+  98% { opacity: 0.3; }
+}
+@keyframes data-scroll {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(10px); opacity: 0; }
+}

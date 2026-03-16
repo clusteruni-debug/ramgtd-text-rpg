@@ -3,6 +3,7 @@
  * 신뢰도, 생존 상태, 스킬 + 충전 표시, 초상화
  */
 import { createElement } from '../utils/helpers.js';
+import { icons } from './icons.js';
 
 export default class CompanionPanel {
   constructor(container, stateManager, getCharacterData = null) {
@@ -55,7 +56,7 @@ export default class CompanionPanel {
       const src = (import.meta.env.BASE_URL || '/') + charData.portrait;
       return `<img class="comp-portrait-img" src="${src}" alt="${comp.name}" onerror="this.replaceWith(document.createTextNode('${comp.alive === false ? '💀' : '👤'}'))">`;
     }
-    return comp.alive === false ? '💀' : '👤';
+    return comp.alive === false ? icons.defeat(16) : '👤';
   }
 
   render() {

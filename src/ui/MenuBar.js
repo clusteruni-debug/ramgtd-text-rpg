@@ -2,6 +2,7 @@
  * MenuBar - 상단 메뉴 (세이브/인벤토리/설정)
  */
 import { createElement } from '../utils/helpers.js';
+import { icons } from './icons.js';
 
 export default class MenuBar {
   constructor(container, saveLoadSystem) {
@@ -70,7 +71,7 @@ export default class MenuBar {
       if (info) {
         btn.innerHTML = `
           <span class="slot-label">슬롯 ${i + 1}</span>
-          <span class="slot-info">${info.playerName} 🧠${info.memories || '?'} - ${info.date}</span>
+          <span class="slot-info">${info.playerName} ${icons.memory(14)}${info.memories || '?'} - ${info.date}</span>
         `;
       } else {
         btn.innerHTML = `

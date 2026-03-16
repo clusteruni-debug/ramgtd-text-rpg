@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: '/ramgtd-text-rpg/',
+  base: '/',
   root: '.',
   publicDir: 'public',
   build: {

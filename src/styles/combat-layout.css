@@ -8,6 +8,8 @@
   display: flex;
   flex-direction: column;
   z-index: 15;
+  /* Leave room for the stats panel header */
+  padding-top: var(--header-height);
 }
 
 /* 전투 헤더 (라운드 + HP) */
@@ -16,71 +18,131 @@
   align-items: center;
   justify-content: space-between;
   padding: 8px 16px;
-  background: var(--bg-panel);
-  border-bottom: 2px solid var(--border-color);
+  background: #16213ef0;
+  border-bottom: 1px solid var(--border-color);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   flex-shrink: 0;
+  gap: 12px;
 }
 
 .combat-round-indicator {
   font-size: 13px;
   color: var(--text-speaker);
   letter-spacing: 1px;
+  flex-shrink: 0;
 }
 
-.combat-hp-mini {
+/* ===== 전투 중 HP 바 (크고 눈에 잘 띄게) ===== */
+.combat-hp-combat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  max-width: 320px;
+}
+
+.combat-hp-label {
+  font-size: 13px;
+  font-weight: bold;
+  color: var(--hp-color);
+  letter-spacing: 1px;
+  text-shadow: 0 0 6px var(--hp-color);
+  flex-shrink: 0;
+}
+
+.combat-hp-bar {
   position: relative;
-  width: 120px;
-  height: 16px;
+  flex: 1;
+  min-width: 200px;
+  height: 22px;
   background: var(--hp-bg);
-  border-radius: 2px;
+  border: 2px solid var(--hp-color);
+  border-radius: 3px;
   overflow: hidden;
+  box-shadow: 0 0 8px rgba(233, 69, 96, 0.3), inset 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-.combat-hp-mini-fill {
+.combat-hp-bar-fill {
   height: 100%;
-  background: var(--hp-color);
+  background: linear-gradient(180deg, #ff6b7f 0%, var(--hp-color) 50%, #c02040 100%);
   transition: width 0.3s ease;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-.combat-hp-mini-fill.hp-low {
-  background: #f59e0b;
+.combat-hp-bar-fill.hp-low {
+  background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
 }
 
-.combat-hp-mini-fill.hp-critical {
-  background: var(--hp-color);
+.combat-hp-bar-fill.hp-critical {
+  background: linear-gradient(180deg, #ff6b7f 0%, var(--hp-color) 50%, #c02040 100%);
   animation: pulse 1s ease-in-out infinite;
 }
 
-.combat-hp-mini-text {
+.combat-hp-bar-text {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 10px;
+  font-size: 12px;
+  font-weight: bold;
   color: white;
-  text-shadow: 1px 1px 0 #000;
+  text-shadow: 1px 1px 2px #000, -1px -1px 2px #000;
   white-space: nowrap;
+  z-index: 1;
 }
 
-/* 적 영역 */
+/* ===== 적 영역 ===== */
 .combat-enemy {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px 16px;
+  padding: 24px 20px 12px;
   gap: 8px;
 }
 
-.enemy-sprite {
-  width: 80px;
-  height: 80px;
-  image-rendering: pixelated;
+/* 적 스프라이트 래퍼 */
+.enemy-sprite-wrapper {
+  width: 128px;
+  height: 128px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid var(--border-color);
+  box-shadow: 0 0 20px rgba(233, 69, 96, 0.2), 0 4px 16px rgba(0, 0, 0, 0.5);
+  background: var(--bg-primary);
+  position: relative;
+}
+
+/* 적 이미지 (실제 이미지가 있을 때) */
+.enemy-sprite-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: auto;
+  display: block;
+}
+
+.enemy-sprite-img.hidden {
+  display: none;
+}
+
+/* CSS 폴백 스프라이트 (이미지 없을 때) */
+.enemy-sprite-fallback {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.enemy-sprite-fallback.hidden {
+  display: none;
 }
 
 .enemy-default {
-  background: var(--text-accent);
+  background: radial-gradient(circle at 40% 35%, var(--text-accent) 0%, #5a1a2a 70%, var(--bg-primary) 100%);
   clip-path: polygon(
     20% 0%, 80% 0%, 100% 20%, 100% 60%,
     80% 80%, 60% 100%, 40% 100%, 20% 80%,
@@ -89,7 +151,7 @@
 }
 
 .enemy-shadow {
-  background: linear-gradient(135deg, #333 0%, #666 50%, #333 100%);
+  background: linear-gradient(135deg, #222 0%, #555 40%, #333 60%, #111 100%);
   clip-path: polygon(
     30% 0%, 70% 0%, 90% 15%, 100% 40%,
     95% 70%, 75% 100%, 25% 100%, 5% 70%,
@@ -104,7 +166,7 @@
 }
 
 .enemy-collector {
-  background: linear-gradient(135deg, #8b0000 0%, #4a0000 50%, #8b0000 100%);
+  background: linear-gradient(135deg, #8b0000 0%, #4a0000 40%, #6b0020 60%, #8b0000 100%);
   clip-path: polygon(
     50% 0%, 85% 10%, 100% 40%, 90% 80%,
     60% 100%, 40% 100%, 10% 80%, 0% 40%,
@@ -147,27 +209,69 @@
   50% { box-shadow: 0 0 10px rgba(239, 68, 68, 0.6); }
 }
 
-/* 전투 본문 */
+/* ===== 라운드 진행 바 (적 아래, 보스 체력바처럼 보이는 전투 진행도) ===== */
+.round-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 180px;
+}
+
+.round-progress.hidden {
+  display: none;
+}
+
+.round-progress-bar {
+  flex: 1;
+  height: 10px;
+  background: var(--bg-primary);
+  border: 1px solid var(--text-accent);
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 0 6px rgba(255, 110, 110, 0.15);
+}
+
+.round-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--text-accent) 0%, #ff9e6e 100%);
+  transition: width 0.5s ease;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.round-progress-text {
+  font-size: 11px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  min-width: 32px;
+  text-align: center;
+}
+
+/* ===== 전투 본문 ===== */
 .combat-body {
   flex: 1;
   display: flex;
   flex-direction: column;
   padding: 0 20px;
   overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   gap: 12px;
 }
+.combat-body::-webkit-scrollbar { display: none; }
 
 /* 라운드 상황 텍스트 */
 .combat-round-text {
-  font-size: 14px;
+  font-size: 20px;
   color: var(--text-primary);
   line-height: 1.6;
   padding: 12px 16px;
-  background: var(--bg-dialogue);
+  background: #1a1a2ef0;
   border-left: 3px solid var(--text-accent);
+  border-radius: 4px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
-/* 선택지 */
+/* ===== 선택지 ===== */
 .combat-choices {
   display: flex;
   flex-direction: column;
@@ -182,15 +286,39 @@
   background: var(--bg-secondary);
   color: var(--text-primary);
   border: 2px solid var(--border-color);
-  font-size: 13px;
+  font-size: 17px;
   text-align: left;
-  transition: all 0.15s;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle inner glow on hover */
+.combat-choice-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(233, 69, 96, 0.12) 0%, transparent 70%);
+  transition: opacity 0.2s ease;
+  pointer-events: none;
 }
 
 .combat-choice-btn:hover {
-  background: var(--btn-primary);
-  border-color: var(--btn-hover);
+  background: var(--bg-panel);
+  border-color: var(--text-accent);
   color: white;
+  box-shadow: 0 0 12px rgba(233, 69, 96, 0.25), inset 0 0 20px rgba(233, 69, 96, 0.05);
+  transform: translateX(4px);
+}
+
+.combat-choice-btn:hover::before {
+  opacity: 1;
+}
+
+.combat-choice-btn:active {
+  transform: translateX(2px) scale(0.98);
+  box-shadow: 0 0 6px rgba(233, 69, 96, 0.4);
 }
 
 .choice-key {
@@ -199,7 +327,15 @@
   background: var(--bg-panel);
   padding: 2px 7px;
   border-radius: 2px;
+  border: 1px solid var(--border-color);
   flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.combat-choice-btn:hover .choice-key {
+  color: var(--text-accent);
+  border-color: var(--text-accent);
+  box-shadow: 0 0 4px rgba(233, 69, 96, 0.3);
 }
 
 .choice-label {
@@ -258,13 +394,14 @@
   color: var(--text-accent);
   border: 1px solid var(--border-color);
   border-radius: 3px;
-  transition: all 0.15s;
+  transition: all 0.2s ease;
   cursor: pointer;
 }
 
 .companion-skill-btn:hover {
   border-color: var(--text-accent);
   background: var(--bg-secondary);
+  box-shadow: 0 0 6px rgba(233, 69, 96, 0.2);
 }
 
 .companion-skill-btn.active {
@@ -289,7 +426,7 @@
   color: #a855f7;
 }
 
-/* 판정 결과 */
+/* ===== 판정 결과 ===== */
 .combat-result {
   display: flex;
   flex-direction: column;
@@ -324,6 +461,14 @@
 
 .dice-icon {
   font-size: 20px;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.dice-icon svg {
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .dice-formula strong {
@@ -369,22 +514,47 @@
 .hp-loss { color: var(--hp-color); }
 .hp-gain { color: var(--exp-color); }
 
-/* 계속 버튼 */
+/* ===== 계속 버튼 ===== */
 .result-continue-btn {
-  padding: 12px 24px;
-  background: var(--btn-primary);
+  padding: 12px 32px;
+  background: var(--bg-secondary);
   color: var(--btn-text);
-  border: 2px solid var(--btn-hover);
+  border: 2px solid var(--text-accent);
   font-size: 14px;
+  font-weight: bold;
   align-self: center;
   margin-top: 4px;
-  transition: all 0.15s;
-}
-.result-continue-btn:hover {
-  background: var(--btn-hover);
+  transition: all 0.2s ease;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
 }
 
-/* 승리/패배 배너 */
+.result-continue-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(233, 69, 96, 0.15), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.4s ease;
+}
+
+.result-continue-btn:hover {
+  background: var(--btn-primary);
+  border-color: var(--btn-hover);
+  box-shadow: 0 0 16px rgba(233, 69, 96, 0.4), 0 0 4px rgba(233, 69, 96, 0.2);
+  transform: scale(1.03);
+}
+
+.result-continue-btn:hover::after {
+  transform: translateX(100%);
+}
+
+.result-continue-btn:active {
+  transform: scale(0.97);
+}
+
+/* ===== 승리/패배 배너 ===== */
 .combat-end-banner {
   text-align: center;
   padding: 32px 24px;
@@ -415,22 +585,24 @@
   margin-top: 12px;
 }
 
-/* 전투 로그 */
+/* ===== 전투 로그 ===== */
 .combat-log {
-  background: var(--bg-dialogue);
-  border-top: 2px solid var(--border-color);
+  background: #1a1a2ef0;
+  border-top: 1px solid var(--border-color);
   padding: 10px 20px;
-  min-height: 80px;
-  max-height: 100px;
-  overflow-y: auto;
+  max-height: 140px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 3px;
   flex-shrink: 0;
+  /* 위쪽 오래된 로그 자연스럽게 페이드 */
+  mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 100%);
 }
 
 .combat-log-line {
-  font-size: 12px;
+  font-size: 15px;
   color: var(--text-secondary);
   animation: log-appear 0.2s ease;
 }
@@ -446,19 +618,44 @@
 
 /* ===== 반응형: 폰 ===== */
 @media (max-width: 480px) {
-  .enemy-sprite {
-    width: 56px;
-    height: 56px;
+  .combat-ui {
+    padding-top: 64px;
+  }
+
+  .enemy-sprite-wrapper {
+    width: 96px;
+    height: 96px;
   }
 
   .combat-enemy {
-    padding: 20px 12px 8px;
+    padding: 12px 12px 8px;
+  }
+
+  .combat-hp-combat {
+    max-width: 100%;
+  }
+
+  .combat-hp-bar {
+    min-width: 140px;
+    height: 18px;
+  }
+
+  .combat-hp-bar-text {
+    font-size: 10px;
+  }
+
+  .round-progress {
+    width: 140px;
   }
 
   .combat-choice-btn {
     min-height: 44px;
     padding: 10px 10px;
     gap: 6px;
+  }
+
+  .combat-choice-btn:hover {
+    transform: translateX(2px);
   }
 
   .combat-body {
@@ -472,7 +669,6 @@
 
   .combat-log {
     padding: 6px 10px;
-    min-height: 60px;
-    max-height: 80px;
+    max-height: 100px;
   }
 }

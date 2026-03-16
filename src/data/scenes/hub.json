@@ -8,7 +8,12 @@
     "choices": [
       {
         "text": "🚇 지하철을 타고 구역으로 이동한다",
-        "conditions": [{ "type": "hasFlag", "flag": "subway_unlocked" }],
+        "conditions": [
+          {
+            "type": "hasFlag",
+            "flag": "subway_unlocked"
+          }
+        ],
         "nextScene": "__map__"
       },
       {
@@ -26,23 +31,47 @@
       {
         "text": "🚪 중앙 환승 터미널로 간다",
         "conditions": [
-          { "type": "hasItem", "item": "key_card_a" },
-          { "type": "hasItem", "item": "key_card_b" },
-          { "type": "hasItem", "item": "key_card_c" },
-          { "type": "hasItem", "item": "key_card_d" }
+          {
+            "type": "hasItem",
+            "item": "key_card_a"
+          },
+          {
+            "type": "hasItem",
+            "item": "key_card_b"
+          },
+          {
+            "type": "hasItem",
+            "item": "key_card_c"
+          },
+          {
+            "type": "hasItem",
+            "item": "key_card_d"
+          }
         ],
         "nextScene": "terminal_entrance"
       },
       {
         "text": "🔥 동료와 이야기한다 (캠프파이어)",
-        "conditions": [{ "type": "hasFlag", "flag": "district_a_cleared" }],
+        "conditions": [
+          {
+            "type": "hasFlag",
+            "flag": "district_a_cleared"
+          }
+        ],
         "nextScene": "hub_campfire"
       },
       {
         "text": "👤 미선에게 간다",
         "conditions": [
-          { "type": "hasFlag", "flag": "district_a_cleared" },
-          { "type": "hasFlag", "flag": "miseon_recruited", "value": false }
+          {
+            "type": "hasFlag",
+            "flag": "district_a_cleared"
+          },
+          {
+            "type": "hasFlag",
+            "flag": "miseon_recruited",
+            "value": false
+          }
         ],
         "nextScene": "hub_miseon_recruit"
       },
@@ -65,26 +94,46 @@
       },
       {
         "text": "안내자를 찾는다",
-        "conditions": [{ "type": "hasFlag", "flag": "subway_unlocked" }],
+        "conditions": [
+          {
+            "type": "hasFlag",
+            "flag": "subway_unlocked"
+          }
+        ],
         "nextScene": "hub_guide_progress"
       },
       {
         "text": "새로 도착한 영혼과 이야기한다",
-        "conditions": [{ "type": "hasFlag", "flag": "district_a_cleared" }],
+        "conditions": [
+          {
+            "type": "hasFlag",
+            "flag": "district_a_cleared"
+          }
+        ],
         "nextScene": "hub_freed_soul_a"
       },
       {
         "text": "넥타이를 푼 영혼에게 말을 건다",
-        "conditions": [{ "type": "hasFlag", "flag": "district_b_cleared" }],
+        "conditions": [
+          {
+            "type": "hasFlag",
+            "flag": "district_b_cleared"
+          }
+        ],
         "nextScene": "hub_freed_soul_b"
       },
       {
         "text": "따뜻한 국물 냄새를 따라간다",
-        "conditions": [{ "type": "hasFlag", "flag": "district_d_cleared" }],
+        "conditions": [
+          {
+            "type": "hasFlag",
+            "flag": "district_d_cleared"
+          }
+        ],
         "nextScene": "hub_chef_stall"
       },
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 형광등은 여전히 깜박인다.",
         "nextScene": "hub_platform0"
       }
     ]
@@ -118,7 +167,7 @@
     "text": "\"모르겠어. 처음엔 세었는데...\"\n\n그가 손가락을 접어본다. 여덟 번째쯤에서 멈춘다.\n\n\"...손가락이 모자라.\n\n아, 맞아. 여기 팁 하나 줄게. 검표원들 무서워하지 마. 걔네도 그냥 월급쟁이야. 진짜 무서운 건 지구장들이야. 구역 깊숙한 곳에 있는 놈들.\n\n그리고 기억... 소중하게 해. 잃으면 다시 안 돌아와.\"",
     "choices": [
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 손가락이 모자란다는 말이 떠오른다.",
         "nextScene": "hub_platform0"
       }
     ]
@@ -130,11 +179,14 @@
     "speaker": "weary_soul",
     "text": "\"밖?\"\n\n영혼이 웃는다. 소리가 안 나는 웃음이다.\n\n\"여기서 나가려면... 4개 구역의 지구장을 전부 꺾고, 역장한테 중앙행 티켓을 받아야 해. 그 다음엔 시장이 있고.\n\n아무도 성공한 적 없어. 하지만...\"\n\n그가 당신을 올려다본다.\n\n\"넌 죽어도 살아나잖아. 그러니까 가능할지도.\"",
     "effects": [
-      { "type": "setFlag", "flag": "heard_escape_info" }
+      {
+        "type": "setFlag",
+        "flag": "heard_escape_info"
+      }
     ],
     "choices": [
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 죽어도 살아나는 건 저주인지 축복인지.",
         "nextScene": "hub_platform0"
       }
     ]
@@ -148,28 +200,61 @@
     "choices": [
       {
         "text": "진통제 구매 (💎10) — HP +10 회복",
-        "conditions": [{ "type": "engramGreaterThan", "value": 9 }],
+        "conditions": [
+          {
+            "type": "engramGreaterThan",
+            "value": 9
+          }
+        ],
         "effects": [
-          { "type": "addEngrams", "value": -10 },
-          { "type": "addItem", "item": "painkiller" }
+          {
+            "type": "addEngrams",
+            "value": -10
+          },
+          {
+            "type": "addItem",
+            "item": "painkiller"
+          }
         ],
         "nextScene": "hub_vending_bought"
       },
       {
         "text": "기억 음료 구매 (💎20) — HP +20 완전 회복",
-        "conditions": [{ "type": "engramGreaterThan", "value": 19 }],
+        "conditions": [
+          {
+            "type": "engramGreaterThan",
+            "value": 19
+          }
+        ],
         "effects": [
-          { "type": "addEngrams", "value": -20 },
-          { "type": "addItem", "item": "memory_drink" }
+          {
+            "type": "addEngrams",
+            "value": -20
+          },
+          {
+            "type": "addItem",
+            "item": "memory_drink"
+          }
         ],
         "nextScene": "hub_vending_bought"
       },
       {
         "text": "쓴 물 구매 (💎5) — HP +5 회복",
-        "conditions": [{ "type": "engramGreaterThan", "value": 4 }],
+        "conditions": [
+          {
+            "type": "engramGreaterThan",
+            "value": 4
+          }
+        ],
         "effects": [
-          { "type": "addEngrams", "value": -5 },
-          { "type": "addItem", "item": "bitter_water" }
+          {
+            "type": "addEngrams",
+            "value": -5
+          },
+          {
+            "type": "addItem",
+            "item": "bitter_water"
+          }
         ],
         "nextScene": "hub_vending_bought"
       },
@@ -217,7 +302,6 @@
       }
     ]
   },
-
   {
     "id": "hub_guide_progress",
     "type": "dialogue",
@@ -227,28 +311,53 @@
     "choices": [
       {
         "text": "이야기를 나눈다",
-        "conditions": [{ "type": "hasFlag", "flag": "district_a_cleared", "value": false }],
+        "conditions": [
+          {
+            "type": "hasFlag",
+            "flag": "district_a_cleared",
+            "value": false
+          }
+        ],
         "nextScene": "hub_guide_early"
       },
       {
         "text": "이야기를 나눈다",
         "conditions": [
-          { "type": "hasFlag", "flag": "district_a_cleared" },
-          { "type": "hasFlag", "flag": "district_b_cleared", "value": false }
+          {
+            "type": "hasFlag",
+            "flag": "district_a_cleared"
+          },
+          {
+            "type": "hasFlag",
+            "flag": "district_b_cleared",
+            "value": false
+          }
         ],
         "nextScene": "hub_guide_after_a"
       },
       {
         "text": "이야기를 나눈다",
         "conditions": [
-          { "type": "hasFlag", "flag": "district_b_cleared" },
-          { "type": "hasFlag", "flag": "district_d_cleared", "value": false }
+          {
+            "type": "hasFlag",
+            "flag": "district_b_cleared"
+          },
+          {
+            "type": "hasFlag",
+            "flag": "district_d_cleared",
+            "value": false
+          }
         ],
         "nextScene": "hub_guide_after_b"
       },
       {
         "text": "이야기를 나눈다",
-        "conditions": [{ "type": "hasFlag", "flag": "district_d_cleared" }],
+        "conditions": [
+          {
+            "type": "hasFlag",
+            "flag": "district_d_cleared"
+          }
+        ],
         "nextScene": "hub_guide_final"
       }
     ]
@@ -261,7 +370,7 @@
     "text": "\"살아있구나. 다행이다.\"\n\n안내자가 허름한 커피를 건넨다.\n\n\"첫 번째 지구 가봤어? 어느 쪽이든 만만한 데는 없을 거야.\"\n\n\"팁 하나. 지구에 들어가면 주민들한테 먼저 이야기를 들어. 보스한테 직행하는 건 바보짓이야.\"\n\n\"...내가 도울 수 있는 건 여기까지지만. 네가 돌아올 때마다 기다리고 있을게.\"",
     "choices": [
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 안내자의 커피 온기가 남아있다.",
         "nextScene": "hub_platform0"
       }
     ]
@@ -271,10 +380,10 @@
     "type": "dialogue",
     "background": "station",
     "speaker": "guide",
-    "text": "\"하나 해냈어. 대단하다.\"\n\n안내자의 눈에 빛이 돌아온다.\n\n\"A지구... 침묵의 저택이지. 소리가 돌아왔다고 들었어. 여기까지 바람을 타고 속삭임이 오더라.\"\n\n\"근데 있잖아. 보안 카드 4개 모으면 중앙 터미널이 열려. 거기서 역장을 만나게 될 거야.\"\n\n\"역장은... 시간을 다루는 놈이야. 조심해.\"",
+    "text": "\"하나 해냈어. 대단하다.\"\n\n안내자의 눈에 빛이 돌아온다.\n\n\"A지구... 침묵의 저택이지. 소리가 돌아왔다고 들었어.\"\n\n플랫폼 0에 변화가 있었다. 벽 타일 사이로 — 속삭임이 들린다. 아주 작게. 사서가 풀려나면서 되돌아온 소리들.\n\n\"여기까지 바람을 타고 속삭임이 오더라. 처음이야. 여기서 소리가 들리는 건.\"\n\n\"보안 카드 4개 모으면 중앙 터미널이 열려. 거기서 역장을 만나게 될 거야.\"\n\n\"역장은... 시간을 다루는 놈이야. 조심해.\"",
     "choices": [
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 속삭임이 벽을 타고 흐르고 있다.",
         "nextScene": "hub_platform0"
       }
     ]
@@ -284,10 +393,10 @@
     "type": "dialogue",
     "background": "station",
     "speaker": "guide",
-    "text": "\"반이 됐어. 대단한 놈이야, 넌.\"\n\n안내자가 진지한 표정으로 말한다.\n\n\"텐트촌이 달라지고 있어. 네가 지구를 해방할 때마다 여기 영혼들 표정이 변해.\"\n\n\"아까 벽에 '출구 없음'이라고 쓴 놈 있잖아? 그 글씨 위에 '출구 있음?'이라고 누가 덧써놨더라.\"\n\n안내자가 웃는다.\n\n\"물음표가 붙었다는 게 중요해. 희망은 물음표에서 시작하거든.\"",
+    "text": "\"반이 됐어. 대단한 놈이야, 넌.\"\n\n안내자가 진지한 표정으로 말한다.\n\n\"텐트촌이 달라지고 있어. 네가 지구를 해방할 때마다 여기 영혼들 표정이 변해.\"\n\n바닥에서 느껴지던 규칙적인 진동이 사라졌다. B지구 프레스가 멈춘 것이다. 수천 년 동안 계속된 '쿵, 쿵, 쿵'이 처음으로 멈췄다.\n\n\"아까 벽에 '출구 없음'이라고 쓴 놈 있잖아? 그 글씨 위에 '출구 있음?'이라고 누가 덧써놨더라.\"\n\n안내자가 웃는다.\n\n\"물음표가 붙었다는 게 중요해. 희망은 물음표에서 시작하거든.\"",
     "choices": [
       {
-        "text": "돌아간다",
+        "text": "돌아간다. '출구 있음?' 물음표가 희망의 시작이다.",
         "nextScene": "hub_platform0"
       }
     ]
@@ -297,19 +406,27 @@
     "type": "dialogue",
     "background": "station",
     "speaker": "guide",
-    "text": "\"4개 전부.\"\n\n안내자가 일어선다. 처음으로.\n\n\"너... 진짜 해냈어.\"\n\n그가 주머니에서 무언가를 꺼낸다. 오래된 사진. 누군가의 웃는 얼굴이지만, 흐릿해서 누군지 알 수 없다.\n\n\"이거 내 기억이야. 마지막 남은 거. 비 오는 날 창문 너머 웃던 사람.\"\n\n\"가져가. 중앙에서 — 아마 도움이 될 거야. 아닐 수도 있고.\"\n\n\"...난 여기서 기다릴게. 언제나처럼.\"",
+    "text": "\"4개 전부.\"\n\n안내자가 일어선다. 처음으로.\n\n\"너... 진짜 해냈어.\"\n\n플랫폼 0이 달라져 있었다. 벽에서 속삭임이 들리고, 프레스의 진동은 멈추고, 공기가 따뜻해졌고, 영원히 타던 불빛이 꺼지면서 — 천장에 별 같은 것이 보인다. 이 도시에서 처음으로.\n\n그가 주머니에서 무언가를 꺼낸다. 오래된 사진. 누군가의 웃는 얼굴이지만, 흐릿해서 누군지 알 수 없다.\n\n\"이거 내 기억이야. 마지막 남은 거. 비 오는 날 창문 너머 웃던 사람.\"\n\n\"가져가. 중앙에서 — 아마 도움이 될 거야. 아닐 수도 있고.\"\n\n\"...난 여기서 기다릴게. 언제나처럼.\"",
     "effects": [
-      { "type": "addItem", "item": "guide_memory_photo" },
-      { "type": "addAbyssMemory", "id": "mem_guide_final", "label": "안내자의 마지막 기억", "weight": 4, "source": "platform0" }
+      {
+        "type": "addItem",
+        "item": "guide_memory_photo"
+      },
+      {
+        "type": "addAbyssMemory",
+        "id": "mem_guide_final",
+        "label": "안내자의 마지막 기억",
+        "weight": 4,
+        "source": "platform0"
+      }
     ],
     "choices": [
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 텐트촌이 조금씩 달라지고 있다.",
         "nextScene": "hub_platform0"
       }
     ]
   },
-
   {
     "id": "hub_freed_soul_a",
     "type": "dialogue",
@@ -317,11 +434,14 @@
     "speaker": null,
     "text": "텐트촌에 새로운 얼굴이 보인다. A지구에서 온 영혼.\n\n입의 봉합 자국이 남아있지만, 입이 열려있다. 말할 수 있다.\n\n\"...안녕. 처음으로 이 말을 해봐.\"\n\n영혼이 어색하게 웃는다.\n\n\"A지구가 달라졌어. 아직 완벽하진 않지만, 기록 보관소에 글자가 돌아오기 시작했대.\"\n\n\"고마워. 진심으로.\"",
     "effects": [
-      { "type": "modifyKarma", "value": 3 }
+      {
+        "type": "modifyKarma",
+        "value": 3
+      }
     ],
     "choices": [
       {
-        "text": "돌아간다",
+        "text": "돌아간다. '안녕'이라는 한마디가 가장 아름다운 소리다.",
         "nextScene": "hub_look_around"
       }
     ]
@@ -333,11 +453,14 @@
     "speaker": null,
     "text": "넥타이를 풀고 양복 상의를 벗은 영혼이 텐트 옆에 앉아있다.\n\n\"퇴근했어. 처음으로.\"\n\n그가 하늘을 올려다본다. 여기서는 천장밖에 없지만.\n\n\"이상하지. 일하던 게 내 전부였는데, 안 하니까 뭘 해야 할지 모르겠어.\"\n\n\"근데... 나쁘지 않아. 이 '뭘 해야 할지 모르는' 기분.\"\n\n\"자유가 이런 거였나.\"",
     "effects": [
-      { "type": "modifyKarma", "value": 3 }
+      {
+        "type": "modifyKarma",
+        "value": 3
+      }
     ],
     "choices": [
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 자유는 뭐를 해야 할지 모르는 기분이다.",
         "nextScene": "hub_look_around"
       }
     ]
@@ -349,17 +472,23 @@
     "speaker": null,
     "text": "텐트촌 구석에 — 작은 노점이 생겼다.\n\n불꽃이 아니라 연탄불. D지구에서 온 영혼이 요리를 하고 있다.\n\n\"주방장이 남긴 레시피로 해봤어. 서투르지만.\"\n\n국물 냄새가 텐트촌 전체에 퍼진다. 영혼들이 하나둘 모여든다.\n\n\"태우는 건 그만두기로 했어. 이제는 따뜻하게 할 거야.\"\n\n국물을 한 그릇 건넨다.",
     "effects": [
-      { "type": "modifyStat", "stat": "hp", "value": 10 },
-      { "type": "modifyKarma", "value": 3 }
+      {
+        "type": "modifyStat",
+        "stat": "hp",
+        "value": 10
+      },
+      {
+        "type": "modifyKarma",
+        "value": 3
+      }
     ],
     "choices": [
       {
-        "text": "돌아간다",
+        "text": "돌아간다. 국물 냄새가 텐트촌에 퍼지고 있다.",
         "nextScene": "hub_look_around"
       }
     ]
   },
-
   {
     "id": "hub_miseon_recruit",
     "type": "dialogue",
@@ -384,11 +513,20 @@
     "speaker": "miseon",
     "text": "미선이 멈칫한다. 텐트촌을 돌아본다.\n\n\"...여기 아픈 사람이 너무 많은데.\"\n\n긴 침묵.\n\n\"그런데 살아있는 얘가 다치는 건 — 더 못 보겠다.\"\n\n수건을 접어 가방에 넣는다. 의료 파우치를 챙긴다.\n\n\"가자. 밥은 먹었어?\"",
     "effects": [
-      { "type": "setFlag", "flag": "miseon_recruited" },
-      { "type": "addCompanion", "companion": "miseon" }
+      {
+        "type": "setFlag",
+        "flag": "miseon_recruited"
+      },
+      {
+        "type": "addCompanion",
+        "companion": "miseon"
+      }
     ],
     "choices": [
-      { "text": "\"고마워요.\"", "nextScene": "hub_platform0" }
+      {
+        "text": "\"고마워요.\"",
+        "nextScene": "hub_platform0"
+      }
     ]
   },
   {
@@ -397,12 +535,19 @@
     "background": "station",
     "speaker": "miseon",
     "text": "\"...그래. 조심해.\"\n\n미선이 수건으로 손을 닦는다. 등을 돌린다.\n\n하지만 주인공이 돌아올 때마다 — 미선은 거기 있다.\n기다리고 있다.",
-    "effects": [{ "type": "setFlag", "flag": "miseon_declined_once" }],
+    "effects": [
+      {
+        "type": "setFlag",
+        "flag": "miseon_declined_once"
+      }
+    ],
     "choices": [
-      { "text": "...", "nextScene": "hub_platform0" }
+      {
+        "text": "...",
+        "nextScene": "hub_platform0"
+      }
     ]
   },
-
   {
     "id": "hub_campfire",
     "type": "dialogue",
@@ -413,40 +558,75 @@
       {
         "text": "\"마지막으로 뭐 먹었어?\"",
         "conditions": [
-          { "type": "hasFlag", "flag": "district_a_cleared" },
-          { "type": "hasFlag", "flag": "campfire_01_done", "value": false }
+          {
+            "type": "hasFlag",
+            "flag": "district_a_cleared"
+          },
+          {
+            "type": "hasFlag",
+            "flag": "campfire_01_done",
+            "value": false
+          }
         ],
         "nextScene": "campfire_01_food"
       },
       {
         "text": "\"꿈 꿔?\"",
         "conditions": [
-          { "type": "hasFlag", "flag": "district_b_cleared" },
-          { "type": "hasFlag", "flag": "campfire_02_done", "value": false }
+          {
+            "type": "hasFlag",
+            "flag": "district_b_cleared"
+          },
+          {
+            "type": "hasFlag",
+            "flag": "campfire_02_done",
+            "value": false
+          }
         ],
         "nextScene": "campfire_02_dream"
       },
       {
         "text": "\"보고 싶은 사람 있어?\"",
         "conditions": [
-          { "type": "hasFlag", "flag": "district_c_cleared" },
-          { "type": "hasFlag", "flag": "campfire_03_done", "value": false }
+          {
+            "type": "hasFlag",
+            "flag": "district_c_cleared"
+          },
+          {
+            "type": "hasFlag",
+            "flag": "campfire_03_done",
+            "value": false
+          }
         ],
         "nextScene": "campfire_03_miss"
       },
       {
         "text": "\"왜 싸워?\"",
         "conditions": [
-          { "type": "hasFlag", "flag": "district_d_cleared" },
-          { "type": "hasFlag", "flag": "campfire_04_done", "value": false }
+          {
+            "type": "hasFlag",
+            "flag": "district_d_cleared"
+          },
+          {
+            "type": "hasFlag",
+            "flag": "campfire_04_done",
+            "value": false
+          }
         ],
         "nextScene": "campfire_04_why"
       },
       {
         "text": "\"돌아갈 수 있으면?\"",
         "conditions": [
-          { "type": "hasFlag", "flag": "boss_stationmaster_defeated" },
-          { "type": "hasFlag", "flag": "campfire_05_done", "value": false }
+          {
+            "type": "hasFlag",
+            "flag": "boss_stationmaster_defeated"
+          },
+          {
+            "type": "hasFlag",
+            "flag": "campfire_05_done",
+            "value": false
+          }
         ],
         "nextScene": "campfire_05_return"
       },
@@ -462,7 +642,12 @@
     "background": "campfire",
     "speaker": null,
     "text": "태현이 국을 저으며 묻는다. \"마지막으로 뭐 먹었어?\"\n\n침묵. 하나씩 대답한다.\n\n준서: \"편의점 삼각김밥. 참치마요. 890원.\"\n\n민준: \"자판기 커피. 아메리카노 핫. 바닥에 쏟아졌지만.\"\n\n하영: \"안 먹었어요. 야근이라. 시간이 없었어요.\"\n\n정수: \"...공사장 자판기 커피. 설탕 두 개.\"\n\n미선: \"오니기리. 참치마요. 진열하다가...\"\n\n미선: \"오니기리. 참치마요. 진열하다가...\"\n\n소연이 쪽지를 내민다: '저는 기억 안 나요. 마지막에 뭔가 마셨는데. 차가웠어요.'\n\n준서와 미선의 눈이 마주친다. 같은 품목. 다른 선반.\n소연의 쪽지가 바람에 흔들린다.",
-    "effects": [{ "type": "setFlag", "flag": "campfire_01_done" }],
+    "effects": [
+      {
+        "type": "setFlag",
+        "flag": "campfire_01_done"
+      }
+    ],
     "choices": [
       {
         "text": "\"나는... 기억 안 나.\"",
@@ -480,11 +665,21 @@
     "background": "campfire",
     "speaker": null,
     "text": "누군가 묻는다. \"너는 꿈 꿔?\"\n\n유리: \"살아있을 때, 사람이 문 두드리는 꿈을 꿨어. 매번 열어보면 아무도 없어. 죽고 나서 꿈이 멈췄어. 솔직히... 그게 더 편했어.\"\n\n준서: \"시험 꿈. 매일. 시험지 넘기면 빈 페이지야. 죽어서도 그 꿈 꿀 줄 알았는데 — 안 꾸더라.\"\n\n나래: \"꿈? 사치지. 눈 감으면 그냥 어둠이야.\"\n\n소연이 쪽지를 든다: '저는 꿈을 꿨어요. 기사가 나가는 꿈. 매번 인쇄기가 돌아가다 멈췄어요.'\n\n동료들이 주인공을 본다.",
-    "effects": [{ "type": "setFlag", "flag": "campfire_02_done" }],
+    "effects": [
+      {
+        "type": "setFlag",
+        "flag": "campfire_02_done"
+      }
+    ],
     "choices": [
       {
         "text": "\"나는 아직 꿈을 꿔. 살아있으니까.\"",
-        "effects": [{ "type": "modifyKarma", "value": 3 }],
+        "effects": [
+          {
+            "type": "modifyKarma",
+            "value": 3
+          }
+        ],
         "nextScene": "campfire_02b"
       },
       {
@@ -500,7 +695,10 @@
     "speaker": null,
     "text": "모두 조용해진다.\n\n유리: \"...부럽다. 진짜로.\"\n\n민준: \"꿈이라. 오래 안 꿨는데.\" 노트북을 만지작거린다.\n\n미선: \"좋은 꿈 꿔, 얘야. 여기서는 그게 제일 비싼 거야.\"",
     "choices": [
-      { "text": "...", "nextScene": "hub_campfire" }
+      {
+        "text": "...",
+        "nextScene": "hub_campfire"
+      }
     ]
   },
   {
@@ -509,11 +707,21 @@
     "background": "campfire",
     "speaker": "miseon",
     "text": "미선이 아무에게도 말하지 않는 것처럼 묻는다.\n\n\"...보고 싶은 사람 있어?\"\n\n정수: (오래 기다린 뒤) \"...아들.\"\n\n나래: \"...엄마.\" 작은 소리로. \"아무한테도 말하지 마.\"\n\n유리: \"택배 기사 아저씨. 웃기지? 나를 발견해준 유일한 사람이니까.\"\n\n태현: \"옆집 족발집 아줌마. 매일 '화이팅!' 해주셨는데. 불 나고... 한 마디도 못 했어.\"\n\n소연이 쪽지를 조용히 내려놓는다: '저는... 기사를 읽어줄 사람.' 더 이상 쓰지 않는다.\n\n미선이 입을 연다. 닫는다. 다시 연다.\n\n\"수연이. 내 딸. 유치원 졸업식이 곧인데...\"\n\n끝까지 말하지 못한다.",
-    "effects": [{ "type": "setFlag", "flag": "campfire_03_done" }],
+    "effects": [
+      {
+        "type": "setFlag",
+        "flag": "campfire_03_done"
+      }
+    ],
     "choices": [
       {
         "text": "(미선의 어깨에 손을 올린다)",
-        "effects": [{ "type": "modifyKarma", "value": 5 }],
+        "effects": [
+          {
+            "type": "modifyKarma",
+            "value": 5
+          }
+        ],
         "nextScene": "hub_campfire"
       },
       {
@@ -528,11 +736,21 @@
     "background": "campfire",
     "speaker": "narae",
     "text": "나래가 도발적으로 묻는다. \"왜 싸워? 여기서 싸워봤자 뭐가 달라져?\"\n\n하영: \"...모르겠어. 살아있을 때도 몰랐어. 그냥... 멈추면 안 될 것 같아서.\"\n\n영재: \"처음엔 규칙을 지키려고. 지금은 규칙을 부수려고.\"\n\n민준: \"버그를 찾으려고. 이 시스템에 분명 빠져나갈 구멍이...\"\n\n소연이 쪽지를 든다: '진실을 알리려고. 목소리는 없어도 눈은 있으니까.'\n\n정수가 천천히 말한다.\n\n\"젊은이들이 안 싸워도 되게.\"\n\n모두 조용해진다. 준서가 울기 시작한다.",
-    "effects": [{ "type": "setFlag", "flag": "campfire_04_done" }],
+    "effects": [
+      {
+        "type": "setFlag",
+        "flag": "campfire_04_done"
+      }
+    ],
     "choices": [
       {
         "text": "\"나도 모르겠어. 근데 여기 사람들 때문에.\"",
-        "effects": [{ "type": "modifyKarma", "value": 5 }],
+        "effects": [
+          {
+            "type": "modifyKarma",
+            "value": 5
+          }
+        ],
         "nextScene": "hub_campfire"
       },
       {
@@ -547,9 +765,17 @@
     "background": "campfire",
     "speaker": null,
     "text": "영재가 조용히 묻는다. \"돌아갈 수 있으면... 뭐 할 거예요?\"\n\n태현: \"가게를 안 태울 거야. 그냥 문 잠그고 나올 거야. 옆집 아줌마한테 '수고하셨습니다' 하고.\"\n\n민준: \"6시에 퇴근할 거야.\"\n\n준서: \"시험 안 볼 거야. 그냥... 뭐가 하고 싶은지 찾아볼 거야.\"\n\n나래: \"아빠 집에 안 갈 거야. 대신 엄마한테 전화할 거야.\"\n\n하영: \"간호사 안 할 거야.\" 멈춤. \"...아니. 할 거야. 대신 '나는 괜찮아'라고는 안 할 거야.\"\n\n유리: \"문을 열 거야. 진짜로.\"\n\n미선: \"수연이 유치원 데리러 갈 거야. 도시락 싸서. 제 시간에.\"\n\n정수: \"...아들한테 전화할 거야. '바빠서'라고 안 할 거야. '보고 싶다'고 할 거야.\"\n\n소연이 마지막 쪽지를 든다. 오래 쓴다. 다 쓰고 접는다. 아무에게도 보여주지 않는다. 가슴에 넣는다.\n\n모두 불꽃을 본다. 아무도 더 말하지 않는다.\n\n돌아갈 수 없다는 걸 모두 안다.",
-    "effects": [{ "type": "setFlag", "flag": "campfire_05_done" }],
+    "effects": [
+      {
+        "type": "setFlag",
+        "flag": "campfire_05_done"
+      }
+    ],
     "choices": [
-      { "text": "...", "nextScene": "hub_campfire" }
+      {
+        "text": "...",
+        "nextScene": "hub_campfire"
+      }
     ]
   }
 ]

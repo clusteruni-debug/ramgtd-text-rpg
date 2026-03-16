@@ -30,14 +30,26 @@ export default class CombatUI {
     this.el.innerHTML = `
       <div class="combat-header">
         <div class="combat-round-indicator hidden"></div>
-        <div class="combat-hp-mini">
-          <div class="combat-hp-mini-fill"></div>
-          <span class="combat-hp-mini-text"></span>
+        <div class="combat-hp-combat">
+          <span class="combat-hp-label">HP</span>
+          <div class="combat-hp-bar">
+            <div class="combat-hp-bar-fill"></div>
+            <span class="combat-hp-bar-text"></span>
+          </div>
         </div>
       </div>
       <div class="combat-enemy">
-        <div class="enemy-sprite"></div>
+        <div class="enemy-sprite-wrapper">
+          <img class="enemy-sprite-img" src="" alt="" />
+          <div class="enemy-sprite-fallback enemy-default"></div>
+        </div>
         <div class="enemy-name"></div>
+        <div class="round-progress" aria-label="전투 진행도">
+          <div class="round-progress-bar">
+            <div class="round-progress-fill"></div>
+          </div>
+          <span class="round-progress-text"></span>
+        </div>
       </div>
       <div class="combat-body">
         <div class="combat-round-text"></div>
@@ -48,10 +60,15 @@ export default class CombatUI {
     `;
 
     this.roundIndicatorEl = this.el.querySelector('.combat-round-indicator');
-    this.hpMiniFillEl = this.el.querySelector('.combat-hp-mini-fill');
-    this.hpMiniTextEl = this.el.querySelector('.combat-hp-mini-text');
-    this.enemySprite = this.el.querySelector('.enemy-sprite');
+    this.hpBarFillEl = this.el.querySelector('.combat-hp-bar-fill');
+    this.hpBarTextEl = this.el.querySelector('.combat-hp-bar-text');
+    this.enemySpriteImg = this.el.querySelector('.enemy-sprite-img');
+    this.enemySpriteFallback = this.el.querySelector('.enemy-sprite-fallback');
+    this.enemySpriteWrapper = this.el.querySelector('.enemy-sprite-wrapper');
     this.enemyNameEl = this.el.querySelector('.enemy-name');
+    this.roundProgressFill = this.el.querySelector('.round-progress-fill');
+    this.roundProgressText = this.el.querySelector('.round-progress-text');
+    this.roundProgressEl = this.el.querySelector('.round-progress');
     this.roundTextEl = this.el.querySelector('.combat-round-text');
     this.choicesEl = this.el.querySelector('.combat-choices');
     this.resultEl = this.el.querySelector('.combat-result');
@@ -69,8 +86,25 @@ export default class CombatUI {
       } else {
         this.enemyNameEl.textContent = data.enemy.name;
       }
-      this.enemySprite.className = `enemy-sprite enemy-${data.enemy.sprite || 'default'}`;
+      this._updateEnemySprite(data.enemy);
     }
+
+    // Boss entrance cinematic (first round only)
+    if (data.enemy && data.enemy.tier === 'boss' && data.phase === 'choose' && data.roundIndex === 0 && !this._bossEntranceShown) {
+      this._bossEntranceShown = true;
+      const overlay = document.createElement('div');
+      overlay.className = 'boss-entrance-overlay';
+      overlay.innerHTML = `
+        <div class="boss-name">${data.enemy.name}</div>
+        <div class="boss-title">${(data.enemy.description || '').slice(0, 30)}</div>
+      `;
+      document.body.appendChild(overlay);
+      const safetyTimer = setTimeout(() => overlay.remove(), 3500);
+      overlay.addEventListener('animationend', () => { clearTimeout(safetyTimer); overlay.remove(); });
+    }
+
+    // Round progress bar (shows combat progress as rounds complete)
+    this._updateRoundProgress(data);
 
     this._updatePlayerHp(data.playerHp, data.playerMaxHp);
     this._updateLog(data.log || []);
@@ -86,21 +120,31 @@ export default class CombatUI {
   _updatePlayerHp(hp, maxHp) {
     if (hp === undefined || maxHp === undefined) return;
     const pct = maxHp > 0 ? (hp / maxHp) * 100 : 0;
-    this.hpMiniFillEl.style.width = `${pct}%`;
-    this.hpMiniTextEl.textContent = `HP ${hp}/${maxHp}`;
+    this.hpBarFillEl.style.width = `${pct}%`;
+    this.hpBarTextEl.textContent = `${hp} / ${maxHp}`;
 
-    this.hpMiniFillEl.classList.remove('hp-critical', 'hp-low');
+    this.hpBarFillEl.classList.remove('hp-critical', 'hp-low');
     if (pct <= 25) {
-      this.hpMiniFillEl.classList.add('hp-critical');
+      this.hpBarFillEl.classList.add('hp-critical');
     } else if (pct <= 50) {
-      this.hpMiniFillEl.classList.add('hp-low');
+      this.hpBarFillEl.classList.add('hp-low');
+    }
+
+    // HP critical screen effect
+    const existing = document.querySelector('.hp-critical-screen');
+    if (pct <= 25 && !existing) {
+      const critical = document.createElement('div');
+      critical.className = 'hp-critical-screen';
+      document.body.appendChild(critical);
+    } else if (pct > 25 && existing) {
+      existing.remove();
     }
 
     // HP 변동 플래시
     if (this._lastHp !== undefined && this._lastHp !== hp) {
       const delta = hp - this._lastHp;
       this._showDamagePopup(delta);
-      const hpBar = this.el.querySelector('.combat-hp-mini');
+      const hpBar = this.el.querySelector('.combat-hp-bar');
       if (hpBar) {
         hpBar.classList.add('hp-changed');
         setTimeout(() => hpBar.classList.remove('hp-changed'), 500);
@@ -114,11 +158,49 @@ export default class CombatUI {
     if (value === 0) return;
     const popup = createElement('div', `damage-popup ${value < 0 ? 'damage-loss' : 'damage-heal'}`);
     popup.textContent = `${value > 0 ? '+' : ''}${value}`;
-    const hpMini = this.el.querySelector('.combat-hp-mini');
-    if (hpMini) {
-      hpMini.style.position = 'relative';
-      hpMini.appendChild(popup);
+    const hpBar = this.el.querySelector('.combat-hp-bar');
+    if (hpBar) {
+      hpBar.style.position = 'relative';
+      hpBar.appendChild(popup);
       setTimeout(() => popup.remove(), 1200);
+    }
+  }
+
+  /** 적 스프라이트: 이미지 시도 → 실패 시 CSS 폴백 */
+  _updateEnemySprite(enemy) {
+    const imgPath = `/images/enemies/enemy_${enemy.id}.png`;
+    this.enemySpriteImg.src = imgPath;
+    this.enemySpriteImg.alt = enemy.name;
+
+    // Add enemy ID class to wrapper for per-enemy CSS targeting
+    this.enemySpriteWrapper.className = `enemy-sprite-wrapper enemy-${enemy.id}`;
+
+    // Show image, hide fallback by default
+    this.enemySpriteImg.classList.remove('hidden');
+    this.enemySpriteFallback.classList.add('hidden');
+
+    // On error: hide image, show CSS fallback shape
+    this.enemySpriteImg.onerror = () => {
+      this.enemySpriteImg.classList.add('hidden');
+      this.enemySpriteFallback.classList.remove('hidden');
+      this.enemySpriteFallback.className = `enemy-sprite-fallback enemy-sprite-inner enemy-${enemy.sprite || 'default'}`;
+    };
+  }
+
+  /** 라운드 진행 바 업데이트 */
+  _updateRoundProgress(data) {
+    if (data.totalRounds && data.totalRounds > 0) {
+      this.roundProgressEl.classList.remove('hidden');
+      // completedRounds = roundIndex for current round (0-based), +1 if phase is result/victory
+      let completed = data.roundIndex || 0;
+      if (data.phase === 'victory') {
+        completed = data.totalRounds;
+      }
+      const pct = (completed / data.totalRounds) * 100;
+      this.roundProgressFill.style.width = `${pct}%`;
+      this.roundProgressText.textContent = `${completed} / ${data.totalRounds}`;
+    } else {
+      this.roundProgressEl.classList.add('hidden');
     }
   }
 
@@ -234,10 +316,19 @@ export default class CombatUI {
       setTimeout(() => this.el.classList.remove('combat-shake'), 400);
     }
 
+    // Damage vignette on failure
+    if (!data.success) {
+      const vignette = document.createElement('div');
+      vignette.className = 'damage-vignette';
+      document.body.appendChild(vignette);
+      const vTimer = setTimeout(() => vignette.remove(), 800);
+      vignette.addEventListener('animationend', () => { clearTimeout(vTimer); vignette.remove(); });
+    }
+
     // 성공 시 적 피격 플래시
     if (data.success) {
-      this.enemySprite.classList.add('enemy-hit');
-      setTimeout(() => this.enemySprite.classList.remove('enemy-hit'), 400);
+      this.enemySpriteWrapper.classList.add('enemy-hit');
+      setTimeout(() => this.enemySpriteWrapper.classList.remove('enemy-hit'), 400);
     }
 
     this.resultEl.innerHTML = html;
@@ -318,6 +409,9 @@ export default class CombatUI {
     this._removeKeyHandler();
     this._removeContinueKeyHandler();
     this._clearDiceInterval();
+    this._bossEntranceShown = false;
+    // Clean up all full-screen overlays
+    document.querySelectorAll('.hp-critical-screen, .boss-entrance-overlay, .damage-vignette').forEach(el => el.remove());
     this.el.classList.add('hidden');
   }
 }

@@ -3,6 +3,7 @@
  * 비용: 현재 스탯 값 × 10 엔그램
  */
 import { createElement } from '../utils/helpers.js';
+import { icons } from './icons.js';
 
 const STAT_NAMES = {
   body: '체력',
@@ -36,7 +37,7 @@ export default class UpgradeUI {
     this.el.innerHTML = `
       <div class="upgrade-header">
         <span class="upgrade-title">엔그램 주입</span>
-        <span class="upgrade-engrams">💎 <span class="upgrade-engram-count">0</span></span>
+        <span class="upgrade-engrams">${icons.engram(14)} <span class="upgrade-engram-count">0</span></span>
       </div>
       <div class="upgrade-desc">기억 조각(엔그램)을 소모하여 능력을 강화합니다.</div>
       <div class="upgrade-summary" aria-live="polite"></div>
@@ -76,7 +77,7 @@ export default class UpgradeUI {
       .reduce((acc, entry) => Math.min(acc, entry.cost), Number.POSITIVE_INFINITY);
     this.summaryEl.innerHTML = `
       <span>강화 가능: <strong>${affordable.length}</strong>개</span>
-      <span>최소 비용: <strong>${Number.isFinite(minCost) ? `💎${minCost}` : 'MAX 달성'}</strong></span>
+      <span>최소 비용: <strong>${Number.isFinite(minCost) ? `${icons.engram(14)}${minCost}` : 'MAX 달성'}</strong></span>
     `;
 
     Object.keys(STAT_NAMES).forEach(stat => {
@@ -102,9 +103,9 @@ export default class UpgradeUI {
           ${isMax
             ? '<span class="upgrade-max">MAX</span>'
             : `<button class="upgrade-btn ${canAfford ? '' : 'disabled'}" ${canAfford ? '' : 'disabled'}>
-                +1 (💎${cost})
+                +1 (${icons.engram(14)}${cost})
               </button>
-              ${canAfford ? '' : `<div class="upgrade-hint">💎${Math.max(cost - engrams, 0)} 부족</div>`}
+              ${canAfford ? '' : `<div class="upgrade-hint">${icons.engram(14)}${Math.max(cost - engrams, 0)} 부족</div>`}
               `
           }
         </div>

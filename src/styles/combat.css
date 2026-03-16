@@ -2,3 +2,5 @@
 @import './combat-layout.css';
 @import './combat-animations.css';
 @import './death.css';
+@import './enemy-sprites.css';
+@import './transitions.css';

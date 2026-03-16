@@ -1,0 +1,141 @@
+/* transitions.css — 장면 전환 효과 */
+
+/* 전환 오버레이 */
+.scene-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* === 기본: 페이드 === */
+.transition-fade .scene-transition-overlay {
+  background: #000;
+  animation: t-fade 0.6s ease-in-out;
+}
+@keyframes t-fade {
+  0% { opacity: 0; }
+  40% { opacity: 1; }
+  60% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* === 전투 진입: 슬래시 + 적색 플래시 === */
+.transition-combat .scene-transition-overlay {
+  background: linear-gradient(135deg, transparent 45%, #e94560 48%, #e94560 52%, transparent 55%);
+  animation: t-combat 0.8s ease-out;
+}
+@keyframes t-combat {
+  0% { opacity: 0; transform: scale(2) rotate(-10deg); }
+  30% { opacity: 1; transform: scale(1) rotate(0deg); }
+  50% { opacity: 1; background: #e9456044; }
+  100% { opacity: 0; }
+}
+
+/* === 보스 진입: 느린 줌인 + 어두워짐 + 진동 === */
+.transition-boss .scene-transition-overlay {
+  background: radial-gradient(circle, transparent 20%, #000 80%);
+  animation: t-boss 2s ease-in-out;
+}
+@keyframes t-boss {
+  0% { opacity: 0; }
+  20% { opacity: 0.8; }
+  30% { opacity: 0.8; transform: translateX(3px); }
+  35% { transform: translateX(-3px); }
+  40% { transform: translateX(2px); }
+  45% { transform: translateX(-2px); }
+  50% { transform: translateX(0); opacity: 1; }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* === 지하철 이동: 문 닫힘→열림 === */
+.transition-subway .scene-transition-overlay {
+  background: #1a1a2e;
+  animation: t-subway 1.2s ease-in-out;
+}
+.transition-subway .scene-transition-overlay::before,
+.transition-subway .scene-transition-overlay::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: #333355;
+  border: 2px solid #555577;
+}
+.transition-subway .scene-transition-overlay::before {
+  left: 0;
+  animation: t-subway-left 1.2s ease-in-out;
+}
+.transition-subway .scene-transition-overlay::after {
+  right: 0;
+  animation: t-subway-right 1.2s ease-in-out;
+}
+@keyframes t-subway {
+  0%, 40% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes t-subway-left {
+  0% { transform: translateX(-100%); }
+  30% { transform: translateX(0); }
+  70% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+@keyframes t-subway-right {
+  0% { transform: translateX(100%); }
+  30% { transform: translateX(0); }
+  70% { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+}
+
+/* === 사망: 글리치 + 정적 + 블랙아웃 === */
+.transition-death .scene-transition-overlay {
+  background: #000;
+  animation: t-death 1.5s ease-in;
+}
+.transition-death .scene-transition-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    #ff000011 2px,
+    #ff000011 4px
+  );
+  animation: t-death-static 0.1s steps(3) infinite;
+}
+@keyframes t-death {
+  0% { opacity: 0; }
+  10% { opacity: 0.3; }
+  20% { opacity: 0; }
+  30% { opacity: 0.6; }
+  40% { opacity: 0.2; }
+  50% { opacity: 0.8; }
+  100% { opacity: 1; }
+}
+@keyframes t-death-static {
+  0% { transform: translateY(0); }
+  33% { transform: translateY(-2px); }
+  66% { transform: translateY(1px); }
+}
+
+/* === 챕터 전환: 페이드 to 블랙 + 타이틀 카드 === */
+.transition-chapter .scene-transition-overlay {
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: t-chapter 3s ease-in-out;
+}
+@keyframes t-chapter {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* 비네트/보스 등장/HP 임계 효과는 combat-animations.css에서 정의 */

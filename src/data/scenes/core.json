@@ -98,28 +98,29 @@
     "type": "combat",
     "background": "boss",
     "enemy": "mayor",
+    "maxFails": 2,
     "introText": "시장이 팔을 벌린다. 서버실 전체가 가동된다.\n\n\"관리자 권한으로 — 오류 코드 #0000 — 포맷을 집행한다.\"",
     "victoryScene": "core_mayor_victory",
-    "rewards": { "engrams": 50 },
+    "rewards": { "engrams": 60 },
     "rounds": [
       {
         "text": "시장이 데이터 스트림을 발사한다! 모니터에서 쏟아지는 빛줄기가 당신을 향한다.\n\n\"1차 포맷 — 표층 데이터 삭제.\"",
         "choices": [
           {
             "text": "데이터 스트림 사이를 피한다",
-            "check": { "stat": "sense", "dc": 6 },
+            "check": { "stat": "sense", "dc": 7 },
             "alignment": "neutral",
             "karmaShift": 0,
             "success": { "text": "빛줄기 사이를 날렵하게 빠져나간다!", "effects": [] },
-            "failure": { "text": "빛줄기에 맞았다. 잠시 기억이 흐려진다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -5 }] }
+            "failure": { "text": "빛줄기에 맞았다. 잠시 기억이 흐려진다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -8 }] }
           },
           {
             "text": "데이터 코드를 분석해 방화벽을 만든다",
-            "check": { "stat": "reason", "dc": 7 },
+            "check": { "stat": "reason", "dc": 8 },
             "alignment": "neutral",
             "karmaShift": 0,
             "success": { "text": "시장의 코드 패턴을 읽고 역으로 방어벽을 구축한다!", "effects": [{ "type": "setFlag", "flag": "mayor_firewall_built" }] },
-            "failure": { "text": "코드가 너무 복잡하다. 해독에 실패.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -6 }] }
+            "failure": { "text": "코드가 너무 복잡하다. 해독에 실패.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -8 }] }
           },
           {
             "text": "기억으로 맞선다 — 가장 소중한 기억을 떠올린다",
@@ -127,7 +128,7 @@
             "alignment": "light",
             "karmaShift": 5,
             "success": { "text": "동료들과의 기억이 방패가 된다. 데이터 스트림이 튕겨나간다!", "effects": [] },
-            "failure": { "text": "기억이 흐릿하다. 방패가 약하다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -5 }] }
+            "failure": { "text": "기억이 흐릿하다. 방패가 약하다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -8 }] }
           }
         ]
       },
@@ -136,19 +137,19 @@
         "choices": [
           {
             "text": "케이블을 잡고 이동한다",
-            "check": { "stat": "body", "dc": 6 },
+            "check": { "stat": "body", "dc": 8 },
             "alignment": "neutral",
             "karmaShift": 0,
             "success": { "text": "케이블을 타고 원숭이처럼 이동한다! 중력이 바뀌어도 상관없다.", "effects": [] },
-            "failure": { "text": "케이블이 끊어진다. 바닥(천장?)에 추락한다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -7 }] }
+            "failure": { "text": "케이블이 끊어진다. 바닥(천장?)에 추락한다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -8 }] }
           },
           {
             "text": "눈을 감고 감각에 의존한다",
-            "check": { "stat": "sense", "dc": 7 },
+            "check": { "stat": "sense", "dc": 9 },
             "alignment": "neutral",
             "karmaShift": 0,
             "success": { "text": "시각을 버리고 감각에 집중한다. 중력이 바뀌어도 몸이 알아서 움직인다.", "effects": [] },
-            "failure": { "text": "감각마저 혼란스럽다. 벽에 부딪힌다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -6 }] }
+            "failure": { "text": "감각마저 혼란스럽다. 벽에 부딪힌다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -8 }] }
           },
           {
             "text": "\"네 도시도 원래는 위아래가 있었을 텐데\"",
@@ -156,7 +157,7 @@
             "alignment": "light",
             "karmaShift": 5,
             "success": { "text": "시장의 동작이 멈칫한다. 중력이 잠시 정상으로 돌아온다.", "effects": [] },
-            "failure": { "text": "시장은 동요하지 않는다. 중력이 더 세게 뒤집힌다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -7 }] }
+            "failure": { "text": "시장은 동요하지 않는다. 중력이 더 세게 뒤집힌다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -8 }] }
           }
         ]
       },
@@ -165,27 +166,27 @@
         "choices": [
           {
             "text": "분노로 맞선다",
-            "check": { "stat": "body", "dc": 7 },
+            "check": { "stat": "body", "dc": 9 },
             "alignment": "dark",
             "karmaShift": -5,
             "success": { "text": "이를 악물고 돌진한다. 감정이 사라지기 전에 — 분노만으로 시장에게 닿는다!", "effects": [] },
-            "failure": { "text": "분노마저 사라진다. 무력해진다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -8 }] }
+            "failure": { "text": "분노마저 사라진다. 무력해진다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -10 }] }
           },
           {
             "text": "시장의 약점 — 사람의 얼굴 — 을 노린다",
-            "check": { "stat": "reason", "dc": 7 },
+            "check": { "stat": "reason", "dc": 9 },
             "alignment": "neutral",
             "karmaShift": 0,
             "success": { "text": "스크린이 아닌 진짜 얼굴. 거기에 감정이 남아있다. 시장의 시스템에 버그를 만든다!", "effects": [] },
-            "failure": { "text": "시장이 다시 스크린을 올린다. 틈이 사라졌다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -6 }] }
+            "failure": { "text": "시장이 다시 스크린을 올린다. 틈이 사라졌다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -10 }] }
           },
           {
             "text": "\"넌 왜 이 일을 하는 거야? 진짜 이유가 뭐야?\"",
-            "check": { "stat": "bond", "dc": 6 },
+            "check": { "stat": "bond", "dc": 8 },
             "alignment": "light",
             "karmaShift": 8,
             "success": { "text": "시장의 진짜 얼굴이 — 운다.\n\"...나도 몰라. 처음엔 이유가 있었는데. 너무 오래돼서.\"\n무의 파동이 약해진다.", "effects": [] },
-            "failure": { "text": "\"이유는 효율이다. 감정은 불필요하다.\" 파동이 강해진다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -7 }] }
+            "failure": { "text": "\"이유는 효율이다. 감정은 불필요하다.\" 파동이 강해진다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -10 }] }
           }
         ]
       },
@@ -194,27 +195,56 @@
         "choices": [
           {
             "text": "서버의 메인 케이블을 뽑는다",
-            "check": { "stat": "reason", "dc": 8 },
+            "check": { "stat": "reason", "dc": 10 },
             "alignment": "neutral",
             "karmaShift": 0,
             "success": { "text": "케이블 다발 중 가장 두꺼운 것을 잡아 뽑는다! 서버실이 어두워지고, 시장의 힘이 소멸한다.", "effects": [] },
-            "failure": { "text": "케이블이 전기로 감전시킨다!", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -10 }] }
+            "failure": { "text": "케이블이 전기로 감전시킨다!", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -12 }] }
           },
           {
             "text": "포맷을 정면으로 받아낸다 — 빈 영혼은 삭제할 수 없다",
-            "check": { "stat": "body", "dc": 8 },
+            "check": { "stat": "body", "dc": 10 },
             "alignment": "dark",
             "karmaShift": -3,
             "success": { "text": "하얀 빛이 온몸을 관통한다. 하지만 — 지울 데이터가 없다. 시스템이 에러를 반복한다.\n\"Processing Error. Processing Error.\"\n시장이 무너진다.", "effects": [] },
-            "failure": { "text": "빛이 기억 일부를 태운다. 참을 수 없는 고통.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -10 }] }
+            "failure": { "text": "빛이 기억 일부를 태운다. 참을 수 없는 고통.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -12 }] }
           },
           {
             "text": "모든 동료의 이름을 부른다",
-            "check": { "stat": "bond", "dc": 7 },
+            "check": { "stat": "bond", "dc": 9 },
             "alignment": "light",
             "karmaShift": 10,
             "success": { "text": "\"민준. 소연. 그리고 —\"\n\n이름을 부를 때마다 빛이 약해진다. 기억은 지울 수 없다. 관계는 삭제할 수 없다.\n\n시장이 무릎을 꿇는다.", "effects": [] },
-            "failure": { "text": "이름이... 생각나지 않는다. 기억이 흐려진다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -8 }] }
+            "failure": { "text": "이름이... 생각나지 않는다. 기억이 흐려진다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -12 }] }
+          }
+        ]
+      },
+      {
+        "text": "시장이 일어선다. 깨진 스크린 얼굴 아래의 사람 얼굴로.\n\n\"완전 포맷.\"\n\n서버실이 하얗게 빛난다. 모니터 전부가 같은 화면을 보여준다 — 당신의 기억. 전부.\n\n\"마지막이다. 네 존재 자체를 지운다.\"",
+        "choices": [
+          {
+            "text": "서버실 전체의 전원을 차단한다",
+            "check": { "stat": "reason", "dc": 11 },
+            "alignment": "neutral",
+            "karmaShift": 0,
+            "success": { "text": "메인 전원 케이블을 찾아 뽑는다. 하나. 둘. 셋.\n\n서버실이 어두워진다. 시장의 힘이 소멸한다.\n\"...시스템 종료...\"", "effects": [], "endCombat": true },
+            "failure": { "text": "케이블이 전기로 반격한다. 기억이 타들어간다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -12 }] }
+          },
+          {
+            "text": "빈 영혼으로 포맷을 무효화한다",
+            "check": { "stat": "body", "dc": 10 },
+            "alignment": "dark",
+            "karmaShift": -3,
+            "success": { "text": "하얀 빛이 관통한다. 하지만 지울 것이 없다. 빈 영혼에게 포맷은 무의미하다.\n\n시스템이 무한 루프에 빠진다. 시장이 무너진다.", "effects": [], "endCombat": true },
+            "failure": { "text": "빈 줄 알았지만 — 동료들과의 기억이 있었다. 그것마저 태우려 한다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -12 }] }
+          },
+          {
+            "text": "모든 동료의 이름을 부른다 — 마지막으로",
+            "check": { "stat": "bond", "dc": 9 },
+            "alignment": "light",
+            "karmaShift": 10,
+            "success": { "text": "\"소연. 민준. 준서. 정수. 하영. 미선. 나래. 태현. 유리. 영재.\"\n\n이름을 부를 때마다 빛이 약해진다.\n\n\"그리고 —\"\n\n자신의 이름은 기억나지 않는다. 하지만 상관없다.\n\n기억은 이름이 아니라 관계에 있으니까.\n\n시장이 무릎을 꿇는다. \"...처리 불가.\"", "effects": [], "endCombat": true },
+            "failure": { "text": "이름이 — 떠오르지 않는다. 기억이 흐려진다. 포맷이 진행된다.", "effects": [{ "type": "modifyStat", "stat": "hp", "value": -12 }] }
           }
         ]
       }
@@ -228,7 +258,7 @@
     "text": "서버실이 어두워진다.\n\n시장이 바닥에 앉아있다. 스크린 얼굴이 깨져서, 아래의 사람 얼굴이 보인다.\n\n늙고 피곤한 얼굴. 수천 년을 일한 공무원의 얼굴.\n\n\"...시스템 오류. 복구 불가.\"\n\n\"너는 진짜 오류야. 처리할 수도 없고, 분류할 수도 없고.\"\n\n\"하지만 —\"\n\n그가 작게 웃는다.\n\n\"그래서 이 도시가 멈춘 거겠지. 처리할 수 없는 것이 — 가장 인간적인 것이니까.\"\n\n벽 뒤에 문이 나타난다. 마지막 문.",
     "effects": [
       { "type": "setFlag", "flag": "boss_mayor_defeated" },
-      { "type": "addEngrams", "value": 50 },
+      { "type": "addEngrams", "value": 60 },
       { "type": "addAbyssMemory", "id": "mem_mayor_smile", "label": "시장의 마지막 미소", "weight": 5, "source": "core" }
     ],
     "choices": [

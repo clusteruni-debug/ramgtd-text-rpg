@@ -69,8 +69,19 @@ export default class CombatSystem {
     this._onEnd = onEnd;
     this._lastResult = null;
     this._companionSkillActive = null;
+    this._successCount = 0;
+    this._failCount = 0;
+    // 보스/엘리트: 실패 허용 횟수 = 라운드의 절반(내림). 초과 시 패배
+    // 예: 3라운드 보스 → 1회 실패 허용, 2회 실패 → 패배
+    //     4라운드 보스 → 2회 실패 허용
+    const isBoss = enemyData.tier === 'boss' || enemyData.tier === 'elite';
+    this._maxFails = isBoss ? Math.floor(rounds.length / 2) : rounds.length;
+    if (typeof enemyData.maxFails === 'number') this._maxFails = enemyData.maxFails;
 
     this._addLog(`${this.enemy.name}이(가) 나타났다!`);
+    if (isBoss && this._maxFails < rounds.length) {
+      this._addLog(`⚠️ 실패 허용: ${this._maxFails}회 (${this._maxFails + 1}회 실패 시 패배)`);
+    }
     this._presentRound();
   }
 
@@ -138,6 +149,9 @@ export default class CombatSystem {
       isActive: true,
       roundIndex: this.currentRound,
       totalRounds: this.rounds.length,
+      successCount: this._successCount,
+      failCount: this._failCount,
+      maxFails: this._maxFails,
     });
   }
 
@@ -230,9 +244,19 @@ export default class CombatSystem {
     }
     const statName = STAT_NAMES[choice.check.stat] || choice.check.stat;
 
+    // 성공/실패 카운트
+    if (success) {
+      this._successCount++;
+    } else {
+      this._failCount++;
+    }
+
     // 판정 로그
     this._addLog(`🎲 ${statName} 판정: d6(${roll}) + ${statValue} = ${total} vs DC ${dc}`);
     this._addLog(success ? '✅ 성공!' : '❌ 실패...');
+    if (this._maxFails < this.rounds.length) {
+      this._addLog(`[${this._successCount}승 ${this._failCount}패 / 허용 ${this._maxFails}패]`);
+    }
 
     // 카르마 변동
     if (choice.karmaShift && choice.karmaShift !== 0) {
@@ -298,6 +322,13 @@ export default class CombatSystem {
 
     // HP 체크 (효과 적용 후)
     if (this.state.getStat('hp') <= 0) {
+      this._defeat();
+      return;
+    }
+
+    // 실패 횟수 초과 체크 (보스/엘리트)
+    if (this._failCount > this._maxFails) {
+      this._addLog(`💀 실패 횟수 초과 (${this._failCount}/${this._maxFails}) — 패배!`);
       this._defeat();
       return;
     }

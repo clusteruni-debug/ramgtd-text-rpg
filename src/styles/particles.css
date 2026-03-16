@@ -1,0 +1,177 @@
+/* particles.css — 지구별 CSS 파티클 시스템 */
+
+.particle-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* === A지구: 부유하는 글자 파편 === */
+.particles-district-a .particle-container::before,
+.particles-district-a .particle-container::after {
+  content: 'ㄱ ㄴ ㅎ ㅁ ㅅ ㄷ ㅈ ㅂ ㅇ ㄹ';
+  position: absolute;
+  top: -20px;
+  left: 0;
+  width: 200%;
+  font-size: 14px;
+  color: #6b5b9533;
+  letter-spacing: 30px;
+  white-space: nowrap;
+  animation: float-letters 20s linear infinite;
+}
+.particles-district-a .particle-container::after {
+  top: 40%;
+  animation-delay: -10s;
+  animation-duration: 25s;
+  font-size: 10px;
+  color: #6b5b9522;
+}
+@keyframes float-letters {
+  from { transform: translateX(0) translateY(0); }
+  to { transform: translateX(-50%) translateY(100vh); }
+}
+
+/* === B지구: 떨어지는 서류 조각 === */
+.particles-district-b .particle-container::before,
+.particles-district-b .particle-container::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(#8a9a5b11 1px, transparent 1px),
+    linear-gradient(90deg, #8a9a5b11 1px, transparent 1px);
+  background-size: 40px 60px;
+  animation: paper-fall 8s linear infinite;
+  opacity: 0.3;
+}
+.particles-district-b .particle-container::after {
+  animation-delay: -4s;
+  background-size: 50px 70px;
+  opacity: 0.15;
+}
+@keyframes paper-fall {
+  from { transform: translateY(-60px) rotate(2deg); }
+  to { transform: translateY(60px) rotate(-2deg); }
+}
+
+/* === C지구: 눈꽃/결정 낙하 === */
+.particles-district-c .particle-container::before,
+.particles-district-c .particle-container::after {
+  content: '❄ ✦ ❆ · ✧ ❄ · ✦ ❆ ✧ · ❄';
+  position: absolute;
+  top: -30px;
+  left: 0;
+  width: 200%;
+  font-size: 12px;
+  color: #4e9af533;
+  letter-spacing: 25px;
+  white-space: nowrap;
+  animation: snow-fall 15s linear infinite;
+}
+.particles-district-c .particle-container::after {
+  animation-delay: -7s;
+  animation-duration: 20s;
+  font-size: 8px;
+  color: #4e9af522;
+  top: -10px;
+}
+@keyframes snow-fall {
+  from { transform: translateX(0) translateY(0); }
+  to { transform: translateX(-30px) translateY(100vh); }
+}
+
+/* === D지구: 불꽃/불씨 상승 === */
+.particles-district-d .particle-container::before,
+.particles-district-d .particle-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #ff6600;
+  box-shadow:
+    30px 20px 0 #ff440033,
+    80px -10px 0 #ff660044,
+    150px 30px 0 #ff880033,
+    220px -20px 0 #ff440022,
+    300px 10px 0 #ff660033,
+    380px -30px 0 #ff880044,
+    450px 15px 0 #ff440033,
+    520px -5px 0 #ff660022,
+    600px 25px 0 #ff880033;
+  animation: embers-rise 4s ease-out infinite;
+}
+.particles-district-d .particle-container::after {
+  left: 25%;
+  animation-delay: -2s;
+  animation-duration: 5s;
+  box-shadow:
+    40px 10px 0 #ff660022,
+    120px -15px 0 #ff440033,
+    200px 25px 0 #ff880022,
+    280px -10px 0 #ff660033,
+    360px 20px 0 #ff440022,
+    440px -25px 0 #ff880033;
+}
+@keyframes embers-rise {
+  0% { transform: translateY(0) scale(1); opacity: 0.8; }
+  100% { transform: translateY(-100vh) scale(0.3); opacity: 0; }
+}
+
+/* === 터미널: 시계 숫자/파편 === */
+.particles-district-terminal .particle-container::before {
+  content: '12 3 6 9 · · · 12 3 6 9 · · ·';
+  position: absolute;
+  top: -20px;
+  left: 0;
+  width: 200%;
+  font-size: 16px;
+  font-family: monospace;
+  color: #ffd70022;
+  letter-spacing: 20px;
+  white-space: nowrap;
+  animation: clock-drift 12s linear infinite;
+}
+@keyframes clock-drift {
+  from { transform: translateX(0) translateY(0) rotate(0deg); }
+  to { transform: translateX(-50%) translateY(100vh) rotate(180deg); }
+}
+
+/* === 코어: 데이터 문자열 스트림 === */
+.particles-district-core .particle-container::before,
+.particles-district-core .particle-container::after {
+  content: '01001 ERROR NULL 10110 VOID 01101 FORMAT';
+  position: absolute;
+  top: -20px;
+  left: 0;
+  width: 300%;
+  font-size: 10px;
+  font-family: monospace;
+  color: #9b59b622;
+  letter-spacing: 15px;
+  white-space: nowrap;
+  animation: data-rain 10s linear infinite;
+}
+.particles-district-core .particle-container::after {
+  animation-delay: -5s;
+  animation-duration: 8s;
+  color: #9b59b618;
+  font-size: 8px;
+}
+@keyframes data-rain {
+  from { transform: translateX(0) translateY(0); }
+  to { transform: translateX(-33%) translateY(100vh); }
+}
+
+/* === 보스전: 강화된 파티클 (기존 지구 파티클에 추가) === */
+.particles-boss .particle-container::before {
+  animation-duration: 3s !important; /* faster */
+  opacity: 0.6 !important;
+  font-size: 16px !important;
+}

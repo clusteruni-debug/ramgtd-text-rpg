@@ -92,6 +92,28 @@ export default class DialogueBox {
       this.speakerEl.textContent = '';
       this.speakerEl.classList.add('hidden');
     }
+
+    // Apply text class based on speaker type
+    this.textEl.classList.remove('text-narration', 'text-system', 'text-boss', 'text-npc');
+    let textClass = 'text-narration'; // default for null speaker (narrator)
+    if (speaker) {
+      const speakerLower = speaker.toLowerCase();
+      // System messages (examiner, announcements)
+      if (speakerLower === 'examiner' || (text && (text.includes('\u300C') || text.includes('\u300D')))) {
+        textClass = 'text-system';
+      }
+      // Boss speakers
+      else if (['librarian', 'foreman', 'curator', 'chef', 'station_master', 'mayor',
+                '사서', '현장감독', '큐레이터', '셰프', '역장', '시장'].includes(speakerLower)) {
+        textClass = 'text-boss';
+      }
+      // Regular NPC
+      else {
+        textClass = 'text-npc';
+      }
+    }
+    this.textEl.classList.add(textClass);
+
     this.nextEl.classList.add('hidden');
     await this.renderer.type(this.textEl, text);
     this.nextEl.classList.remove('hidden');

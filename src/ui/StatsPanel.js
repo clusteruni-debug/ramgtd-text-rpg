@@ -3,6 +3,7 @@
  * GDD v2: Body/Sense/Reason/Bond + Karma 게이지 + 현실 기억 수
  */
 import { createElement } from '../utils/helpers.js';
+import { icons } from './icons.js';
 
 export default class StatsPanel {
   constructor(container, stateManager) {
@@ -51,8 +52,8 @@ export default class StatsPanel {
           <span class="karma-end karma-light">명</span>
         </div>
         <div class="stats-resources">
-          <span class="memory-display" title="현실 기억 (남은 부활 횟수)">🧠 <span class="memory-count">10</span></span>
-          <span class="engram-display" title="엔그램 (성장 자원)">💎 <span class="engram-count">0</span></span>
+          <span class="memory-display" title="현실 기억 (남은 부활 횟수)">${icons.memory(14)} <span class="memory-count">10</span></span>
+          <span class="engram-display" title="엔그램 (성장 자원)">${icons.engram(14)} <span class="engram-count">0</span></span>
         </div>
       </div>
     `;

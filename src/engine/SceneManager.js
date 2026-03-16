@@ -2,6 +2,8 @@
  * SceneManager - 씬 로드, 조건 평가, 효과 적용
  * GDD v2: 카르마/기억/엔그램/동료 조건+효과 추가
  */
+import { trackCompanionRecruit } from '../analytics.js';
+
 export default class SceneManager {
   constructor(stateManager, metaProgression = null) {
     this.state = stateManager;
@@ -210,6 +212,7 @@ export default class SceneManager {
           trustLevel: effect.trustLevel || 0,
           skills: skills.map(s => ({ ...s })), // 깊은 복사
         });
+        trackCompanionRecruit(effect.companion);
         break;
       }
 
